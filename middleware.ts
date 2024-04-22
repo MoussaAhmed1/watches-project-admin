@@ -1,6 +1,9 @@
-// Protecting routes with next-auth
-// https://next-auth.js.org/configuration/nextjs#middleware
-// https://nextjs.org/docs/app/building-your-application/routing/middleware
+import { chain } from '@/middlewares/chain'
+import { withAuthMiddleware } from '@/middlewares/middleware1'
+import { withI18nMiddleware } from '@/middlewares/middleware2'
 
-export { default } from "next-auth/middleware";
-export const config = { matcher: ["/dashboard/:path*"] };
+export default chain([withAuthMiddleware, withI18nMiddleware])
+
+export const config = {
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)']
+}
