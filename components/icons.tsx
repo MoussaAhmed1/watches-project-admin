@@ -29,6 +29,22 @@ import {
   User2Icon,
   UserX2Icon,
   X,
+  Bell,
+  Home,
+  Table2,
+  Table,
+  Flag,
+  User2,
+  Briefcase,
+  Users,
+  Presentation,
+  FlaskConical,
+  Contact,
+  ShieldPlus,
+  HeartPulse,
+  DollarSign,
+  Activity,
+Radio
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -60,6 +76,25 @@ export const Icons = {
   sun: SunMedium,
   moon: Moon,
   laptop: Laptop,
+  notification: Bell,
+  home: Home,
+  ads: Table2,
+  introduction:Table,
+  countries: Flag,
+  cities: Flag,
+  User2,
+  pharmacies: Briefcase,
+  doctors: Briefcase,
+  patients: Users,
+  reservations: Presentation,
+  labs: FlaskConical,
+  contacts: Contact,
+  admins: ShieldPlus,
+  healthcare:HeartPulse,
+  payment:DollarSign,
+  hospitals: Activity,
+  radiographer:Radio,
+
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
