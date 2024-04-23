@@ -6,13 +6,12 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { getServerSession } from "next-auth";
 import { Locale, i18n } from '@/i18n.config'
-import Header from '@/components/header'
 
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Next Shadcn",
+  title: "Dacatra Dashboard",
   description: "Basic dashboard with Next.js and Shadcn",
 };
 

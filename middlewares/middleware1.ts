@@ -4,7 +4,7 @@ import { getToken } from 'next-auth/jwt'
 import { Locale, i18n } from '@/i18n.config'
 import { CustomMiddleware } from './chain'
 
-const protectedPaths = ['/dashboard', '/dashboard/:path*']
+const protectedPaths = ['/dashboard', '/dashboard/user']
 
 function getProtectedRoutes(protectedPaths: string[], locales: Locale[]) {
   let protectedPathsWithLocale = [...protectedPaths]
@@ -42,7 +42,7 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
       ...i18n.locales
     ])
 
-    if (!token && protectedPathsWithLocale.includes(pathname)) {
+    if (!token && (protectedPathsWithLocale.includes(pathname) || pathname.includes("/dashboard"))) {
       const signInUrl = new URL('/api/auth/signin', request.url)
       signInUrl.searchParams.set('callbackUrl', pathname)
       return NextResponse.redirect(signInUrl)
