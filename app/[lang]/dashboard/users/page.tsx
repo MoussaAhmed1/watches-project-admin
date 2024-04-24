@@ -1,18 +1,17 @@
 import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
-import { fetchDoctors } from "@/actions/doctors";
+import { fetchUsers } from "@/actions/users";
 import BreadCrumb from "@/components/breadcrumb";
-import { columns } from "@/components/tables/doctors-tables/columns";
 import { SharedTable } from "@/components/tables/shared/Shared-table";
+import { UsersColumns } from "@/components/tables/users-tables/columns";
 import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { Employee } from "@/constants/data";
 import { cn } from "@/lib/utils";
-import { IDoctor } from "@/types/doctors";
+import { IUser } from "@/types/users";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
-const breadcrumbItems = [{ title: "Doctors", link: "/dashboard/doctors" }];
+const breadcrumbItems = [{ title: "Users", link: "/dashboard/users" }];
 
 type paramsProps = {
   searchParams: {
@@ -25,14 +24,15 @@ export default async function page({ searchParams }: paramsProps) {
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
   typeof searchParams?.search === "string" ? searchParams?.search : "";
-  const res = await fetchDoctors({
+  const res = await fetchUsers({
     page,
     limit,
     filters: search,
   });
-  const totalDoctors = res?.data?.meta?.total ||0; //1000
-  const pageCount = Math.ceil(totalDoctors / limit);
-  const doctors: Employee[] = res?.data?.data || [] ;
+  const totalUsers = res?.data?.meta?.total ||0; //1000
+  const pageCount = Math.ceil(totalUsers / limit);
+  const users: IUser[] = res?.data?.data || [] ;
+  console.log("total users: ",totalUsers)
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
@@ -40,11 +40,11 @@ export default async function page({ searchParams }: paramsProps) {
 
         <div className="flex items-start justify-between">
           <Heading
-            title={`Doctors (${totalDoctors})`}
+            title={`Users (${totalUsers})`}
           />
 
           <Link
-            href={"/dashboard/doctors/new"}
+            href={"/dashboard/users/new"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New
@@ -53,11 +53,11 @@ export default async function page({ searchParams }: paramsProps) {
         <Separator />
 
         <SharedTable
-          searchKey="doctors"
+          searchKey="users"
           pageNo={page}
-          columns={columns}
-          totalUsers={totalDoctors}
-          data={doctors as unknown as IDoctor[] }
+          columns={UsersColumns}
+          totalUsers={totalUsers}
+          data={users as unknown as IUser[] }
           pageCount={pageCount}
         />
       </div>

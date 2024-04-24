@@ -65,5 +65,8 @@ export const getErrorMessage = (error: unknown): string => {
 export const endpoints = {
 doctors:{
   fetch:"/doctor"
+},
+users:{
+  fetch:"/user"
 }
 };

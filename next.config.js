@@ -6,6 +6,14 @@ const nextConfig = {
   images: {
     domains: [process.env.NEXT_PUBLIC_HOST_DOMAIN, "https://dcatrah.com"],
     unoptimized: true,
+    remotePatterns: [
+      {
+          protocol: 'http',
+          hostname: process.env.NEXT_PUBLIC_HOST_DOMAIN,
+          port: '',
+          pathname: '/storage/**',
+      },
+  ],
   },
 };
 

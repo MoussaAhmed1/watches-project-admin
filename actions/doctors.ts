@@ -6,21 +6,17 @@ import { cookies } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 
 import axiosInstance, { Params, endpoints, getErrorMessage } from '../utils/axios-client';
+import { ITEMS_PER_PAGE } from './Global-variables';
 
-interface IParams {
-  user_id?: string;
-  sectionId?: string;
-  headers?: { access_token: string };
-}
 
 export const fetchDoctors = async ({
     page = 1,
-    limit = 5,
+    limit = ITEMS_PER_PAGE,
     filters,
-    headers,
   }: Params): Promise<any> => {
     const lang = cookies().get('Language')?.value;
-  
+    const accessToken = cookies().get('accessToken')?.value;
+    console.log('-------------------access_token-----------',accessToken)
     try {
       const res = await axiosInstance(endpoints.doctors.fetch, {
         params: {
@@ -29,7 +25,7 @@ export const fetchDoctors = async ({
           filters: filters ? [`name_en=${filters}`, `name_ar=${filters}`] : null,
           sortBy: 'created_at=desc',
         },
-        headers: { Authorization: `Bearer ${headers?.access_token}`, 'Accept-Language': lang },
+        headers: { Authorization: `Bearer ${accessToken}`, 'Accept-Language': lang },
       });
       return res;
     } catch (error:any) {
