@@ -26,7 +26,7 @@ export const columns: ColumnDef<IDoctor>[] = [
   },
   {
     accessorKey: "rating",
-    header: "rating",
+    header: "Rating",
     cell: ({ row }) => <div className="stars flex">
       {Array.from({ length: Math.ceil(row?.original?.rating) }, (ele, index) => (
         <Star key={index} fill="#f7d722" strokeWidth={0} />
