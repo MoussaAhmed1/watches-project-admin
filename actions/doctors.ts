@@ -33,7 +33,8 @@ export const fetchDoctors = async ({
       });
       return res;
     } catch (error:any) {
-      console.log(error);
-      throw new Error(error);
+      return {
+        error: getErrorMessage(error),
+      };
     }
   };
