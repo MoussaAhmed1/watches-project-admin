@@ -1,3 +1,4 @@
+import { fetchDoctors } from "@/actions/doctors";
 import BreadCrumb from "@/components/breadcrumb";
 import { columns } from "@/components/tables/doctors-tables/columns";
 import { SharedTable } from "@/components/tables/shared/Shared-table";
@@ -10,7 +11,7 @@ import { IDoctor } from "@/types/doctors";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
-const breadcrumbItems = [{ title: "Employee", link: "/dashboard/employee" }];
+const breadcrumbItems = [{ title: "Doctors", link: "/dashboard/doctors" }];
 
 type paramsProps = {
   searchParams: {
@@ -20,18 +21,17 @@ type paramsProps = {
 
 export default async function page({ searchParams }: paramsProps) {
   const page = Number(searchParams.page) || 1;
-  const pageLimit = Number(searchParams.limit) || 10;
-  const country = searchParams.search || null;
-  const offset = (page - 1) * pageLimit;
-
-  const res = await fetch(
-    `https://api.slingacademy.com/v1/sample-data/users?offset=${offset}&limit=${pageLimit}` +
-      (country ? `&search=${country}` : ""),
-  );
-  const employeeRes = await res.json();
-  const totalUsers = employeeRes.total_users; //1000
-  const pageCount = Math.ceil(totalUsers / pageLimit);
-  const employee: Employee[] = employeeRes.users;
+  const limit = Number(searchParams.limit) || 10;
+  const search =
+  typeof searchParams?.search === "string" ? searchParams?.search : "";
+  const res = await fetchDoctors({
+    page,
+    limit,
+    filters: search,
+  });
+  const totalDoctors = res?.data?.meta?.total ||0; //1000
+  const pageCount = Math.ceil(totalDoctors / limit);
+  const doctors: Employee[] = res?.data?.data || [] ;
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
@@ -39,12 +39,11 @@ export default async function page({ searchParams }: paramsProps) {
 
         <div className="flex items-start justify-between">
           <Heading
-            title={`Employee (${totalUsers})`}
-            description="Manage employees (Server side table functionalities.)"
+            title={`Doctors (${totalDoctors})`}
           />
 
           <Link
-            href={"/dashboard/employee/new"}
+            href={"/dashboard/doctors/new"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New
@@ -53,11 +52,11 @@ export default async function page({ searchParams }: paramsProps) {
         <Separator />
 
         <SharedTable
-          searchKey="country"
+          searchKey="doctors"
           pageNo={page}
           columns={columns}
-          totalUsers={totalUsers}
-          data={employee as unknown as IDoctor[]}
+          totalUsers={totalDoctors}
+          data={doctors as unknown as IDoctor[] }
           pageCount={pageCount}
         />
       </div>

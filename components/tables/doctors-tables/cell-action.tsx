@@ -9,12 +9,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Employee } from "@/constants/data";
+import { IDoctor } from "@/types/doctors";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface CellActionProps {
-  data: Employee;
+  data: Employee | IDoctor;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
