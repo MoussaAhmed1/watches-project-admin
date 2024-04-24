@@ -31,6 +31,10 @@ export const columns: ColumnDef<IDoctor>[] = [
       {Array.from({ length: Math.ceil(row?.original?.rating) }, (ele, index) => (
         <Star key={index} fill="#f7d722" strokeWidth={0} />
       ))}
+      {Array.from({ length: Math.ceil(5 - row?.original?.rating) }, (ele, index) => (
+        <Star key={index} fill="#111" strokeWidth={0} />
+      ))}
+
     </div>
   },
   {
