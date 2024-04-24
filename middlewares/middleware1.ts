@@ -29,8 +29,7 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
 
     const token = await getToken({
       req: request,
-      secret: process.env.NEXTAUTH_SECRET,
-      cookieName: 'next-auth.session-token'
+      secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
     })
     // @ts-ignore
     request.nextauth = request.nextauth || {}
