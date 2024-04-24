@@ -6,6 +6,7 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { Employee } from "@/constants/data";
 import { cn } from "@/lib/utils";
+import { IDoctor } from "@/types/doctors";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
@@ -56,7 +57,7 @@ export default async function page({ searchParams }: paramsProps) {
           pageNo={page}
           columns={columns}
           totalUsers={totalUsers}
-          data={employee}
+          data={employee as unknown as IDoctor[]}
           pageCount={pageCount}
         />
       </div>
