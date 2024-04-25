@@ -26,10 +26,8 @@ export const fetchUsers = async ({
   headers,
 }: Params): Promise<any> => {
   const lang = cookies().get("Language")?.value;
-  const accessToken = cookies().get('accessToken')?.value;
+  const accessToken = cookies().get('access_token')?.value;
   const session = await getServerSession(authOptions);
-  console.log("--------------session",session)
-  console.log("--------------accessToken",accessToken)
   try {
     const res = await axiosInstance(endpoints.users.fetch, {
       params: {
@@ -39,13 +37,12 @@ export const fetchUsers = async ({
         sortBy: "created_at=desc",
       },
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwic3ViIjoiMSIsImlhdCI6MTcxNDAyNzk1NiwiZXhwIjoxNzI5NTc5OTU2fQ.BZyMzh6kbgVs9rhsQXwwVaSnklxuyBfHBQga26T0qL8`,
+        Authorization: `Bearer ${accessToken}`,
         "Accept-Language": lang,
       },
     });
     return res;
   } catch (error: any) {
-    console.log(error)
     return {
       error: getErrorMessage(error),
     };

@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth'
 import { authOptions } from '../_options'
+import { cookies } from "next/headers";
 // Services
 const handler = NextAuth({
   ...authOptions,
@@ -17,18 +18,23 @@ const handler = NextAuth({
             token.gender = user.data?.gender;
             token.avatar = user.data?.avatar;
             token.accessToken = user.data?.access_token;
+
+            cookies().set("access_token", user.data?.access_token, {
+                path: "/",
+                httpOnly: true,
+              });
         }
         return token;
     },
-    async session({ session, user, token }: any) {
-        if (token) {
-            session.user.name = token.name;
-            session.user.email = token.email;
-            session.user.image = token.avatar;
+    async session({ session, token, user }: any) {
+        if (user) {
+            session.user.name = user.name;
+            session.user.email = user.email;
+            session.user.image = user.avatar;
 
-            session.user.username = token.username;
-            session.user.phone = token.phone;
-            session.user.gender = token.gender;
+            session.user.username = user.username;
+            session.user.phone = user.phone;
+            session.user.gender = user.gender;
             
         }
         return session;
