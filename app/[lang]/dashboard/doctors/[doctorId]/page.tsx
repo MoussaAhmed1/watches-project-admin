@@ -61,15 +61,23 @@ const page = async ({ params }: { params: { doctorId: string } }) => {
             </div>
             <div className="p-4 border-t border-gray-200">
               <h2 className="text-xl font-bold">Consultation Prices</h2>
-              <div className="grid grid-cols-2 gap-4 mt-2">
-                <p>Video Consultation:</p>
-                <p>${doctor?.video_consultation_price}</p>
-                <p>Voice Consultation:</p>
-                <p>${doctor?.voice_consultation_price}</p>
-                <p>Home Consultation:</p>
-                <p>${doctor?.home_consultation_price}</p>
-                <p>Clinic Consultation:</p>
-                <p>${doctor?.clinic_consultation_price}</p>
+              <div className="grid grid-cols-1 mt-2">
+                <div className="flex mt-3">
+                  <p className="mr-3">Video Consultation:</p>
+                  <p>EG {doctor?.video_consultation_price}</p>
+                </div>
+                <div className="flex mt-3">
+                  <p className="mr-3">Voice Consultation:</p>
+                  <p>EG {doctor?.voice_consultation_price}</p>
+                </div>
+                <div className="flex mt-3">
+                  <p className="mr-3"> Home Consultation:</p>
+                  <p>EG {doctor?.home_consultation_price}</p>
+                </div>
+                <div className="flex mt-3" >
+                  <p className="mr-3">Clinic Consultation:</p>
+                  <p>EG {doctor?.clinic_consultation_price}</p>
+                </div>
               </div>
             </div>
             <div className="p-4 border-t border-gray-200">
