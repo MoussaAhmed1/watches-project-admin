@@ -6,22 +6,36 @@ const handler = NextAuth({
   session: {
     strategy: 'jwt'
   },
-  secret:process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
+  secret:process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }: any) {
         if (user) {
-            token.username = user.username;
-            token.img = user.img;
+            token.username = user.data?.username;
+            token.name = user.data?.first_name + " " +user.data?.last_name;
+            token.email = user.data?.email;
+            token.phone = user.data?.phone;
+            token.gender = user.data?.gender;
+            token.avatar = user.data?.avatar;
+            token.accessToken = user.data?.access_token;
         }
         return token;
     },
-    async session({ session, token }: any) {
+    async session({ session, user, token }: any) {
         if (token) {
-            session.user.name = token.username;
-            session.user.image = token.img;
+            session.user.name = token.name;
+            session.user.email = token.email;
+            session.user.image = token.avatar;
+
+            session.user.username = token.username;
+            session.user.phone = token.phone;
+            session.user.gender = token.gender;
+            
         }
         return session;
     },
+},
+jwt: {
+    secret: process.env.NEXTAUTH_SECRET
 }
 })
 

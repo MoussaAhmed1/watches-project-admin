@@ -16,7 +16,6 @@ export const fetchDoctors = async ({
   }: Params): Promise<any> => {
     const lang = cookies().get('Language')?.value;
     const accessToken = cookies().get('accessToken')?.value;
-    console.log('-------------------access_token-----------',accessToken)
     try {
       const res = await axiosInstance(endpoints.doctors.fetch, {
         params: {
