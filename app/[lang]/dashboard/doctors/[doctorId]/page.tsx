@@ -6,6 +6,7 @@ import { fetchSingleDoctor } from "@/actions/doctors";
 import { ISingleDoctor } from "@/types/doctors";
 import doctorImage from "../../../../../public/assets/doctor.avif";
 import { Star } from "lucide-react";
+import { Heading } from "@/components/ui/heading";
 export const metadata: Metadata = {
   title: "Next.js Profile | TailAdmin - Next.js Dashboard Template",
   description:
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 
 const page = async ({ params }: { params: { doctorId: string } }) => {
   const res = await fetchSingleDoctor(params.doctorId);
-  const doctor: ISingleDoctor = res.data.data;
+  const doctor: ISingleDoctor = res?.data?.data;
   const breadcrumbItems = [
     { title: "Doctors", link: "/dashboard/doctors" },
     { title: `${doctor?.name}`, link: `/dashboard/doctors/${doctor?.name}` },
@@ -22,8 +23,12 @@ const page = async ({ params }: { params: { doctorId: string } }) => {
 
   return (
     <>
-      <div className="mx-auto w-full mt-8 bg-background">
+      <div className="mx-auto w-full mt-8 bg-background min-h-screen">
         <BreadCrumb items={breadcrumbItems} customStyle="ml-4" />
+        <Heading
+            title={`Doctors Details`}
+            customStyle="ml-4"
+          />
         <div className="w-full mx-auto p-4 ">
           <div className="bg-background shadow-md rounded-lg overflow-hidden border border-gray-400">
             <div className="flex items-center justify-start p-4 bg-[#3c50e0] text-white">
@@ -64,19 +69,19 @@ const page = async ({ params }: { params: { doctorId: string } }) => {
               <div className="grid grid-cols-1 mt-2">
                 <div className="flex mt-3">
                   <p className="mr-3">Video Consultation:</p>
-                  <p>EG {doctor?.video_consultation_price}</p>
+                  <p>{doctor?.video_consultation_price} EGP </p>
                 </div>
                 <div className="flex mt-3">
                   <p className="mr-3">Voice Consultation:</p>
-                  <p>EG {doctor?.voice_consultation_price}</p>
+                  <p>{doctor?.voice_consultation_price} EGP </p>
                 </div>
                 <div className="flex mt-3">
                   <p className="mr-3"> Home Consultation:</p>
-                  <p>EG {doctor?.home_consultation_price}</p>
+                  <p>{doctor?.home_consultation_price} EGP </p>
                 </div>
                 <div className="flex mt-3">
                   <p className="mr-3">Clinic Consultation:</p>
-                  <p>EG {doctor?.clinic_consultation_price}</p>
+                  <p>{doctor?.clinic_consultation_price} EGP </p>
                 </div>
               </div>
             </div>
