@@ -29,7 +29,7 @@ export default async function RootLayout({
   const session = await getServerSession();
   return (
     <html lang={params.lang} suppressHydrationWarning>
-      <body className={`${inter.className} overflow-hidden`}>
+      <body className={`${inter.className}`}>
         <Providers session={session}>
           <Toaster />
           {children}

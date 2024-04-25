@@ -10,11 +10,12 @@ type BreadCrumbType = {
 
 type BreadCrumbPropsType = {
   items: BreadCrumbType[];
+  customStyle?: string
 };
 
-export default function BreadCrumb({ items }: BreadCrumbPropsType) {
+export default function BreadCrumb({ items, customStyle }: BreadCrumbPropsType) {
   return (
-    <div className="mb-4 flex items-center space-x-1 text-sm text-muted-foreground">
+    <div className={`mb-4 flex items-center space-x-1 text-sm text-muted-foreground ${customStyle}`}>
       <Link
         href={"/dashboard"}
         className="overflow-hidden text-ellipsis whitespace-nowrap"
