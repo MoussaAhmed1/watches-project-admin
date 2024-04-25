@@ -17,7 +17,7 @@ export const columns: ColumnDef<IDoctor>[] = [
           src={row?.original?.avatar ?? ""}
           alt={row?.original?.name ?? ""}
         />
-        <AvatarFallback>{row?.original?.name}</AvatarFallback>
+        <AvatarFallback>{row?.original?.name[0]}</AvatarFallback>
       </Avatar>
       <p className="hidden text-black dark:text-white sm:block">
         {row?.original?.name}
