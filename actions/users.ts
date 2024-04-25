@@ -39,7 +39,7 @@ export const fetchUsers = async ({
         sortBy: "created_at=desc",
       },
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Iis5Njc1NTU1NTg4OCIsInN1YiI6IjBlM2E0MzJjLWZhN2ItNDA5Ni05NDAwLWI5MzYzZTljMjM0NCIsImlhdCI6MTcxNDAyNjQzMiwiZXhwIjoxNzI5NTc4NDMyfQ.j9FfUYuiguiCO_MThlD8eAycYT5e-uRT3lSbLsb4IAM`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwic3ViIjoiMSIsImlhdCI6MTcxNDAyNzk1NiwiZXhwIjoxNzI5NTc5OTU2fQ.BZyMzh6kbgVs9rhsQXwwVaSnklxuyBfHBQga26T0qL8`,
         "Accept-Language": lang,
       },
     });
