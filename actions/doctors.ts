@@ -13,6 +13,7 @@ import axiosInstance, {
 import { ITEMS_PER_PAGE } from "./Global-variables";
 
 export const fetchDoctors = async ({
+
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,
@@ -57,3 +58,6 @@ export const fetchSingleDoctor = async (doctorId : string): Promise<any> => {
     };
   }
 };
+
+
+
