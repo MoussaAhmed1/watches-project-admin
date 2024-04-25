@@ -17,7 +17,7 @@ export const columns: ColumnDef<IDoctor>[] = [
           src={row?.original?.avatar ?? ""}
           alt={row?.original?.name ?? ""}
         />
-        <AvatarFallback>{row?.original?.name}</AvatarFallback>
+        <AvatarFallback>{row?.original?.name[0]}</AvatarFallback>
       </Avatar>
       <p className="hidden text-black dark:text-white sm:block">
         {row?.original?.name}
@@ -32,7 +32,7 @@ export const columns: ColumnDef<IDoctor>[] = [
         <Star key={index} fill="#f7d722" strokeWidth={0} />
       ))}
       {Array.from({ length: Math.ceil(5 - row?.original?.rating) }, (ele, index) => (
-        <Star key={index} fill="#111" strokeWidth={0} />
+        <Star key={index} fill="#111" strokeWidth={1} stroke="#fff" />
       ))}
 
     </div>
