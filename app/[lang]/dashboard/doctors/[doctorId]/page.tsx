@@ -74,7 +74,7 @@ const page = async ({ params }: { params: { doctorId: string } }) => {
                   <p className="mr-3"> Home Consultation:</p>
                   <p>EG {doctor?.home_consultation_price}</p>
                 </div>
-                <div className="flex mt-3" >
+                <div className="flex mt-3">
                   <p className="mr-3">Clinic Consultation:</p>
                   <p>EG {doctor?.clinic_consultation_price}</p>
                 </div>
