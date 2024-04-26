@@ -4,24 +4,24 @@
 
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
-
 import axiosInstance, {
   Params,
   endpoints,
   getErrorMessage,
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
+import { PackageFormValues } from "@/components/forms/package-form/add-edit-package";
 
-export const fetchDoctors = async ({
 
+export const fetchPackages = async ({
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,
 }: Params): Promise<any> => {
   const lang = cookies().get("Language")?.value;
-  const accessToken = cookies().get("accessToken")?.value;
+  const accessToken = cookies().get('access_token')?.value;
   try {
-    const res = await axiosInstance(endpoints.doctors.fetch, {
+    const res = await axiosInstance(endpoints.packages.fetch, {
       params: {
         page,
         limit,
@@ -41,24 +41,23 @@ export const fetchDoctors = async ({
   }
 };
 
-export const fetchSingleDoctor = async (doctorId : string): Promise<any> => {
-  const lang = cookies().get("Language")?.value;
-  const accessToken = cookies().get("accessToken")?.value;
+
+export const AddPackages = async (data: PackageFormValues): Promise<any> => {
+  const lang = cookies().get('Language')?.value;
+
   try {
-    const res = await axiosInstance(`${endpoints.doctors.fetch}/${doctorId}`, {
+    const accessToken = cookies().get('accessToken')?.value;
+    const res = await axiosInstance.post(endpoints.packages.fetch, data, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "Accept-Language": lang,
+        'Accept-Language': lang,
       },
     });
-    return res;
-  } catch (error: any) {
-    throw new Error(error);
+
+    revalidatePath('/dashboard/packages');
+  } catch (error) {
     return {
       error: getErrorMessage(error),
     };
   }
 };
-
-
-
