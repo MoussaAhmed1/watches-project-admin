@@ -31,7 +31,7 @@ export const ReservationsColumns: ColumnDef<IReservation>[] = [
         <AvatarImage
           src={row?.original?.client_info?.avatar ?? ""}
           alt={row?.original?.client_info?.name ?? ""}
-          />
+        />
         <AvatarFallback>{row?.original?.client_info?.name[0]}</AvatarFallback>
       </Avatar>
       <p className="hidden text-black dark:text-white sm:block">
@@ -49,7 +49,7 @@ export const ReservationsColumns: ColumnDef<IReservation>[] = [
             <AvatarImage
               src={row?.original?.doctor?.avatar ?? ""}
               alt={row?.original?.doctor?.name ?? ""}
-              />
+            />
             <AvatarFallback>{row?.original?.doctor?.name[0]}</AvatarFallback>
           </Avatar>
           <p className="hidden text-black dark:text-white sm:block">
@@ -96,8 +96,8 @@ export const ReservationsColumns: ColumnDef<IReservation>[] = [
           color: row?.original?.status === "STARTED"
             ? "#1976d2"
             : row?.original?.status === "CANCELLED" ? "#8C0101"
-            : row?.original?.status === "COMPLETED" ? "#28a745"
-            : "unset"
+              : row?.original?.status === "COMPLETED" ? "#28a745"
+                : "unset"
         }}
       >
         {row?.original?.status}
@@ -107,18 +107,17 @@ export const ReservationsColumns: ColumnDef<IReservation>[] = [
   {
     accessorKey: "is_urgent",
     header: "Is Urgent",
-    cell: ({ row }) => <div className="flex items-center gap-3">
-      <p
-      >
-        {row?.original?.is_urgent ? <CheckCircle stroke="#39a845" size={18} /> : <CircleSlash style={{ color: '#8C0101' }} size={18} />}
-      </p>
+    cell: ({ row }) => <div className="flex justify-center">
+
+      {row?.original?.is_urgent ? <CheckCircle stroke="#39a845" size={18} /> : <CircleSlash style={{ color: '#8C0101' }} size={18} />}
+
     </div>
   },
   {
     accessorKey: "created_at",
     header: "Created At",
     cell: ({ row }) => <div className="flex items-center gap-3">
-      <p className="hidden text-black dark:text-white sm:block">
+      <p className="text-black dark:text-white">
         {formatCreatedAtDate(row?.original?.created_at)}
       </p>
     </div>

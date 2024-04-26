@@ -17,7 +17,7 @@ export default function DashboardLayout({
       <Header />
       <div className="flex relative">
         <Sidebar />
-        <main className="relative lg:left-72 w-full lg:w-[78%] top-10">
+        <main className="relative lg:left-72 w-full lg:w-[79%] top-10">
           {children}
         </main>
       </div>
