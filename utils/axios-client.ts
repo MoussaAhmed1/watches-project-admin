@@ -68,5 +68,8 @@ doctors:{
 },
 users:{
   fetch:"/user"
-}
+},
+nurse_orders:{
+  fetch:"/nurse/order"
+},
 };
