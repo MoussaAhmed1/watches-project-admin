@@ -33,24 +33,24 @@ export const NurseOrderColumns: ColumnDef<INurseOrder>[] = [
   {
     accessorKey: "nurse",
     header: "Nurse",
-    cell: ({ row }) =>{ 
-   if(row?.original?.nurse){
-   return(<div className="flex items-center gap-3">
-      <Avatar className="h-8 w-8">
-        <AvatarImage
-          src={row?.original?.nurse?.avatar ?? ""}
-          alt={row?.original?.nurse?.name ?? ""}
-        />
-        <AvatarFallback>{row?.original?.nurse?.name[0]}</AvatarFallback>
-      </Avatar>
-      <p className="hidden text-black dark:text-white sm:block">
-        {row?.original?.nurse?.name}
-      </p>
-    </div>)
-   }
-    else{
-      return <Minus />
-    }
+    cell: ({ row }) => {
+      if (row?.original?.nurse) {
+        return (<div className="flex items-center gap-3">
+          <Avatar className="h-8 w-8">
+            <AvatarImage
+              src={row?.original?.nurse?.avatar ?? ""}
+              alt={row?.original?.nurse?.name ?? ""}
+            />
+            <AvatarFallback>{row?.original?.nurse?.name[0]}</AvatarFallback>
+          </Avatar>
+          <p className="hidden text-black dark:text-white sm:block">
+            {row?.original?.nurse?.name}
+          </p>
+        </div>)
+      }
+      else {
+        return <Minus />
+      }
     }
   },
   {
@@ -74,17 +74,13 @@ export const NurseOrderColumns: ColumnDef<INurseOrder>[] = [
     header: "status",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <p
-        className={`inline-flex rounded-full bg-opacity-10 px-3 py-1 text-sm font-medium ${row?.original?.status === "STARTED"
-          ? "bg-success text-success"
-          : row?.original?.status === "CANCELLED"
-            ? "bg-danger text-danger"
-            : "bg-warning text-warning"
-          }`}
-        style={{ color: row?.original?.status === "STARTED"
-        ? "#1976d2"
-        : row?.original?.status === "CANCELLED"
-          ? "#8C0101"
-          : "unset" }}
+        style={{
+          color: row?.original?.status === "STARTED"
+            ? "#1976d2"
+            : row?.original?.status === "CANCELLED"
+              ? "#8C0101"
+              : "unset"
+        }}
       >
         {row?.original?.status}
       </p>
@@ -96,7 +92,7 @@ export const NurseOrderColumns: ColumnDef<INurseOrder>[] = [
     cell: ({ row }) => <div className="flex items-center gap-3">
       <p
       >
-        {row?.original?.sent_offer ? <CheckCircle stroke="#39a845" size={18} /> : <CircleSlash style={{ color: '#8C0101' }} size={18}/>}
+        {row?.original?.sent_offer ? <CheckCircle stroke="#39a845" size={18} /> : <CircleSlash style={{ color: '#8C0101' }} size={18} />}
       </p>
     </div>
   },
