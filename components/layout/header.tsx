@@ -7,7 +7,7 @@ import Image from "next/image";
 import Logo from "../../public/assets/logo/logo-icon.svg"
 export default function Header() {
   return (
-    <div className="fixed top-0 left-0 right-0 supports-backdrop-blur:bg-background/60 border-b dark:border-gray-600 bg-background/95 backdrop-blur z-50 dark:bg-[#1F272E]">
+    <div className="fixed top-0 left-0 right-0 supports-backdrop-blur:bg-background/60 border-b dark:border-gray-700 bg-background/95 backdrop-blur z-50 dark:bg-[#181D26]">
       <nav className="h-14 flex items-center justify-between px-4">
         <div className="hidden lg:flex">
           <Link

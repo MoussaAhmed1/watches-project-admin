@@ -165,7 +165,7 @@ export function SharedTable<TData, TValue>({
       <SearchInput searchKey={searchKey} />
       <ScrollArea className="rounded-md border h-[calc(80vh-220px)]">
         <Table className="relative ">
-          <TableHeader className="bg-zinc-200 dark:bg-[#1F272E]" style={{ fontWeight: "700 !important", lineHeight: '1.5rem !important', padding: "16px !important" }}>
+          <TableHeader className="bg-zinc-200 dark:bg-[#181D26]" style={{ fontWeight: "700 !important", lineHeight: '1.5rem !important', padding: "16px !important" }}>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} >
                 {headerGroup.headers.map((header) => {
