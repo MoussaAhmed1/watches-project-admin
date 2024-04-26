@@ -72,4 +72,7 @@ users:{
 nurse_orders:{
   fetch:"/nurse/order"
 },
+reservations:{
+  fetch:"/reservation"
+},
 };

@@ -55,7 +55,7 @@ export default async function page({ searchParams }: paramsProps) {
           searchKey="nurse-orders"
           pageNo={page}
           columns={NurseOrderColumns}
-          totalUsers={totalNurseOrder}
+          totalitems={totalNurseOrder}
           data={nurse_orders as unknown as INurseOrder[] }
           pageCount={pageCount}
         />

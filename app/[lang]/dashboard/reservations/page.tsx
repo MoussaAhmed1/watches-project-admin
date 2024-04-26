@@ -1,17 +1,17 @@
 import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
-import { fetchUsers } from "@/actions/users";
 import BreadCrumb from "@/components/breadcrumb";
 import { SharedTable } from "@/components/tables/shared/Shared-table";
-import { UsersColumns } from "@/components/tables/users-tables/columns";
 import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { IUser } from "@/types/users";
 import { Plus } from "lucide-react";
 import Link from "next/link";
+import { IReservation } from "@/types/reservations";
+import { ReservationsColumns } from "@/components/tables/reservations-tables/columns";
+import { fetchReservations } from "@/actions/reservations";
 
-const breadcrumbItems = [{ title: "Users", link: "/dashboard/users" }];
+const breadcrumbItems = [{ title: "Reservations", link: "/dashboard/reservations" }];
 
 type paramsProps = {
   searchParams: {
@@ -24,15 +24,14 @@ export default async function page({ searchParams }: paramsProps) {
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
   typeof searchParams?.search === "string" ? searchParams?.search : "";
-  const res = await fetchUsers({
+  const res = await fetchReservations({
     page,
     limit,
     filters: search,
   });
-  const totalUsers = res?.data?.meta?.total ||0; //1000
-  const pageCount = Math.ceil(totalUsers / limit);
-  const users: IUser[] = res?.data?.data || [] ;
-  console.log("total users: ",totalUsers)
+  const totalReservations = res?.data?.meta?.total ||0; //1000
+  const pageCount = Math.ceil(totalReservations / limit);
+  const reservations: IReservation[] = res?.data?.data || [] ;
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
@@ -40,11 +39,11 @@ export default async function page({ searchParams }: paramsProps) {
 
         <div className="flex items-start justify-between">
           <Heading
-            title={`Users (${totalUsers})`}
+            title={`Reservations (${totalReservations})`}
           />
 
           <Link
-            href={"/dashboard/users/new"}
+            href={"/dashboard/reservations/new"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New
@@ -53,11 +52,11 @@ export default async function page({ searchParams }: paramsProps) {
         <Separator />
 
         <SharedTable
-          searchKey="users"
+          searchKey="reservations"
           pageNo={page}
-          columns={UsersColumns}
-          totalitems={totalUsers}
-          data={users as unknown as IUser[] }
+          columns={ReservationsColumns}
+          totalitems={totalReservations}
+          data={reservations as unknown as IReservation[] }
           pageCount={pageCount}
         />
       </div>

@@ -40,7 +40,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   searchKey: string;
   pageNo: number;
-  totalUsers: number;
+  totalitems: number;
   pageSizeOptions?: number[];
   pageCount: number;
   searchParams?: {
@@ -53,7 +53,7 @@ export function SharedTable<TData, TValue>({
   data,
   pageNo,
   searchKey,
-  totalUsers,
+  totalitems,
   pageCount,
   pageSizeOptions = [10, 20, 30, 40, 50],
 }: DataTableProps<TData, TValue>) {

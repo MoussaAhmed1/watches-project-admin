@@ -56,7 +56,7 @@ export default async function page({ searchParams }: paramsProps) {
           searchKey="country"
           pageNo={page}
           columns={columns}
-          totalUsers={totalUsers}
+          totalitems={totalUsers}
           data={employee as unknown as IDoctor[]}
           pageCount={pageCount}
         />
