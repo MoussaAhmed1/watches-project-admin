@@ -84,4 +84,7 @@ packages:{
 banar:{
   fetch:"/banar"
 },
+pharmacies:{
+  fetch:"/pharmacy"
+},
 };

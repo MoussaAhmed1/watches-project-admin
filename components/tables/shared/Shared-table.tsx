@@ -47,7 +47,7 @@ interface DataTableProps<TData, TValue> {
     [key: string]: string | string[] | undefined;
   };
 }
-const MaxCenteredColumn = 6;
+const MaxCenteredColumn = 8;
 export function SharedTable<TData, TValue>({
   columns,
   data,
@@ -191,7 +191,7 @@ export function SharedTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} style={{ whiteSpace: "nowrap", textAlign: columns?.length < MaxCenteredColumn? "start":"center", margin: "0 15px" }}>
+                    <TableCell key={cell.id} style={{ whiteSpace: "nowrap", textAlign: columns?.length < MaxCenteredColumn? "start":"center",  }}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),

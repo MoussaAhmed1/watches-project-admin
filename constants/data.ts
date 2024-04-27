@@ -119,100 +119,48 @@ export const navItems: NavItem[] = [
     label: "Dashboard",
     subItems: false,
   },
-  {
-    title: "Introduction",
-    href: "/dashboard/introduction",
-    icon: "ads",
-    label: "user",
-    subItems: false,
-  },
-  {
-    title: "Ads",
-    href: "/dashboard/ads",
-    icon: "introduction",
-    label: "user",
-    subItems: false,
-  },
-  {
-    title: "Admins",
-    href: "/dashboard/admins",
-    icon: "admins",
-    label: "user",
-    subItems: false,
-  },
-  {
-    title: "Banars",
-    href: "/dashboard/banars",
-    icon: "media",
-    subItems: false,
-  },
-  {
-    title: "Packages",
-    href: "/dashboard/packages",
-    icon: "inbox",
-    subItems: false,
-  },
-  {
-    title: "Healthcare Specialties",
-    href: "/dashboard/healthcare-specialties",
-    icon: "healthcare",
-    label: "user",
-    subItems: false,
-  },
-  {
-    title: "Payment Methods",
-    href: "/dashboard/payment-method",
-    icon: "payment",
-    label: "user",
-    subItems: false,
-  },
-  {
-    title: "Patients",
-    href: "/dashboard/patients",
-    icon: "patients",
-    label: "user",
-    subItems: false,
-  },
+
   {
     title: "Users",
-    href: "/dashboard/users",
+    href: "/dashboard/nurses",
     icon: "patients",
-    label: "user",
-    subItems: false,
-  },
-  {
-    title: "Doctors",
-    href: "/dashboard/user",
-    icon: "stethoscope",
     label: "user",
     subItems: true,
 
     children: [
+      {
+        title: "Patients",
+        href: "/dashboard/users",
+      },
       {
         title: "Doctors",
         href: "/dashboard/doctors",
       },
       {
-        title: "Consulting",
-        href: "/dashboard/consulting",
+        title: "Pharmacies",
+        href: "/dashboard/pharmacies",
       },
       {
-        title: "Statistics",
-        href: "/dashboard/statistics",
+        title: "Nurses",
+        href: "/dashboard/nurses",
       },
     ],
   },
   {
-    title: "Nurses",
+    title: "Orders",
     href: "/dashboard/nurses",
-    icon: "doctors",
+    icon: "reservations",
     label: "user",
     subItems: true,
 
     children: [
       {
-        title: "All Nurses",
-        href: "/dashboard/nurses",
+        title: "Reservations",
+        href: "/dashboard/reservations",
+      },
+      {
+        title: "Pharmacy Orders",
+        href: "/dashboard/pharmacy-orders",
       },
       {
         title: "Nurse Orders",
@@ -221,52 +169,15 @@ export const navItems: NavItem[] = [
     ],
   },
   {
-    title: "Pharmacies",
-    href: "/dashboard/pharmacies",
-    icon: "pharmacies",
-    label: "user",
+    title: "Banners",
+    href: "/dashboard/banars",
+    icon: "media",
     subItems: false,
   },
   {
-    title: "Radiographer and X-ray",
-    href: "/dashboard/radiographer",
-    icon: "radiographer",
-    label: "user",
-    subItems: false,
-  },
-  {
-    title: "Sonar doctor",
-    href: "/dashboard/sonar-doctor",
-    icon: "doctors",
-    label: "user",
-    subItems: false,
-  },
-  {
-    title: "Labs",
-    href: "/dashboard/labs",
-    icon: "labs",
-    label: "user",
-    subItems: false,
-  },
-  {
-    title: "Hospitals",
-    href: "/dashboard/hospitals",
-    icon: "hospitals",
-    label: "employee",
-    subItems: false,
-  },
-  {
-    title: "Health care providers",
-    href: "/dashboard/health-care-providers",
-    icon: "healthcare",
-    label: "profile",
-    subItems: false,
-  },
-  {
-    title: "Reservations",
-    href: "/dashboard/reservations",
-    icon: "reservations",
-    label: "kanban",
+    title: "Packages",
+    href: "/dashboard/packages",
+    icon: "inbox",
     subItems: false,
   },
   {
@@ -291,7 +202,7 @@ export const navItems: NavItem[] = [
     subItems: true,
     children: [
       {
-        title: "Settings",
+        title: "Commission",
         href: "/dashboard/settings",
       },
       {
@@ -299,11 +210,27 @@ export const navItems: NavItem[] = [
         href: "/dashboard/about-app",
       },
       {
-        title: "Privacy Policy",
-        href: "/dashboard/privacy-policy",
+        title: "Contact Us",
+        href: "/dashboard/about-app",
+      },
+      {
+        title: "FAQ",
+        href: "/dashboard/faq",
       },
       {
         title: "Terms and Conditions",
+        href: "/dashboard/terms-conditions",
+      },
+      {
+        title: "Doctor Specialiations",
+        href: "/dashboard/terms-conditions",
+      },
+      {
+        title: "Pharmacy Categories",
+        href: "/dashboard/terms-conditions",
+      },
+      {
+        title: "Pharmacy Products",
         href: "/dashboard/terms-conditions",
       },
     ],
