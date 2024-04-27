@@ -12,7 +12,7 @@ export const columns: ColumnDef<IDoctor>[] = [
     accessorKey: "name",
     header: "Name",
     cell: ({ row }) => <div className="flex items-center gap-3">
-      <Avatar className="h-8 w-8">
+      <Avatar className="w-10 h-10">
         <AvatarImage
           src={row?.original?.avatar ?? ""}
           alt={row?.original?.name ?? ""}
@@ -31,7 +31,7 @@ export const columns: ColumnDef<IDoctor>[] = [
       {Array.from({ length: Math.ceil(row?.original?.rating) }, (ele, index) => (
         <Star key={index} fill="#f7d722" strokeWidth={0} size={20} />
       ))}
-      {Array.from({ length: Math.ceil(5 - row?.original?.rating) }, (ele, index) => (
+      {Array.from({ length: Math.floor(5 - row?.original?.rating) }, (ele, index) => (
         <Star key={index} fill="#111" strokeWidth={1} stroke="#fff" size={20} />
       ))}
 

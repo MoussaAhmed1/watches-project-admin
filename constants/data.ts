@@ -141,24 +141,9 @@ export const navItems: NavItem[] = [
     subItems: false,
   },
   {
-    title: "Countires",
-    href: "/dashboard/countires",
-    icon: "countries",
-    label: "user",
-    subItems: false,
-  },
-  {
-    title: "Cities",
-    href: "/dashboard/cities",
-    icon: "countries",
-    label: "user",
-    subItems: false,
-  },
-  {
-    title: "Account Types",
-    href: "/dashboard/account-types",
-    icon: "user",
-    label: "user",
+    title: "Banars",
+    href: "/dashboard/banars",
+    icon: "media",
     subItems: false,
   },
   {
