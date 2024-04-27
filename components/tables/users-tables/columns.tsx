@@ -15,21 +15,25 @@ export const UsersColumns: ColumnDef<IUser>[] = [
     accessorKey: "name",
     header: "Name",
     cell: ({ row }) => <div className="flex items-center justify-center gap-3">
-        <Avatar className="w-10 h-10">
-          <AvatarImage
-            src={row?.original?.avatar ?? ""}
-            alt={row?.original?.first_name + row?.original?.last_name ?? ""}
-            />
-          <AvatarFallback>{row?.original?.first_name[0]}</AvatarFallback>
-        </Avatar>
-        <p className="hidden text-black dark:text-white sm:block">
-          {row?.original?.first_name + " " +row?.original?.last_name}
-        </p>
+      <Avatar className="w-10 h-10">
+        <AvatarImage
+          src={row?.original?.avatar ?? ""}
+          alt={row?.original?.first_name + row?.original?.last_name ?? ""}
+        />
+        <AvatarFallback>{row?.original?.first_name[0]}</AvatarFallback>
+      </Avatar>
+      <p className="hidden text-black dark:text-white sm:block">
+        {row?.original?.first_name + " " + row?.original?.last_name}
+      </p>
     </div>
   },
   {
     accessorKey: "email",
     header: "Email",
+  },
+  {
+    accessorKey: "username",
+    header: "Username",
   },
   {
     accessorKey: "phone",

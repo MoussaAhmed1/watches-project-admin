@@ -32,7 +32,6 @@ export default async function page({ searchParams }: paramsProps) {
   const totalUsers = res?.data?.meta?.total ||0; //1000
   const pageCount = Math.ceil(totalUsers / limit);
   const users: IUser[] = res?.data?.data || [] ;
-  console.log("total users: ",totalUsers)
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">

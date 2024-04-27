@@ -147,6 +147,12 @@ export const navItems: NavItem[] = [
     subItems: false,
   },
   {
+    title: "Packages",
+    href: "/dashboard/packages",
+    icon: "inbox",
+    subItems: false,
+  },
+  {
     title: "Healthcare Specialties",
     href: "/dashboard/healthcare-specialties",
     icon: "healthcare",
@@ -163,6 +169,13 @@ export const navItems: NavItem[] = [
   {
     title: "Patients",
     href: "/dashboard/patients",
+    icon: "patients",
+    label: "user",
+    subItems: false,
+  },
+  {
+    title: "Users",
+    href: "/dashboard/users",
     icon: "patients",
     label: "user",
     subItems: false,

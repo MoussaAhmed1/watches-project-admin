@@ -9,6 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useToast } from "@/components/ui/use-toast";
 import { IBanar } from "@/types/banars";
 import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -22,23 +23,33 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const { toast } = useToast();
 
-  const onConfirm = async (id:string) => {
-    const res = await deleteBanar({ id });
+  const onConfirm = async () => {
+    setLoading(true);
+    const res = await deleteBanar({ id: data?.id });
     if (res?.error) {
-      console.log(`${res?.error}`, { variant: 'error' });
-    } else {
-      console.log(('Deleted success!'), {
-        variant: 'success',
+      toast({
+        title: "Error",
+        variant: "destructive",
+        description: res?.error,
       });
-  };
+    } else {
+      toast({
+        title: "Deleted success!",
+        variant: "default",
+        description: res?.error,
+      });
+    };
+    setLoading(false);
+    setOpen(false);
   }
   return (
     <>
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        onConfirm={()=>onConfirm(data?.id)}
+        onConfirm={onConfirm}
         loading={loading}
       />
       <DropdownMenu modal={false}>

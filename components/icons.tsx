@@ -44,7 +44,8 @@ import {
   HeartPulse,
   DollarSign,
   Activity,
-Radio
+Radio,
+Inbox 
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -94,6 +95,7 @@ export const Icons = {
   payment:DollarSign,
   hospitals: Activity,
   radiographer:Radio,
+  inbox:Inbox,
 
   gitHub: ({ ...props }: LucideProps) => (
     <svg

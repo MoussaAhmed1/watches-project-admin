@@ -41,7 +41,7 @@ export const fetchBanars = async ({
 
 export const ToggleBanar = async (formData: FormData) => {
   const id = formData.get("id");
-  const accessToken = cookies().get("accessToken")?.value;
+  const accessToken = cookies().get("access_token")?.value;
   const lang = cookies().get("Language")?.value;
 
   const is_active = formData.get("is_active");
@@ -70,7 +70,7 @@ export const ToggleBanar = async (formData: FormData) => {
 };
 
 export const deleteBanar = async ({ id }: { id: string }): Promise<any> => {
-  const accessToken = cookies().get("accessToken")?.value;
+  const accessToken = cookies().get("access_token")?.value;
   const lang = cookies().get("Language")?.value;
 
   try {
