@@ -183,7 +183,7 @@ export const navItems: NavItem[] = [
   {
     title: "Doctors",
     href: "/dashboard/user",
-    icon: "doctors",
+    icon: "stethoscope",
     label: "user",
     subItems: true,
 
@@ -199,6 +199,24 @@ export const navItems: NavItem[] = [
       {
         title: "Statistics",
         href: "/dashboard/statistics",
+      },
+    ],
+  },
+  {
+    title: "Nurses",
+    href: "/dashboard/nurses",
+    icon: "doctors",
+    label: "user",
+    subItems: true,
+
+    children: [
+      {
+        title: "All Nurses",
+        href: "/dashboard/nurses",
+      },
+      {
+        title: "Nurse Orders",
+        href: "/dashboard/nurse-orders",
       },
     ],
   },

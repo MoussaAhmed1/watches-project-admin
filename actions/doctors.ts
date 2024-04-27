@@ -19,7 +19,7 @@ export const fetchDoctors = async ({
   filters,
 }: Params): Promise<any> => {
   const lang = cookies().get("Language")?.value;
-  const accessToken = cookies().get("accessToken")?.value;
+  const accessToken = cookies().get("access_token")?.value;
   try {
     const res = await axiosInstance(endpoints.doctors.fetch, {
       params: {
@@ -43,7 +43,7 @@ export const fetchDoctors = async ({
 
 export const fetchSingleDoctor = async (doctorId : string): Promise<any> => {
   const lang = cookies().get("Language")?.value;
-  const accessToken = cookies().get("accessToken")?.value;
+  const accessToken = cookies().get("access_token")?.value;
   try {
     const res = await axiosInstance(`${endpoints.doctors.fetch}/${doctorId}`, {
       headers: {

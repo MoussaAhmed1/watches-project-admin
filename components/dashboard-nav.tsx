@@ -58,10 +58,10 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
           const Icon = Icons[item.icon || "arrowRight"];
 
           return (
-            <Accordion type="single" collapsible key={index}>
+            <Accordion type="single" collapsible key={index} className="py-0 my-0">
               <AccordionItem value="item-1" >
                 <AccordionTrigger >
-                  {<Icon className="h-4 w-4 mr-2" />} {item?.title}
+                  {<Icon className="h-4 w-4 mr-2 " />} {item?.title}
                 </AccordionTrigger>
                 {item?.children?.map((child) => (
                   <AccordionContent key={child?.href}>

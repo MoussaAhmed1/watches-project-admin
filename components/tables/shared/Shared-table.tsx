@@ -195,7 +195,7 @@ export function SharedTable<TData, TValue>({
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),
-                      )}
+                      ) || " - "}
                     </TableCell>
                   ))}
                 </TableRow>

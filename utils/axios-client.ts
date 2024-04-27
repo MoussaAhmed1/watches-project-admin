@@ -66,6 +66,9 @@ export const endpoints = {
 doctors:{
   fetch:"/doctor"
 },
+nurses:{
+  fetch:"/nurse"
+},
 users:{
   fetch:"/user"
 },
