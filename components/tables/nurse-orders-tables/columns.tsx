@@ -18,7 +18,7 @@ export const NurseOrderColumns: ColumnDef<INurseOrder>[] = [
     accessorKey: "user",
     header: "User",
     cell: ({ row }) => <div className="flex items-center gap-3">
-      <Avatar className="h-8 w-8">
+      <Avatar className="w-10 h-10">
         <AvatarImage
           src={row?.original?.user?.avatar ?? ""}
           alt={row?.original?.user?.name ?? ""}
@@ -36,7 +36,7 @@ export const NurseOrderColumns: ColumnDef<INurseOrder>[] = [
     cell: ({ row }) => {
       if (row?.original?.nurse) {
         return (<div className="flex items-center gap-3">
-          <Avatar className="h-8 w-8">
+          <Avatar className="w-10 h-10">
             <AvatarImage
               src={row?.original?.nurse?.avatar ?? ""}
               alt={row?.original?.nurse?.name ?? ""}

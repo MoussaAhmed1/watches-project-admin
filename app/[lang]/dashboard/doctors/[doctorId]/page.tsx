@@ -23,14 +23,14 @@ const page = async ({ params }: { params: { doctorId: string } }) => {
 
   return (
     <>
-      <div className="mx-auto w-full mt-8 bg-background min-h-screen">
+      <div className="mx-auto w-full mt-8 bg-background">
         <BreadCrumb items={breadcrumbItems} customStyle="ml-4" />
         <Heading
             title={`Doctors Details`}
             customStyle="ml-4"
           />
         <div className="w-full mx-auto p-4 ">
-          <div className="bg-background shadow-md rounded-lg overflow-hidden border border-gray-400">
+          <div className="bg-background shadow-md rounded-lg overflow-hidden border min-h-[77dvh] border-gray-400">
             <div className="flex items-center justify-start p-4 bg-[#3c50e0] text-white">
               <Image
                 src={doctorImage}

@@ -39,10 +39,11 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
                 onClick={() => {
                   if (setOpen) setOpen(false);
                 }}
+                
               >
                 <span
                   className={cn(
-                    "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
+                    "group flex items-center  rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
                     path === item.href ? "bg-accent" : "transparent",
                     item.disabled && "cursor-not-allowed opacity-80",
                   )}
@@ -58,9 +59,9 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
 
           return (
             <Accordion type="single" collapsible key={index}>
-              <AccordionItem value="item-1">
-                <AccordionTrigger>
-                  {<Icon className=" h-4 w-4 mr-2" />} {item?.title}
+              <AccordionItem value="item-1" >
+                <AccordionTrigger >
+                  {<Icon className="h-4 w-4 mr-2" />} {item?.title}
                 </AccordionTrigger>
                 {item?.children?.map((child) => (
                   <AccordionContent key={child?.href}>

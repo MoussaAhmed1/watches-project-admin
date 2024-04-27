@@ -78,4 +78,7 @@ reservations:{
 packages:{
   fetch:"/package"
 },
+banar:{
+  fetch:"/banar"
+},
 };

@@ -27,7 +27,7 @@ export const ReservationsColumns: ColumnDef<IReservation>[] = [
     accessorKey: "client_info",
     header: "Client",
     cell: ({ row }) => <div className="flex items-center gap-3">
-      <Avatar className="h-8 w-8">
+      <Avatar className="w-10 h-10">
         <AvatarImage
           src={row?.original?.client_info?.avatar ?? ""}
           alt={row?.original?.client_info?.name ?? ""}
@@ -45,7 +45,7 @@ export const ReservationsColumns: ColumnDef<IReservation>[] = [
     cell: ({ row }) => {
       if (row?.original?.doctor) {
         return (<div className="flex items-center gap-3">
-          <Avatar className="h-8 w-8">
+          <Avatar className="w-10 h-10">
             <AvatarImage
               src={row?.original?.doctor?.avatar ?? ""}
               alt={row?.original?.doctor?.name ?? ""}
