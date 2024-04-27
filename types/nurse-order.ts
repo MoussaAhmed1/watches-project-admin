@@ -1,3 +1,5 @@
+import { INurse } from "./nurse"
+
 export interface INurseOrder {
     id: string
     created_at: string
@@ -17,7 +19,7 @@ export interface INurseOrder {
     number: string
     user: User
     address: Address
-    nurse: Nurse
+    nurse: INurse
     sent_offer: boolean
   }
   
@@ -32,12 +34,5 @@ export interface INurseOrder {
     address: string
     latitude: number
     longitude: number
-  }
-  
-  export interface Nurse {
-    name: string
-    avatar: string
-    phone: string
-    rating: number
   }
   
