@@ -75,4 +75,7 @@ nurse_orders:{
 reservations:{
   fetch:"/reservation"
 },
+packages:{
+  fetch:"/package"
+},
 };
