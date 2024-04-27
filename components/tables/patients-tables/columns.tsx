@@ -4,9 +4,9 @@ import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
-import { IUser } from "@/types/users";
+import { IPatient } from "@/types/patients";
 
-export const UsersColumns: ColumnDef<IUser>[] = [
+export const PatientsColumns: ColumnDef<IPatient>[] = [
   {
     accessorKey: "account",
     header: "Account",
@@ -14,7 +14,7 @@ export const UsersColumns: ColumnDef<IUser>[] = [
   {
     accessorKey: "name",
     header: "Name",
-    cell: ({ row }) => <div className="flex items-center justify-center gap-3">
+    cell: ({ row }) => <div className="flex items-center gap-3">
       <Avatar className="w-10 h-10">
         <AvatarImage
           src={row?.original?.avatar ?? ""}
