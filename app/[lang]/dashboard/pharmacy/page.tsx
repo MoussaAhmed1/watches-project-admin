@@ -11,7 +11,7 @@ import { IDoctor } from "@/types/doctors";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import columns from "@/components/tables/pharmacy/columns";
-import { Pharmacy } from "@/types/pharmacy";
+import { IPharmacy } from "@/types/pharmacy";
 
 const breadcrumbItems = [{ title: "Pharmacy", link: "/dashboard/pharmacy" }];
 
@@ -33,7 +33,7 @@ export default async function page({ searchParams }: paramsProps) {
   });
   const totalPharmacies = res?.data?.meta?.total || 0; //1000
   const pageCount = Math.ceil(totalPharmacies / limit);
-  const Pharmacies: Pharmacy[] = res?.data?.data || [];
+  const Pharmacies: IPharmacy[] = res?.data?.data || [];
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
@@ -56,7 +56,7 @@ export default async function page({ searchParams }: paramsProps) {
           pageNo={page}
           columns={columns}
           totalitems={totalPharmacies}
-          data={Pharmacies as unknown as Pharmacy[]}
+          data={Pharmacies as unknown as IPharmacy[]}
           pageCount={pageCount}
         />
       </div>

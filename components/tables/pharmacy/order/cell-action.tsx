@@ -10,15 +10,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Employee } from "@/constants/data";
 import { IDoctor } from "@/types/doctors";
-import { Pharmacy } from "@/types/pharmacy";
+import { IPharmacy } from "@/types/pharmacy";
 import { PharmacyOrder } from "@/types/pharmacy-order";
-import { IUser } from "@/types/users";
 import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface CellActionProps {
-  data: Employee | IDoctor | IUser | Pharmacy| PharmacyOrder;
+  data:  IPharmacy| PharmacyOrder;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {

@@ -6,9 +6,10 @@ import { IDoctor } from "@/types/doctors";
 import { Star } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
-import { Pharmacy } from "@/types/pharmacy";
+import {  IPharmacy } from "@/types/pharmacy";
+import {  IPatient } from "@/types/patients";
 
- const columns: ColumnDef<Pharmacy>[] = [
+ const columns: ColumnDef<IPharmacy>[] = [
   {
     accessorKey: "logo",
     header: "Logo",

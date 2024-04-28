@@ -8,11 +8,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Employee } from "@/constants/data";
-import { IDoctor } from "@/types/doctors";
-import { Pharmacy } from "@/types/pharmacy";
 import { SuggestionsComplaints } from "@/types/suggestions-complaints";
-import { IUser } from "@/types/users";
 import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

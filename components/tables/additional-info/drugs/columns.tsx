@@ -2,13 +2,11 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
-import { IDoctor } from "@/types/doctors";
-import { Star } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
-import { Pharmacy } from "@/types/pharmacy";
+import {  IPharmacy } from "@/types/pharmacy";
 
- const columns: ColumnDef<Pharmacy>[] = [
+ const columns: ColumnDef<IPharmacy>[] = [
   {
     accessorKey: "logo",
     header: "Logo",
