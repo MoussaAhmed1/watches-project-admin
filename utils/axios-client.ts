@@ -91,8 +91,20 @@ export const endpoints = {
   suggestions: {
     fetch: "/suggestions-complaints",
   },
-  addetionalInfo:{
+  addetionalInfo: {
     specializations: "/additional-info/specializations",
     profile: "/additional-info/profile",
-  }
+  },
+  nurses: {
+    fetch: "/nurse",
+  },
+  packages: {
+    fetch: "/package",
+  },
+  banar: {
+    fetch: "/banar",
+  },
+  pharmacies: {
+    fetch: "/pharmacy",
+  },
 };

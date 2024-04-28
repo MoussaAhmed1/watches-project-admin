@@ -4,7 +4,6 @@
 
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
-
 import axiosInstance, {
   Params,
   endpoints,
@@ -12,8 +11,7 @@ import axiosInstance, {
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
 
-export const fetchDoctors = async ({
-
+export const fetchBanars = async ({
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,
@@ -21,7 +19,7 @@ export const fetchDoctors = async ({
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
   try {
-    const res = await axiosInstance(endpoints.doctors.fetch, {
+    const res = await axiosInstance(endpoints.banar.fetch, {
       params: {
         page,
         limit,
@@ -41,24 +39,51 @@ export const fetchDoctors = async ({
   }
 };
 
-export const fetchSingleDoctor = async (doctorId : string): Promise<any> => {
-  const lang = cookies().get("Language")?.value;
+export const ToggleBanar = async (formData: FormData) => {
+  const id = formData.get("id");
   const accessToken = cookies().get("access_token")?.value;
+  const lang = cookies().get("Language")?.value;
+
+  const is_active = formData.get("is_active");
+  const data = {
+    is_active: is_active === "false",
+  };
   try {
-    const res = await axiosInstance(`${endpoints.doctors.fetch}/${doctorId}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Accept-Language": lang,
+    const res = await axiosInstance.patch(
+      `${endpoints.banar.fetch}/{id}`,
+      data,
+      {
+        params: { id },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Accept-Language": lang,
+        },
       },
-    });
-    return res;
-  } catch (error: any) {
-    throw new Error(error);
+    );
+    revalidatePath("/dashboard/banars");
+    return res.data.message;
+  } catch (error) {
     return {
       error: getErrorMessage(error),
     };
   }
 };
 
+export const deleteBanar = async ({ id }: { id: string }): Promise<any> => {
+  const accessToken = cookies().get("access_token")?.value;
+  const lang = cookies().get("Language")?.value;
 
-
+  try {
+    const res = await axiosInstance.delete(`${endpoints.banar.fetch}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+    revalidatePath("/dashboard/banars");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};

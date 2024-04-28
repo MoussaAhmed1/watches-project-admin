@@ -12,7 +12,7 @@ import axiosInstance, {
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
 
-export const fetchDoctors = async ({
+export const fetchNurses = async ({
 
   page = 1,
   limit = ITEMS_PER_PAGE,
@@ -21,7 +21,7 @@ export const fetchDoctors = async ({
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
   try {
-    const res = await axiosInstance(endpoints.doctors.fetch, {
+    const res = await axiosInstance(endpoints.nurses.fetch, {
       params: {
         page,
         limit,
@@ -40,12 +40,12 @@ export const fetchDoctors = async ({
     };
   }
 };
-
-export const fetchSingleDoctor = async (doctorId : string): Promise<any> => {
+// TODO: IMPELEMENTING GETTING SINGLE Nurse 
+export const fetchSingleNurse = async (id : string): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
   try {
-    const res = await axiosInstance(`${endpoints.doctors.fetch}/${doctorId}`, {
+    const res = await axiosInstance(`${endpoints.nurses.fetch}/${id}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Accept-Language": lang,

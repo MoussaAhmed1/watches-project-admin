@@ -7,15 +7,12 @@ export default function Sidebar() {
   return (
     <nav
       className={cn(
-        `relative hidden h-screen overflow-auto border-r pt-16 lg:block lg:fixed   w-72`,
+        `hidden h-screen overflow-auto overflow-x-hidden border-r pt-16 xl:block dark:bg-[#181D26] min-w-[16.5%]`,
       )}
     >
-      <div className="space-y-4 py-4">
-        <div className="px-3 py-2 ">
+      <div className="space-y-4 py-1">
+        <div className="px-3 py-.5 ">
           <div className="space-y-1">
-            <h2 className="mb-2 px-4 text-xl font-semibold tracking-tight">
-              Overview
-            </h2>
             
             <DashboardNav items={navItems} />
           </div>

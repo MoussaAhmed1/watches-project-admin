@@ -10,13 +10,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Employee } from "@/constants/data";
 import { IDoctor } from "@/types/doctors";
-import { IUser } from "@/types/users";
+import { IPatient } from "@/types/patients";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface CellActionProps {
-  data: Employee | IDoctor | IUser;
+  data: Employee | IDoctor | IPatient;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {

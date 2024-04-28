@@ -47,7 +47,7 @@ interface DataTableProps<TData, TValue> {
     [key: string]: string | string[] | undefined;
   };
 }
-
+const MaxCenteredColumn = 8;
 export function SharedTable<TData, TValue>({
   columns,
   data,
@@ -129,32 +129,6 @@ export function SharedTable<TData, TValue>({
 
   const searchValue = table.getColumn(searchKey)?.getFilterValue() as string;
 
-  // React.useEffect(() => {
-  //   if (debounceValue.length > 0) {
-  //     router.push(
-  //       `${pathname}?${createQueryString({
-  //         [selectedOption.value]: `${debounceValue}${
-  //           debounceValue.length > 0 ? `.${filterVariety}` : ""
-  //         }`,
-  //       })}`,
-  //       {
-  //         scroll: false,
-  //       }
-  //     )
-  //   }
-
-  //   if (debounceValue.length === 0) {
-  //     router.push(
-  //       `${pathname}?${createQueryString({
-  //         [selectedOption.value]: null,
-  //       })}`,
-  //       {
-  //         scroll: false,
-  //       }
-  //     )
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [debounceValue, filterVariety, selectedOption.value])
 
   React.useEffect(() => {
     if (searchValue?.length > 0) {
@@ -189,20 +163,21 @@ export function SharedTable<TData, TValue>({
 
   return (
     <>
-      <ScrollArea className="rounded-md border h-[calc(80vh-220px)]">
+      <SearchInput searchKey={searchKey} />
+      <ScrollArea className="rounded-md border min-h-[calc(60dvh)]">
         <Table className="relative">
-          <TableHeader>
+          <TableHeader className="bg-zinc-200 dark:bg-[#181D26]" style={{ fontWeight: "700 !important", lineHeight: '1.5rem !important', padding: "16px !important" }}>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} >
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="dark:text-white" style={{ whiteSpace: "nowrap", textAlign: columns?.length < MaxCenteredColumn? "start":"center", margin: "0 5px" }} >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                     </TableHead>
                   );
                 })}
@@ -217,11 +192,11 @@ export function SharedTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} style={{ whiteSpace: "nowrap", textAlign: columns?.length < MaxCenteredColumn? "start":"center",  }}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),
-                      )}
+                      ) || " - "}
                     </TableCell>
                   ))}
                 </TableRow>

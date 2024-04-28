@@ -2,12 +2,12 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
-import { IDoctor } from "@/types/doctors";
 import { Star } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
+import { INurse } from "@/types/nurse";
 
-export const columns: ColumnDef<IDoctor>[] = [
+export const NursesColumns: ColumnDef<INurse>[] = [
   {
     accessorKey: "name",
     header: "Name",
@@ -38,9 +38,8 @@ export const columns: ColumnDef<IDoctor>[] = [
     </div>
   },
   {
-    accessorKey: "specialization",
-    header: "specialization",
-    cell: ({ row }) => row?.original?.specialization?.name
+    accessorKey: "phone",
+    header: "Phone",
   },
   {
     id: "actions",
