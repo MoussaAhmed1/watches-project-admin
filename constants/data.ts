@@ -279,8 +279,8 @@ export const navItems: NavItem[] = [
     subItems: true,
     children: [
       {
-        title: "Suggestions complaints",
-        href: "/dashboard/settings/suggestions-complaints",
+        title: "Contacts",
+        href: "/dashboard/settings/Contacts",
       },
       {
         title: "About App",
