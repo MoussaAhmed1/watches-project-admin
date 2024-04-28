@@ -34,7 +34,7 @@ export const ReservationsColumns: ColumnDef<IReservation>[] = [
         />
         <AvatarFallback>{row?.original?.client_info?.name[0]}</AvatarFallback>
       </Avatar>
-      <p className="hidden text-black dark:text-white sm:block">
+      <p className="text-black dark:text-white sm:block">
         {row?.original?.client_info?.name}
       </p>
     </div>
@@ -52,7 +52,7 @@ export const ReservationsColumns: ColumnDef<IReservation>[] = [
             />
             <AvatarFallback>{row?.original?.doctor?.name[0]}</AvatarFallback>
           </Avatar>
-          <p className="hidden text-black dark:text-white sm:block">
+          <p className="text-black dark:text-white sm:block">
             {row?.original?.doctor?.name}
           </p>
         </div>)
@@ -74,7 +74,7 @@ export const ReservationsColumns: ColumnDef<IReservation>[] = [
   {
     accessorKey: "address",
     header: "Clinic Address",
-    cell: ({ row }) => <div className="flex items-center gap-3">
+    cell: ({ row }) => row?.original?.doctor?.clinic?.address? <div className="flex items-center gap-3">
       <p>
         <Link
           href={`https://www.google.com/maps/search/?api=1&query=${row?.original?.doctor?.clinic?.latitude},${row?.original?.doctor?.clinic?.longitude}`}
@@ -86,6 +86,8 @@ export const ReservationsColumns: ColumnDef<IReservation>[] = [
         </Link>
       </p>
     </div>
+    :
+     <Minus className="text-center" />
   },
   {
     accessorKey: "status",

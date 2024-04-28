@@ -130,8 +130,30 @@ export const navItems: NavItem[] = [
     children: [
       {
         title: "Patients",
-        href: "/dashboard/users",
+        href: "/dashboard/patients",
       },
+      {
+        title: "Doctors",
+        href: "/dashboard/doctors",
+      },
+      {
+        title: "Pharmacies",
+        href: "/dashboard/pharmacies",
+      },
+      {
+        title: "Nurses",
+        href: "/dashboard/nurses",
+      },
+    ],
+  },
+
+  {
+    title: "Verification Requests",
+    icon: "patients",
+    label: "user",
+    subItems: true,
+
+    children: [
       {
         title: "Doctors",
         href: "/dashboard/doctors",
@@ -169,6 +191,23 @@ export const navItems: NavItem[] = [
     ],
   },
   {
+    title: "Cancel Requests",
+    icon: "reservations",
+    label: "user",
+    subItems: true,
+
+    children: [
+      {
+        title: "Reservations",
+        href: "/dashboard/reservations",
+      },
+      {
+        title: "Nurse Orders",
+        href: "/dashboard/nurse-orders",
+      },
+    ],
+  },
+  {
     title: "Banners",
     href: "/dashboard/banars",
     icon: "media",
@@ -195,16 +234,12 @@ export const navItems: NavItem[] = [
     subItems: false,
   },
   {
-    title: "Settings",
+    title: "General Settings",
     href: "/dashboard/settings",
     icon: "settings",
     label: "kanban",
     subItems: true,
     children: [
-      {
-        title: "Commission",
-        href: "/dashboard/settings",
-      },
       {
         title: "About App",
         href: "/dashboard/about-app",
@@ -221,6 +256,19 @@ export const navItems: NavItem[] = [
         title: "Terms and Conditions",
         href: "/dashboard/terms-conditions",
       },
+    ],
+  },
+  {
+    title: "Data Management", 
+    href: "/dashboard/settings",
+    icon: "settings",
+    label: "kanban",
+    subItems: true,
+    children: [
+      {
+        title: "Commission",
+        href: "/dashboard/settings",
+      },
       {
         title: "Doctor Specialiations",
         href: "/dashboard/terms-conditions",
@@ -235,4 +283,5 @@ export const navItems: NavItem[] = [
       },
     ],
   },
+  
 ];
