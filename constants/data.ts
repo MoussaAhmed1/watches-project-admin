@@ -205,11 +205,30 @@ export const navItems: NavItem[] = [
     ],
   },
   {
-    title: "Pharmacies",
-    href: "/dashboard/pharmacies",
+    title: "Pharmacy",
+    href: "/dashboard/pharmacy",
     icon: "pharmacies",
     label: "user",
-    subItems: false,
+    subItems: true,
+
+    children: [
+      {
+        title: "Pharmacy",
+        href: "/dashboard/pharmacy",
+      },
+      {
+        title: "Order",
+        href: "/dashboard/pharmacy/order",
+      },
+      {
+        title: "Drugs",
+        href: "/dashboard/pharmacy/drugs",
+      },
+      {
+        title: "Categories",
+        href: "/dashboard/pharmacy/categories",
+      },
+    ],
   },
   {
     title: "Radiographer and X-ray",
@@ -268,6 +287,44 @@ export const navItems: NavItem[] = [
     subItems: false,
   },
   {
+    title: "Additional info ",
+    href: "/dashboard/user",
+    icon: "doctors",
+    label: "user",
+    subItems: true,
+
+    children: [
+      {
+        title: "Specializations",
+        href: "/dashboard/additional-info/specializations",
+      },
+      {
+        title: "Doctor",
+        href: "/dashboard/additional-info/consulting",
+      },
+      {
+        title: "Client",
+        href: "/dashboard/additional-info/statistics",
+      },
+      {
+        title: "Profile",
+        href: "/dashboard/additional-info/profile",
+      },
+      {
+        title: "Nurse",
+        href: "/dashboard/additional-info/statistics",
+      },
+      {
+        title: "Pharmacy",
+        href: "/dashboard/additional-info/statistics",
+      },
+      {
+        title: "Doctor availability",
+        href: "/dashboard/additional-info/statistics",
+      },
+    ],
+  },
+  {
     title: "Settings",
     href: "/dashboard/settings",
     icon: "settings",
@@ -279,16 +336,20 @@ export const navItems: NavItem[] = [
         href: "/dashboard/settings",
       },
       {
+        title: "Suggestions complaints",
+        href: "/dashboard/settings/suggestions-complaints",
+      },
+      {
         title: "About App",
-        href: "/dashboard/about-app",
+        href: "/dashboard/settings/about-app",
       },
       {
         title: "Privacy Policy",
-        href: "/dashboard/privacy-policy",
+        href: "/dashboard/settings/privacy-policy",
       },
       {
         title: "Terms and Conditions",
-        href: "/dashboard/terms-conditions",
+        href: "/dashboard/settings/terms-conditions",
       },
     ],
   },
