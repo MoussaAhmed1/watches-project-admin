@@ -57,6 +57,7 @@ export function SharedTable<TData, TValue>({
   pageCount,
   pageSizeOptions = [10, 20, 30, 40, 50],
 }: DataTableProps<TData, TValue>) {
+  console.log(data)
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

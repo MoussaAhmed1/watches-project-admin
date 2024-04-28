@@ -234,6 +234,44 @@ export const navItems: NavItem[] = [
     subItems: false,
   },
   {
+    title: "Additional info ",
+    href: "/dashboard/user",
+    icon: "doctors",
+    label: "user",
+    subItems: true,
+
+    children: [
+      {
+        title: "Specializations",
+        href: "/dashboard/additional-info/specializations",
+      },
+      {
+        title: "Doctor",
+        href: "/dashboard/additional-info/consulting",
+      },
+      {
+        title: "Client",
+        href: "/dashboard/additional-info/statistics",
+      },
+      {
+        title: "Profile",
+        href: "/dashboard/additional-info/profile",
+      },
+      {
+        title: "Nurse",
+        href: "/dashboard/additional-info/statistics",
+      },
+      {
+        title: "Pharmacy",
+        href: "/dashboard/additional-info/statistics",
+      },
+      {
+        title: "Doctor availability",
+        href: "/dashboard/additional-info/statistics",
+      },
+    ],
+  },
+  {
     title: "General Settings",
     href: "/dashboard/settings",
     icon: "settings",
@@ -241,8 +279,12 @@ export const navItems: NavItem[] = [
     subItems: true,
     children: [
       {
+        title: "Suggestions complaints",
+        href: "/dashboard/settings/suggestions-complaints",
+      },
+      {
         title: "About App",
-        href: "/dashboard/about-app",
+        href: "/dashboard/settings/about-app",
       },
       {
         title: "Contact Us",
@@ -254,7 +296,7 @@ export const navItems: NavItem[] = [
       },
       {
         title: "Terms and Conditions",
-        href: "/dashboard/terms-conditions",
+        href: "/dashboard/settings/terms-conditions",
       },
     ],
   },
