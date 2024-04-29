@@ -63,7 +63,7 @@ export default function AboutUsView({
   };
   return (
     <div style={{ padding: "40px" }} className=" mt-8">
-      <Heading title="Terms and conditions" />
+      <Heading title="About Us" />
       <form onSubmit={handleSubmit(onSubmit)} style={{ margin: "40px 0" }}>
         <div className="flex flex-col">
           <label className="mb-1">Arabic Description:</label>
