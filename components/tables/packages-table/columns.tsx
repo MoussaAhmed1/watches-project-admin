@@ -25,7 +25,7 @@ export const PackagesColumns: ColumnDef<IPackage>[] = [
   {
     accessorKey: "number_of_pharmacy_order",
     header: "Number Of Pharmacy Order",
-    cell: ({ row }) => row?.original?.expiration_days + " Orders"
+    cell: ({ row }) => row?.original?.number_of_pharmacy_order + " Orders"
   },
   {
     accessorKey: "description",
