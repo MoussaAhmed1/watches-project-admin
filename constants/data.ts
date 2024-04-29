@@ -283,8 +283,8 @@ export const navItems: NavItem[] = [
         href: "/dashboard/settings/Contacts",
       },
       {
-        title: "About App",
-        href: "/dashboard/settings/about-app",
+        title: "About Us",
+        href: "/dashboard/settings/about-us",
       },
       {
         title: "Contact Us",
@@ -292,7 +292,7 @@ export const navItems: NavItem[] = [
       },
       {
         title: "FAQ",
-        href: "/dashboard/faq",
+        href: "/dashboard/settings/faq",
       },
       {
         title: "Terms and Conditions",
