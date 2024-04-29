@@ -107,4 +107,12 @@ export const endpoints = {
   pharmacies: {
     fetch: "/pharmacy",
   },
+  generalSettings: {
+    root:"/static-page",
+    termsConditions: "/static-page/TERMS_AND_CONDITIONS",
+    aboutUs: "/static-page/ABOUT_US"
+  },
+  faq:{
+    fetch: "/faq"
+  }
 };
