@@ -220,8 +220,8 @@ export const navItems: NavItem[] = [
     subItems: false,
   },
   {
-    title: "Notificatins",
-    href: "/dashboard/notificatins",
+    title: "Notifications",
+    href: "/dashboard/notifications",
     icon: "notification",
     label: "kanban",
     subItems: false,
