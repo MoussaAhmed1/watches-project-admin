@@ -15,8 +15,8 @@ export default function DashboardLayout({
   return (
     <>
       <Header />
-      <div className="flex">
-        <div className="hidden xl:block min-w-[16.5%]">
+      <div className="flex min-h-screen">
+        <div className=" hidden xl:block min-w-[16.5%] border-r">
           <Sidebar />
         </div>
         <main className="mt-10 xl:min-w-[83.5%] w-full  top-10">
