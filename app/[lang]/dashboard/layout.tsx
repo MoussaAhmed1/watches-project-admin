@@ -16,7 +16,9 @@ export default function DashboardLayout({
     <>
       <Header />
       <div className="flex">
-        <Sidebar />
+        <div className="hidden xl:block min-w-[16.5%]">
+          <Sidebar />
+        </div>
         <main className="mt-10 xl:min-w-[83.5%] w-full  top-10">
           {children}
         </main>

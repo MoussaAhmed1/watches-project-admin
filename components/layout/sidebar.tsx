@@ -7,7 +7,7 @@ export default function Sidebar() {
   return (
     <nav
       className={cn(
-        `hidden h-screen overflow-auto overflow-x-hidden border-r pt-16 xl:block dark:bg-[#181D26] min-w-[16.5%]`,
+        `hidden h-full overflow-auto overflow-x-hidden border-r pt-16 xl:block dark:bg-[#181D26]`,
       )}
     >
       <div className="space-y-4 py-1">
