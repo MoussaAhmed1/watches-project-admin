@@ -57,7 +57,6 @@ export function SharedTable<TData, TValue>({
   pageCount,
   pageSizeOptions = [10, 20, 30, 40, 50],
 }: DataTableProps<TData, TValue>) {
-  console.log(data)
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -164,7 +163,7 @@ export function SharedTable<TData, TValue>({
   return (
     <>
       <SearchInput searchKey={searchKey} />
-      <ScrollArea className="rounded-md border min-h-[calc(60dvh)]">
+      <ScrollArea className="rounded-md border h-[calc(60.51dvh)] overflow-y-auto">
         <Table className="relative">
           <TableHeader className="bg-zinc-200 dark:bg-[#181D26]" style={{ fontWeight: "700 !important", lineHeight: '1.5rem !important', padding: "16px !important" }}>
             {table.getHeaderGroups().map((headerGroup) => (

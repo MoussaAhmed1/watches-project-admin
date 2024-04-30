@@ -47,7 +47,8 @@ import {
 Radio,
 Inbox,
 Cross,
-Stethoscope 
+Stethoscope,
+Mail  
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -100,6 +101,7 @@ export const Icons = {
   inbox:Inbox,
   care:Cross,
   stethoscope:Stethoscope ,
+  messages:Mail ,
 
   gitHub: ({ ...props }: LucideProps) => (
     <svg

@@ -3,23 +3,34 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 import { IDoctor } from "@/types/doctors";
-import { Star } from "lucide-react";
+import { CheckCircle, CircleSlash, Star } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { PharmacyOrder } from "@/types/pharmacy-order";
+import { formatCreatedAtDate } from "@/utils/helperFunctions";
 
- const columns: ColumnDef<PharmacyOrder>[] = [
+const columns: ColumnDef<PharmacyOrder>[] = [
+  {
+    accessorKey: "number",
+    header: "Number",
+    cell: ({ row }) => (
+      <div className="stars flex">
+        {row?.original?.number}
+
+      </div>
+    ),
+  },
 
   {
-    accessorKey: "logo",
-    header: "Logo",
+    accessorKey: "client",
+    header: "Client",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <Avatar className="h-8 w-8">
         <AvatarImage
           src={row?.original?.user?.avatar ?? ""}
           alt={row?.original?.user?.name ?? ""}
         />
-        <AvatarFallback>{row?.original?.user?.name}</AvatarFallback>
+        <AvatarFallback>{row?.original?.user?.name[0]}</AvatarFallback>
       </Avatar>
       <p className="hidden text-black dark:text-white sm:block">
         {row?.original?.user?.name}
@@ -27,13 +38,13 @@ import { PharmacyOrder } from "@/types/pharmacy-order";
     </div>
   },
   {
-    accessorKey: "name",
-    header: "Name",
+    accessorKey: "has_replied",
+    header: "Has replied",
     cell: ({ row }) => (
-      <div className="stars flex">
-       {row?.original?.user?.name}
-       
-      </div>
+      <p
+      >
+        {row?.original?.has_replied ? <CheckCircle stroke="#39a845" size={18} /> : <CircleSlash style={{ color: '#8C0101' }} size={18} />}
+      </p>
     ),
   },
   {
@@ -41,34 +52,12 @@ import { PharmacyOrder } from "@/types/pharmacy-order";
     header: "Created time",
     cell: ({ row }) => (
       <div className="stars flex">
-       {row?.original?.created_at}
-       
-      </div>
-    ),
-  },
-  
-  {
-    accessorKey: "number",
-    header: "Number",
-    cell: ({ row }) => (
-      <div className="stars flex">
-       {row?.original?.number}
-       
-      </div>
-    ),
-  },
-  {
-    accessorKey: "has_replied",
-    header: "Has replied",
-    cell: ({ row }) => (
-      <div className="stars flex">
-       {row?.original?.has_replied ? "Yes" : "No"}
-       
+        {formatCreatedAtDate(row?.original?.created_at)}
       </div>
     ),
   },
 
- 
+
   {
     id: "actions",
     cell: ({ row }) => <CellAction data={row.original} />,

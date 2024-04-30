@@ -28,10 +28,6 @@ export const PatientsColumns: ColumnDef<IPatient>[] = [
     </div>
   },
   {
-    accessorKey: "email",
-    header: "Email",
-  },
-  {
     accessorKey: "username",
     header: "Username",
   },
@@ -42,6 +38,10 @@ export const PatientsColumns: ColumnDef<IPatient>[] = [
   {
     accessorKey: "gender",
     header: "Gender",
+  },
+  {
+    accessorKey: "birth_date",
+    header: "Birthdate",
   },
   {
     id: "actions",

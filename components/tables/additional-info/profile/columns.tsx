@@ -55,11 +55,6 @@ const columns: ColumnDef<AdditionalInfoProfile>[] = [
     ),
   },
   {
-    accessorKey: "email",
-    header: "Email",
-    cell: ({ row }) => <div className="stars flex">{row?.original?.email}</div>,
-  },
-  {
     accessorKey: "gender",
     header: "Gender",
     cell: ({ row }) => (

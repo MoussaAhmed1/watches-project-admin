@@ -39,7 +39,7 @@ function useCostomSearchParams(props?: IProps) {
   const removeProduct_id = useCallback(() => {
     router.replace(`${pathname}?${createQueryString("product_id", "")}`);
   }, [createQueryString, pathname, router]);
-  return { closeLink, link,createQueryString,pathname,router,setQuery,removeProduct_id };
+  return { closeLink, link,createQueryString,pathname,router,setQuery,removeProduct_id,searchParams };
 }
 
 export default useCostomSearchParams;

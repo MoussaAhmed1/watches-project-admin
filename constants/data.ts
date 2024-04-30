@@ -220,56 +220,56 @@ export const navItems: NavItem[] = [
     subItems: false,
   },
   {
-    title: "Contacts",
-    href: "/dashboard/contacts",
-    icon: "contacts",
-    label: "kanban",
-    subItems: false,
-  },
-  {
-    title: "Notificatins",
-    href: "/dashboard/notificatins",
+    title: "Notifications",
+    href: "/dashboard/notifications",
     icon: "notification",
     label: "kanban",
     subItems: false,
   },
-  {
-    title: "Additional info ",
-    href: "/dashboard/user",
-    icon: "doctors",
-    label: "user",
-    subItems: true,
+  // {
+  //   title: "Additional info ",
+  //   href: "/dashboard/user",
+  //   icon: "doctors",
+  //   label: "user",
+  //   subItems: true,
 
-    children: [
-      {
-        title: "Specializations",
-        href: "/dashboard/additional-info/specializations",
-      },
-      {
-        title: "Doctor",
-        href: "/dashboard/additional-info/consulting",
-      },
-      {
-        title: "Client",
-        href: "/dashboard/additional-info/statistics",
-      },
-      {
-        title: "Profile",
-        href: "/dashboard/additional-info/profile",
-      },
-      {
-        title: "Nurse",
-        href: "/dashboard/additional-info/statistics",
-      },
-      {
-        title: "Pharmacy",
-        href: "/dashboard/additional-info/statistics",
-      },
-      {
-        title: "Doctor availability",
-        href: "/dashboard/additional-info/statistics",
-      },
-    ],
+  //   children: [
+  //     {
+  //       title: "Specializations",
+  //       href: "/dashboard/data-management/specializations",
+  //     },
+  //     {
+  //       title: "Doctor",
+  //       href: "/dashboard/additional-info/consulting",
+  //     },
+  //     {
+  //       title: "Client",
+  //       href: "/dashboard/additional-info/statistics",
+  //     },
+  //     {
+  //       title: "Profile",
+  //       href: "/dashboard/additional-info/profile",
+  //     },
+  //     {
+  //       title: "Nurse",
+  //       href: "/dashboard/additional-info/statistics",
+  //     },
+  //     {
+  //       title: "Pharmacy",
+  //       href: "/dashboard/additional-info/statistics",
+  //     },
+  //     {
+  //       title: "Doctor availability",
+  //       href: "/dashboard/additional-info/statistics",
+  //     },
+  //   ],
+  // },
+  {
+    title: "Messages",
+    href: "/dashboard/settings/messages",
+    icon: "messages",
+    label: "kanban",
+    subItems: false,
   },
   {
     title: "General Settings",
@@ -279,7 +279,7 @@ export const navItems: NavItem[] = [
     subItems: true,
     children: [
       {
-        title: "Contacts",
+        title: "Contact us",
         href: "/dashboard/settings/Contacts",
       },
       {
@@ -313,11 +313,11 @@ export const navItems: NavItem[] = [
       },
       {
         title: "Doctor Specialiations",
-        href: "/dashboard/terms-conditions",
+        href: "/dashboard/data-management/specializations",
       },
       {
         title: "Pharmacy Categories",
-        href: "/dashboard/terms-conditions",
+        href: "/dashboard/data-management/pharmacy-categories",
       },
       {
         title: "Pharmacy Products",

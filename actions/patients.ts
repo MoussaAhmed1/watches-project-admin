@@ -15,7 +15,8 @@ export const fetchPatients = async ({
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,
-}: Params): Promise<any> => {
+  role='client'
+}: Params & {role?:string}): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get('access_token')?.value;
   try {
@@ -23,7 +24,7 @@ export const fetchPatients = async ({
       params: {
         page,
         limit,
-        filters: filters ? [`name_en=${filters}`, `name_ar=${filters}`,`roles=client`] : [`roles=client`],
+        filters: filters ? [`name_en=${filters}`, `name_ar=${filters}`,`roles=${role}`] : [`roles=${role}`],
         sortBy: "created_at=desc",
       },
       headers: {

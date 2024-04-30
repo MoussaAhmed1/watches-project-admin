@@ -7,11 +7,11 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import columns from "@/components/tables/settings/columns";
-import { fetchSuggestions } from "@/actions/suggestions";
-import { SuggestionsComplaints } from "@/types/suggestions-complaints";
+import columns from "@/components/tables/additional-info/specializations/columns";
+import { fetchAdditionalSpecializations } from "@/actions/additional-info-specializations";
+import { AdditionalSpecializations } from "@/types/additional-info-specializations";
 
-const breadcrumbItems = [{ title: "Pharmacy", link: "/dashboard/pharmacy" }];
+const breadcrumbItems = [{ title: "Specializations", link: "/dashboard/data-management/specializations" }];
 
 type paramsProps = {
   searchParams: {
@@ -24,20 +24,24 @@ export default async function page({ searchParams }: paramsProps) {
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
     typeof searchParams?.search === "string" ? searchParams?.search : "";
-  const res = await fetchSuggestions();
-  const totalSuggestions = res?.data?.meta?.total || 0; //1000
-  const pageCount = Math.ceil(totalSuggestions / limit);
-  const suggestions: SuggestionsComplaints[] = res?.data?.data || [];
+  const res = await fetchAdditionalSpecializations({
+    page,
+    limit,
+    filters: search,
+  });
+  const totalSpecializations = res?.data?.meta?.total ||  0; //1000
+  const pageCount = Math.ceil(totalSpecializations / limit);
+  const specializations: AdditionalSpecializations[] = res?.data?.data || [];
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
         <BreadCrumb items={breadcrumbItems} />
 
         <div className="flex items-start justify-between">
-          <Heading title={`Suggestions and complaints (${totalSuggestions})`} />
+          <Heading title={`Doctor Specialiations(${totalSpecializations})`} />
 
           <Link
-            href={"/dashboard/suggestions-complaints/new"}
+            href={"/dashboard/additional-info/specializations/new"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New
@@ -46,11 +50,11 @@ export default async function page({ searchParams }: paramsProps) {
         <Separator />
 
         <SharedTable
-          searchKey="Suggestions & Complaints"
+          searchKey="Additional info / Specializations"
           pageNo={page}
           columns={columns}
-          totalitems={totalSuggestions}
-          data={suggestions as unknown as SuggestionsComplaints[]}
+          totalitems={totalSpecializations}
+          data={specializations as unknown as AdditionalSpecializations[]}
           pageCount={pageCount}
         />
       </div>
