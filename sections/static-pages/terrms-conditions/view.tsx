@@ -6,6 +6,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import BreadCrumb from "@/components/breadcrumb";
+import { Card } from "@/components/ui/card";
 
 export default function TermsConditionsView({
   description,
@@ -43,7 +45,7 @@ export default function TermsConditionsView({
       });
     } catch (err) {
       toast({
-        variant: "default",
+        variant: "destructive",
         title: "Terms and Conditions update failed",
         description: "There was a problem with your request.",
       });
@@ -53,7 +55,7 @@ export default function TermsConditionsView({
   const buttonStyle = {
     padding: "0.5rem 1rem",
     borderRadius: "0.25rem",
-    backgroundColor: isLoading ? "#ccc" : "#2563EB",
+    backgroundColor: isLoading ? "#ccc" : "",
     color: "#fff",
     cursor: "pointer",
     border: "none",
@@ -61,8 +63,15 @@ export default function TermsConditionsView({
     transition: "background-color 0.3s",
     width: "100px",
   };
+  const breadcrumbItems = [
+    { title: "Terms and Conditions", link: "/dashboard/settings/terms-conditions" },
+  ];
+
   return (
-    <div style={{ padding: "40px" }} className=" mt-8">
+    <Card style={{padding: "40px" ,margin: "0",border: "none", boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >
+
+    <div  className=" mt-8">
+        <BreadCrumb items={breadcrumbItems} />
       <Heading title="Terms and conditions" />
       <form onSubmit={handleSubmit(onSubmit)} style={{ margin: "40px 0" }}>
         <div className="flex flex-col">
@@ -71,7 +80,9 @@ export default function TermsConditionsView({
             {...register("description_ar", { required: true })}
             onChange={(e) => setValue("description_ar", e.target.value)}
             className="border border-gray-300 rounded-md p-2"
-            style={{ height: "250px", direction: "rtl" }}
+            style={{ direction: "rtl" }}
+            rows={6}
+
           />
           {errors.description_ar && (
             <span style={{ color: "red" }}>Arabic description is required</span>
@@ -83,7 +94,8 @@ export default function TermsConditionsView({
             {...register("description_en", { required: true })}
             onChange={(e) => setValue("description_en", e.target.value)}
             className="border border-gray-300 rounded-md p-2"
-            style={{ height: "250px" }}
+            rows={6}
+
           />
           {errors.description_en && (
             <span style={{ color: "red" }}>
@@ -96,5 +108,6 @@ export default function TermsConditionsView({
         </button>
       </form>
     </div>
+    </Card>
   );
 }
