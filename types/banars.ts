@@ -1,7 +1,7 @@
 export interface IBanar {
   id: string;
-  banar: string | File;
-  started_at: Date;
-  ended_at: Date;
+  banar: string ;
+  started_at:  string;
+  ended_at: string;
   is_active: boolean;
 }
