@@ -54,9 +54,7 @@ export const fetchSingleDoctor = async (doctorId : string): Promise<any> => {
     return res;
   } catch (error: any) {
     throw new Error(error);
-    return {
-      error: getErrorMessage(error),
-    };
+
   }
 };
 

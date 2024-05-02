@@ -13,7 +13,6 @@ import axiosInstance, {
 import { ITEMS_PER_PAGE } from "./Global-variables";
 
 export const fetchPharmacies = async ({
-
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,
@@ -39,5 +38,21 @@ export const fetchPharmacies = async ({
   }
 };
 
-
-
+export const fetchSinglePharmacy = async (pharmacyId: string): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+  try {
+    const res = await axiosInstance(
+      `${endpoints.pharmacies.fetch}/${pharmacyId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Accept-Language": lang,
+        },
+      },
+    );
+    return res;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
