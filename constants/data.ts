@@ -280,15 +280,11 @@ export const navItems: NavItem[] = [
     children: [
       {
         title: "Contact us",
-        href: "/dashboard/settings/Contacts",
+        href: "/dashboard/settings/contact-us",
       },
       {
         title: "About Us",
         href: "/dashboard/settings/about-us",
-      },
-      {
-        title: "Contact Us",
-        href: "/dashboard/about-app",
       },
       {
         title: "FAQ",
