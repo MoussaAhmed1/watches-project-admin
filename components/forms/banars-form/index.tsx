@@ -94,42 +94,34 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar }) => {
     }
   };
   return (
-    <Card className="p-10 mx-0 border-0">
+    <Card
+      className="p-10 mx-0 border-0"
+      style={{
+        boxShadow:
+          "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px",
+      }}
+    >
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
-          <div className="md:grid md:grid-cols-1 gap-8">
-            <FormItem style={{ display: "flex", alignItems: "center" }}>
-              <FormLabel style={{ marginRight: "70px" }}>
-                Banar status
-              </FormLabel>
-              <FormControl>
-                <Switch
-                  checked={form.watch("banar.is_active")}
-                  onClick={() => handleChange(!form.watch("banar.is_active"))}
-                  name="banar.is_active"
+          <div className=" md:grid md:grid-cols-1 gap-8">
+            {selectedBanar && (
+              <div style={{ width: "100%", height: "250px",overflow:"hidden" }}>
+                <Image
+                  src={selectedBanar}
+                  alt="Selected Banar"
+                  width={1000}
+                  height={1000}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: "10px",
+                  }}
                 />
-              </FormControl>
-              <FormMessage>
-                {form.formState.errors?.banar?.is_active?.message}
-              </FormMessage>
-            </FormItem>
-
-            <FormItem style={{ marginTop: "30px" }}>
-              <FormLabel>Banar date from - to</FormLabel>
-              <FormControl>
-                <CalendarDateRangePicker returnDate={returnDate} />
-              </FormControl>
-              <FormMessage>
-                {form.formState.errors?.banar?.started_at?.message}
-              </FormMessage>
-              <FormMessage>
-                {form.formState.errors?.banar?.ended_at?.message}
-              </FormMessage>
-            </FormItem>
-
+              </div>
+            )}
             <FormItem
               style={{
                 margin: "30px 0",
@@ -153,17 +145,33 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar }) => {
                   ? "Banar file is required"
                   : ""}
               </FormMessage>
-
-              {selectedBanar && (
-                <div style={{ width: "200px", height: "200px" }}>
-                  <Image
-                    src={selectedBanar}
-                    alt="Selected Banar"
-                    width={1000}
-                    height={1000}
-                  />
-                </div>
-              )}
+            </FormItem>
+            <FormItem style={{ marginBottom: "30px" }}>
+              <FormLabel>Banar date from - to</FormLabel>
+              <FormControl>
+                <CalendarDateRangePicker returnDate={returnDate} />
+              </FormControl>
+              <FormMessage>
+                {form.formState.errors?.banar?.started_at?.message}
+              </FormMessage>
+              <FormMessage>
+                {form.formState.errors?.banar?.ended_at?.message}
+              </FormMessage>
+            </FormItem>
+            <FormItem style={{ display: "flex", alignItems: "center" }}>
+              <FormLabel style={{ marginRight: "70px" }}>
+                Banar status
+              </FormLabel>
+              <FormControl>
+                <Switch
+                  checked={form.watch("banar.is_active")}
+                  onClick={() => handleChange(!form.watch("banar.is_active"))}
+                  name="banar.is_active"
+                />
+              </FormControl>
+              <FormMessage>
+                {form.formState.errors?.banar?.is_active?.message}
+              </FormMessage>
             </FormItem>
           </div>
 
