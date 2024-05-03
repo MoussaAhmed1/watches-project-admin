@@ -163,14 +163,14 @@ export function SharedTable<TData, TValue>({
   return (
     <>
       <SearchInput searchKey={searchKey} />
-      <ScrollArea className="rounded-md border h-[calc(60.51dvh)] overflow-y-auto">
+      <ScrollArea className="border h-[calc(60.51dvh)] overflow-y-auto">
         <Table className="relative">
-          <TableHeader className="bg-zinc-200 dark:bg-[#181D26]" style={{ fontWeight: "700 !important", lineHeight: '1.5rem !important', padding: "16px !important" }}>
+          <TableHeader className="bg-zinc-200 dark:bg-[#181D26]" style={{ fontWeight: "700 !important", lineHeight: '1.5rem !important', }}>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} >
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="dark:text-white" style={{ whiteSpace: "nowrap", textAlign: columns?.length < MaxCenteredColumn? "start":"center", margin: "0 5px" }} >
+                    <TableHead  key={header.id} className="dark:text-white p-3" style={{ whiteSpace: "nowrap", textAlign: columns?.length < MaxCenteredColumn? "start":"center", margin: "0 5px" }} >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
