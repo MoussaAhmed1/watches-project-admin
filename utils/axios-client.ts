@@ -5,6 +5,7 @@ export interface Params {
   limit: number;
   status?: string;
   filters?: string;
+  otherfilters?: string[];
   created_at?: string;
   headers?: { access_token: string };
 }

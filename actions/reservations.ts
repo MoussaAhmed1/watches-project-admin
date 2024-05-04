@@ -16,15 +16,17 @@ export const fetchReservations = async ({
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,
+  otherfilters
 }: Params): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get('access_token')?.value;
+  const spreadotherfilters:string = otherfilters? otherfilters.toString() : "";
   try {
     const res = await axiosInstance(endpoints.reservations.fetch, {
       params: {
         page,
         limit,
-        filters: filters ? [`name_en=${filters}`, `name_ar=${filters}`] : null,
+        filters: filters ? [`name_en=${filters}`, `name_ar=${filters}`,spreadotherfilters] : spreadotherfilters ? [spreadotherfilters]:null,
         sortBy: "created_at=desc",
       },
       headers: {
@@ -37,5 +39,22 @@ export const fetchReservations = async ({
     return {
       error: getErrorMessage(error),
     };
+  }
+};
+
+export const fetchSingleReservation = async (id : string): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+  try {
+    const res = await axiosInstance(`${endpoints.reservations.fetch}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+    return res;
+  } catch (error: any) {
+    throw new Error(error);
+
   }
 };

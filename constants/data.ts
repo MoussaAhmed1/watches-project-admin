@@ -199,11 +199,11 @@ export const navItems: NavItem[] = [
     children: [
       {
         title: "Reservations",
-        href: "/dashboard/reservations",
+        href: "/dashboard/cancel-requests/reservations",
       },
       {
         title: "Nurse Orders",
-        href: "/dashboard/nurse-orders",
+        href: "/dashboard/cancel-requests/nurse-orders",
       },
     ],
   },
@@ -317,7 +317,7 @@ export const navItems: NavItem[] = [
       },
       {
         title: "Pharmacy Products",
-        href: "/dashboard/terms-conditions",
+        href: "/dashboard/pharmacy/drugs",
       },
     ],
   },

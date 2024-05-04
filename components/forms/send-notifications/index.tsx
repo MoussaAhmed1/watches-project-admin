@@ -23,16 +23,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { BellRing, Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFormContext } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../ui/use-toast";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea"
 import useCostomSearchParams from "@/hooks/use-searchParams";
-import { IDoctor } from "@/types/doctors";
 import { IPatient } from "@/types/patients";
-import { INurse } from "@/types/nurse";
-import { IPharmacy } from "@/types/pharmacy";
 
 const formSchema = z.object({
   title_en: z
@@ -59,7 +56,7 @@ const formSchema = z.object({
 export type NotificationFormValues = z.infer<typeof formSchema>;
 
 interface NotificationFormProps {
-  users: IDoctor[] | IPatient[] | INurse[] | IPharmacy[]
+  users:  IPatient[] 
 }
 
 export const NotificationForm: React.FC<NotificationFormProps> = ({
@@ -73,7 +70,8 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
   const toastMessage = "Notification Sent.";
   const action = "Send";
   const { createQueryString, pathname,searchParams } = useCostomSearchParams();
-
+  
+  // const { getValues } = useFormContext();
   const defaultValues = {
     title_en: "",
     title_ar: "",
@@ -110,8 +108,9 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
     //   setLoading(false);
     // }
   };
-
-
+  const {
+    setValue,
+  } = form;
 
 
   return (
@@ -204,7 +203,8 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
                   <FormLabel>Role</FormLabel>
                   <Select onValueChange={(e: any) => {
                     router.replace(`${pathname}?${createQueryString("role", e)}`, { scroll: false });
-                    field.onChange(e)
+                    field.onChange(e);
+                    setValue("specific_person", undefined, { shouldValidate: false })
                   }} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
@@ -235,6 +235,7 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
+                    <SelectItem value="">-</SelectItem>
                       {users?.length && users?.map((item:any) => {
                         return <SelectItem value={item?.id} key={item?.id}>{(item?.first_name + " " + item?.last_name)}</SelectItem>
                       })

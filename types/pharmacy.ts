@@ -23,6 +23,11 @@ export interface IPharmacy {
     id: string
     name: string
   }
+  export interface Drug {
+    id: string
+    category_id: string
+    name: string
+  }
   
   export interface Attachment {
     id: string
