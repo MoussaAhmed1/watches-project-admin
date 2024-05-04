@@ -235,7 +235,7 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                    <SelectItem value="">All</SelectItem>
+                    <SelectItem value="">-</SelectItem>
                       {users?.length && users?.map((item:any) => {
                         return <SelectItem value={item?.id} key={item?.id}>{(item?.first_name + " " + item?.last_name)}</SelectItem>
                       })

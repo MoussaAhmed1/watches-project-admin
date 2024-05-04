@@ -26,7 +26,7 @@ const page = async ({ params }: { params: { doctorId: string } }) => {
       <div className="mx-auto w-full mt-8 bg-background">
         <BreadCrumb items={breadcrumbItems} customStyle="ml-4" />
         <Heading
-            title={`Doctors Details`}
+            title={`Doctor Details`}
             customStyle="ml-4"
           />
         <div className="w-full mx-auto p-4 ">

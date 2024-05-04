@@ -57,10 +57,13 @@ export function shortenText(text: string): string {
 
 export function formatCreatedAtDate(created_at: string): string {
  return getLocalTime(created_at).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-  })
+  year: "numeric",
+  month: "numeric",
+  day: "numeric",
+})
+}
+export function formatCreatedAtDateAsDateTime(created_at: string): string {
+ return parseToLocal(created_at,true)
 }
 
 
