@@ -8,6 +8,7 @@ interface AlertModalProps {
   onClose: () => void;
   onConfirm: () => void;
   loading: boolean;
+  message?:string;
 }
 
 export const AlertModal: React.FC<AlertModalProps> = ({
@@ -15,6 +16,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   onClose,
   onConfirm,
   loading,
+  message,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 

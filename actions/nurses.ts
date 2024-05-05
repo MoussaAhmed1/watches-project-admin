@@ -17,15 +17,17 @@ export const fetchNurses = async ({
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,
+  otherfilters
 }: Params): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
+  const spreadotherfilters:string = otherfilters? otherfilters.toString() : "";
   try {
     const res = await axiosInstance(endpoints.nurses.fetch, {
       params: {
         page,
         limit,
-        filters: filters ? [`name_en=${filters}`, `name_ar=${filters}`] : null,
+        filters:  filters ? [`name=${filters}`,`name_en=${filters}`, `name_ar=${filters}`,spreadotherfilters] : spreadotherfilters ? [spreadotherfilters]:null,
         sortBy: "created_at=desc",
       },
       headers: {

@@ -28,6 +28,7 @@ export default async function page({ searchParams }: paramsProps) {
     page,
     limit,
     filters: search,
+    otherfilters:["is_verified=1"]
   });
   const totalNurses = res?.data?.meta?.total ||0; //1000
   const pageCount = Math.ceil(totalNurses / limit);

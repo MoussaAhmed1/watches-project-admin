@@ -40,8 +40,8 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
                     src={logo.image}
                     alt={pharmacy?.ph_name}
                     className="w-32 h-32 rounded-full"
-                    width={1000}
-                    height={1000}
+                    width={500}
+                    height={500}
                   />
                 ))}
                 <div className="ml-4">
@@ -76,37 +76,30 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
                 </ul>
               </div>
               <div className="p-4 border-t border-gray-200">
-                <h2 className="text-xl font-bold">Attachments</h2>
-                <div className="flex items-center py-4">
-                  {pharmacy?.attachments.map((attachment) => (
-                    <div
-                      key={attachment.id}
-                      className="w-1/4 mx-2 flex justify-center items-center flex-col"
-                    >
+                <h2 className="text-xl font-bold">Logo</h2>
+                <div className="flex items-center py-1">
+                  {pharmacy?.logo.map((logo) => (
+                    <div key={logo.id} className="w-1/4 mx-2">
                       <Image
-                        src={attachment.file}
-                        alt={attachment?.file}
-                        width={500}
-                        height={500}
-                        className="w-1/5 h-48"
+                        src={logo.image}
+                        alt={logo?.image}
+                        width={1000}
+                        height={1000}
                       />
-                      <div>
-                        <span>Type: {attachment?.type}</span>
-                      </div>
                     </div>
                   ))}
                 </div>
               </div>
               <div className="p-4 border-t border-gray-200">
                 <h2 className="text-xl font-bold">Licenses</h2>
-                <div className="flex items-center py-4">
+                <div className="flex items-center py-2">
                   {pharmacy?.license.map((license) => (
                     <div key={license.id} className="w-1/4 mx-2">
                       <Image
                         src={license.mage}
                         alt={license?.mage}
-                        width={1000}
-                        height={1000}
+                        width={500}
+                        height={500}
                       />
                     </div>
                   ))}

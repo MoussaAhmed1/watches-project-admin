@@ -6,11 +6,11 @@ import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
 
 interface IProps {
-
+    title: string
 
 }
 
-function Cancel({ }: IProps) {
+function Approve({ title }: IProps) {
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const { toast } = useToast();
@@ -46,6 +46,7 @@ function Cancel({ }: IProps) {
                 onClose={() => setOpen(false)}
                 onConfirm={onConfirm}
                 loading={loading}
+                
             />
             <Button
                 disabled={loading}
@@ -53,10 +54,10 @@ function Cancel({ }: IProps) {
                 size="lg"
                 onClick={() => setOpen(true)}
             >
-              Approve Cancel
+                {title}
             </Button>
         </>
     )
 }
 
-export default Cancel
+export default Approve

@@ -9,7 +9,7 @@ import { Card } from "@/components/ui/card";
 import DoctorInfoCard from "@/components/details/reservation-details/DoctorInfo";
 import ClientInfoCard from "@/components/details/reservation-details/UserInfo";
 import { CheckCircle, CircleSlash } from "lucide-react";
-import Cancel from "@/components/details/reservation-details/Cancel";
+import Approve from "@/components/details/role-details/Approve";
 export const metadata: Metadata = {
   title: "Next.js Profile | TailAdmin - Next.js Dashboard Template",
   description:
@@ -91,7 +91,7 @@ const page = async ({ params }: { params: { id: string } }) => {
           </div>
           {reservation?.cancel_request &&
             <div className="px-3">
-              <Cancel />
+              <Approve title="Approve Cancel" />
             </div>
           }
 
@@ -185,11 +185,10 @@ const page = async ({ params }: { params: { id: string } }) => {
                 <div className="flex flex-col justify-start items-start xl:w-fit w-full space-y-4 md:space-y-6 xl:space-y-9">
 
                   <DoctorInfoCard doctor={reservation?.doctor} />
-                  <ClientInfoCard client={reservation?.client_info} />
                   {reservation?.family_member &&
-
                     <ClientInfoCard client={reservation?.family_member} familyMember={true} />
                   }
+                  <ClientInfoCard client={reservation?.client_info} />
                 </div>
               </div>
             </div>

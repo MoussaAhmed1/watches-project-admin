@@ -7,6 +7,7 @@ import { ISingleDoctor } from "@/types/doctors";
 import doctorImage from "../../../../../public/assets/doctor.avif";
 import { Star } from "lucide-react";
 import { Heading } from "@/components/ui/heading";
+import Approve from "@/components/details/role-details/Approve";
 export const metadata: Metadata = {
   title: "Next.js Profile | TailAdmin - Next.js Dashboard Template",
   description:
@@ -25,10 +26,15 @@ const page = async ({ params }: { params: { doctorId: string } }) => {
     <>
       <div className="mx-auto w-full mt-8 bg-background">
         <BreadCrumb items={breadcrumbItems} customStyle="ml-4" />
-        <Heading
+        <div className="flex flex-col md:flex-row gap-1 items-center justify-between">
+          <Heading
             title={`Doctor Details`}
             customStyle="ml-4"
           />
+          <div className="px-4">
+            <Approve title="Approve Cancel" />
+          </div>
+        </div>
         <div className="w-full mx-auto p-4 ">
           <div className="bg-background shadow-md rounded-lg overflow-hidden border min-h-[77dvh] border-gray-400">
             <div className="flex items-center justify-start p-4 bg-[#3c50e0] text-white">

@@ -12,7 +12,7 @@ import { IDoctor } from "@/types/doctors";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
-const breadcrumbItems = [{ title: "Doctors", link: "/dashboard/doctors" }];
+const breadcrumbItems = [{ title: "Doctors Requests", link: "/dashboard/doctors" }];
 
 type paramsProps = {
   searchParams: {
@@ -29,7 +29,7 @@ export default async function page({ searchParams }: paramsProps) {
     page,
     limit,
     filters: search,
-    otherfilters:["is_verified=1"]
+    otherfilters:["is_verified=0"]
   });
   const totalDoctors = res?.data?.meta?.total ||0; //1000
   const pageCount = Math.ceil(totalDoctors / limit);
@@ -41,15 +41,8 @@ export default async function page({ searchParams }: paramsProps) {
 
         <div className="flex items-start justify-between">
           <Heading
-            title={`Doctors (${totalDoctors})`}
+            title={`Doctors Requests (${totalDoctors})`}
           />
-
-          <Link
-            href={"/dashboard/doctors/new"}
-            className={cn(buttonVariants({ variant: "default" }))}
-          >
-            <Plus className="mr-2 h-4 w-4" /> Add New
-          </Link>
         </div>
         <Separator />
 
