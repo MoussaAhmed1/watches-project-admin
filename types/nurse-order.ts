@@ -1,4 +1,4 @@
-import { INurse } from "./nurse"
+import { INurse } from "./nurses"
 
 export interface INurseOrder {
     id: string

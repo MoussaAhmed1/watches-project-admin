@@ -156,15 +156,15 @@ export const navItems: NavItem[] = [
     children: [
       {
         title: "Doctors",
-        href: "/dashboard/doctors",
+        href: "/dashboard/verification-requests/doctors",
       },
       {
         title: "Pharmacies",
-        href: "/dashboard/pharmacies",
+        href: "/dashboard/verification-requests/pharmacies",
       },
       {
         title: "Nurses",
-        href: "/dashboard/nurses",
+        href: "/dashboard/verification-requests/nurses",
       },
     ],
   },

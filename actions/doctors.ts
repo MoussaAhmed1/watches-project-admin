@@ -17,15 +17,17 @@ export const fetchDoctors = async ({
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,
+  otherfilters
 }: Params): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
+  const spreadotherfilters:string = otherfilters? otherfilters.toString() : "";
   try {
     const res = await axiosInstance(endpoints.doctors.fetch, {
       params: {
         page,
         limit,
-        filters: filters ? [`name_en=${filters}`, `name_ar=${filters}`] : null,
+        filters: filters ? [`name=${filters}`,`name_en=${filters}`, `name_ar=${filters}`,spreadotherfilters] : spreadotherfilters ? [spreadotherfilters]:null,
         sortBy: "created_at=desc",
       },
       headers: {
@@ -58,5 +60,25 @@ export const fetchSingleDoctor = async (doctorId : string): Promise<any> => {
   }
 };
 
-
+export const AcceptDoctorRequest = async (id:string): Promise<any> => {
+  const accessToken = cookies().get("access_token")?.value;
+  const lang = cookies().get("Language")?.value;
+  try {
+     await axiosInstance.post(
+      `${endpoints.doctors.accept}/${id}`,
+      {id},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Accept-Language": lang,
+        },
+      },
+    );
+    revalidatePath(`/dashboard/doctors/${id}`);
+  } catch (error: any) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
 

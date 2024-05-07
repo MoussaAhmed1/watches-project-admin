@@ -1,18 +1,17 @@
 import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
-import { fetchDoctors } from "@/actions/doctors";
+import { fetchNurses } from "@/actions/nurses";
 import BreadCrumb from "@/components/breadcrumb";
-import { columns } from "@/components/tables/doctors-tables/columns";
+import { NursesColumns } from "@/components/tables/nurses-tables/columns";
 import { SharedTable } from "@/components/tables/shared/Shared-table";
 import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { Employee } from "@/constants/data";
 import { cn } from "@/lib/utils";
-import { IDoctor } from "@/types/doctors";
+import { INurse } from "@/types/nurses";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
-const breadcrumbItems = [{ title: "Doctors", link: "/dashboard/doctors" }];
+const breadcrumbItems = [{ title: "Nurses Requests", link: "/dashboard/nurses" }];
 
 type paramsProps = {
   searchParams: {
@@ -25,15 +24,15 @@ export default async function page({ searchParams }: paramsProps) {
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
   typeof searchParams?.search === "string" ? searchParams?.search : "";
-  const res = await fetchDoctors({
+  const res = await fetchNurses({
     page,
     limit,
     filters: search,
-    otherfilters:["is_verified=1"]
+    otherfilters:["is_verified=0"]
   });
-  const totalDoctors = res?.data?.meta?.total ||0; //1000
-  const pageCount = Math.ceil(totalDoctors / limit);
-  const doctors: Employee[] = res?.data?.data || [] ;
+  const totalNurses = res?.data?.meta?.total ||0; //1000
+  const pageCount = Math.ceil(totalNurses / limit);
+  const nurses: INurse[] = res?.data?.data || [] ;
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
@@ -41,24 +40,17 @@ export default async function page({ searchParams }: paramsProps) {
 
         <div className="flex items-start justify-between">
           <Heading
-            title={`Doctors (${totalDoctors})`}
+            title={`Nurses Requests (${totalNurses})`}
           />
-
-          <Link
-            href={"/dashboard/doctors/new"}
-            className={cn(buttonVariants({ variant: "default" }))}
-          >
-            <Plus className="mr-2 h-4 w-4" /> Add New
-          </Link>
         </div>
         <Separator />
 
         <SharedTable
-          searchKey="doctors"
+          searchKey="nurses"
           pageNo={page}
-          columns={columns}
-          totalitems={totalDoctors}
-          data={doctors as unknown as IDoctor[] }
+          columns={NursesColumns}
+          totalitems={totalNurses}
+          data={nurses as unknown as INurse[] }
           pageCount={pageCount}
         />
       </div>

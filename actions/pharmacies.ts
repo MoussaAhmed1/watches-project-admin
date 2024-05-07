@@ -16,15 +16,17 @@ export const fetchPharmacies = async ({
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,
+  otherfilters
 }: Params): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
+  const spreadotherfilters:string = otherfilters? otherfilters.toString() : "";
   try {
     const res = await axiosInstance(endpoints.pharmacies.fetch, {
       params: {
         page,
         limit,
-        filters: filters ? [`name_en=${filters}`, `name_ar=${filters}`] : null,
+        filters:  filters ? [`name_en=${filters}`, `name_ar=${filters}`,spreadotherfilters] : spreadotherfilters ? [spreadotherfilters]:null,
         sortBy: "created_at=desc",
       },
       headers: {
@@ -81,5 +83,27 @@ export const fetchPharmacyProducts = async ({
     return res;
   } catch (error: any) {
     throw new Error(error);
+  }
+};
+
+export const AcceptPharmacyRequest = async (id:string): Promise<any> => {
+  const accessToken = cookies().get("access_token")?.value;
+  const lang = cookies().get("Language")?.value;
+  try {
+     await axiosInstance.post(
+      `${endpoints.pharmacy.accept}/${id}`,
+      {id},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Accept-Language": lang,
+        },
+      },
+    );
+    revalidatePath(`/dashboard/pharmacies/${id}`);
+  } catch (error: any) {
+    return {
+      error: getErrorMessage(error),
+    };
   }
 };

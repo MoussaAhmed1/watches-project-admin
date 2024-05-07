@@ -7,7 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { INurse } from "@/types/nurse";
+import { INurse } from "@/types/nurses";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
@@ -28,6 +28,7 @@ export default async function page({ searchParams }: paramsProps) {
     page,
     limit,
     filters: search,
+    otherfilters:["is_verified=1"]
   });
   const totalNurses = res?.data?.meta?.total ||0; //1000
   const pageCount = Math.ceil(totalNurses / limit);

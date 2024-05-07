@@ -58,3 +58,25 @@ export const fetchSingleReservation = async (id : string): Promise<any> => {
 
   }
 };
+
+export const AcceptReservationCancelRequest = async (id:string,reason?:string): Promise<any> => {
+  const accessToken = cookies().get("access_token")?.value;
+  const lang = cookies().get("Language")?.value;
+  try {
+     await axiosInstance.post(
+      `${endpoints.reservations.cancleRequest}`,
+      {id,reason},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Accept-Language": lang,
+        },
+      },
+    );
+    revalidatePath(`/dashboard/reservations/${id}`);
+  } catch (error: any) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};

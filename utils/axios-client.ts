@@ -73,6 +73,7 @@ export const getErrorMessage = (error: unknown): string => {
 export const endpoints = {
   doctors: {
     fetch: "/doctor",
+    accept: "/doctor/accept",
   },
   users: {
     fetch: "/user",
@@ -82,12 +83,15 @@ export const endpoints = {
   },
   reservations: {
     fetch: "/reservation",
+    acceptCancleRequest: "/reservation",
+    cancleRequest: "/reservation/admin-cancel",
   },
   pharmacy: {
     fetch: "/pharmacy",
     order: "/pharmacy/order",
     categories: "/pharmacy/categories",
     drugs: "/pharmacy/drugs",
+    accept: "/pharmacy/accept",
   },
   suggestions: {
     fetch: "/suggestions-complaints",
@@ -98,6 +102,7 @@ export const endpoints = {
   },
   nurses: {
     fetch: "/nurse",
+    accept: "/nurse/accept",
   },
   packages: {
     fetch: "/package",
