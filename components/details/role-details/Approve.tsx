@@ -6,32 +6,33 @@ import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
 
 interface IProps {
-    title: string
+    title: string;
+    id: string;
+    successMessage: string;
+    defualt:boolean,
+    method:(id:string)=> Promise<any>;
 
 }
 
-function Approve({ title }: IProps) {
+function Approve({ title ,defualt=false,successMessage,method,id}: IProps) {
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const { toast } = useToast();
-    const onConfirm = async () => { };
-    const onDelete = async () => {
+    const onConfirm = async () => {
         setLoading(true);
-        // const res = await deleteContactLink(socialLink?.id);
-        const res = { error: "" };
-        // router.refresh();
+        const res = await method(id);
         if (res?.error) {
             toast({
                 variant: "destructive",
-                title: "Contact Us update failed",
+                title: "Action failed",
                 description: res?.error,
             });
         }
         else {
             toast({
                 variant: "default",
-                title: "Contact Us updated",
-                description: `Reservation have been canceled.`,
+                title: "Action updated",
+                description: successMessage ? successMessage :`Request has been Approved.`,
             });
         }
 
@@ -46,7 +47,7 @@ function Approve({ title }: IProps) {
                 onClose={() => setOpen(false)}
                 onConfirm={onConfirm}
                 loading={loading}
-                
+                defualt={defualt}
             />
             <Button
                 disabled={loading}

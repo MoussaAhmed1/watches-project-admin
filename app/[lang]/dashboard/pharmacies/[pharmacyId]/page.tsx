@@ -6,8 +6,9 @@ import doctorImage from "../../../../../public/assets/doctor.avif";
 import { CheckCircle, CircleSlash, Star } from "lucide-react";
 import { Heading } from "@/components/ui/heading";
 import { IPharmacy } from "@/types/pharmacy";
-import { fetchSinglePharmacy } from "@/actions/pharmacies";
+import { AcceptPharmacyRequest, fetchSinglePharmacy } from "@/actions/pharmacies";
 import { formatCreatedAtDate } from "@/utils/helperFunctions";
+import Approve from "@/components/details/role-details/Approve";
 export const metadata: Metadata = {
   title: "Next.js Profile | TailAdmin - Next.js Dashboard Template",
   description:
@@ -29,7 +30,15 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
     <>
       <div className="mx-auto w-full mt-8 bg-background">
         <BreadCrumb items={breadcrumbItems} customStyle="ml-4" />
-        <Heading title={`Pharmacy Details`} customStyle="ml-4" />
+        <div className="flex flex-col md:flex-row gap-1 items-center justify-between">
+          <Heading
+            title={`Pharmacy Details`}
+            customStyle="ml-4"
+          />
+          {(!pharmacy?.is_verified) && <div className="px-4">
+            <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptPharmacyRequest} id={params?.pharmacyId} />
+          </div>}
+        </div>
         <div className="mx-auto w-full mt-8 bg-background">
           <div className="w-full mx-auto p-4 ">
             <div className="bg-background shadow-md rounded-lg overflow-hidden border min-h-[77dvh] border-gray-400">
@@ -59,12 +68,12 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
                 <h2 className="text-xl font-bold mb-2">Details</h2>
                 <p className="mb-2">Created at: {formatCreatedAtDate(pharmacy?.created_at)}</p>
                 <p className="mb-2">Updated at: {formatCreatedAtDate(pharmacy?.updated_at)}</p>
-                <p className="flex items-center mb-2">Is verified: {pharmacy?.is_verified ? <CheckCircle stroke="#39a845" className="ms-3" />  : <CircleSlash style={{ color: '#8C0101' }} />}</p>
+                <p className="flex items-center mb-2">Is verified: {pharmacy?.is_verified ? <CheckCircle stroke="#39a845" className="ms-3" /> : <CircleSlash style={{ color: '#8C0101' }} />}</p>
                 <p className="mb-2">Address: {pharmacy?.address}</p>
               </div>
               <div className="p-4 border-t border-gray-200">
                 <h2 className="text-xl font-bold mb-2">Appointments</h2>
-                <p  className="mb-2">Open at: {pharmacy?.open_time}</p>
+                <p className="mb-2">Open at: {pharmacy?.open_time}</p>
                 <p>Close at: {pharmacy?.close_time}</p>
               </div>
               <div className="p-4 border-t border-gray-200">
@@ -75,21 +84,7 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
                   ))}
                 </ul>
               </div>
-              <div className="p-4 border-t border-gray-200">
-                <h2 className="text-xl font-bold">Logo</h2>
-                <div className="flex items-center py-1">
-                  {pharmacy?.logo.map((logo) => (
-                    <div key={logo.id} className="w-1/4 mx-2">
-                      <Image
-                        src={logo.image}
-                        alt={logo?.image}
-                        width={1000}
-                        height={1000}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
+
               <div className="p-4 border-t border-gray-200">
                 <h2 className="text-xl font-bold">Licenses</h2>
                 <div className="flex items-center py-2">
@@ -105,6 +100,24 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
                   ))}
                 </div>
               </div>
+              
+              <div className="p-4 border-t border-gray-200">
+                <h2 className="text-xl font-bold">Logo</h2>
+                <div className="flex items-center py-1">
+                  {pharmacy?.logo.map((logo) => (
+                    <div key={logo.id} className="w-1/4 mx-2">
+                      <Image
+                        src={logo.image}
+                        alt={logo?.image}
+                        width={1000}
+                        height={1000}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+
             </div>
           </div>
         </div>

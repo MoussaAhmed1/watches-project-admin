@@ -9,6 +9,7 @@ interface AlertModalProps {
   onConfirm: () => void;
   loading: boolean;
   message?:string;
+  defualt?:boolean;
 }
 
 export const AlertModal: React.FC<AlertModalProps> = ({
@@ -17,6 +18,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   onConfirm,
   loading,
   message,
+  defualt=false
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -39,7 +41,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
         <Button disabled={loading} variant="outline" onClick={onClose}>
           Cancel
         </Button>
-        <Button disabled={loading} variant="destructive" onClick={onConfirm}>
+        <Button disabled={loading} variant={defualt?"default":"destructive"} onClick={onConfirm}>
           Continue
         </Button>
       </div>

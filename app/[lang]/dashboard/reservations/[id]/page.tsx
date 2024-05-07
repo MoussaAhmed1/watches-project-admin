@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Metadata } from "next";
 import BreadCrumb from "@/components/breadcrumb";
-import { fetchSingleReservation } from "@/actions/reservations";
+import { AcceptReservationCancelRequest, fetchSingleReservation } from "@/actions/reservations";
 import { ISingleReservation } from "@/types/reservations";
 import { Heading } from "@/components/ui/heading";
 import { formatCreatedAtDate, formatCreatedAtDateAsDateTime } from "@/utils/helperFunctions";
@@ -10,6 +10,7 @@ import DoctorInfoCard from "@/components/details/reservation-details/DoctorInfo"
 import ClientInfoCard from "@/components/details/reservation-details/UserInfo";
 import { CheckCircle, CircleSlash } from "lucide-react";
 import Approve from "@/components/details/role-details/Approve";
+import CancelWithReason from "@/components/details/role-details/CancelWithReason";
 export const metadata: Metadata = {
   title: "Next.js Profile | TailAdmin - Next.js Dashboard Template",
   description:
@@ -20,7 +21,7 @@ const page = async ({ params }: { params: { id: string } }) => {
   const res = await fetchSingleReservation(params.id);
   const reservation: ISingleReservation = res?.data?.data;
   const breadcrumbItems = [
-    { title: "Reservation", link: "/dashboard/reservations" },
+    { title: "Reservations", link: "/dashboard/reservations" },
     { title: `${reservation?.number}`, link: `/dashboard/reservations/${reservation?.number}` },
   ];
   const render_data_items =
@@ -89,11 +90,12 @@ const page = async ({ params }: { params: { id: string } }) => {
               {reservation?.status}
             </p>
           </div>
-          {reservation?.cancel_request &&
-            <div className="px-3">
-              <Approve title="Approve Cancel" />
-            </div>
-          }
+          <div className="px-3">
+            {reservation?.cancel_request ?
+              <Approve title="Approve Cancel" successMessage="Request canceled Successfully" defualt method={AcceptReservationCancelRequest} id={params?.id} /> :
+              <CancelWithReason dialogTitle="Cancel Reservation" id={reservation?.id} method={AcceptReservationCancelRequest}  />
+            }
+          </div>
 
         </div>
         <div className="w-full mx-auto p-4">

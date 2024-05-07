@@ -64,3 +64,24 @@ export const fetchSingleNurse = async (id : string): Promise<any> => {
 
 
 
+export const AcceptNurseRequest = async (id:string): Promise<any> => {
+  const accessToken = cookies().get("access_token")?.value;
+  const lang = cookies().get("Language")?.value;
+  try {
+     await axiosInstance.post(
+      `${endpoints.nurses.accept}/${id}`,
+      {id},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Accept-Language": lang,
+        },
+      },
+    );
+    revalidatePath(`/dashboard/nurses/${id}`);
+  } catch (error: any) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};

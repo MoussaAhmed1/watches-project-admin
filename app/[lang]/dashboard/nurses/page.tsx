@@ -7,7 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { INurse } from "@/types/nurse";
+import { INurse } from "@/types/nurses";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 

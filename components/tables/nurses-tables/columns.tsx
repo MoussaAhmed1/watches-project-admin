@@ -5,7 +5,7 @@ import { CellAction } from "./cell-action";
 import { Star } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
-import { INurse } from "@/types/nurse";
+import { INurse } from "@/types/nurses";
 
 export const NursesColumns: ColumnDef<INurse>[] = [
   {

@@ -85,3 +85,25 @@ export const fetchPharmacyProducts = async ({
     throw new Error(error);
   }
 };
+
+export const AcceptPharmacyRequest = async (id:string): Promise<any> => {
+  const accessToken = cookies().get("access_token")?.value;
+  const lang = cookies().get("Language")?.value;
+  try {
+     await axiosInstance.post(
+      `${endpoints.pharmacy.accept}/${id}`,
+      {id},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Accept-Language": lang,
+        },
+      },
+    );
+    revalidatePath(`/dashboard/pharmacies/${id}`);
+  } catch (error: any) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
