@@ -70,7 +70,7 @@ export const AcceptNurseRequest = async (id:string): Promise<any> => {
   try {
      await axiosInstance.post(
       `${endpoints.nurses.accept}/${id}`,
-      {id},
+      {},
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,

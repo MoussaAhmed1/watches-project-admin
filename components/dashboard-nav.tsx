@@ -58,7 +58,7 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
           const Icon = Icons[item.icon || "arrowRight"];
 
           return (
-            <Accordion type="single" collapsible key={index} className="py-0 my-0">
+            <Accordion type="single" collapsible key={index} className="w-full">
               <AccordionItem value="item-1" >
              <div className="flex items-center">
                {<Icon className="h-4 w-4 mr-2 " />}

@@ -13,6 +13,7 @@ export interface Specialization {
 export interface ISingleDoctor {
   is_verified: boolean;
   id: string;
+  user_id: string;
   avatar: string;
   name: string;
   experience: number;
