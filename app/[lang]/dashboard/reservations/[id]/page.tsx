@@ -90,12 +90,12 @@ const page = async ({ params }: { params: { id: string } }) => {
               {reservation?.status}
             </p>
           </div>
-          <div className="px-3">
-            {reservation?.cancel_request ?
+          {reservation?.status != "CANCELED" && <div className="px-3">
+            {(reservation?.cancel_request) ?
               <Approve title="Approve Cancel" successMessage="Request canceled Successfully" defualt method={AcceptReservationCancelRequest} id={params?.id} /> :
-              <CancelWithReason dialogTitle="Cancel Reservation" id={reservation?.id} method={AcceptReservationCancelRequest}  />
+              <CancelWithReason dialogTitle="Cancel Reservation" id={reservation?.id} method={AcceptReservationCancelRequest} />
             }
-          </div>
+          </div>}
 
         </div>
         <div className="w-full mx-auto p-4">
@@ -186,7 +186,7 @@ const page = async ({ params }: { params: { id: string } }) => {
                 {/* customerDoctorDetails  */}
                 <div className="flex flex-col justify-start items-start xl:w-fit w-full space-y-4 md:space-y-6 xl:space-y-9">
 
-                  <DoctorInfoCard doctor={reservation?.doctor} />
+                  {reservation?.doctor && <DoctorInfoCard doctor={reservation?.doctor} />}
                   {reservation?.family_member &&
                     <ClientInfoCard client={reservation?.family_member} familyMember={true} />
                   }
