@@ -31,7 +31,7 @@ import { Textarea } from "@/components/ui/textarea";
 import useCostomSearchParams from "@/hooks/use-searchParams";
 import { IDoctor } from "@/types/doctors";
 import { IPatient } from "@/types/patients";
-import { INurse } from "@/types/nurse";
+import { INurse } from "@/types/nurses";
 import { IPharmacy } from "@/types/pharmacy";
 import { changeAboutUs } from "@/actions/about-us";
 import { changeTermsConditions } from "@/actions/terms-conditions";
