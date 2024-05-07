@@ -32,7 +32,7 @@ const page = async ({ params }: { params: { doctorId: string } }) => {
             customStyle="ml-4"
           />
           {(!doctor?.is_verified) && <div className="px-4">
-            <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptDoctorRequest} id={params?.doctorId} />
+            <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptDoctorRequest} id={doctor?.user_id} />
           </div>}
         </div>
         <div className="w-full mx-auto p-4 ">

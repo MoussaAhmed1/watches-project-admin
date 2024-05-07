@@ -36,7 +36,7 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
             customStyle="ml-4"
           />
           {(!pharmacy?.is_verified) && <div className="px-4">
-            <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptPharmacyRequest} id={params?.pharmacyId} />
+            <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptPharmacyRequest} id={pharmacy?.user_id} />
           </div>}
         </div>
         <div className="mx-auto w-full mt-8 bg-background">
