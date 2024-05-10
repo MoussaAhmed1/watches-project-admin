@@ -30,6 +30,7 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea"
 import useCostomSearchParams from "@/hooks/use-searchParams";
 import { IPatient } from "@/types/patients";
+import CustomMultipleSelector from "../multiselector";
 
 const formSchema = z.object({
   title_en: z
@@ -222,7 +223,7 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="specific_person"
               render={({ field }) => (
@@ -245,7 +246,9 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
+             <FormLabel className="py-0 my-0">Specific person (Optional)</FormLabel>
+              <CustomMultipleSelector options={users} />
           </div>
           <Button disabled={loading} className="ml-auto" type="submit">
             {action}
