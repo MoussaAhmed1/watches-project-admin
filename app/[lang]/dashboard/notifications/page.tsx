@@ -18,7 +18,6 @@ export default async function Page({ searchParams }: paramsProps) {
   const role = typeof searchParams?.role === "string" ? searchParams?.role : "client";
   const res = await fetchPatients({page:1,limit:10,filters:"",role });
   const totalClients = res?.data?.data;
-  console.log("totalClients",totalClients)
   return (
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems} />
