@@ -11,6 +11,7 @@ import axiosInstance, {
   getErrorMessage,
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
+import { Drug } from "@/types/pharmacy";
 
 export const fetchPharmacies = async ({
   page = 1,
@@ -102,6 +103,46 @@ export const AcceptPharmacyRequest = async (id:string): Promise<any> => {
     );
     revalidatePath(`/dashboard/pharmacies/${id}`);
   } catch (error: any) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
+export const AddPharmacyDrug = async (data: Drug): Promise<any> => {
+  const lang = cookies().get('Language')?.value;
+  const accessToken = cookies().get('access_token')?.value;
+
+  try {
+    await axiosInstance.post(endpoints.pharmacy.drugs, data, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Accept-Language': lang,
+      },
+    });
+
+    revalidatePath('/dashboard/pharmacy/drugs');
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
+export const UpdatePharmacyDrug = async (data: Drug,id:string|undefined): Promise<any> => {
+  const lang = cookies().get('Language')?.value;
+  const accessToken = cookies().get('access_token')?.value;
+
+  try {
+    await axiosInstance.put(`${endpoints.pharmacy.drugs}/${id}`, data, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Accept-Language': lang,
+      },
+    });
+
+    revalidatePath('/dashboard/pharmacy/drugs');
+  } catch (error) {
     return {
       error: getErrorMessage(error),
     };

@@ -2,22 +2,28 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
-import { Drug } from "@/types/pharmacy";
+import { Category, Drug } from "@/types/pharmacy";
 
- const DrugColumns: ColumnDef<Drug>[] = [
-  {
-    accessorKey: "name",
-    header: "Name",
-    cell: ({ row }) => (
-      <div className="stars flex">
-       {row?.original?.name}
-       
-      </div>
-    ),
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => <CellAction data={row.original} />,
-  },
-];
+
+
+interface IProps{
+  categories:Category[];
+}
+
+function DrugColumns({categories}:IProps) {
+  const _DrugColumns: ColumnDef<Drug>[] = [
+   {
+     accessorKey: "name",
+     header: "Name",
+   },
+   {
+     id: "actions",
+     cell: ({ row }) => <CellAction data={row.original} categories={categories} />,
+   },
+  ];
+  return (
+    _DrugColumns
+  )
+}
+
 export default DrugColumns

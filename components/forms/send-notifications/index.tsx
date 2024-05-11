@@ -52,12 +52,14 @@ const formSchema = z.object({
   }),
   role: z.string(),
   specific_person: z.string().optional(),
-});
+}).required(
+  { role: true, }
+);
 
 export type NotificationFormValues = z.infer<typeof formSchema>;
 
 interface NotificationFormProps {
-  users:  IPatient[] 
+  users: IPatient[]
 }
 
 export const NotificationForm: React.FC<NotificationFormProps> = ({
@@ -70,8 +72,8 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
   const description = "Add a new notification";
   const toastMessage = "Notification Sent.";
   const action = "Send";
-  const { createQueryString, pathname,searchParams } = useCostomSearchParams();
-  
+  const { createQueryString, pathname, searchParams } = useCostomSearchParams();
+
   // const { getValues } = useFormContext();
   const defaultValues = {
     title_en: "",
@@ -247,8 +249,8 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
                 </FormItem>
               )}
             /> */}
-             <FormLabel className="py-0 my-0">Specific person (Optional)</FormLabel>
-              <CustomMultipleSelector options={users} />
+            <FormLabel className="py-0 my-0">Specific person (Optional)</FormLabel>
+            <CustomMultipleSelector options={users} />
           </div>
           <Button disabled={loading} className="ml-auto" type="submit">
             {action}
