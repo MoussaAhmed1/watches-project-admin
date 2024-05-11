@@ -6,6 +6,9 @@ import { Separator } from "@/components/ui/separator";
 import { Drug } from "@/types/pharmacy";
 import { fetchPharmacyProducts } from "@/actions/pharmacies";
 import DrugColumns from "@/components/tables/pharmacy/drugs/columns";
+import PharmacyDrugsForm from "@/components/forms/pharmacy-drugs/PharmacyDrugsForm";
+import { fetchPharmacyCategories } from "@/actions/pharmacy-categories";
+import DrugsView from "@/components/views/DrugsView";
 
 const breadcrumbItems = [{ title: "Pharmacy Products", link: "/dashboard/pharmacy/drugs" }];
 
@@ -20,6 +23,11 @@ export default async function page({ searchParams }: paramsProps) {
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
     typeof searchParams?.search === "string" ? searchParams?.search : "";
+  const categoriesRes = await fetchPharmacyCategories({
+    page,
+    limit,
+    filters: search,
+  });
   const res = await fetchPharmacyProducts({
     page,
     limit,
@@ -35,17 +43,16 @@ export default async function page({ searchParams }: paramsProps) {
 
         <div className="flex items-start justify-between">
           <Heading title={`Pharmacy Products (${totalProducts})`} />
+          <PharmacyDrugsForm categories={categoriesRes?.data?.data} />
         </div>
         <Separator />
 
-        <SharedTable
-          searchKey="Pharmacy Products"
-          pageNo={page}
-          columns={DrugColumns}
-          totalitems={totalProducts}
-          data={Pharmacy_products as unknown as Drug[]}
-          pageCount={pageCount}
-        />
+        <DrugsView
+          categories={categoriesRes?.data?.data}
+          page={page}
+          totalProducts={totalProducts}
+          Pharmacy_products={Pharmacy_products as unknown as Drug[]}
+          pageCount={pageCount} />
       </div>
     </>
   );
