@@ -114,6 +114,9 @@ export const endpoints = {
   pharmacies: {
     fetch: "/pharmacy",
   },
+  notification: {
+    send: "/notification/send-to-all",
+  },
   generalSettings: {
     root: "/static-page",
     termsConditions: "/static-page/TERMS_AND_CONDITIONS",

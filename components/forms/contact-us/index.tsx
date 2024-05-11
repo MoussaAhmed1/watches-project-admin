@@ -144,7 +144,7 @@ export const ContactUsForm: React.FC<Prop> = ({
               />
             </div>
             <div className="flex gap-1">
-              <Button size="icon" disabled={loading} type="submit">
+              <Button size="icon" disabled={loading} type="submit" variant="outline">
                 {<Save className="h-4 w-4" />}
               </Button>
               <NewSocialLink socialLink={socialLink} />
