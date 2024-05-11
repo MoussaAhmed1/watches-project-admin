@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function page() {
+  // Todo: ask for ar & en within one request
   const description_ar = await fetchTermsConditions({ lang: "ar" });
   const description_en = await fetchTermsConditions({ lang: "en" });
   const breadcrumbItems = [

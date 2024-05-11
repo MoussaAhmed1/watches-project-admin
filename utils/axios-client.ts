@@ -99,6 +99,7 @@ export const endpoints = {
   addetionalInfo: {
     specializations: "/additional-info/specializations",
     profile: "/additional-info/profile",
+    statictics: "/additional-info/statictics",
   },
   nurses: {
     fetch: "/nurse",
