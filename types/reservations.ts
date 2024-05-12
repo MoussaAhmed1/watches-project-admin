@@ -43,6 +43,7 @@ export interface Clinic {
 
 export interface ClientInfo {
   kinship: string;
+  id: string;
   name: string;
   avatar: string;
   height: any;

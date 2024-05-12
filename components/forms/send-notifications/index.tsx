@@ -22,7 +22,7 @@ import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BellRing, Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm, useFormContext } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../ui/use-toast";
@@ -31,27 +31,38 @@ import { Textarea } from "@/components/ui/textarea"
 import useCostomSearchParams from "@/hooks/use-searchParams";
 import { IPatient } from "@/types/patients";
 import CustomMultipleSelector from "../multiselector";
+import { sendNotifications } from "@/actions/notifications";
+import { Option } from "@/components/ui/multiple-selector";
+
+enum Role {
+  SUPERADMIN = 'SUPERADMIN',
+  ADMIN = 'ADMIN',
+  CLIENT = 'CLIENT',
+  DOCTOR = 'DOCTOR',
+  PHARMACY = 'PHARMACY',
+  NURSE = 'NURSE',
+}
 
 const formSchema = z.object({
   title_en: z
     .string()
-    .min(3, { message: "Notification Name must be at least 3 characters" }),
+    .min(3, { message: "Notification Name must be at least 3 characters" }).max(160, "must not be longer than 160 characters."),
   title_ar: z
     .string()
-    .min(3, { message: "Notification Name must be at least 3 characters" }),
-  description_ar: z.string().min(10, {
+    .min(3, { message: "Notification Name must be at least 3 characters" }).max(160, "must not be longer than 160 characters."),
+  message_ar: z.string().min(10, {
     message: "Notification description must be at least 10 characters.",
-  })
+  }).max(160, "must not be longer than 160 characters.")
     .max(160, {
       message: "Notification description must not be longer than 160 characters.",
-    }),
-  description_en: z.string().min(10, {
+    }).max(160, "must not be longer than 160 characters."),
+  message_en: z.string().min(10, {
     message: "Notification description must be at least 10 characters.",
   }).max(160, {
     message: "Notification description must not be longer than 160 characters.",
-  }),
-  role: z.string(),
-  specific_person: z.string().optional(),
+  }).max(160, "must not be longer than 160 characters."),
+  role: z.string().min(1, { message: "Please select a role" }),
+  specific_person: z.string().array().optional(),
 }).required(
   { role: true, }
 );
@@ -78,9 +89,10 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
   const defaultValues = {
     title_en: "",
     title_ar: "",
-    description_ar: "",
-    description_en: "",
-
+    message_ar: "",
+    message_en: "",
+    role: "",
+    specific_person: [],
   };
 
   const form = useForm<NotificationFormValues>({
@@ -89,31 +101,38 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
   });
 
   const onSubmit = async (data: NotificationFormValues) => {
-    console.log(data)
-    // try {
-    //   setLoading(true);
-    //   //  await AddNotifications(data);
-    //   // console.log("notification", res);
-    //   router.refresh();
-    //   router.push(`/dashboard/notifications`);
-    //   toast({
-    //     variant: "default",
-    //     title: "Notification created",
-    //     description: "There was a problem with your request.",
-    //   });
-    // } catch (error: any) {
-    //   toast({
-    //     variant: "destructive",
-    //     title: "Uh oh! Something went wrong.",
-    //     description: "There was a problem with your request.",
-    //   });
-    // } finally {
-    //   setLoading(false);
-    // }
+    // alert(JSON.stringify(data));
+    setLoading(true);
+    const res = await sendNotifications(data);
+    if (res?.error) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: res?.error,
+      });
+    }
+    else {
+      toast({
+        variant: "default",
+        title: "Notification created",
+        description: "Message has been successfully sent",
+      });
+      reset();
+    }
+    setLoading(false);
+
   };
   const {
     setValue,
+    reset
   } = form;
+
+  const onCustomChange = useCallback(
+    (options: Option[]) => {
+      setValue("specific_person",options.map(op=>op.value));
+    },
+    [setValue],
+  )
 
 
   return (
@@ -143,7 +162,7 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
             />
             <FormField
               control={form.control}
-              name="description_en"
+              name="message_en"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Description in English</FormLabel>
@@ -179,7 +198,7 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
 
             <FormField
               control={form.control}
-              name="description_ar"
+              name="message_ar"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Description in Arabic</FormLabel>
@@ -199,26 +218,29 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
               // TODO select from Roles
             }
             <FormField
+
               control={form.control}
               name="role"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Role</FormLabel>
-                  <Select onValueChange={(e: any) => {
+                  <Select required onValueChange={(e: any) => {
                     router.replace(`${pathname}?${createQueryString("role", e)}`, { scroll: false });
                     field.onChange(e);
                     setValue("specific_person", undefined, { shouldValidate: false })
-                  }} defaultValue={field.value}>
+                  }} defaultValue={field.value || ""}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a role" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="client">Patients</SelectItem>
-                      <SelectItem value="doctor">Doctors</SelectItem>
-                      <SelectItem value="pharmacy">Pharmacies</SelectItem>
-                      <SelectItem value="nurse">Nurses</SelectItem>
+                      <SelectItem value={Role.SUPERADMIN}>Superadmin</SelectItem>
+                      <SelectItem value={Role.ADMIN}>Admin</SelectItem>
+                      <SelectItem value={Role.CLIENT}>Client</SelectItem>
+                      <SelectItem value={Role.DOCTOR}>Doctor</SelectItem>
+                      <SelectItem value={Role.PHARMACY}>Pharmacy</SelectItem>
+                      <SelectItem value={Role.NURSE}>Nurse</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -250,7 +272,7 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
               )}
             /> */}
             <FormLabel className="py-0 my-0">Specific person (Optional)</FormLabel>
-            <CustomMultipleSelector options={users} />
+            <CustomMultipleSelector options={users} onCustomChange={onCustomChange} />
           </div>
           <Button disabled={loading} className="ml-auto" type="submit">
             {action}

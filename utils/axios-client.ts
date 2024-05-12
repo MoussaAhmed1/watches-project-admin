@@ -80,6 +80,7 @@ export const endpoints = {
   },
   nurse_orders: {
     fetch: "/nurse/order",
+    cancleRequest: "/nurse/admin/cancel/order",
   },
   reservations: {
     fetch: "/reservation",
@@ -113,6 +114,9 @@ export const endpoints = {
   },
   pharmacies: {
     fetch: "/pharmacy",
+  },
+  notification: {
+    send: "/notification/send-to-all",
   },
   generalSettings: {
     root: "/static-page",

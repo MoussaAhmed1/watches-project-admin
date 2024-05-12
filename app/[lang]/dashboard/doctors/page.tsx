@@ -44,12 +44,6 @@ export default async function page({ searchParams }: paramsProps) {
             title={`Doctors (${totalDoctors})`}
           />
 
-          <Link
-            href={"/dashboard/doctors/new"}
-            className={cn(buttonVariants({ variant: "default" }))}
-          >
-            <Plus className="mr-2 h-4 w-4" /> Add New
-          </Link>
         </div>
         <Separator />
 

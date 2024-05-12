@@ -24,9 +24,9 @@ export default async function page({ searchParams }: paramsProps) {
   const search =
     typeof searchParams?.search === "string" ? searchParams?.search : "";
   const categoriesRes = await fetchPharmacyCategories({
-    page,
-    limit,
-    filters: search,
+    page: 1,
+    limit: 10,
+
   });
   const res = await fetchPharmacyProducts({
     page,

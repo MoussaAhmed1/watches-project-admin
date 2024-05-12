@@ -1,3 +1,5 @@
+import { ClientInfo } from "./reservations"
+
 export interface PharmacyOrder {
     id: string
     status: string
@@ -5,7 +7,7 @@ export interface PharmacyOrder {
     number: string
     categories: any[]
     user_id: string
-    user: User
+    user: ClientInfo
     drugs: any[]
     notes: any
     attachments: any[]

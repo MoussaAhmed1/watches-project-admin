@@ -118,7 +118,7 @@ const page = async ({ params }: { params: { id: string } }) => {
                           </div>
                         ))
                       }
-                      {reservation?.cancel_request &&
+                      {reservation?.cancel_reason &&
                         cancel_data_items?.map(({ data_key, data_value }, index) => (
                           <div className="flex justify-between w-full pb-5" key={data_key} >
                             <p className="text-base dark:text-white leading-4 text-gray-800">{data_key}</p>

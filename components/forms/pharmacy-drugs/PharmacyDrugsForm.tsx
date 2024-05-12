@@ -158,7 +158,7 @@ export default function PharmacyDrugsForm({ drug, id, categories }: IProps) {
               <select defaultValue={getValues("category_id") || ""} name="category_id" id="Category" placeholder="Select a Category" onChange={(e: any) => {
                 setValue("category_id", e?.target?.value);
                 setCategoryIdError("");
-              }} className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-black dark:focus:border-black">
+              }} className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value={""} disabled>Select a Category</option>
                 {categories?.length && categories?.map((item: any) => {
                   return <option value={item?.id} key={item?.id}>{(item?.name)}</option>
