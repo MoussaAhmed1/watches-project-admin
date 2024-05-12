@@ -47,11 +47,11 @@ export const Captalize = (word: any) => {
   return word;
 };
 
-export function shortenText(text: string): string {
-  if (text?.length <= 30) {
+export function shortenText(text: string,length:number=30): string {
+  if (text?.length <= length) {
       return text; // If text is already 20 characters or less, return it as is
   } else {
-      return text?.slice(0, 27) + '...'; // Slice the text to get the first 17 characters and add three dots
+      return text?.slice(0, length-3) + '...'; // Slice the text to get the first 17 characters and add three dots
   }
 }
 

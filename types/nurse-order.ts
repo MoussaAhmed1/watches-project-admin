@@ -36,3 +36,30 @@ export interface INurseOrder {
     longitude: number
   }
   
+  export interface SingleNurseOrder {
+    id: string
+    created_at: string
+    updated_at: string
+    deleted_at: any
+    user_id: string
+    status: string
+    rate: any
+    comment: any
+    cancel_reason: any
+    cancel_request: boolean
+    address_id: string
+    notes: any
+    date_from: string
+    date_to: string
+    price: string
+    nurse_id: any
+    number: string
+    user: User
+    address: Address
+    nurse: any
+  }
+  
+
+  
+
+  

@@ -23,7 +23,7 @@ export const PharmaciesColumns: ColumnDef<IPharmacy>[] = [
           href={`https://www.google.com/maps/search/?api=1&query=${row?.original?.latitude},${row?.original?.longitude}`}
           target="_blank"
           rel="noopener noreferrer"
-          style={{ color: 'blue' }}
+          style={{ color: '#3A72EC' }}
         >
           {shortenText(row?.original?.address)}
         </Link>

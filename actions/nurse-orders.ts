@@ -42,3 +42,42 @@ export const fetchNurseOrder = async ({
     };
   }
 };
+
+export const fetchSingleNurseOrder = async (id: string): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+  try {
+    const res = await axiosInstance.get(`${endpoints.nurse_orders.fetch}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+
+    return res;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
+
+export const AcceptNurseOrderCancelRequest = async (id:string,reason?:string): Promise<any> => {
+  const accessToken = cookies().get("access_token")?.value;
+  const lang = cookies().get("Language")?.value;
+  try {
+     await axiosInstance.post(
+      `${endpoints.nurse_orders.cancleRequest}`,
+      {id,reason},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Accept-Language": lang,
+        },
+      },
+    );
+    revalidatePath(`/dashboard/nurse-orders/${id}`);
+  } catch (error: any) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};

@@ -80,6 +80,7 @@ export const endpoints = {
   },
   nurse_orders: {
     fetch: "/nurse/order",
+    cancleRequest: "/nurse/admin/cancel/order",
   },
   reservations: {
     fetch: "/reservation",

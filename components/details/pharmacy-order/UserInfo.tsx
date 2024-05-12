@@ -3,7 +3,7 @@ import UserIcon from "../../../public/assets/user.png";
 import Image from "next/image";
 import { ClientInfo, FamilyMember } from "@/types/reservations";
 interface IProps {
-  user: { name: string; avatar: string };
+  user: { id: string, name: string; avatar: string };
 }
 
 function UserInfoCard({ user }: IProps) {
@@ -18,7 +18,7 @@ function UserInfoCard({ user }: IProps) {
       <div className="flex flex-col md:flex-row xl:flex-col justify-start items-stretch h-full w-full md:space-x-6 lg:space-x-8 xl:space-x-0">
         {
           <div className="flex flex-col justify-start items-start flex-shrink-0">
-            <div className="flex justify-center w-full md:justify-start items-center space-x-4 py-8 border-b border-gray-200">
+            <div className="flex justify-center w-full md:justify-start items-center space-x-4 py-8">
               <Image
                 width={50}
                 height={50}

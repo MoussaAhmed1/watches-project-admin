@@ -62,7 +62,7 @@ export const NurseOrderColumns: ColumnDef<INurseOrder>[] = [
           href={`https://www.google.com/maps/search/?api=1&query=${row?.original?.address?.latitude},${row?.original?.address?.longitude}`}
           target="_blank"
           rel="noopener noreferrer"
-          style={{ color: 'blue' }}
+          style={{ color: '#3A72EC' }}
         >
           {shortenText(row?.original?.address?.address)}
         </Link>
