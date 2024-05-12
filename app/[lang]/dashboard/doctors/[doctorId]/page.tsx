@@ -93,8 +93,8 @@ const page = async ({ params }: { params: { doctorId: string } }) => {
             </div>
             <div className="p-4 border-t border-gray-200">
               <h2 className="text-xl font-bold">Clinic Information</h2>
-              <p>Name: {doctor?.clinic.name}</p>
-              <p>Address: {doctor?.clinic.address}</p>
+              <p>Name: {doctor?.clinic?.name ?? "-"}</p>
+              <p>Address: {doctor?.clinic?.address ?? "-"}</p>
             </div>
           </div>
         </div>
