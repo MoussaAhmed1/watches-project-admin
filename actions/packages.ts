@@ -12,14 +12,13 @@ import axiosInstance, {
 import { ITEMS_PER_PAGE } from "./Global-variables";
 import { PackageFormValues } from "@/components/forms/package-form/add-edit-package";
 
-
 export const fetchPackages = async ({
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,
 }: Params): Promise<any> => {
   const lang = cookies().get("Language")?.value;
-  const accessToken = cookies().get('access_token')?.value;
+  const accessToken = cookies().get("access_token")?.value;
   try {
     const res = await axiosInstance(endpoints.packages.fetch, {
       params: {
@@ -41,19 +40,64 @@ export const fetchPackages = async ({
   }
 };
 
-
 export const AddPackages = async (data: PackageFormValues): Promise<any> => {
-  const lang = cookies().get('Language')?.value;
+  const lang = cookies().get("Language")?.value;
 
   try {
-    const accessToken = cookies().get('access_token')?.value;
-    const res = await axiosInstance.post(endpoints.packages.fetch, data, {
+    const accessToken = cookies().get("access_token")?.value;
+    await axiosInstance.post(endpoints.packages.fetch, data, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        'Accept-Language': lang,
+        "Accept-Language": lang,
       },
     });
 
+    revalidatePath("/dashboard/packages");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+export const updatePackages = async (
+  data: PackageFormValues,
+  id: string | undefined,
+): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const body = { ...data, id };
+  try {
+    const accessToken = cookies().get("access_token")?.value;
+    await axiosInstance.put(endpoints.packages.fetch, body, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+
+    revalidatePath("/dashboard/packages");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
+export const deletePackage = async (
+  id: string
+): Promise<any> => {
+  const accessToken = cookies().get('access_token')?.value;
+  const lang = cookies().get('Language')?.value;
+
+  try {
+     await axiosInstance.delete(
+      `${endpoints.packages.fetch}/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Accept-Language': lang,
+        },
+      }
+    );
     revalidatePath('/dashboard/packages');
   } catch (error) {
     return {

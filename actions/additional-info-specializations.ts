@@ -11,10 +11,12 @@ import axiosInstance, {
   getErrorMessage,
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
-import { AddEditSpecializationBody, ISpecializations } from "@/types/additional-info-specializations";
+import {
+  AddEditSpecializationBody,
+  ISpecializations,
+} from "@/types/additional-info-specializations";
 
 export const fetchAdditionalSpecializations = async ({
-
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,
@@ -42,19 +44,21 @@ export const fetchAdditionalSpecializations = async ({
   }
 };
 
-export const AddSpecialization = async (data: AddEditSpecializationBody): Promise<any> => {
-  const lang = cookies().get('Language')?.value;
-  const accessToken = cookies().get('access_token')?.value;
+export const AddSpecialization = async (
+  data: AddEditSpecializationBody,
+): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
 
   try {
     await axiosInstance.post(endpoints.addetionalInfo.specializations, data, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        'Accept-Language': lang,
+        "Accept-Language": lang,
       },
     });
 
-    revalidatePath('/data-management/specializations');
+    revalidatePath("/data-management/specializations");
   } catch (error) {
     return {
       error: getErrorMessage(error),
@@ -62,44 +66,47 @@ export const AddSpecialization = async (data: AddEditSpecializationBody): Promis
   }
 };
 
-export const UpdateSpecialization = async (data: AddEditSpecializationBody): Promise<any> => {
-  const lang = cookies().get('Language')?.value;
-  const accessToken = cookies().get('access_token')?.value;
-
-  try {
-    await axiosInstance.put(`${endpoints.addetionalInfo.specializations}`, data, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Accept-Language': lang,
-      },
-    });
-
-    revalidatePath('/data-management/specializations');
-  } catch (error) {
-    return {
-      error: getErrorMessage(error),
-    };
-  }
-};
-
-export const deleteSpecialization = async (
-  id: any
+export const UpdateSpecialization = async (
+  data: AddEditSpecializationBody,
 ): Promise<any> => {
-  const accessToken = cookies().get('access_token')?.value;
-  const lang = cookies().get('Language')?.value;
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
 
   try {
-    const res = await axiosInstance.delete(
+    await axiosInstance.put(
+      `${endpoints.addetionalInfo.specializations}`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Accept-Language": lang,
+        },
+      },
+    );
+
+    revalidatePath("/data-management/specializations");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
+export const deleteSpecialization = async (id: string): Promise<any> => {
+  const accessToken = cookies().get("access_token")?.value;
+  const lang = cookies().get("Language")?.value;
+
+  try {
+    await axiosInstance.delete(
       `${endpoints.addetionalInfo.specializations}/${id}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          'Accept-Language': lang,
+          "Accept-Language": lang,
         },
-      }
+      },
     );
-    revalidatePath('/data-management/specializations');
-    return res.data.message;
+    revalidatePath("/data-management/specializations");
   } catch (error) {
     return {
       error: getErrorMessage(error),
