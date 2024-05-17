@@ -1,4 +1,5 @@
 "use client";
+import { deletePackage } from "@/actions/packages";
 import { AlertModal } from "@/components/modal/alert-modal";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,6 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useToast } from "@/components/ui/use-toast";
 import { IPackage } from "@/types/packages";
 import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -21,8 +23,27 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const { toast } = useToast();
+  const onConfirm = async () => {
+    const res = await deletePackage(data.id);
+    if (res?.error) {
+      toast({
+        variant: "destructive",
+        title: "Delete failed",
+        description: res?.error,
+      });
+    }
+    else {
+      toast({
+        variant: "default",
+        title: "Deleted successfully",
+        description: `Specialization has been successfully deleted.`,
+      });
+    }
 
-  const onConfirm = async () => {};
+    setLoading(false);
+    setOpen(false);
+  };
 
   return (
     <>
@@ -42,12 +63,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/doctors/${data.id}`)}
+            // onClick={() => router.push(`/dashboard/doctors/${data.id}`)}
           >
             <Eye className="mr-2 h-4 w-4" /> View
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/doctors/${data.id}`)}
+            onClick={() => router.push(`/dashboard/packages/${data.id}/edit`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>
