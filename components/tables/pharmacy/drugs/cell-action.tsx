@@ -1,17 +1,12 @@
 "use client";
+
+import { deleteProduct } from "@/actions/pharmacies";
 import PharmacyDrugsForm from "@/components/forms/pharmacy-drugs/PharmacyDrugsForm";
 import { AlertModal } from "@/components/modal/alert-modal";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { useToast } from "@/components/ui/use-toast";
 import { Category, Drug, } from "@/types/pharmacy";
-import { Edit, MoreHorizontal, Trash, Eye, Save, Pencil } from "lucide-react";
-import { useRouter } from "next/navigation";
+import {  Trash, } from "lucide-react";
 import { useState } from "react";
 
 interface CellActionProps {
@@ -22,8 +17,26 @@ interface CellActionProps {
 export const CellAction: React.FC<CellActionProps> = ({ data, categories }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const { toast } = useToast();
+  const onConfirm = async () => {
+    const res = await deleteProduct(data.id);
+    if (res?.error) {
+      toast({
+        variant: "destructive",
+        title: "Delete failed",
+        description: res?.error,
+      });
+    }
+    else {
+      toast({
+        variant: "default",
+        title: "Deleted successfully",
+        description: `Product has been successfully deleted.`,
+      });
+    }
 
-  const onConfirm = async () => { };
+    setLoading(false);
+  };
 
   return (
     <div className="flex flex-end grow w-5 md:w-1 xs:w-0">
