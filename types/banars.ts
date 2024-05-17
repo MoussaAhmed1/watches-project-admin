@@ -1,4 +1,4 @@
-export interface IBanar {
+export interface IBanner {
   id: string;
   banar: string ;
   started_at:  string;

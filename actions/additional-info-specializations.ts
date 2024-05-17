@@ -11,6 +11,7 @@ import axiosInstance, {
   getErrorMessage,
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
+import { AddEditSpecializationBody, ISpecializations } from "@/types/additional-info-specializations";
 
 export const fetchAdditionalSpecializations = async ({
 
@@ -35,6 +36,71 @@ export const fetchAdditionalSpecializations = async ({
     });
     return res;
   } catch (error: any) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
+export const AddSpecialization = async (data: AddEditSpecializationBody): Promise<any> => {
+  const lang = cookies().get('Language')?.value;
+  const accessToken = cookies().get('access_token')?.value;
+
+  try {
+    await axiosInstance.post(endpoints.addetionalInfo.specializations, data, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Accept-Language': lang,
+      },
+    });
+
+    revalidatePath('/data-management/specializations');
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
+export const UpdateSpecialization = async (data: AddEditSpecializationBody): Promise<any> => {
+  const lang = cookies().get('Language')?.value;
+  const accessToken = cookies().get('access_token')?.value;
+
+  try {
+    await axiosInstance.put(`${endpoints.addetionalInfo.specializations}`, data, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Accept-Language': lang,
+      },
+    });
+
+    revalidatePath('/data-management/specializations');
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
+export const deleteSpecialization = async (
+  id: any
+): Promise<any> => {
+  const accessToken = cookies().get('access_token')?.value;
+  const lang = cookies().get('Language')?.value;
+
+  try {
+    const res = await axiosInstance.delete(
+      `${endpoints.addetionalInfo.specializations}/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Accept-Language': lang,
+        },
+      }
+    );
+    revalidatePath('/data-management/specializations');
+    return res.data.message;
+  } catch (error) {
     return {
       error: getErrorMessage(error),
     };

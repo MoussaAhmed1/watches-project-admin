@@ -5,11 +5,11 @@ import { CellAction } from "./cell-action";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { formatCreatedAtDate, shortenText } from "@/utils/helperFunctions";
-import { IBanar } from "@/types/banars";
+import { IBanner } from "@/types/banars";
 import TabledTogglerView from "@/components/toggler/table-toggler";
-import { ToggleBanar } from "@/actions/banars";
+import { ToggleBanner } from "@/actions/banars";
 
-export const BanarsColumns: ColumnDef<IBanar>[] = [
+export const BanarsColumns: ColumnDef<IBanner>[] = [
   {
     accessorKey: "banar",
     header: "Banar",
@@ -47,7 +47,7 @@ export const BanarsColumns: ColumnDef<IBanar>[] = [
       >
         {row?.original?.is_active ? <CheckCircle stroke="#39a845" size={18} /> : <CircleSlash style={{ color: '#8C0101' }} size={18} />}
       </p> */}
-      <TabledTogglerView id={row?.original?.id} action={ToggleBanar} is_active={row?.original?.is_active} />
+      <TabledTogglerView id={row?.original?.id} action={ToggleBanner} is_active={row?.original?.is_active} />
     </div>
   },
   {

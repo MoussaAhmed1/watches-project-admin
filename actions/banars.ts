@@ -11,7 +11,7 @@ import axiosInstance, {
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
 
-export const fetchBanars = async ({
+export const fetchBanners = async ({
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,
@@ -39,7 +39,7 @@ export const fetchBanars = async ({
   }
 };
 
-export const ToggleBanar = async (formData: FormData) => {
+export const ToggleBanner = async (formData: FormData) => {
   const id = formData.get("id");
   const accessToken = cookies().get("access_token")?.value;
   const lang = cookies().get("Language")?.value;
@@ -69,12 +69,12 @@ export const ToggleBanar = async (formData: FormData) => {
   }
 };
 
-export const deleteBanar = async ({ id }: { id: string }): Promise<any> => {
+export const deleteBanner = async ({ id }: { id: string }): Promise<any> => {
   const accessToken = cookies().get("access_token")?.value;
   const lang = cookies().get("Language")?.value;
 
   try {
-    const res = await axiosInstance.delete(`${endpoints.banar.fetch}/${id}`, {
+     await axiosInstance.delete(`${endpoints.banar.fetch}/${id}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Accept-Language": lang,

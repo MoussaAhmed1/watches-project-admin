@@ -148,3 +148,28 @@ export const UpdatePharmacyDrug = async (data: Drug,id:string|undefined): Promis
     };
   }
 };
+
+export const deleteProduct = async (
+  productId: any
+): Promise<any> => {
+  const accessToken = cookies().get('access_token')?.value;
+  const lang = cookies().get('Language')?.value;
+
+  try {
+    const res = await axiosInstance.delete(
+      `${endpoints.pharmacy.drugs}/${productId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Accept-Language': lang,
+        },
+      }
+    );
+    revalidatePath('/dashboard/pharmacy/drugs');
+    return res.data.message;
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};

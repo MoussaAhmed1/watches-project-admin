@@ -1,5 +1,5 @@
 import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
-import { fetchBanars } from "@/actions/banars";
+import { fetchBanners } from "@/actions/banars";
 import BreadCrumb from "@/components/breadcrumb";
 import { SharedTable } from "@/components/tables/shared/Shared-table";
 import { BanarsColumns } from "@/components/tables/banars-table/columns";
@@ -9,9 +9,9 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import { IBanar } from "@/types/banars";
+import { IBanner } from "@/types/banars";
 
-const breadcrumbItems = [{ title: "Banars", link: "/dashboard/banars" }];
+const breadcrumbItems = [{ title: "Banners", link: "/dashboard/banars" }];
 
 type paramsProps = {
   searchParams: {
@@ -24,14 +24,14 @@ export default async function page({ searchParams }: paramsProps) {
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
   typeof searchParams?.search === "string" ? searchParams?.search : "";
-  const res = await fetchBanars({
+  const res = await fetchBanners({
     page,
     limit,
     filters: search,
   });
   const totalBanars = res?.data?.meta?.total || 0; //1000
   const pageCount = Math.ceil(totalBanars / limit);
-  const banars: IBanar[] = res?.data?.data || [] ;
+  const banars: IBanner[] = res?.data?.data || [] ;
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
@@ -39,7 +39,7 @@ export default async function page({ searchParams }: paramsProps) {
 
         <div className="flex items-start justify-between">
           <Heading
-            title={`Banars (${totalBanars})`}
+            title={`Banners (${totalBanars})`}
           />
 
           <Link
@@ -52,11 +52,11 @@ export default async function page({ searchParams }: paramsProps) {
         <Separator />
 
         <SharedTable
-          searchKey="banars"
+          searchKey="Banners"
           pageNo={page}
           columns={BanarsColumns}
           totalitems={totalBanars}
-          data={banars as unknown as IBanar[] }
+          data={banars as unknown as IBanner[] }
           pageCount={pageCount}
         />
       </div>

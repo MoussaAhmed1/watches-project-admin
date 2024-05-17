@@ -72,17 +72,23 @@ const page = async ({ params }: { params: { nurseId: string } }) => {
             <div className="p-4 border-t border-gray-200">
               <h2 className="text-xl font-bold">Licenses</h2>
               <div className="flex items-center py-2">
-                {nurse?.license_images.map(({image}) => (
+                {nurse?.license_images.map(({ image }) => (
                   <div key={image} className="w-1/4 mx-2">
                     <Image
                       src={image}
-                      alt={image}
+                      alt={"license"}
                       width={500}
                       height={500}
                     />
                   </div>
                 ))}
               </div>
+              <Image
+                src={`https://images.pexels.com/photos/20890490/pexels-photo-20890490/free-photo-of-monastiraki-square.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`}
+                alt={`sf`}
+                width={500}
+                height={500}
+              />
             </div>
             {/* <div className="p-4 border-t border-gray-200">
               <h2 className="text-xl font-bold">Consultation Prices</h2>
