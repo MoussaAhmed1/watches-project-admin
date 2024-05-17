@@ -1,5 +1,5 @@
 "use client";
-import { deleteBanar } from "@/actions/banars";
+import { deleteBanner } from "@/actions/banars";
 import { AlertModal } from "@/components/modal/alert-modal";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,13 +10,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
-import { IBanar } from "@/types/banars";
+import { IBanner } from "@/types/banars";
 import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface CellActionProps {
-  data: IBanar;
+  data: IBanner;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
@@ -27,7 +27,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   const onConfirm = async () => {
     setLoading(true);
-    const res = await deleteBanar({ id: data?.id });
+    const res = await deleteBanner({ id: data?.id });
     if (res?.error) {
       toast({
         title: "Error",
