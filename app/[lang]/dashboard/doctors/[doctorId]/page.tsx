@@ -45,7 +45,7 @@ const page = async ({ params }: { params: { doctorId: string } }) => {
               />
               <div className="ml-4">
                 <h1 className="text-2xl font-bold">Name: {doctor?.name}</h1>
-                <p>Specialization: {doctor?.specialization.name}</p>
+                <p>Specialization: {doctor?.specialization?.name}</p>
                 <p>Experience: {doctor?.experience} years</p>
                 <div className="flex">
                   <span className="mr-2">Rating:</span>
