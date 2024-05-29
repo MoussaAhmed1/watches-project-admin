@@ -26,7 +26,7 @@ export const fetchPharmacyCategories = async ({
       params: {
         page,
         limit,
-        filters: filters ? [`name_en=${filters}`, `name_ar=${filters}`] : null,
+        filters: filters ? [`name=${filters}`,`name_en=${filters}`, `name_ar=${filters}`] : null,
         sortBy: "created_at=desc",
       },
       headers: {
