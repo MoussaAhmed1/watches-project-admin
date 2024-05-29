@@ -234,7 +234,7 @@ export const PackageForm: React.FC<PackageFormProps> = ({
                 name="number_of_pharmacy_order"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Number of clinic order</FormLabel>
+                    <FormLabel>Number of pharmacy order</FormLabel>
                     <FormControl>
                       <Input type="number" disabled={loading} {...field} />
                     </FormControl>
