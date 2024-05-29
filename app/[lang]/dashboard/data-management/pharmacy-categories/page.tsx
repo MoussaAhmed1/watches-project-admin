@@ -10,6 +10,7 @@ import Link from "next/link";
 import columns from "@/components/tables/pharmacy/categories/columns";
 import { fetchPharmacyCategories } from "@/actions/pharmacy-categories";
 import { PharmacyCategories } from "@/types/pharmacy-categories";
+import PharmacyCategoryForm from "@/components/forms/pharmacy-category/PharmacyCategoryForm";
 
 const breadcrumbItems = [{ title: "Pharmacy Categories", link: "/dashboard/pharmacy-categories" }];
 
@@ -39,13 +40,7 @@ export default async function page({ searchParams }: paramsProps) {
 
         <div className="flex items-start justify-between">
           <Heading title={`Pharmacy Categories (${totalPharmacies})`} />
-
-          <Link
-            href={"/dashboard/pharmacy/new"}
-            className={cn(buttonVariants({ variant: "default" }))}
-          >
-            <Plus className="mr-2 h-4 w-4" /> Add New
-          </Link>
+          <PharmacyCategoryForm/>
         </div>
         <Separator />
 

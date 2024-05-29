@@ -11,6 +11,7 @@ import axiosInstance, {
   getErrorMessage,
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
+import { AddEditPharmacyCategoriesBody } from "@/types/pharmacy-categories";
 
 export const fetchPharmacyCategories = async ({
 
@@ -35,6 +36,76 @@ export const fetchPharmacyCategories = async ({
     });
     return res;
   } catch (error: any) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
+export const AddCategory = async (
+  data: AddEditPharmacyCategoriesBody,
+): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+
+  try {
+    await axiosInstance.post(endpoints.pharmacy.categories, data, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+
+    revalidatePath("/data-management/pharmacy-categories");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
+export const UpdateCategory = async (
+  data: AddEditPharmacyCategoriesBody,id:string|undefined
+): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+
+  try {
+    await axiosInstance.put(
+      `${endpoints.pharmacy.categories}/${id}`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Accept-Language": lang,
+        },
+      },
+    );
+
+    revalidatePath("/data-management/pharmacy-categories");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
+export const deleteCategory = async (id: string): Promise<any> => {
+  const accessToken = cookies().get("access_token")?.value;
+  const lang = cookies().get("Language")?.value;
+
+  try {
+    await axiosInstance.delete(
+      `${endpoints.pharmacy.categories}/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Accept-Language": lang,
+        },
+      },
+    );
+    revalidatePath("/data-management/pharmacy-categories");
+  } catch (error) {
     return {
       error: getErrorMessage(error),
     };
