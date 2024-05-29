@@ -84,7 +84,7 @@ const page = async ({ params }: { params: { nurseId: string } }) => {
                 ))}
               </div>
               <Image
-                src={`https://images.pexels.com/photos/20890490/pexels-photo-20890490/free-photo-of-monastiraki-square.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`}
+                src={`https://api.barqdaily.com/v1/storage/tmp/mart-1713769109914.jpg`}
                 alt={`sf`}
                 width={500}
                 height={500}
