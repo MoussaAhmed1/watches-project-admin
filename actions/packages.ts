@@ -40,6 +40,22 @@ export const fetchPackages = async ({
   }
 };
 
+export const fetchSinglePackage = async (id : string): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+  try {
+    const res = await axiosInstance(`${endpoints.packages.fetch}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+    return res;
+  } catch (error: any) {
+    throw new Error(error);
+
+  }
+};
 export const AddPackages = async (data: PackageFormValues): Promise<any> => {
   const lang = cookies().get("Language")?.value;
 
