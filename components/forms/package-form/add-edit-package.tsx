@@ -23,20 +23,20 @@ import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   name_en: z
-    .string()
+    .string().regex(/^[a-zA-Z\s]+$/, { message: 'Must be English characters only' })
     .min(3, { message: "Package Name must be at least 3 characters" }),
   name_ar: z
-    .string()
+    .string().regex(/^[\u0600-\u06FF\s]+$/, { message: 'Must be Arabic characters only' })
     .min(3, { message: "Package Name must be at least 3 characters" }),
   description_ar: z
-    .string()
+    .string().regex(/^[\u0600-\u06FF\s]+$/, { message: 'Must be Arabic characters only' })
     .min(3, { message: "Package description must be at least 3 characters" }),
   description_en: z
-    .string()
+    .string().regex(/^[a-zA-Z\s]+$/, { message: 'Must be English characters only' })
     .min(3, { message: "Package description must be at least 3 characters" }),
-  price: z.coerce.number(),
-  expiration_days: z.coerce.number(),
-  number_of_pharmacy_order: z.coerce.number(),
+  price: z.coerce.number().positive('Must be a positive number'),
+  expiration_days: z.coerce.number().positive('Must be a positive number'),
+  number_of_pharmacy_order: z.coerce.number().positive('Must be a positive number'),
 });
 
 export type PackageFormValues = z.infer<typeof formSchema>;
@@ -52,7 +52,6 @@ export const PackageForm: React.FC<PackageFormProps> = ({
 }) => {
   const router = useRouter();
   const { toast } = useToast();
-  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const title = initialData ? "Edit package" : "Create package";
   const description = initialData ? "Edit a package." : "Add a new package";
@@ -112,16 +111,6 @@ export const PackageForm: React.FC<PackageFormProps> = ({
     <>
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
-        {initialData && (
-          <Button
-            disabled={loading}
-            variant="destructive"
-            size="sm"
-            onClick={() => setOpen(true)}
-          >
-            <Trash className="h-4 w-4" />
-          </Button>
-        )}
       </div>
 
       <Card className="p-10 mx-0 border-0" style={{ boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >

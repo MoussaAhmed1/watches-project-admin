@@ -3,13 +3,6 @@ import { deleteCategory } from "@/actions/pharmacy-categories";
 import PharmacyCategoryForm from "@/components/forms/pharmacy-category/PharmacyCategoryForm";
 import { AlertModal } from "@/components/modal/alert-modal";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
 import { PharmacyCategories } from "@/types/pharmacy-categories";
 import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";

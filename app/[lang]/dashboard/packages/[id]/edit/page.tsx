@@ -4,7 +4,7 @@ import { PackageForm, PackageFormValues } from "@/components/forms/package-form/
 import { IPackage } from "@/types/packages";
 import React from "react";
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params }: { params: { id: string,lang: Locale } }) {
   // TODO: need to retrieve package data (single package) with ar and en
   const res = await fetchSinglePackage(params.id);
   const _package: PackageFormValues = res?.data?.data;
@@ -15,7 +15,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems} />
-      <PackageForm id={params.id} initialData={_package as unknown as PackageFormValues} />
+      <PackageForm id={params.id} initialData={_package as unknown as PackageFormValues}  />
     </div>
   );
 }

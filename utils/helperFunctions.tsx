@@ -1,5 +1,5 @@
 import moment from "moment";
-
+import Cookie from 'js-cookie';
 
 //conveting to format 12.356.25
 export function formatNumber(number: number): string {
@@ -66,4 +66,7 @@ export function formatCreatedAtDateAsDateTime(created_at: string): string {
  return parseToLocal(created_at,true)
 }
 
-
+export function getCustomNameKeyLang(enKey:string,arKey:string){
+  const lang = Cookie.get("Language") ?? "en"  
+  return lang === 'en' ? enKey : arKey;
+}
