@@ -11,6 +11,7 @@ import axiosInstance, {
   getErrorMessage,
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
+import { AddEditFaqsBody } from "@/types/faqs";
 
 export const fetchFaqs = async ({
 
@@ -35,6 +36,74 @@ export const fetchFaqs = async ({
     });
     return res;
   } catch (error: any) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+export const AddFAQ = async (
+  data: AddEditFaqsBody,
+): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+
+  try {
+    await axiosInstance.post(endpoints.faq.fetch, data, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+
+    revalidatePath("/data-management/specializations");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
+export const UpdateFAQ = async (
+  data: AddEditFaqsBody,
+): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+
+  try {
+    await axiosInstance.put(
+      `${endpoints.faq.fetch}`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Accept-Language": lang,
+        },
+      },
+    );
+
+    revalidatePath("/data-management/specializations");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+export const deleteFAQ = async (id: string): Promise<any> => {
+  const accessToken = cookies().get("access_token")?.value;
+  const lang = cookies().get("Language")?.value;
+
+  try {
+    await axiosInstance.delete(
+      `${endpoints.faq.fetch}/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Accept-Language": lang,
+        },
+      },
+    );
+    revalidatePath("/settings/faq");
+  } catch (error) {
     return {
       error: getErrorMessage(error),
     };

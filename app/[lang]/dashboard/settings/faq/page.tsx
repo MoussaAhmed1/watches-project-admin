@@ -6,6 +6,7 @@ import { SharedTable } from "@/components/tables/shared/Shared-table";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { IFaqs } from "@/types/faqs";
+import FAQForm from "@/components/forms/FAQ/FAQForm";
 
 const breadcrumbItems = [{ title: "Faq", link: "/dashboard/faq" }];
 
@@ -19,15 +20,15 @@ export default async function page({ searchParams }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
-  typeof searchParams?.search === "string" ? searchParams?.search : "";
+    typeof searchParams?.search === "string" ? searchParams?.search : "";
   const res = await fetchFaqs({
     page,
     limit,
     filters: search,
   });
-  const totalFaqs = res?.data?.meta?.total ||0; //1000
+  const totalFaqs = res?.data?.meta?.total || 0; //1000
   const pageCount = Math.ceil(totalFaqs / limit);
-  const faqs: IFaqs[] = res?.data?.data || [] ;
+  const faqs: IFaqs[] = res?.data?.data || [];
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
@@ -37,6 +38,7 @@ export default async function page({ searchParams }: paramsProps) {
           <Heading
             title={`Faqs (${totalFaqs})`}
           />
+          <FAQForm/>
         </div>
         <Separator />
 
@@ -45,7 +47,7 @@ export default async function page({ searchParams }: paramsProps) {
           pageNo={page}
           columns={FaqsColumns}
           totalitems={totalFaqs}
-          data={faqs as unknown as IFaqs[] }
+          data={faqs as unknown as IFaqs[]}
           pageCount={pageCount}
         />
       </div>

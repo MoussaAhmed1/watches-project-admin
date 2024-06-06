@@ -10,9 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function page() {
-  // Todo: ask for ar & en within one request
-  const description_ar = await fetchTermsConditions({ lang: "ar" });
-  const description_en = await fetchTermsConditions({ lang: "en" });
+  const TermsConditionsdata = await fetchTermsConditions();
   const breadcrumbItems = [
     {
       title: "Terms and Conditions",
@@ -28,8 +26,8 @@ export default async function page() {
       />
 
       <TermsConditionsForm
-        description_ar={description_ar?.content}
-        description_en={description_en?.content}
+        description_ar={TermsConditionsdata?.content_en}
+        description_en={TermsConditionsdata?.content_ar}
       />
     </div>
   );

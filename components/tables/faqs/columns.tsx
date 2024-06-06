@@ -3,16 +3,17 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 import { IFaqs } from "@/types/faqs";
+import { getCustomNameKeyLang } from "@/utils/helperFunctions";
 
 export const FaqsColumns: ColumnDef<IFaqs>[] = [
- 
+
   {
     accessorKey: "title",
     header: "Title",
     cell: ({ row }) => (
       <div className="stars flex">
-       {row?.original?.title}
-       
+        {getCustomNameKeyLang(row?.original?.title_en, row?.original?.title_ar)}
+
       </div>
     ),
   },
@@ -21,8 +22,7 @@ export const FaqsColumns: ColumnDef<IFaqs>[] = [
     header: "Descrption",
     cell: ({ row }) => (
       <div className="stars flex">
-       {row?.original?.descrption}
-       
+        {getCustomNameKeyLang(row?.original?.descrption_en, row?.original?.descrption_ar)}
       </div>
     ),
   },

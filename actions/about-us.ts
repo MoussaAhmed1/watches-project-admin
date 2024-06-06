@@ -9,18 +9,13 @@ import axiosInstance, {
   getErrorMessage,
 } from "../utils/axios-client";
 
-export const fetchAboutUs = async ({
-  lang,
-}: {
-  lang: string;
-}): Promise<any> => {
+export const fetchAboutUs = async (): Promise<any> => {
   const accessToken = cookies().get("access_token")?.value;
 
   try {
     const res = await axiosInstance(endpoints.generalSettings.aboutUs, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "Accept-Language": lang,
       },
     });
     return res.data.data;

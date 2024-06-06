@@ -3,25 +3,13 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Heading } from "@/components/ui/heading";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BellRing, Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -29,16 +17,11 @@ import { useToast } from "../../ui/use-toast";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import useCostomSearchParams from "@/hooks/use-searchParams";
-import { IDoctor } from "@/types/doctors";
-import { IPatient } from "@/types/patients";
-import { INurse } from "@/types/nurses";
-import { IPharmacy } from "@/types/pharmacy";
-import { changeAboutUs } from "@/actions/about-us";
 import { changeTermsConditions } from "@/actions/terms-conditions";
 
 const formSchema = z.object({
   description_ar: z
-    .string()
+    .string().regex(/^[\u0600-\u06FF0-9\s]+$/, { message: 'Must be Arabic characters only' })
     .min(10, {
       message: "Description must be at least 10 characters.",
     })
@@ -46,7 +29,7 @@ const formSchema = z.object({
       message: "Description must not be longer than 160 characters.",
     }),
   description_en: z
-    .string()
+    .string().regex(/^[a-zA-Z0-9\s]+$/, { message: 'Must be English characters only' })
     .min(10, {
       message: "Description must be at least 10 characters.",
     })
