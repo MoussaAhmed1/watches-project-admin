@@ -67,7 +67,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             <Eye className="mr-2 h-4 w-4" /> View
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/banars/${data.id}`)}
+            onClick={() => router.push(`/dashboard/banars/${data.id}/edit`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>

@@ -17,9 +17,12 @@ type paramsProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
+  params:{
+    lang: string 
+  }
 };
 
-export default async function page({ searchParams }: paramsProps) {
+export default async function page({ searchParams ,params}: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =

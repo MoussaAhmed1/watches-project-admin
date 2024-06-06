@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
+  FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useToast } from "../../ui/use-toast";
@@ -18,81 +20,136 @@ import { Switch } from "@/components/ui/switch";
 import { CalendarDateRangePicker } from "../../date-range-picker";
 import { DateRange } from "react-day-picker";
 import Image from "next/image";
-const MAX_FILE_SIZE = 5000000;
-const ACCEPTED_IMAGE_TYPES = [
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/webp",
-];
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { IDoctor } from "@/types/doctors";
+import { toFormData } from "axios";
+import { addBanar, editBanar } from "@/actions/banars";
+import { useRouter } from "next/navigation";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { format } from "date-fns"
+import { cn } from "@/lib/utils"
+import { IBanner } from "@/types/banars";
 
-const formSchema = z.object({
-  banar: z.object({
-    is_active: z.boolean(),
-    started_at: z
-      .date()
-      .nullable()
-      .refine((date) => date !== null, {
-        message: "Start date is required",
-      }),
-    ended_at: z
-      .date()
-      .nullable()
-      .refine((date) => date !== null, {
-        message: "End date is required",
-      }),
-    banar: z.any().nullable(),
+const formSchema: any = z.object({
+  is_active: z.boolean(),
+  started_at:
+    z.date({
+      required_error: "Start date is required",
+    }).nullable().refine((date) => date !== null, {
+      message: "Start date is required",
+    }),
+  ended_at: z.date({
+    required_error: "End date is required",
+  }).nullable().refine((date) => date !== null, {
+    message: "End date is required",
   }),
+  banar: z.any()
+    .refine((file) => file instanceof File, {
+      message: 'File must be uploaded',
+    })
+    .refine(
+      (file) => file && ['image/jpeg', 'image/png', 'image/gif'].includes(file.type),
+      {
+        message: 'File must be an image (jpeg, png, gif)',
+      }
+    ),
+  doctor_id: z.string().optional(),
+  description: z.string().optional(),
 });
 
 export type BanarFormValues = z.infer<typeof formSchema>;
 
 interface BanarFormProps {
-  banar?: BanarFormValues["banar"];
+  banar?: IBanner ;
+  doctors: IDoctor[];
 }
 
-export const BanarsForm: React.FC<BanarFormProps> = ({ banar }) => {
+export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
   const { toast } = useToast();
   const [loading, setLoading] = React.useState(false);
   const action = "Send";
-
+  const router = useRouter();
   const form = useForm<BanarFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      banar: {
-        is_active: banar?.is_active || false,
-        started_at: banar?.started_at || null,
-        ended_at: banar?.ended_at || null,
-        banar: banar?.banar,
-      },
-    },
+    defaultValues: banar?  {
+      is_active: banar?.is_active || false,
+      started_at: new Date(banar?.started_at) || null,
+      ended_at: new Date(banar?.ended_at) || null,
+      banar: banar?.banar,
+      description: banar?.description || "",
+      doctor_id: banar?.doctor_id || "",
+    }:undefined,
   });
+  const { control, formState: { errors }, setValue } = form;
+
   const onSubmit = async (data: BanarFormValues) => {
-    console.log(data);
+    const formData = new FormData();
+    toFormData(data, formData);
+    if (banar) {
+      formData.set('id', banar?.id);
+      const res = await editBanar(formData, banar?.id);
+      if (res?.error) {
+        toast({
+          variant: "destructive",
+          title: "Action failed",
+          description: res?.error,
+        });
+      } else {
+        toast({
+          variant: "default",
+          title: "Action updated",
+          description: 'Update success!',
+        });
+        router.back();
+      }
+    } else {
+      const res = await addBanar(formData);
+      if (res?.error) {
+        toast({
+          variant: "destructive",
+          title: "Action failed",
+          description: res?.error,
+        });
+      } else {
+        toast({
+          variant: "default",
+          title: "Action updated",
+          description: `Added success!`,
+        });
+        router.back();
+      }
+    }
   };
 
   const handleChange = (isChecked: boolean) => {
-    form.setValue("banar.is_active", isChecked);
+    form.setValue("is_active", isChecked);
   };
 
-  const returnDate: (dates: DateRange) => void = ({ from, to }) => {
-    if (from && to) {
-      const fromDate = from instanceof Date ? from.toISOString() : from;
-      const toDate = to instanceof Date ? to.toISOString() : to;
-      form.setValue("banar.started_at", new Date(fromDate));
-      form.setValue("banar.ended_at", new Date(toDate));
+  React.useEffect(() => {
+    if (banar) {
+  //     form.setValue("is_active", banar?.is_active || false);
+  //     form.setValue("started_at", banar?.started_at || null);
+  //     form.setValue("ended_at", banar?.ended_at || null);
+  //     form.setValue("banar", banar?.banar);
+  //     form.setValue("doctor_id", banar?.doctor_id);
+  //     form.setValue("description", banar?.description);
+        setSelectedBanar(banar?.banar);
     }
-  };
+  }, [banar]);
 
   const [selectedBanar, setSelectedBanar] = React.useState<string | null>(null);
   const handleBanarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    form.setValue("banar.banar", null);
+    // form.setValue("banar", file);
 
     if (file) {
       setSelectedBanar(URL?.createObjectURL(file));
     }
   };
+
   return (
     <Card
       className="p-10 mx-0 border-0"
@@ -108,15 +165,13 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar }) => {
         >
           <div className=" md:grid md:grid-cols-1 gap-8">
             {selectedBanar && (
-              <div style={{ width: "100%", height: "250px",overflow:"hidden" }}>
+              <div style={{ maxWidth: "100%", height: '250px', overflow: "hidden", position: 'relative', }}>
                 <Image
                   src={selectedBanar}
-                  alt="Selected Banar"
-                  width={1000}
-                  height={1000}
+                  alt="Selected Banner"
+                  fill
+                  objectFit="cover"
                   style={{
-                    width: "100%",
-                    height: "100%",
                     borderRadius: "10px",
                   }}
                 />
@@ -129,48 +184,170 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar }) => {
                 alignItems: "center",
               }}
             >
-              <div className="flex justify-start  items-center">
-                <FormLabel style={{ marginRight: "70px" }}>Banar</FormLabel>
-                <FormControl>
-                  <Input
-                    type="file"
-                    className="border-0 "
-                    {...form.register("banar.banar")}
-                    onChange={handleBanarChange}
-                  />
-                </FormControl>
+              <FormLabel className="max-w-30 mx-1">Banner</FormLabel>
+              <div>
+                <Controller
+                  name="banar"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        field.onChange(e.target.files ? e.target.files[0] : null);
+                        handleBanarChange(e);
+                      }}
+                    />
+                  )}
+                />
               </div>
-              <FormMessage style={{ marginLeft: "px" }}>
-                {form.formState.errors?.banar?.banar?.message
-                  ? "Banar file is required"
-                  : ""}
-              </FormMessage>
+              {errors?.banar?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.banar?.message as any}</FormMessage>}
             </FormItem>
-            <FormItem style={{ marginBottom: "30px" }}>
-              <FormLabel>Banar date from - to</FormLabel>
-              <FormControl>
-                <CalendarDateRangePicker returnDate={returnDate} />
-              </FormControl>
-              <FormMessage>
-                {form.formState.errors?.banar?.started_at?.message}
-              </FormMessage>
-              <FormMessage>
-                {form.formState.errors?.banar?.ended_at?.message}
-              </FormMessage>
-            </FormItem>
+            {
+              //start date 
+            }
+            <FormField
+              control={form.control}
+              name="started_at"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Start date</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[240px] pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date < new Date("1900-01-01")
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {
+              //End date 
+            }
+            <FormField
+              control={form.control}
+              name="ended_at"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>End date</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[240px] pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date < new Date("1900-01-01")
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="doctor_id"
+              render={({ field }) => (
+                <FormItem >
+                  <FormLabel>Specific Doctor (Optional)</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a person" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="">-</SelectItem>
+                      {doctors?.length && doctors?.map((item: IDoctor) => {
+                        return <SelectItem value={item?.id} key={item?.id}>{(item?.name)}</SelectItem>
+                      })
+                      }
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description(Optional)</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Description in English"
+                      className="resize-none"
+                      {...field}
+                      rows={4}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormItem style={{ display: "flex", alignItems: "center" }}>
               <FormLabel style={{ marginRight: "70px" }}>
-                Banar status
+                Banner status
               </FormLabel>
               <FormControl>
                 <Switch
-                  checked={form.watch("banar.is_active")}
-                  onClick={() => handleChange(!form.watch("banar.is_active"))}
-                  name="banar.is_active"
+                  checked={form.watch("is_active")}
+                  onClick={() => handleChange(!form.watch("is_active"))}
+                  name="is_active"
                 />
               </FormControl>
-              <FormMessage>
-                {form.formState.errors?.banar?.is_active?.message}
+              <FormMessage style={{ marginLeft: "px" }}>
+                {form.formState.errors?.is_active?.message
+                  ? "is_active file is required"
+                  : ""}
               </FormMessage>
             </FormItem>
           </div>

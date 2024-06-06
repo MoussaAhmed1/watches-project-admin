@@ -39,6 +39,20 @@ export const fetchBanners = async ({
   }
 };
 
+export const fetchSingleBanar = async ({ banarId }: { banarId: string }): Promise<any> => {
+  const lang = cookies().get('Language')?.value;
+  const accessToken = cookies().get('access_token')?.value;
+
+  try {
+    const res = await axiosInstance(`${endpoints.banar.fetch}/${banarId}`, {
+      headers: { Authorization: `Bearer ${accessToken}`, 'Accept-Language': lang },
+    });
+    return res.data.data;
+  } catch (error:any) {
+    throw new Error(error);
+  }
+};
+
 export const ToggleBanner = async (formData: FormData) => {
   const id = formData.get("id");
   const accessToken = cookies().get("access_token")?.value;
@@ -69,6 +83,45 @@ export const ToggleBanner = async (formData: FormData) => {
   }
 };
 
+export const addBanar = async (formData: FormData): Promise<any> => {
+  const lang = cookies().get('Language')?.value;
+  const accessToken = cookies().get('access_token')?.value;
+
+  try {
+    await axiosInstance.post(endpoints.banar.fetch, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${accessToken}`,
+        'Accept-Language': lang,
+      },
+    });
+
+    revalidatePath('/dashboard/banars');
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+export const editBanar = async (formData: FormData, id: string): Promise<any> => {
+  const lang = cookies().get('Language')?.value;
+  const accessToken = cookies().get('access_token')?.value;
+
+  try {
+    await axiosInstance.patch(`${endpoints.banar.fetch}/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${accessToken}`,
+        'Accept-Language': lang,
+      },
+    });
+    revalidatePath('/dashboard/banars');
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
 export const deleteBanner = async ({ id }: { id: string }): Promise<any> => {
   const accessToken = cookies().get("access_token")?.value;
   const lang = cookies().get("Language")?.value;

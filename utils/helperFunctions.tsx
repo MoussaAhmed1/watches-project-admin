@@ -1,5 +1,5 @@
 import moment from "moment";
-
+import Cookie from 'js-cookie';
 
 //conveting to format 12.356.25
 export function formatNumber(number: number): string {
@@ -47,7 +47,10 @@ export const Captalize = (word: any) => {
   return word;
 };
 
-export function shortenText(text: string,length:number=30): string {
+export function shortenText(text: string|undefined,length:number=30): string|undefined {
+  if(typeof (text)==="undefined"){
+    return undefined;
+  }
   if (text?.length <= length) {
       return text; // If text is already 20 characters or less, return it as is
   } else {
@@ -66,4 +69,7 @@ export function formatCreatedAtDateAsDateTime(created_at: string): string {
  return parseToLocal(created_at,true)
 }
 
-
+export function getCustomNameKeyLang(enKey:string|undefined,arKey:string|undefined){
+  const lang = Cookie.get("Language") ?? "en"  
+  return lang === 'en' ? enKey : arKey;
+}
