@@ -35,16 +35,16 @@ interface IProps {
 }
 const formSchema = z.object({
   title_ar: z
-    .string()
+    .string().regex(/^[\u0600-\u06FF0-9\s]+$/, { message: 'Must be Arabic characters only' })
     .min(3, { message: "Arabic Name must be at least 3 characters" }),
   title_en: z
-    .string()
+    .string().regex(/^[a-zA-Z0-9\s]+$/, { message: 'Must be English characters only' })
     .min(3, { message: "English Name must be at least 3 characters" }),
   descrption_ar: z
-    .string()
+    .string().regex(/^[\u0600-\u06FF0-9\s]+$/, { message: 'Must be Arabic characters only' })
     .min(3, { message: "Arabic descrption must be at least 3 characters" }),
   descrption_en: z
-    .string()
+    .string().regex(/^[a-zA-Z0-9\s]+$/, { message: 'Must be English characters only' })
     .min(3, { message: "English descrption must be at least 3 characters" }),
 });
 export default function FAQForm({ faq, id }: IProps) {

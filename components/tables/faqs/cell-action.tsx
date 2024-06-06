@@ -23,7 +23,6 @@ interface CellActionProps {
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const router = useRouter();
   const { toast } = useToast();
 
   const onConfirm = async () => {
@@ -39,7 +38,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       toast({
         variant: "default",
         title: "Deleted successfully",
-        description: `Specialization has been successfully deleted.`,
+        description: `FAQ has been successfully deleted.`,
       });
     }
 
