@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/form";
 import { Category, Drug } from "@/types/pharmacy";
 import { AddPharmacyDrug, UpdatePharmacyDrug } from "@/actions/pharmacies";
+import { getCustomNameKeyLang } from "@/utils/helperFunctions";
 interface IProps {
   categories: Category[],
   drug?: Drug
@@ -156,7 +157,7 @@ export default function PharmacyDrugsForm({ drug, id, categories }: IProps) {
               }} className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value={""} disabled>Select a Category</option>
                 {categories?.length && categories?.map((item: any) => {
-                  return <option value={item?.id} key={item?.id}>{(item?.name)}</option>
+                  return <option value={item?.id} key={item?.id}>{getCustomNameKeyLang(item?.name_en,item?.name_ar)}</option>
                 })
                 }
               </select>

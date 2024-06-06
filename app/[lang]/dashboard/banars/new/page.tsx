@@ -1,23 +1,30 @@
+import { fetchDoctors } from "@/actions/doctors";
 import BreadCrumb from "@/components/breadcrumb";
 import { BanarsForm } from "@/components/forms/banars-form";
 import { Heading } from "@/components/ui/heading";
+import { IDoctor } from "@/types/doctors";
 import React from "react";
 
-
-
-export default async function Page() {
-  const banar = {
-    id: "222195e2-ab5a-4667-be06-08d4ea546a80",
-    banar:
-      "http://31.220.73.176:3000/v1/storage/banars/i will amazingly edit your picture or poster for a hot instagram post or your brand_-1714414408645.jpeg",
-    started_at: new Date("2024-04-25T23:00:00.000Z"),
-    ended_at: new Date("2024-06-17T23:00:00.000Z"),
-    is_active: true,
+type paramsProps = {
+  searchParams: {
+    [key: string]: string | string[] | undefined;
   };
+};
 
+export default async function Page({ searchParams }: paramsProps) {
+  const search =
+  typeof searchParams?.search === "string" ? searchParams?.search : "";
+  const res = await fetchDoctors({
+    page:1,
+    limit:20,
+    filters: search,
+    otherfilters:["is_verified=1"]
+  });
+  
+  const doctors: IDoctor[] = res?.data?.data || [] ;
   const breadcrumbItems = [
     {
-      title: banar ? "Edit Banar" : "New Banar",
+      title:  "New Banner",
       link: "/dashboard/banars/new",
     },
   ];
@@ -30,7 +37,7 @@ export default async function Page() {
         description="(Create and manage a new banner)"
       />
 
-      <BanarsForm banar={banar} />
+      <BanarsForm doctors={doctors}  />
     </div>
   );
 }

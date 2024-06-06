@@ -22,6 +22,8 @@ export interface IPharmacy {
 export interface Category {
   id: string;
   name: string;
+  name_en: string;
+  name_ar: string;
 }
 export interface Drug {
   id: string;
