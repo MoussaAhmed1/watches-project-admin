@@ -10,8 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function page() {
-  const description_ar = await fetchAboutUs({ lang: "ar" });
-  const description_en = await fetchAboutUs({ lang: "en" });
+  const aboutUsData = await fetchAboutUs();
   const breadcrumbItems = [
     { title: "About Us", link: "/dashboard/settings/about-us" },
   ];
@@ -23,7 +22,7 @@ export default async function page() {
         description="Get to know us and our commitment to you."
       />
 
-      <AboutUsForm description_ar={description_ar?.content} description_en={description_en?.content} />
+      <AboutUsForm description_ar={aboutUsData?.content_ar} description_en={aboutUsData?.content_en} />
     </div>
   );
 }
