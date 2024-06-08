@@ -17,7 +17,7 @@ interface NotificationBody {
   title_ar: string
   title_en: string
   role: string
-  specific_person?: string[] | undefined
+  specific_person?: string[] | null
 }
 export async function sendNotifications(reqBody: NotificationBody) {
   const lang = cookies().get("Language")?.value;
