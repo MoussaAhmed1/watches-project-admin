@@ -9,15 +9,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import Select from "react-select";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BellRing, Trash } from "lucide-react";
@@ -30,9 +23,8 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea"
 import useCostomSearchParams from "@/hooks/use-searchParams";
 import { IPatient } from "@/types/patients";
-import CustomMultipleSelector from "../multiselector";
 import { sendNotifications } from "@/actions/notifications";
-import { Option } from "@/components/ui/multiple-selector";
+import { SelectContent, SelectItem, SelectTrigger, SelectValue, Select as ShadcnSelect } from "@/components/ui/select";
 
 enum Role {
   SUPERADMIN = 'SUPERADMIN',
@@ -62,7 +54,10 @@ const formSchema = z.object({
     message: "Notification description must not be longer than 160 characters.",
   }).max(160, "must not be longer than 160 characters."),
   role: z.string().min(1, { message: "Please select a role" }),
-  specific_person: z.string().array().optional(),
+  specific_person: z.union([
+    z.null(),
+    z.array(z.string()),
+  ]),
 }).required(
   { role: true, }
 );
@@ -99,7 +94,11 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
-
+  const {
+    formState: { errors },
+    setValue,
+    reset
+  } = form;
   const onSubmit = async (data: NotificationFormValues) => {
     // alert(JSON.stringify(data));
     setLoading(true);
@@ -122,18 +121,6 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
     setLoading(false);
 
   };
-  const {
-    setValue,
-    reset
-  } = form;
-
-  const onCustomChange = useCallback(
-    (options: Option[]) => {
-      setValue("specific_person",options.map(op=>op.value));
-    },
-    [setValue],
-  )
-
 
   return (
     <Card className="p-10 mx-0 border-0" style={{ boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >
@@ -224,10 +211,10 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Role</FormLabel>
-                  <Select required onValueChange={(e: any) => {
+                  <ShadcnSelect required onValueChange={(e: any) => {
                     router.replace(`${pathname}?${createQueryString("role", e)}`, { scroll: false });
                     field.onChange(e);
-                    setValue("specific_person", undefined, { shouldValidate: false })
+                    setValue("specific_person", null, { shouldValidate: false })
                   }} defaultValue={field.value || ""}>
                     <FormControl>
                       <SelectTrigger>
@@ -242,37 +229,49 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
                       <SelectItem value={Role.PHARMACY}>Pharmacy</SelectItem>
                       <SelectItem value={Role.NURSE}>Nurse</SelectItem>
                     </SelectContent>
-                  </Select>
+                  </ShadcnSelect>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            {/* <FormField
-              control={form.control}
-              name="specific_person"
-              render={({ field }) => (
-                <FormItem >
-                  <FormLabel>Specific person (Optional)</FormLabel>
-                  <Select disabled={!(searchParams?.get("role"))} onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a person" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                    <SelectItem value="">-</SelectItem>
-                      {users?.length && users?.map((item:any) => {
-                        return <SelectItem value={item?.id} key={item?.id}>{(item?.first_name + " " + item?.last_name)}</SelectItem>
+
+            {
+              //specific_person
+            }
+            {(form.getValues("role")) &&
+              <div className="">
+                <label htmlFor="specific_person" className="font-medium text-sm">
+                  {("Specific person")}
+                </label>
+                <div className="flex-col w-full ">
+                  <Select
+                    id="specific_person"
+                    isSearchable={true}
+                    isClearable={true}
+                    isMulti
+                    isDisabled={!(form.getValues("role"))}
+                    onChange={(values) => {
+                      form.clearErrors("specific_person");
+                      setValue(
+                        "specific_person",
+                        values!.map((val) => val.value)
+                      );
+                    }}
+                    className="w-full"
+                    options={
+                      users.map((user) => {
+                        return { label: user.first_name + " " +  user?.last_name, value: user.id }
                       })
-                      }
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-            <FormLabel className="py-0 my-0">Specific person (Optional)</FormLabel>
-            <CustomMultipleSelector options={users} onCustomChange={onCustomChange} />
+                    }
+                  />
+                  {errors.specific_person && (
+                    <span className="error-text">
+                      {errors.specific_person.message}
+                    </span>
+                  )}
+                </div>
+              </div>
+            }
           </div>
           <Button disabled={loading} className="ml-auto" type="submit">
             {action}

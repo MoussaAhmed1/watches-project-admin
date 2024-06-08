@@ -3,7 +3,7 @@
 /* eslint-disable consistent-return */
 
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 import axiosInstance, {
   Params,
@@ -55,7 +55,7 @@ export const AddFAQ = async (
       },
     });
 
-    revalidatePath("/data-management/specializations");
+    revalidateTag("/settings/faq");
   } catch (error) {
     return {
       error: getErrorMessage(error),
@@ -64,14 +64,14 @@ export const AddFAQ = async (
 };
 
 export const UpdateFAQ = async (
-  data: AddEditFaqsBody,
+  data: AddEditFaqsBody,id:string|undefined
 ): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
 
   try {
     await axiosInstance.put(
-      `${endpoints.faq.fetch}`,
+      `${endpoints.faq.fetch}/${id}`,
       data,
       {
         headers: {
@@ -81,8 +81,8 @@ export const UpdateFAQ = async (
       },
     );
 
-    revalidatePath("/data-management/specializations");
-  } catch (error) {
+    revalidateTag("/settings/faq");
+  } catch (error:any) {
     return {
       error: getErrorMessage(error),
     };
@@ -102,7 +102,7 @@ export const deleteFAQ = async (id: string): Promise<any> => {
         },
       },
     );
-    revalidatePath("/settings/faq");
+    revalidateTag("/settings/faq");
   } catch (error) {
     return {
       error: getErrorMessage(error),

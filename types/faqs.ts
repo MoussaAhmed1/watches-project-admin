@@ -9,7 +9,6 @@ export interface IFaqs {
 }
 
 export interface AddEditFaqsBody {
-  id?: string;
   title_ar: string;
   title_en: string;
   descrption_ar: string;

@@ -130,4 +130,5 @@ export const endpoints = {
   storage: {
     base_storage: "/storage",
   },
+  reviews:"/reservation/reviews",
 };

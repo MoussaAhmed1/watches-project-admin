@@ -73,7 +73,7 @@ export default function FAQForm({ faq, id }: IProps) {
     // alert(JSON.stringify(data)); //testing
     let res;
     if (faq) {
-      res = await UpdateFAQ({ ...data, id });
+      res = await UpdateFAQ({ ...data}, id );
     } else {
 
       res = await AddFAQ(data);

@@ -7,15 +7,40 @@ import { Star } from "lucide-react";
 import { Heading } from "@/components/ui/heading";
 import Approve from "@/components/details/role-details/Approve";
 import { ISingleNurse } from "@/types/nurses";
+import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { fetchReviews } from "@/actions/reviews";
+import { IReview } from "@/types/reviews";
+import Reviews from "@/components/details/doctor-details/reviews";
 export const metadata: Metadata = {
   title: "Next.js Profile | TailAdmin - Next.js Dashboard Template",
   description:
     "This is Next.js Profile page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
 };
 
-const page = async ({ params }: { params: { nurseId: string } }) => {
+const page = async ({ params, searchParams }: {
+  params: { nurseId: string }, searchParams: {
+    [key: string]: string | string[] | undefined;
+  }
+}) => {
   const res = await fetchSingleNurse(params.nurseId);
   const nurse: ISingleNurse = res?.data?.data;
+  //--------------reviews--------------------------
+  const page = Number(searchParams.page) || 1;
+  const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
+  const search =
+    typeof searchParams?.search === "string" ? searchParams?.search : "";
+
+  const res_reviews = await fetchReviews({
+    page,
+    limit,
+    filters: search,
+    otherfilters: [`nurse_id=${params.nurseId}`]
+  });
+  const totalReivews = res_reviews?.data?.meta?.total || 0; //1000
+  const pageCount = Math.ceil(totalReivews / limit);
+  const reviews: IReview[] = res_reviews?.data?.data || [];
+  //----------------------------------------------------------------
   const breadcrumbItems = [
     { title: "Nurses", link: "/dashboard/nurses" },
     { title: `${nurse?.name}`, link: `/dashboard/nurses/${nurse?.name}` },
@@ -65,31 +90,40 @@ const page = async ({ params }: { params: { nurseId: string } }) => {
                 </div>
               </div>
             </div>
-            <div className="p-4">
-              <h2 className="text-xl font-bold">Summary</h2>
-              <p>{nurse?.summery}</p>
-            </div>
-            <div className="p-4 border-t border-gray-200">
-              <h2 className="text-xl font-bold">Licenses</h2>
-              <div className="flex items-center py-2">
-                {nurse?.license_images.map(({ image }) => (
-                  <div key={image} className="w-1/4 mx-2">
-                    <Image
-                      src={image}
-                      alt={"license"}
-                      width={500}
-                      height={500}
-                    />
+            <Tabs defaultValue="details" className="w-full m-3">
+              <TabsList>
+                <TabsTrigger value="details">Details</TabsTrigger>
+                <TabsTrigger value="review">Reviews</TabsTrigger>
+              </TabsList>
+              <TabsContent value="details">
+                <div className="details">
+                  <div className="p-4">
+                    <h2 className="text-xl font-bold">Summary</h2>
+                    <p>{nurse?.summery}</p>
                   </div>
-                ))}
-              </div>
-              <Image
-                src={`https://api.barqdaily.com/v1/storage/tmp/mart-1713769109914.jpg`}
-                alt={`sf`}
-                width={500}
-                height={500}
-              />
-            </div>
+
+                  <div className="p-4 border-t border-gray-200">
+                    <h2 className="text-xl font-bold">Licenses</h2>
+                    <div className="flex items-center py-2">
+                      {nurse?.license_images.map(({ image }) => (
+                        <div key={image} className="w-1/4 mx-2">
+                          <Image
+                            src={image}
+                            alt={"license"}
+                            width={500}
+                            height={500}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </TabsContent>
+              <TabsContent value="review">
+                <Reviews reviews={reviews} pageCount={pageCount} totalitems={totalReivews} pageNo={page} />
+              </TabsContent>
+            </Tabs>
+
             {/* <div className="p-4 border-t border-gray-200">
               <h2 className="text-xl font-bold">Consultation Prices</h2>
               <div className="grid grid-cols-1 mt-2">
