@@ -51,11 +51,11 @@ export default function PharmacyCategoryForm({ category, id }: IProps) {
   const closeRef = useRef<HTMLButtonElement | null>(null);
   const [categoryIdError, setCategoryIdError] = useState("");
   const defaultValues = category
-    ? category
-    : {
-      name_ar: "",
-      name_en: "",
-    };
+    ? {
+      name_ar: category?.name_ar || "",
+      name_en: category?.name_en ||"",
+    }
+    : undefined;
 
   const form = useForm<AddEditPharmacyCategoriesBody>({
     resolver: zodResolver(formSchema),

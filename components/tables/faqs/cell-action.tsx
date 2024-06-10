@@ -3,17 +3,10 @@ import { deleteFAQ } from "@/actions/faq";
 import FAQForm from "@/components/forms/FAQ/FAQForm";
 import { AlertModal } from "@/components/modal/alert-modal";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { useToast } from "@/components/ui/use-toast";
 import { IFaqs } from "@/types/faqs";
-import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Trash } from "lucide-react";
 import { useState } from "react";
 
 interface CellActionProps {
@@ -47,7 +40,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   };
   return (
-    <div className="flex flex-end grow">
+    <div className="flex flex-end grow" key={data.id}>
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
