@@ -64,9 +64,7 @@ export const ToggleBanner = async (formData: FormData) => {
   const id = formData.get("id");
   const accessToken = cookies().get("access_token")?.value;
   const lang = cookies().get("Language")?.value;
-  console.log(formData.get("is_active"))
   const is_active = formData.get("is_active");
-  console.log(is_active === "false")
   formData.set("is_active", JSON.stringify(!!(is_active === "false")));
 
   try {
