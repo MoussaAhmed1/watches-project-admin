@@ -51,11 +51,11 @@ export default function PharmacyDrugsForm({ drug, id, categories }: IProps) {
   const closeRef = useRef<HTMLButtonElement | null>(null);
   const [categoryIdError, setCategoryIdError] = useState("");
   const defaultValues = drug
-    ? drug
-    : {
-      name: "",
-      category_id: "",
-    };
+    ? {
+      name: drug?.name || "",
+      category_id: drug?.category_id || "",
+    }
+    :undefined ;
 
   const form = useForm<Drug>({
     resolver: zodResolver(formSchema),

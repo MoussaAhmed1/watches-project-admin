@@ -3,7 +3,7 @@
 /* eslint-disable consistent-return */
 
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 import axiosInstance, {
   Params,
@@ -14,7 +14,6 @@ import { ITEMS_PER_PAGE } from "./Global-variables";
 import { AddEditPharmacyCategoriesBody } from "@/types/pharmacy-categories";
 
 export const fetchPharmacyCategories = async ({
-
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,
@@ -56,7 +55,7 @@ export const AddCategory = async (
       },
     });
 
-    revalidatePath("/data-management/pharmacy-categories");
+    revalidateTag("/pharmacy-categories");
   } catch (error) {
     return {
       error: getErrorMessage(error),
@@ -82,7 +81,7 @@ export const UpdateCategory = async (
       },
     );
 
-    revalidatePath("/data-management/pharmacy-categories");
+    revalidateTag("/pharmacy-categories");
   } catch (error) {
     return {
       error: getErrorMessage(error),
@@ -104,7 +103,7 @@ export const deleteCategory = async (id: string): Promise<any> => {
         },
       },
     );
-    revalidatePath("/data-management/pharmacy-categories");
+    revalidateTag("/pharmacy-categories");
   } catch (error) {
     return {
       error: getErrorMessage(error),

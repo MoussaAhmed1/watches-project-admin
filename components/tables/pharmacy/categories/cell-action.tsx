@@ -41,7 +41,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
 
   return (
-    <div className="flex flex-end grow">
+    <div className="flex flex-end grow" key={data.id}>
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}

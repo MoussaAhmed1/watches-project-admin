@@ -49,7 +49,7 @@ export default async function page({ searchParams }: paramsProps) {
           pageNo={page}
           columns={columns}
           totalitems={totalPharmacies}
-          data={PharmacyCategories as unknown as PharmacyCategories[]}
+          data={PharmacyCategories}
           pageCount={pageCount}
         />
       </div>

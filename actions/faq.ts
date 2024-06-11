@@ -55,7 +55,7 @@ export const AddFAQ = async (
       },
     });
 
-    revalidateTag("/settings/faq");
+    revalidateTag("/faq");
   } catch (error) {
     return {
       error: getErrorMessage(error),
@@ -81,7 +81,7 @@ export const UpdateFAQ = async (
       },
     );
 
-    revalidateTag("/settings/faq");
+    revalidateTag("/faq");
   } catch (error:any) {
     return {
       error: getErrorMessage(error),
@@ -102,7 +102,7 @@ export const deleteFAQ = async (id: string): Promise<any> => {
         },
       },
     );
-    revalidateTag("/settings/faq");
+    revalidateTag("/faq");
   } catch (error) {
     return {
       error: getErrorMessage(error),

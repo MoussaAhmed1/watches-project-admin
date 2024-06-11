@@ -79,7 +79,6 @@ export const ContactUsForm: React.FC<Prop> = ({
   });
 
   const onSubmit = async (data: ContactUsFormValues) => {
-
     setLoading(true);
     const res = await changeContactLink(data.url, socialLink?.id);
     // router.refresh();
@@ -144,7 +143,7 @@ export const ContactUsForm: React.FC<Prop> = ({
               />
             </div>
             <div className="flex gap-1">
-              <Button size="icon" disabled={loading} type="submit" variant="outline">
+              <Button size="icon" disabled={!(form.getValues("url")!==defaultValues?.url)||loading} type="submit" variant="outline">
                 {<Save className="h-4 w-4" />}
               </Button>
               <NewSocialLink socialLink={socialLink} />

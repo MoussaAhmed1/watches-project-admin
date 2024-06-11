@@ -72,7 +72,7 @@ export default async function Page({ params, searchParams }: Props) {
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
                   <FileText style={{ marginRight: '0.5rem' }} />
-                  Description: {banner.description ? banner.description : 'No description provided'}
+                  Description: {banner.description ? banner?.description : 'No description provided'}
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
                   <CheckCircle style={{ marginRight: '0.5rem' }} />
