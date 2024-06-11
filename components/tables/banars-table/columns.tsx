@@ -42,7 +42,7 @@ export const BanarsColumns: ColumnDef<IBanner>[] = [
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) => <div className="flex items-center gap-3">
+    cell: ({ row }) => <div className="flex items-center gap-3" key={row?.original?.id}>
       {/* <p
       >
         {row?.original?.is_active ? <CheckCircle stroke="#39a845" size={18} /> : <CircleSlash style={{ color: '#8C0101' }} size={18} />}

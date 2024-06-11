@@ -46,17 +46,28 @@ const formSchema: any = z.object({
   }).nullable().refine((date) => date !== null, {
     message: "End date is required",
   }),
-  banar: z.any()
-    .refine((file) => file instanceof File, {
+  banar: z.union([
+    z.any().refine((file): file is File => file instanceof File, {
       message: 'File must be uploaded',
-    })
-    .refine(
+    }).refine(
       (file) => file && ['image/jpeg', 'image/png', 'image/gif'].includes(file.type),
       {
         message: 'File must be an image (jpeg, png, gif)',
       }
     ),
-  doctor_id: z.string().optional(),
+    z.string().refine((url) => {
+      try {
+        const { pathname } = new URL(url);
+        const extension = pathname.split('.').pop();
+        return ['jpeg', 'jpg', 'png', 'gif'].includes(extension?.toLowerCase() ?? '');
+      } catch (error) {
+        return false;
+      }
+    }, {
+      message: 'String must be a valid image URL (jpeg, png, gif)',
+    })
+  ]),
+  doctor_id: z.string().nullable().optional(),
   description: z.string().optional(),
 });
 
@@ -74,13 +85,13 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
   const router = useRouter();
   const form = useForm<BanarFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: banar?  {
+    defaultValues: banar ?  {
       is_active: banar?.is_active || false,
       started_at: new Date(banar?.started_at) || null,
       ended_at: new Date(banar?.ended_at) || null,
       banar: banar?.banar,
       description: banar?.description || "",
-      doctor_id: banar?.doctor_id || "",
+      doctor_id: banar?.doctor_id || undefined,
     }:undefined,
   });
   const { control, formState: { errors }, setValue } = form;
@@ -90,6 +101,10 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
     toFormData(data, formData);
     if (banar) {
       formData.set('id', banar?.id);
+      //handel which to send 
+      if(typeof(form.getValues("banar"))==="string"){
+        formData.delete('banar');
+      }
       const res = await editBanar(formData, banar?.id);
       if (res?.error) {
         toast({
@@ -304,7 +319,7 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="">-</SelectItem>
+                      <SelectItem disabled value={""}>Select a person</SelectItem>
                       {doctors?.length && doctors?.map((item: IDoctor) => {
                         return <SelectItem value={item?.id} key={item?.id}>{(item?.name)}</SelectItem>
                       })
