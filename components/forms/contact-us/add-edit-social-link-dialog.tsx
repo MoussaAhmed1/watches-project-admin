@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../ui/use-toast";
@@ -35,13 +35,13 @@ interface IProps {
 const formSchema = z.object({
   title_en: z
     .string()
-    .min(3, { message: "Social Link Name must be at least 3 characters" }),
+    .min(6, { message: "Social Link Name must be at least 6 characters" }),
   title_ar: z
     .string()
-    .min(3, { message: "Social Link Name must be at least 3 characters" }),
+    .min(6, { message: "Social Link Name must be at least 6 characters" }),
   url: z
     .string()
-    .min(3, { message: "Social Link Name must be at least 3 characters" }),
+    .min(20, { message: "Social Link Name must be at least 20 characters" }),
 
 });
 export default function NewSocialLink({ socialLink }: IProps) {
@@ -49,37 +49,46 @@ export default function NewSocialLink({ socialLink }: IProps) {
   const toastMessage = socialLink ? "Social Link updated." : "Social Link created.";
   const action = socialLink ? "Save changes" : "Create";
   const [loading, setLoading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<string | Blob>("");
+  const [selectedFile, setSelectedFile] = useState<string | undefined>("");
   const { toast } = useToast();
 
   const defaultValues = socialLink
-    ? socialLink
-    : {
-      title_en: "",
-      title_ar: "",
-      url: "",
-      logo: "",
-    };
+    ? {
+      title_en: socialLink?.title_en || "",
+      title_ar: socialLink?.title_ar || "",
+      url: socialLink?.url || "",
+      logo: socialLink?.logo || "",
+    } : undefined;
 
   const form = useForm<ISocialLink>({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
 
+  useEffect(() => {
+    if (socialLink) {
+      setSelectedFile(socialLink?.logo);
+    }
+  }, [socialLink])
+
   const onSubmit = async (data: ISocialLink) => {
     setLoading(true);
     let res;
     if (socialLink) {
-      // TODO: handle social patch after getting name_ar && name_en 
-      res = await changeContactLink(data.url, socialLink?.id);
+      res = await changeContactLink(data.url, socialLink?.id ?? "");
     }
     else {
-      if(selectedFile){
+      if (selectedFile) {
 
         const image = new FormData();
         image.set('file', selectedFile);
-        const logo = await getImageUrl({image})
-        res = await AddContactLink({...data,logo});
+        const logo = await getImageUrl({ image })
+        res = await AddContactLink({
+          title_en: data.title_en,
+          title_ar: data.title_ar,
+          url: data.url, 
+          logo
+        });
       }
 
     }
@@ -94,9 +103,10 @@ export default function NewSocialLink({ socialLink }: IProps) {
     else {
       toast({
         variant: "default",
-        title: "Contact Us updated",
-        description: `${socialLink?.title} link have been successfully updated.`,
+        title: title,
+        description: toastMessage,
       });
+      form.reset();
     }
 
     setLoading(false);

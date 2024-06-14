@@ -3,8 +3,8 @@ import { Avatar, AvatarFallback } from "./ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 
 function ImgUpload({ imageLink, name, selectedFile,
-  setSelectedFile }: { imageLink?: string, name?: string, selectedFile:string | Blob, setSelectedFile:(file:string | Blob)=>void }) {
-  const [previewUrl, setPreviewUrl] = useState("");
+  setSelectedFile }: { imageLink?: string, name?: string, selectedFile:string | undefined, setSelectedFile:(file:string)=>void }) {
+  const [previewUrl, setPreviewUrl] = useState<string | undefined>(selectedFile);
 
   // handle file selection
   const handleFileSelect = (event: any) => {

@@ -50,7 +50,7 @@ const formSchema: any = z.object({
     z.any().refine((file): file is File => file instanceof File, {
       message: 'File must be uploaded',
     }).refine(
-      (file) => file && ['image/jpeg', 'image/png', 'image/gif'].includes(file.type),
+      (file) => file && ['image/jpeg', 'image/png', 'image/gif','image/svg+xml'].includes(file.type),
       {
         message: 'File must be an image (jpeg, png, gif)',
       }
@@ -59,7 +59,7 @@ const formSchema: any = z.object({
       try {
         const { pathname } = new URL(url);
         const extension = pathname.split('.').pop();
-        return ['jpeg', 'jpg', 'png', 'gif'].includes(extension?.toLowerCase() ?? '');
+        return ['jpeg', 'jpg', 'png', 'gif','svg'].includes(extension?.toLowerCase() ?? '');
       } catch (error) {
         return false;
       }
