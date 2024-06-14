@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../ui/use-toast";
@@ -48,7 +48,7 @@ export const ContactUsForm: React.FC<Prop> = ({
 
   const onDelete = async () => {
     setDeleteLoading(true);
-    const res = await deleteContactLink(socialLink?.id);
+    const res = await deleteContactLink(socialLink?.id ?? "");
     // router.refresh();
     if (res?.error) {
       toast({
@@ -61,7 +61,7 @@ export const ContactUsForm: React.FC<Prop> = ({
       toast({
         variant: "default",
         title: "Contact Us updated",
-        description: `${socialLink?.title} link have been successfully updated.`,
+        description: `Social link has been successfully updated.`,
       });
     }
 
@@ -80,7 +80,7 @@ export const ContactUsForm: React.FC<Prop> = ({
 
   const onSubmit = async (data: ContactUsFormValues) => {
     setLoading(true);
-    const res = await changeContactLink(data.url, socialLink?.id);
+    const res = await changeContactLink(data.url, socialLink?.id ?? "");
     // router.refresh();
     if (res?.error) {
       toast({
@@ -93,13 +93,17 @@ export const ContactUsForm: React.FC<Prop> = ({
       toast({
         variant: "default",
         title: "Contact Us updated",
-        description: `${socialLink?.title} link have been successfully updated.`,
+        description: `Social link have been successfully updated.`,
       });
     }
 
     setLoading(false);
 
   };
+
+  useEffect(() => {
+    form.setValue("url", socialLink?.url)
+  }, [form, socialLink])
 
   return (
     <>
@@ -112,15 +116,14 @@ export const ContactUsForm: React.FC<Prop> = ({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 w-full"
         >
           <div className="flex items-start gap-3">
-            <Avatar className="h-11 w-11 mt-[-3px]">
+            <Avatar className="h-11 w-11 mt-[-3px] rounded-full">
               <AvatarImage
                 src={socialLink.logo ?? ""}
-                alt={socialLink.title ?? ""}
+                alt={socialLink.title_en ?? ""}
               />
-              <AvatarFallback>{socialLink.title[0]}</AvatarFallback>
+              <AvatarFallback>{socialLink.title_en[0]}</AvatarFallback>
             </Avatar>
 
             <div className="grow relative top-[-3.72vh]">
@@ -129,11 +132,11 @@ export const ContactUsForm: React.FC<Prop> = ({
                 name="url"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{socialLink?.title}</FormLabel>
+                    <FormLabel>{socialLink?.title_en}</FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder={`${socialLink?.title} link`}
+                        placeholder={`${socialLink?.title_en} link`}
                         {...field}
                       />
                     </FormControl>
@@ -143,8 +146,8 @@ export const ContactUsForm: React.FC<Prop> = ({
               />
             </div>
             <div className="flex gap-1">
-              <Button size="icon" disabled={!(form.getValues("url")!==defaultValues?.url)||loading} type="submit" variant="outline">
-                {<Save className="h-4 w-4" />}
+              <Button size="icon" disabled={!(form.getValues("url") !== defaultValues?.url) || loading} type="submit" variant="outline">
+                <Save className="h-4 w-4" />
               </Button>
               <NewSocialLink socialLink={socialLink} />
               <Button

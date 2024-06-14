@@ -3,7 +3,7 @@
 /* eslint-disable consistent-return */
 
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import axiosInstance, {
   endpoints,
   getErrorMessage,
@@ -23,7 +23,9 @@ export const fetchContactUs = async ({
         Authorization: `Bearer ${accessToken}`,
         "Accept-Language": lang,
       },
+      params:{page:1,limit:100}
     });
+    console.log(res.data)
     return res.data;
   } catch (error: any) {
     return {
@@ -47,7 +49,7 @@ export const changeContactLink = async (url: string,id:string): Promise<any> => 
         },
       },
     );
-    revalidatePath("/dashboard/settings/contact-us");
+    revalidateTag("/dashboard/settings/contact-us");
   } catch (error: any) {
     return {
       error: getErrorMessage(error),
@@ -70,7 +72,29 @@ export const AddContactLink = async (body:ISocialLink): Promise<any> => {
         },
       },
     );
-    revalidatePath("/dashboard/settings/contact-us");
+    revalidateTag("/dashboard/settings/contact-us");
+  } catch (error: any) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+export const editContactLink = async (body:ISocialLink): Promise<any> => {
+  const accessToken = cookies().get("access_token")?.value;
+  const lang = cookies().get("Language")?.value;
+
+  try {
+     await axiosInstance.post(
+      `${endpoints.generalSettings.ContactUs}`,
+      body,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Accept-Language": lang,
+        },
+      },
+    );
+    revalidateTag("/dashboard/settings/contact-us");
   } catch (error: any) {
     return {
       error: getErrorMessage(error),
@@ -97,5 +121,5 @@ export const deleteContactLink = async (id: string): Promise<any> => {
       error: getErrorMessage(error),
     };
   }
-  revalidatePath('/dashboard/additional-services');
+  revalidateTag('/dashboard/additional-services');
 };
