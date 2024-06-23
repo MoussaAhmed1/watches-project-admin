@@ -82,3 +82,45 @@ export const AcceptDoctorRequest = async (user_id:string): Promise<any> => {
   }
 };
 
+
+export const AddDoctor = async (formData: FormData): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  try {
+    const accessToken = cookies().get("access_token")?.value;
+    await axiosInstance.post(endpoints.doctors.register, formData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    revalidatePath("/dashboard/doctors");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+export const updateDoctors = async (
+  data: any,
+  id: string | undefined,
+): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const body = { ...data, id };
+  try {
+    const accessToken = cookies().get("access_token")?.value;
+    await axiosInstance.put(endpoints.doctors.fetch, body, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+
+    revalidatePath("/dashboard/doctors");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};

@@ -23,15 +23,15 @@ export default async function page({ searchParams }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
-  typeof searchParams?.search === "string" ? searchParams?.search : "";
+    typeof searchParams?.search === "string" ? searchParams?.search : "";
   const res = await fetchPatients({
     page,
     limit,
     filters: search,
   });
-  const totalPatients = res?.data?.meta?.total ||0; //1000
+  const totalPatients = res?.data?.meta?.total || 0; //1000
   const pageCount = Math.ceil(totalPatients / limit);
-  const patients: IPatient[] = res?.data?.data || [] ;
+  const patients: IPatient[] = res?.data?.data || [];
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
@@ -41,6 +41,12 @@ export default async function page({ searchParams }: paramsProps) {
           <Heading
             title={`Patients (${totalPatients})`}
           />
+          <Link
+            href={"/dashboard/patients/new"}
+            className={cn(buttonVariants({ variant: "default" }))}
+          >
+            <Plus className="mr-2 h-4 w-4" />Add New
+          </Link>
         </div>
         <Separator />
 
@@ -49,7 +55,7 @@ export default async function page({ searchParams }: paramsProps) {
           pageNo={page}
           columns={PatientsColumns}
           totalitems={totalPatients}
-          data={patients as unknown as IPatient[] }
+          data={patients as unknown as IPatient[]}
           pageCount={pageCount}
         />
       </div>

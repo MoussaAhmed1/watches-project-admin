@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Metadata } from "next";
 import Link from "next/link";
+import nurseImage from "../../../../../public/assets/doctor.avif";
 import BreadCrumb from "@/components/breadcrumb";
 import { AcceptDoctorRequest, fetchSingleDoctor } from "@/actions/doctors";
 import { ISingleDoctor } from "@/types/doctors";
@@ -64,7 +65,7 @@ const page = async ({ params, searchParams }: {
           <div className="bg-background shadow-md rounded-lg overflow-hidden border min-h-[77dvh] border-gray-400">
             <div className="flex items-center justify-start p-4 bg-[#3c50e0] text-white">
               <Image
-                src={doctor?.avatar}
+                src={doctor?.avatar||nurseImage}
                 alt={doctor?.name}
                 className="rounded-full"
                 width={65}

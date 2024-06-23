@@ -17,8 +17,6 @@ import { useToast } from "../../ui/use-toast";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { CalendarDateRangePicker } from "../../date-range-picker";
-import { DateRange } from "react-day-picker";
 import Image from "next/image";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -50,7 +48,7 @@ const formSchema: any = z.object({
     z.any().refine((file): file is File => file instanceof File, {
       message: 'File must be uploaded',
     }).refine(
-      (file) => file && ['image/jpeg', 'image/png', 'image/gif','image/svg+xml'].includes(file.type),
+      (file) => file && ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'].includes(file.type),
       {
         message: 'File must be an image (jpeg, png, gif)',
       }
@@ -59,7 +57,7 @@ const formSchema: any = z.object({
       try {
         const { pathname } = new URL(url);
         const extension = pathname.split('.').pop();
-        return ['jpeg', 'jpg', 'png', 'gif','svg'].includes(extension?.toLowerCase() ?? '');
+        return ['jpeg', 'jpg', 'png', 'gif', 'svg'].includes(extension?.toLowerCase() ?? '');
       } catch (error) {
         return false;
       }
@@ -74,7 +72,7 @@ const formSchema: any = z.object({
 export type BanarFormValues = z.infer<typeof formSchema>;
 
 interface BanarFormProps {
-  banar?: IBanner ;
+  banar?: IBanner;
   doctors: IDoctor[];
 }
 
@@ -85,14 +83,14 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
   const router = useRouter();
   const form = useForm<BanarFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: banar ?  {
+    defaultValues: banar ? {
       is_active: banar?.is_active || false,
       started_at: new Date(banar?.started_at) || null,
       ended_at: new Date(banar?.ended_at) || null,
       banar: banar?.banar,
       description: banar?.description || "",
       doctor_id: banar?.doctor_id || undefined,
-    }:undefined,
+    } : undefined,
   });
   const { control, formState: { errors }, setValue } = form;
 
@@ -102,7 +100,7 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
     if (banar) {
       formData.set('id', banar?.id);
       //handel which to send 
-      if(typeof(form.getValues("banar"))==="string"){
+      if (typeof (form.getValues("banar")) === "string") {
         formData.delete('banar');
       }
       const res = await editBanar(formData, banar?.id);
@@ -145,13 +143,7 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
 
   React.useEffect(() => {
     if (banar) {
-  //     form.setValue("is_active", banar?.is_active || false);
-  //     form.setValue("started_at", banar?.started_at || null);
-  //     form.setValue("ended_at", banar?.ended_at || null);
-  //     form.setValue("banar", banar?.banar);
-  //     form.setValue("doctor_id", banar?.doctor_id);
-  //     form.setValue("description", banar?.description);
-        setSelectedBanar(banar?.banar);
+      setSelectedBanar(banar?.banar);
     }
   }, [banar]);
 
