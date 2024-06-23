@@ -78,6 +78,8 @@ export const endpoints = {
   },
   users: {
     fetch: "/user",
+    register:"/auth/register/client"
+    
   },
   nurse_orders: {
     fetch: "/nurse/order",

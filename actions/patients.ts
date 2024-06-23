@@ -39,3 +39,45 @@ export const fetchPatients = async ({
     };
   }
 };
+
+export const AddPatient = async (formData: FormData): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  try {
+    const accessToken = cookies().get("access_token")?.value;
+    await axiosInstance.post(endpoints.users.register, formData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    revalidatePath("/dashboard/patients");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+export const updatePatients = async (
+  data: any,
+  id: string | undefined,
+): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const body = { ...data, id };
+  try {
+    const accessToken = cookies().get("access_token")?.value;
+    await axiosInstance.put(endpoints.users.fetch, body, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+
+    revalidatePath("/dashboard/patients");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};

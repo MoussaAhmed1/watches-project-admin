@@ -32,6 +32,7 @@ import { getImageUrl } from "@/actions/storage-actions";
 import { toFormData } from "axios";
 import Map from "@/components/map/map";
 import { MapData } from "@/types/map";
+import AvatarPreview from "@/components/shared/AvatarPreview";
 
 export type DoctorFormValues = z.infer<typeof doctorSchema>;
 
@@ -55,12 +56,12 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
   const toastMessage = initialData ? "Doctor updated." : "Doctor created.";
   const action = initialData ? "Save changes" : "Create";
 
-  const [selectedBanar, setSelectedBanar] = useState<string | null>(null);
+  const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
     if (file) {
-      setSelectedBanar(URL?.createObjectURL(file));
+      setSelectedAvatar(URL?.createObjectURL(file));
     }
   };
   
@@ -182,6 +183,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-8 w-full"
           >
+            <AvatarPreview selectedAvatar={selectedAvatar} />
             <div className="md:grid md:grid-cols-2 gap-8">
               <FormField
                 control={form.control}

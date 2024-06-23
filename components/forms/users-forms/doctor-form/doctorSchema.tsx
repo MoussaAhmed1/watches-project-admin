@@ -5,7 +5,7 @@ const doctorSchema = z.object({
   last_name: z.string().min(1, "Last name is required"),
   birth_date: z.date().optional(),
   gender: z.enum(["male", "female"]).optional(),
-  phone: z.string().min(1, "Phone is required"),
+  phone: z.string().regex(/^\d{11}$/, "Phone number must be exactly 11 digits"),
   avatarFile: z.union([
     z.any().refine((file): file is File => file instanceof File, {
       message: 'File must be uploaded',
