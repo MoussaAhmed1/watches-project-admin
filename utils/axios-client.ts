@@ -74,6 +74,7 @@ export const endpoints = {
   doctors: {
     fetch: "/doctor",
     accept: "/doctor/accept",
+    register:"/auth/register/doctor"
   },
   users: {
     fetch: "/user",

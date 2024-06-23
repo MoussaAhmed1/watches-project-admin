@@ -38,6 +38,7 @@
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "@uploadthing/react": "^5.7.0",
+    "@vis.gl/react-google-maps": "^1.1.0",
     "autoprefixer": "10.4.15",
     "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
@@ -72,8 +73,8 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
-    "@types/negotiator": "^0.6.3",
     "@types/js-cookie": "^3.0.6",
+    "@types/negotiator": "^0.6.3",
     "@types/node": "20.5.7",
     "@types/uuid": "^9.0.7",
     "@typescript-eslint/eslint-plugin": "^6.11.0",

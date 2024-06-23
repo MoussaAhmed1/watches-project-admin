@@ -24,16 +24,16 @@ export default async function page({ searchParams }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
-  typeof searchParams?.search === "string" ? searchParams?.search : "";
+    typeof searchParams?.search === "string" ? searchParams?.search : "";
   const res = await fetchDoctors({
     page,
     limit,
     filters: search,
-    otherfilters:["is_verified=1"]
+    otherfilters: ["is_verified=1"]
   });
-  const totalDoctors = res?.data?.meta?.total ||0; //1000
+  const totalDoctors = res?.data?.meta?.total || 0; //1000
   const pageCount = Math.ceil(totalDoctors / limit);
-  const doctors: Employee[] = res?.data?.data || [] ;
+  const doctors: Employee[] = res?.data?.data || [];
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
@@ -43,7 +43,12 @@ export default async function page({ searchParams }: paramsProps) {
           <Heading
             title={`Doctors (${totalDoctors})`}
           />
-
+          <Link
+            href={"/dashboard/doctors/new"}
+            className={cn(buttonVariants({ variant: "default" }))}
+          >
+            <Plus className="mr-2 h-4 w-4" />Add New
+          </Link>
         </div>
         <Separator />
 
@@ -52,7 +57,7 @@ export default async function page({ searchParams }: paramsProps) {
           pageNo={page}
           columns={columns}
           totalitems={totalDoctors}
-          data={doctors as unknown as IDoctor[] }
+          data={doctors as unknown as IDoctor[]}
           pageCount={pageCount}
         />
       </div>
