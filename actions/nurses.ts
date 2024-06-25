@@ -13,21 +13,31 @@ import axiosInstance, {
 import { ITEMS_PER_PAGE } from "./Global-variables";
 
 export const fetchNurses = async ({
-
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,
-  otherfilters
+  otherfilters,
 }: Params): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
-  const spreadotherfilters:string = otherfilters? otherfilters.toString() : "";
+  const spreadotherfilters: string = otherfilters
+    ? otherfilters.toString()
+    : "";
   try {
     const res = await axiosInstance(endpoints.nurses.fetch, {
       params: {
         page,
         limit,
-        filters:  filters ? [`name=${filters}`,`name_en=${filters}`, `name_ar=${filters}`,spreadotherfilters] : spreadotherfilters ? [spreadotherfilters]:null,
+        filters: filters
+          ? [
+              `name=${filters}`,
+              `name_en=${filters}`,
+              `name_ar=${filters}`,
+              spreadotherfilters,
+            ]
+          : spreadotherfilters
+          ? [spreadotherfilters]
+          : null,
         sortBy: "created_at=desc",
       },
       headers: {
@@ -42,8 +52,8 @@ export const fetchNurses = async ({
     };
   }
 };
-// TODO: IMPELEMENTING GETTING SINGLE Nurse 
-export const fetchSingleNurse = async (id : string): Promise<any> => {
+// TODO: IMPELEMENTING GETTING SINGLE Nurse
+export const fetchSingleNurse = async (id: string): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
   try {
@@ -62,13 +72,11 @@ export const fetchSingleNurse = async (id : string): Promise<any> => {
   }
 };
 
-
-
-export const AcceptNurseRequest = async (id:string): Promise<any> => {
+export const AcceptNurseRequest = async (id: string): Promise<any> => {
   const accessToken = cookies().get("access_token")?.value;
   const lang = cookies().get("Language")?.value;
   try {
-     await axiosInstance.post(
+    await axiosInstance.post(
       `${endpoints.nurses.accept}/${id}`,
       {},
       {
@@ -80,6 +88,49 @@ export const AcceptNurseRequest = async (id:string): Promise<any> => {
     );
     revalidatePath(`/dashboard/nurses/${id}`);
   } catch (error: any) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
+export const AddNurse = async (formData: FormData): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  try {
+    const accessToken = cookies().get("access_token")?.value;
+    await axiosInstance.post(endpoints.nurses.register, formData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    revalidatePath("/dashboard/nurses");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
+export const updateNurses = async (
+  data: any,
+  id: string | undefined,
+): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const body = { ...data, id };
+  try {
+    const accessToken = cookies().get("access_token")?.value;
+    await axiosInstance.put(endpoints.nurses.fetch, body, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+
+    revalidatePath("/dashboard/nurses");
+  } catch (error) {
     return {
       error: getErrorMessage(error),
     };

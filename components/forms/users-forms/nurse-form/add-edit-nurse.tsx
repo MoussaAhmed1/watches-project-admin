@@ -17,43 +17,36 @@ import { useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
-import { AddDoctor, updateDoctors } from "@/actions/doctors";
+import { AddNurse, updateNurses } from "@/actions/nurses";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import doctorSchema from "./doctorSchema";
+import nurseSchema from "./nurseSchema";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns"
 import { cn } from "@/lib/utils"
-import { Switch } from "@/components/ui/switch";
-import { ISpecializations } from "@/types/additional-info-specializations";
 import { getImageUrl } from "@/actions/storage-actions";
 import { toFormData } from "axios";
-import Map from "@/components/map/map";
-import { MapData } from "@/types/map";
 import AvatarPreview from "@/components/shared/AvatarPreview";
 
-export type DoctorFormValues = z.infer<typeof doctorSchema>;
+export type NurseFormValues = z.infer<typeof nurseSchema>;
 
-interface DoctorFormProps {
-  initialData?: DoctorFormValues;
+interface NurseFormProps {
+  initialData?: NurseFormValues;
   id?: string;
-  specializations: ISpecializations[];
-
 }
 
-export const DoctorForm: React.FC<DoctorFormProps> = ({
+export const NurseForm: React.FC<NurseFormProps> = ({
   initialData,
   id,
-  specializations
 }) => {
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const title = initialData ? "Edit doctor" : "Create doctor";
-  const description = initialData ? "Edit a doctor." : "Add a new doctor";
-  const toastMessage = initialData ? "Doctor updated." : "Doctor created.";
+  const title = initialData ? "Edit nurse" : "Create nurse";
+  const description = initialData ? "Edit a nurse." : "Add a new nurse";
+  const toastMessage = initialData ? "Nurse updated." : "Nurse created.";
   const action = initialData ? "Save changes" : "Create";
 
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
@@ -77,14 +70,14 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
     number_of_pharmacy_order: 0,
   };
   
-  const form = useForm<DoctorFormValues>({
-    resolver: zodResolver(doctorSchema),
+  const form = useForm<NurseFormValues>({
+    resolver: zodResolver(nurseSchema),
     // defaultValues: initialData ? defaultValues : undefined,
   });
   const { control, handleSubmit, formState: { errors } } = form;
   
   useEffect(() => {
-      form.setValue("role", "DOCTOR")
+      form.setValue("role", "NURSE")
   }, [form]);
 
 
@@ -109,46 +102,28 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
         image.set('file', fileList);
         imagesUrls = await getImageUrl({ image})
       }
-      console.log(imagesUrls)
       return imagesUrls;
     },
     [],
   )
 
-
-  //map:
-  const [mapData, setMapData] = useState<MapData | null>();
-  useEffect(() => {
-    if (mapData) {
-      form.setValue("latitude", mapData?.coords?.lat)
-      form.setValue("longitude", mapData?.coords?.lng)
-      form.clearErrors(["longitude", "latitude"]);
-    }
-  }, [form, mapData]);
-
-
-  const onSubmit = async (data: DoctorFormValues) => {
+  const onSubmit = async (data: NurseFormValues) => {
     alert(JSON.stringify(data)); //testing
     setLoading(true);
     const formData = new FormData();
     toFormData(data, formData);
-    if(data?.cover_image){
-      formData.delete('cover_image');
-      const cover_image = await getUrls(data?.cover_image as unknown as File);
-      formData.set('cover_image', cover_image.toString());
-    }
     if(data?.license_images){
       formData.delete('license_images[]');
       const license_images_array = await getUrls(data?.license_images as unknown as FileList);
-      formData.set('license_images', license_images_array.join());
+      formData.set('license_images', license_images_array.join().toString());
     }
 
     let res;
     if (initialData) {
-      res = await updateDoctors(data, id);
+      res = await updateNurses(data, id);
     } else {
 
-      res = await AddDoctor(formData);
+      res = await AddNurse(formData);
     }
     if (res?.error) {
       toast({
@@ -161,9 +136,9 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
       toast({
         variant: "default",
         title: initialData ? "Updated successfully" : "Added successfully",
-        description: initialData ? `Doctor has been successfully updated.` : `Doctor has been successfully added.`,
+        description: initialData ? `Nurse has been successfully updated.` : `Nurse has been successfully added.`,
       });
-      router.push(`/dashboard/doctors`);
+      router.push(`/dashboard/nurses`);
     }
 
     setLoading(false);
@@ -194,7 +169,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Doctor name"
+                        placeholder="Nurse name"
                         {...field}
                       />
                     </FormControl>
@@ -211,7 +186,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Doctor name"
+                        placeholder="Nurse name"
                         {...field}
                       />
                     </FormControl>
@@ -318,36 +293,6 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                 </div>
                 {errors?.avatarFile?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.avatarFile?.message as any}</FormMessage>}
               </FormItem>
-              {/* Cover Image */}
-              <FormItem
-                style={{
-                  margin: "-2px 0",
-                }}
-              >
-                <FormLabel className="max-w-30 mx-1">Cover Image</FormLabel>
-                <div>
-                  <Controller
-                    name="cover_image"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        type="file"
-                        name="file"
-                        multiple={false}
-                        accept="image/*"
-                        onChange={async (e) => {
-                          field.onChange(e.target.files ? e.target.files[0] : null);
-                          if(e.target.files){
-                            getUrls(e.target.files[0])
-                          }
-                          // handleAvatarChange(e);
-                        }}
-                      />
-                    )}
-                  />
-                </div>
-                {errors?.cover_image?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.cover_image?.message as any}</FormMessage>}
-              </FormItem>
               {/* License Images */}
               <FormItem
                 style={{
@@ -377,157 +322,29 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                 </div>
                 {errors?.license_images?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.license_images?.message as any}</FormMessage>}
               </FormItem>
-              {/* Consultation Prices */}
-              <FormField name="video_consultation_price" control={control} render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Video Consultation Price <span className="text-red-800">*</span></FormLabel>
-                  <FormControl>
-                    <Input type="number" disabled={loading} {...field} />
-                  </FormControl>
-                  {errors.video_consultation_price && <FormMessage>{errors.video_consultation_price.message}</FormMessage>}
-                </FormItem>
-              )} />
-              <FormField name="voice_consultation_price" control={control} render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Voice Consultation Price <span className="text-red-800">*</span></FormLabel>
-                  <FormControl>
-                    <Input type="number" {...field} />
-                  </FormControl>
-                  {errors.voice_consultation_price && <FormMessage>{errors.voice_consultation_price.message}</FormMessage>}
-                </FormItem>
-              )} />
-              <FormField name="home_consultation_price" control={control} render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Home Consultation Price <span className="text-red-800">*</span></FormLabel>
-                  <FormControl>
-                    <Input type="number" {...field} />
-                  </FormControl>
-                  {errors.home_consultation_price && <FormMessage>{errors.home_consultation_price.message}</FormMessage>}
-                </FormItem>
-              )} />
-              <FormField name="clinic_consultation_price" control={control} render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Clinic Consultation Price <span className="text-gray-600">(optional)</span></FormLabel>
-                  <FormControl>
-                    <Input type="number" {...field} />
-                  </FormControl>
-                  {errors.clinic_consultation_price && <FormMessage>{errors.clinic_consultation_price.message}</FormMessage>}
-                </FormItem>
-              )} />
-              {/* Specialization ID */}
-              <FormField name="specialization_id" control={control} render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Specialization</FormLabel>
-                  <FormControl>
-                    <Select {...field} onValueChange={field.onChange}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select specialization" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {
-                          specializations.map(specialization => <SelectItem key={specialization?.id} value={specialization?.id}>{specialization?.name_en}</SelectItem>)
-                        }
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  {errors.gender && <FormMessage>{errors.gender.message}</FormMessage>}
-                </FormItem>
-              )} />
-
-
               {/* Year of Experience */}
-              <FormField name="year_of_experience" control={control} render={({ field }) => (
+              <FormField name="experience" control={control} render={({ field }) => (
                 <FormItem>
                   <FormLabel>Year of Experience <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
                     <Input type="number" {...field} />
                   </FormControl>
-                  {errors.year_of_experience && <FormMessage>{errors.year_of_experience.message}</FormMessage>}
+                  {errors.experience && <FormMessage>{errors.experience.message}</FormMessage>}
                 </FormItem>
               )} />
-
-
-              {/* Availability */}
-              {/* <FormField name="avaliablity" control={control} render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Availability</FormLabel>
-                  <FormControl>
-                    {field?.value?.map((availability: { day: string | number | readonly string[] | undefined; start_at: string | number | readonly string[] | undefined; end_at: string | number | readonly string[] | undefined; is_active: boolean | undefined; }, index: number) => (
-                      <div key={index} className="flex space-x-4">
-                        <Input placeholder="Day" value={availability.day} onChange={(e) => {
-                          const updated = [...field.value];
-                          updated[index].day = Number(e.target.value);
-                          field.onChange(updated);
-                        }} />
-                        <Input placeholder="Start At" value={availability.start_at} onChange={(e) => {
-                          const updated = [...field.value];
-                          updated[index].start_at = e.target.value;
-                          field.onChange(updated);
-                        }} />
-                        <Input placeholder="End At" value={availability.end_at} onChange={(e) => {
-                          const updated = [...field.value];
-                          updated[index].end_at = e.target.value;
-                          field.onChange(updated);
-                        }} />
-                        <Switch checked={availability.is_active} onCheckedChange={(checked) => {
-                          const updated = [...field.value];
-                          updated[index].is_active = checked;
-                          field.onChange(updated);
-                        }} />
-                      </div>
-                    ))}
-                  </FormControl>
-                  {errors.avaliablity && <FormMessage>{errors.avaliablity.message}</FormMessage>}
-                </FormItem>
-              )} /> */}
-              {/* Clinic */}
-              {/* <FormField name="clinic" control={control} render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Clinic</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Latitude" value={field.value?.latitude} onChange={(e) => field.onChange({ ...field.value, latitude: e.target.value })} />
-                    <Input placeholder="Longitude" value={field.value?.longitude} onChange={(e) => field.onChange({ ...field.value, longitude: e.target.value })} />
-                    <Input placeholder="Address" value={field.value?.address} onChange={(e) => field.onChange({ ...field.value, address: e.target.value })} />
-                    <Input placeholder="Name" value={field.value?.name} onChange={(e) => field.onChange({ ...field.value, name: e.target.value })} />
-                    <Switch checked={field.value?.is_active} onCheckedChange={(checked) => field.onChange({ ...field.value, is_active: checked })} />
-                  </FormControl>
-                  {errors.clinic && <FormMessage>{errors.clinic.message}</FormMessage>}
-                </FormItem>
-              )} /> */}
             </div>
             <div className="md:grid md:grid-cols-1 gap-8">
               {/* Summary */}
-              <FormField name="summery" control={control} render={({ field }) => (
+              <FormField name="summary" control={control} render={({ field }) => (
                 <FormItem>
                   <FormLabel>Summary</FormLabel>
                   <FormControl>
                     <Textarea {...field} rows={4} />
                   </FormControl>
-                  {errors.summery && <FormMessage>{errors.summery.message}</FormMessage>}
+                  {errors.summary && <FormMessage>{errors.summary.message}</FormMessage>}
                 </FormItem>
               )} />
-
-              {/* Latitude */}
-
-              {/* Longitude */}
-              <Map
-                setMapData={setMapData}
-              // defaultPos={workArea?.id ? { lat: workArea.latitude, lng: workArea.longitude } : null}
-              />
-              {errors.longitude && <FormMessage>{errors.longitude.message}</FormMessage>}
-              {/* {errors.latitude && <FormMessage>{errors.latitude.message}</FormMessage>} */}
-
-              {/* Is Urgent */}
-              <FormField name="is_urgent" control={control} render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Is Urgent</FormLabel>
-                  <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
-                  </FormControl>
-                  {errors.is_urgent && <FormMessage>{errors.is_urgent.message}</FormMessage>}
-                </FormItem>
-              )} />
-            </div>
+              </div>
             <Button disabled={loading} className="ml-auto" type="submit">
               {action}
             </Button>

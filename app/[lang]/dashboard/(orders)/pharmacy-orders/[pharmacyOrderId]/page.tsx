@@ -1,18 +1,14 @@
-import Image from "next/image";
 import { Metadata } from "next";
-import Link from "next/link";
 import BreadCrumb from "@/components/breadcrumb";
-import { CheckCircle, CircleSlash, Star } from "lucide-react";
+import { CheckCircle, CircleSlash } from "lucide-react";
 import { Heading } from "@/components/ui/heading";
 import {
-  formatCreatedAtDate,
   formatCreatedAtDateAsDateTime,
 } from "@/utils/helperFunctions";
 import { fetchSinglePharmacyOrder } from "@/actions/pharmacy-order";
 import { PharmacyOrder } from "@/types/pharmacy-order";
 import { Card } from "@/components/ui/card";
 import DrugsCard from "@/components/details/pharmacy-order/DrugsCard";
-import ClientInfoCard from "@/components/details/reservation-details/UserInfo";
 import { fetchPharmacyCategories } from "@/actions/pharmacy-categories";
 import UserInfoCard from "@/components/details/pharmacy-order/UserInfo";
 import Noitems from "@/components/details/no-items/NoItems";

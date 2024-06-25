@@ -1,6 +1,5 @@
 import { fetchPatients } from "@/actions/patients";
 import BreadCrumb from "@/components/breadcrumb";
-import { ProductForm } from "@/components/forms/product-form";
 import { NotificationForm } from "@/components/forms/send-notifications";
 import { Heading } from "@/components/ui/heading";
 import React from "react";

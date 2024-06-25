@@ -23,16 +23,16 @@ export default async function page({ searchParams }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
-  typeof searchParams?.search === "string" ? searchParams?.search : "";
+    typeof searchParams?.search === "string" ? searchParams?.search : "";
   const res = await fetchNurses({
     page,
     limit,
     filters: search,
-    otherfilters:["is_verified=1"]
+    otherfilters: ["is_verified=1"]
   });
-  const totalNurses = res?.data?.meta?.total ||0; //1000
+  const totalNurses = res?.data?.meta?.total || 0; //1000
   const pageCount = Math.ceil(totalNurses / limit);
-  const nurses: INurse[] = res?.data?.data || [] ;
+  const nurses: INurse[] = res?.data?.data || [];
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
@@ -42,6 +42,12 @@ export default async function page({ searchParams }: paramsProps) {
           <Heading
             title={`Nurses (${totalNurses})`}
           />
+          <Link
+            href={"/dashboard/nurses/new"}
+            className={cn(buttonVariants({ variant: "default" }))}
+          >
+            <Plus className="mr-2 h-4 w-4" />Add New
+          </Link>
         </div>
         <Separator />
 
@@ -50,7 +56,7 @@ export default async function page({ searchParams }: paramsProps) {
           pageNo={page}
           columns={NursesColumns}
           totalitems={totalNurses}
-          data={nurses as unknown as INurse[] }
+          data={nurses as unknown as INurse[]}
           pageCount={pageCount}
         />
       </div>

@@ -96,6 +96,7 @@ export const endpoints = {
     categories: "/pharmacy/categories",
     drugs: "/pharmacy/drugs",
     accept: "/pharmacy/accept",
+    register:"/auth/register/pharmacy"
   },
   suggestions: {
     fetch: "/suggestions-complaints",
@@ -108,6 +109,7 @@ export const endpoints = {
   nurses: {
     fetch: "/nurse",
     accept: "/nurse/accept",
+    register:"/auth/register/nurse"
   },
   packages: {
     fetch: "/package",

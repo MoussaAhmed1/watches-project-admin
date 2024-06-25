@@ -40,3 +40,46 @@ export const fetchPharmacy = async ({
     };
   }
 };
+
+export const AddPharmacy = async (formData: FormData): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  try {
+    const accessToken = cookies().get("access_token")?.value;
+    await axiosInstance.post(endpoints.pharmacy.register, formData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    revalidatePath("/dashboard/pharmacy");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
+export const updatePharmacys = async (
+  data: any,
+  id: string | undefined,
+): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const body = { ...data, id };
+  try {
+    const accessToken = cookies().get("access_token")?.value;
+    await axiosInstance.put(endpoints.pharmacy.fetch, body, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+
+    revalidatePath("/dashboard/pharmacy");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
