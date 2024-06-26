@@ -7,7 +7,7 @@ const pharmacySchema = z.object({
   birth_date: z.date().refine((date) => date <= new Date(), {
     message: "Date cannot be in the future",
   }),
-  gender: z.enum(["male", "female"]).optional(),
+  gender: z.enum(["male", "female"]),
   phone: z.string().regex(/^\d{11}$/, "Phone number must be exactly 11 digits"),
   avatarFile: validationRules.image.optional(),
   role: z.literal("PHARMACY"),
@@ -18,7 +18,7 @@ const pharmacySchema = z.object({
   close_time : z.string().min(1, "Close time is required"),
   open_time : z.string().min(1, "Open time is required"),
   logo_images: validationRules?.image.optional(),
-  summery: z.string().optional(),
+  summery: z.string().min(15,"at least 15 characters"),
   expierence: z.coerce.number().min(0, "Year of experience is required"),
   license_images: validationRules.images.optional(),
   categories: z.array(z.string()).min(1, 'Must have at least one category'),

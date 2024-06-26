@@ -78,7 +78,7 @@ const DoctorForm = () => {
             {/* Gender */}
             <FormField name="gender" control={control} render={({ field }) => (
               <FormItem>
-                <FormLabel>Gender</FormLabel>
+                <FormLabel>Gender <span className="text-red-800">*</span></FormLabel>
                 <FormControl>
                   <Select {...field} onValueChange={field.onChange}>
                     <SelectTrigger>
@@ -183,7 +183,7 @@ const DoctorForm = () => {
             {/* Summary */}
             <FormField name="summery" control={control} render={({ field }) => (
               <FormItem>
-                <FormLabel>Summary</FormLabel>
+                <FormLabel>Summary <span className="text-red-800">*</span></FormLabel>
                 <FormControl>
                   <Textarea {...field} rows={4} />
                 </FormControl>
