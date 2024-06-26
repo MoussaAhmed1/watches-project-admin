@@ -199,7 +199,7 @@ export const NurseForm: React.FC<NurseFormProps> = ({
                 name="birth_date"
                 render={({ field }) => (
                   <FormItem className="flex flex-col gap-1 mt-2">
-                    <FormLabel>birth date</FormLabel>
+                    <FormLabel>birth date <span className="text-red-800">*</span></FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -238,7 +238,7 @@ export const NurseForm: React.FC<NurseFormProps> = ({
               {/* Gender */}
               <FormField name="gender" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Gender</FormLabel>
+                  <FormLabel>Gender <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
                     <Select {...field} onValueChange={field.onChange}>
                       <SelectTrigger>
@@ -299,7 +299,7 @@ export const NurseForm: React.FC<NurseFormProps> = ({
                   margin: "-2px 0",
                 }}
               >
-                <FormLabel className="max-w-30 mx-1">License Images</FormLabel>
+                <FormLabel className="max-w-30 mx-1">License Images <span className="text-red-800">*</span></FormLabel>
                 <div>
                   <Controller
                     name="license_images"
@@ -337,7 +337,7 @@ export const NurseForm: React.FC<NurseFormProps> = ({
               {/* Summary */}
               <FormField name="summary" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Summary</FormLabel>
+                  <FormLabel>Summary <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
                     <Textarea {...field} rows={4} />
                   </FormControl>

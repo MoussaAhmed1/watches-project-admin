@@ -6,7 +6,7 @@ const patientSchema = z.object({
   birth_date: z.date().refine((date) => date <= new Date(), {
     message: "Date cannot be in the future",
   }),
-  gender: z.enum(["male", "female"]).optional(),
+  gender: z.enum(["male", "female"]),
   phone: z.string().regex(/^\d{11}$/, "Phone number must be exactly 11 digits"),
   avatarFile: z.union([
     z.any().refine((file): file is File => file instanceof File, {

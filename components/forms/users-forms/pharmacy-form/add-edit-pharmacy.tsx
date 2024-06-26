@@ -399,7 +399,7 @@ export const PharmacyForm: React.FC<PharmacyFormProps> = ({
               {/* Summary */}
               <FormField name="summery" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Summary</FormLabel>
+                  <FormLabel>Summary <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
                     <Textarea {...field} rows={4} />
                   </FormControl>
@@ -465,6 +465,8 @@ export const PharmacyForm: React.FC<PharmacyFormProps> = ({
                 setMapData={setMapData}
               // defaultPos={workArea?.id ? { lat: workArea.latitude, lng: workArea.longitude } : null}
               />
+              {errors.longitude && <FormMessage>{errors.longitude.message}</FormMessage>}
+
               <FormField
                 control={form.control}
                 name="address"
@@ -483,7 +485,6 @@ export const PharmacyForm: React.FC<PharmacyFormProps> = ({
                   </FormItem>
                 )}
               />
-              {errors.longitude && <FormMessage>{errors.longitude.message}</FormMessage>}
               {/* {errors.latitude && <FormMessage>{errors.latitude.message}</FormMessage>} */}
             </div>
             {/* TimePicker */}

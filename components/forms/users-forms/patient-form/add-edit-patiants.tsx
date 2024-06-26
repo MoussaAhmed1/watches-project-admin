@@ -167,7 +167,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({
                 name="birth_date"
                 render={({ field }) => (
                   <FormItem className="flex flex-col gap-1 mt-2">
-                    <FormLabel>birth date</FormLabel>
+                    <FormLabel>birth date <span className="text-red-800">*</span></FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -206,7 +206,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({
               {/* Gender */}
               <FormField name="gender" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Gender</FormLabel>
+                  <FormLabel>Gender <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
                     <Select {...field} onValueChange={field.onChange}>
                       <SelectTrigger>

@@ -33,9 +33,44 @@ import { toFormData } from "axios";
 import Map from "@/components/map/map";
 import { MapData } from "@/types/map";
 import AvatarPreview from "@/components/shared/AvatarPreview";
-
+import { Separator } from "@/components/ui/separator";
+import Cookie from 'js-cookie';
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import CustomTimePicker from "@/components/shared/timepicker/TimePicker";
 export type DoctorFormValues = z.infer<typeof doctorSchema>;
 
+const workingTimeCards: { id: string, name: string }[] = [
+  {
+    id: "2",
+    name: "Sunday",
+  },
+  {
+    id: "3",
+    name: "Monday",
+  },
+  {
+    id: "4",
+    name: "Tuesday",
+
+  },
+  {
+    id: "5",
+    name: "Wednesday",
+
+  },
+  {
+    id: "6",
+    name: "Thursday",
+  },
+  {
+    id: "7",
+    name: "Friday",
+  },
+  {
+    id: "1",
+    name: "Saturday"
+  }
+];
 interface DoctorFormProps {
   initialData?: DoctorFormValues;
   id?: string;
@@ -49,6 +84,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
   specializations
 }) => {
   const router = useRouter();
+  const currentLang = Cookie.get("Language");
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const title = initialData ? "Edit doctor" : "Create doctor";
@@ -64,52 +100,51 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
       setSelectedAvatar(URL?.createObjectURL(file));
     }
   };
-  
+
   const defaultValues = initialData
-  ? initialData
-  : {
-    name_en: "",
-    name_ar: "",
-    description_ar: "",
-    description_en: "",
-    price: 0,
-    expiration_days: 0,
-    number_of_pharmacy_order: 0,
-  };
-  
+    ? initialData
+    : {
+      name_en: "",
+      name_ar: "",
+      description_ar: "",
+      description_en: "",
+      price: 0,
+      expiration_days: 0,
+      number_of_pharmacy_order: 0,
+    };
+
   const form = useForm<DoctorFormValues>({
     resolver: zodResolver(doctorSchema),
     // defaultValues: initialData ? defaultValues : undefined,
   });
   const { control, handleSubmit, formState: { errors } } = form;
-  
+
   useEffect(() => {
-      form.setValue("role", "DOCTOR")
+    form.setValue("role", "DOCTOR")
   }, [form]);
 
 
   // store
   const getUrls = useCallback(
-    async (fileList: FileList|File) => {
+    async (fileList: FileList | File) => {
       const formData = new FormData();
       toFormData(fileList, formData);
-      let imagesUrls:string[] = [];
-      if(fileList instanceof FileList){
+      let imagesUrls: string[] = [];
+      if (fileList instanceof FileList) {
         const imagesArray = Array.from(fileList);
         const _images: FormData[] = [];
         await imagesArray.forEach((img) => {
           _images.push(new FormData());
           _images[_images.length - 1].set('file', img);
         });
-         imagesUrls = await Promise.all(
+        imagesUrls = await Promise.all(
           _images.map(async (img) => (await getImageUrl({ image: img })) as string)
         );
-      }else{
+      } else {
         const image = new FormData();
         image.set('file', fileList);
-        imagesUrls = await getImageUrl({ image})
+        imagesUrls = await getImageUrl({ image })
       }
-      console.log(imagesUrls)
       return imagesUrls;
     },
     [],
@@ -118,6 +153,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
 
   //map:
   const [mapData, setMapData] = useState<MapData | null>();
+  const [ClinicMapData, setClinicMapData] = useState<MapData | null>();
   useEffect(() => {
     if (mapData) {
       form.setValue("latitude", mapData?.coords?.lat)
@@ -126,18 +162,37 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
     }
   }, [form, mapData]);
 
+  useEffect(() => {
+    if (ClinicMapData) {
+      form.setValue("clinic.latitude", ClinicMapData?.coords?.lat)
+      form.setValue("clinic.longitude", ClinicMapData?.coords?.lng)
+      form.setValue("clinic.address", currentLang === 'en' ? ClinicMapData?.address.add_en : ClinicMapData?.address.add_ar);
+      form.clearErrors(["clinic.longitude", "clinic.latitude", "clinic.address"]);
+    }
+  }, [form, ClinicMapData, currentLang]);
+
+  const [error, setError] = useState("");
 
   const onSubmit = async (data: DoctorFormValues) => {
     alert(JSON.stringify(data)); //testing
     setLoading(true);
     const formData = new FormData();
     toFormData(data, formData);
-    if(data?.cover_image){
+
+    //Availability
+    const Availabilityarray = data.avaliablity.map((value) => value.is_active);
+    if (Availabilityarray.length === 0) {
+      setError("Availability shouldn't be empty")
+      return;
+    }
+    formData.delete('avaliablity');
+    formData.set('avaliablity', Availabilityarray.join());
+    if (data?.cover_image) {
       formData.delete('cover_image');
       const cover_image = await getUrls(data?.cover_image as unknown as File);
       formData.set('cover_image', cover_image.toString());
     }
-    if(data?.license_images){
+    if (data?.license_images) {
       formData.delete('license_images[]');
       const license_images_array = await getUrls(data?.license_images as unknown as FileList);
       formData.set('license_images', license_images_array.join());
@@ -170,6 +225,10 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
   };
   //show error messages
   console.log(form.formState.errors);
+
+  useEffect(() => {
+    console.log("avaliablity", form.getValues("avaliablity"))
+  }, [form.getValues("avaliablity")])
 
   return (
     <>
@@ -224,7 +283,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                 name="birth_date"
                 render={({ field }) => (
                   <FormItem className="flex flex-col gap-1 mt-2">
-                    <FormLabel>birth date</FormLabel>
+                    <FormLabel>birth date <span className="text-red-800">*</span></FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -263,7 +322,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
               {/* Gender */}
               <FormField name="gender" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Gender</FormLabel>
+                  <FormLabel>Gender <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
                     <Select {...field} onValueChange={field.onChange}>
                       <SelectTrigger>
@@ -337,7 +396,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                         accept="image/*"
                         onChange={async (e) => {
                           field.onChange(e.target.files ? e.target.files[0] : null);
-                          if(e.target.files){
+                          if (e.target.files) {
                             getUrls(e.target.files[0])
                           }
                           // handleAvatarChange(e);
@@ -354,7 +413,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                   margin: "-2px 0",
                 }}
               >
-                <FormLabel className="max-w-30 mx-1">License Images</FormLabel>
+                <FormLabel className="max-w-30 mx-1">License Images <span className="text-red-800">*</span></FormLabel>
                 <div>
                   <Controller
                     name="license_images"
@@ -417,7 +476,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
               {/* Specialization ID */}
               <FormField name="specialization_id" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Specialization</FormLabel>
+                  <FormLabel>Specialization <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
                     <Select {...field} onValueChange={field.onChange}>
                       <SelectTrigger>
@@ -446,60 +505,12 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                 </FormItem>
               )} />
 
-
-              {/* Availability */}
-              {/* <FormField name="avaliablity" control={control} render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Availability</FormLabel>
-                  <FormControl>
-                    {field?.value?.map((availability: { day: string | number | readonly string[] | undefined; start_at: string | number | readonly string[] | undefined; end_at: string | number | readonly string[] | undefined; is_active: boolean | undefined; }, index: number) => (
-                      <div key={index} className="flex space-x-4">
-                        <Input placeholder="Day" value={availability.day} onChange={(e) => {
-                          const updated = [...field.value];
-                          updated[index].day = Number(e.target.value);
-                          field.onChange(updated);
-                        }} />
-                        <Input placeholder="Start At" value={availability.start_at} onChange={(e) => {
-                          const updated = [...field.value];
-                          updated[index].start_at = e.target.value;
-                          field.onChange(updated);
-                        }} />
-                        <Input placeholder="End At" value={availability.end_at} onChange={(e) => {
-                          const updated = [...field.value];
-                          updated[index].end_at = e.target.value;
-                          field.onChange(updated);
-                        }} />
-                        <Switch checked={availability.is_active} onCheckedChange={(checked) => {
-                          const updated = [...field.value];
-                          updated[index].is_active = checked;
-                          field.onChange(updated);
-                        }} />
-                      </div>
-                    ))}
-                  </FormControl>
-                  {errors.avaliablity && <FormMessage>{errors.avaliablity.message}</FormMessage>}
-                </FormItem>
-              )} /> */}
-              {/* Clinic */}
-              {/* <FormField name="clinic" control={control} render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Clinic</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Latitude" value={field.value?.latitude} onChange={(e) => field.onChange({ ...field.value, latitude: e.target.value })} />
-                    <Input placeholder="Longitude" value={field.value?.longitude} onChange={(e) => field.onChange({ ...field.value, longitude: e.target.value })} />
-                    <Input placeholder="Address" value={field.value?.address} onChange={(e) => field.onChange({ ...field.value, address: e.target.value })} />
-                    <Input placeholder="Name" value={field.value?.name} onChange={(e) => field.onChange({ ...field.value, name: e.target.value })} />
-                    <Switch checked={field.value?.is_active} onCheckedChange={(checked) => field.onChange({ ...field.value, is_active: checked })} />
-                  </FormControl>
-                  {errors.clinic && <FormMessage>{errors.clinic.message}</FormMessage>}
-                </FormItem>
-              )} /> */}
             </div>
             <div className="md:grid md:grid-cols-1 gap-8">
               {/* Summary */}
               <FormField name="summery" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Summary</FormLabel>
+                  <FormLabel>Summary <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
                     <Textarea {...field} rows={4} />
                   </FormControl>
@@ -518,15 +529,189 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
               {/* {errors.latitude && <FormMessage>{errors.latitude.message}</FormMessage>} */}
 
               {/* Is Urgent */}
-              <FormField name="is_urgent" control={control} render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Is Urgent</FormLabel>
-                  <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
-                  </FormControl>
-                  {errors.is_urgent && <FormMessage>{errors.is_urgent.message}</FormMessage>}
-                </FormItem>
-              )} />
+              <FormField
+                control={form.control}
+                name="is_urgent"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel>Is Urgent</FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value?`${field.value}`:undefined}
+                        className="flex flex-col space-y-1"
+                      >
+
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value={"true"} />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            Yes
+                          </FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value={"false"} />
+                          </FormControl>
+                          <FormLabel className="font-normal">No</FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Separator style={{ margin: "25px 0 10px 0" }} />
+              <h5 style={{ margin: "5px 0 0 0" }} className="text-gray-500">Clinic Info:</h5>
+              <FormField
+                control={form.control}
+                name="clinic.name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Clinic Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        placeholder="Clinic name"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* Latitude */}
+
+              {/* Longitude */}
+              <Map
+                setMapData={setClinicMapData}
+              // defaultPos={workArea?.id ? { lat: workArea.latitude, lng: workArea.longitude } : null}
+              />
+              {errors.clinic?.longitude && <FormMessage>{errors.clinic.longitude.message}</FormMessage>}
+
+              <FormField
+                control={form.control}
+                name="clinic.address"
+                disabled
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Clinic address <span className="text-red-800">*</span></FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        placeholder="address"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* Is Active */}
+              <FormField
+                control={form.control}
+                name="clinic.is_active"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel>Is Active</FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value?`${field.value}`:undefined}
+                        className="flex flex-col space-y-1"
+                      >
+
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value={"true"} />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            Active
+                          </FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value={"false"} />
+                          </FormControl>
+                          <FormLabel className="font-normal">Disabled</FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Separator style={{ margin: "25px 0 10px 0" }} />
+              <h5 style={{ margin: "5px 0 0 0", color: error ? "red" : "unset" }} className="text-gray-500">Availablity:</h5>
+              {error && <h5 style={{ color: error ? "red" : "unset" }}>{error}</h5>}
+              {  /* availablity */}
+              {
+                workingTimeCards.map((availbleday: { id: string, name: string }, ind: number) => {
+                  return (
+                    <div className="flex space-x-10 items-center " key={availbleday?.id}>
+                      <input value={availbleday?.id} name={`avaliablity.${ind}.id`} className="hidden" />
+                      <div className="min-w-[10%]">
+                        <FormField name={`avaliablity.${ind}.is_active`} control={control} render={({ field }) => (
+                          <FormItem className="flex flex-col">
+                            <FormLabel>{availbleday?.name}</FormLabel>
+                            <FormControl>
+                              <Switch checked={field.value} onCheckedChange={(e) => {
+                                field.onChange(e);
+                                const remainAvaliablity: any[] = form.getValues("avaliablity")
+                                const day = remainAvaliablity[ind]
+                                day.id = availbleday?.id;
+                                remainAvaliablity[ind] = day;
+                                form.setValue(
+                                  "avaliablity",
+                                  [...remainAvaliablity]
+                                );
+                              }} />
+                            </FormControl>
+                            {errors.is_urgent && <FormMessage>{errors.is_urgent.message}</FormMessage>}
+                          </FormItem>
+                        )} />
+                      </div>
+
+                      {/* TimePicker */}
+                      {<div className="flex space-x-5">
+                        <div>
+                          <FormLabel className="max-w-30 mx-1">Start Time <span className="text-red-800">*</span></FormLabel>
+                          <CustomTimePicker
+                            val={form.getValues(`avaliablity.${ind}.start_at`) ?? undefined}
+                            setval={(val) => {
+                              form.clearErrors(`avaliablity.${ind}.start_at`);
+                              const remainAvaliablity: any[] = form.getValues("avaliablity")
+                              const day = remainAvaliablity[ind]
+                              day.start_at = val;
+                              remainAvaliablity[ind] = day;
+                              form.setValue(
+                                "avaliablity",
+                                [...remainAvaliablity]
+                              );
+                            }} />
+                        </div>
+                        <div>
+                          <FormLabel className="max-w-30 mx-1">End Time <span className="text-red-800">*</span></FormLabel>
+                          <CustomTimePicker
+                            val={form.getValues("avaliablity.0.end_at") ?? undefined}
+                            setval={(val) => {
+                              form.clearErrors(`avaliablity.${ind}.end_at`);
+                              const remainAvaliablity: any[] = form.getValues("avaliablity")
+                              const day = remainAvaliablity[ind]
+                              day.end_at = val;
+                              remainAvaliablity[ind] = day;
+                              form.setValue(
+                                "avaliablity",
+                                [...remainAvaliablity]
+                              );
+                            }} />
+                        </div>
+                      </div>}
+                    </div>
+                  )
+                })
+              }
             </div>
             <Button disabled={loading} className="ml-auto" type="submit">
               {action}

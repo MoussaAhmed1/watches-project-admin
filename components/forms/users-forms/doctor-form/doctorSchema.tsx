@@ -1,10 +1,13 @@
+import validationRules from "@/utils/zodValidationRules";
 import * as z from "zod";
 
 const doctorSchema = z.object({
   first_name: z.string().min(1, "First name is required"),
   last_name: z.string().min(1, "Last name is required"),
-  birth_date: z.date().optional(),
-  gender: z.enum(["male", "female"]).optional(),
+  birth_date: z.date().refine((date) => date <= new Date(), {
+    message: "Date cannot be in the future",
+  }),
+  gender: z.enum(["male", "female"]),
   phone: z.string().regex(/^\d{11}$/, "Phone number must be exactly 11 digits"),
   avatarFile: z.union([
     z.any().refine((file): file is File => file instanceof File, {
@@ -64,36 +67,38 @@ const doctorSchema = z.object({
     }, {
       message: 'String must be a valid image URL (jpeg, png, gif)',
     })
-  ]).optional(),
+  ]),
   video_consultation_price: z.coerce.number().positive('Must be a positive number'),
   voice_consultation_price: z.coerce.number().positive('Must be a positive number'),
   home_consultation_price: z.coerce.number().positive('Must be a positive number'),
   clinic_consultation_price: z.coerce.number().positive('Must be a positive number').optional(),
   specialization_id: z.string().min(1, "Specialization ID is required"),
-  summery: z.string().optional(),
+  summery: z.string().min(15, "at least 15 characters"),
   year_of_experience: z.coerce.number().min(0, "Year of experience is required"),
-  is_urgent: z.boolean().optional(),
+  is_urgent: z.union([z.string(), z.boolean()]).optional(),
 
   latitude: z.number({
     required_error: "Please Pick A Location On The Map",
     invalid_type_error: "Must be a number"
-  }).refine(value => value !== undefined, { message: "Please Pick A Location On The Map" }).optional(),
+  }).refine(value => value !== undefined, { message: "Please Pick A Location On The Map" }),
   longitude: z.number({
     required_error: "Please Pick A Location On The Map",
     invalid_type_error: "Must be a number"
-  }).refine(value => value !== undefined, { message: "Please Pick A Location On The Map" }).optional(),
-  avaliablity: z.array(z.object({
-    day: z.number().min(0).max(6),
-    start_at: z.string().min(1, "Start time is required"),
-    end_at: z.string().min(1, "End time is required"),
-    is_active: z.boolean(),
-  })).optional(),
+  }).refine(value => value !== undefined, { message: "Please Pick A Location On The Map" }),
+  avaliablity:z.array(
+    z.object({
+      day: z.number().optional(),
+      start_at: z.string().optional(),
+      end_at: z.string().optional(),
+      is_active: z.boolean().optional()
+    })
+  ).min(1,"at least one day must be specified"),
   clinic: z.object({
-    latitude: z.string().min(1, "Clinic latitude is required"),
-    longitude: z.string().min(1, "Clinic longitude is required"),
+    latitude: validationRules.latLng,
+    longitude: validationRules.latLng,
     address: z.string().min(1, "Clinic address is required"),
     name: z.string().min(1, "Clinic name is required"),
-    is_active: z.boolean(),
+    is_active: z.union([z.string(), z.boolean()]),
   }).optional(),
 });
 

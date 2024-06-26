@@ -13,9 +13,11 @@ function CustomTimePicker({ val, setval }: IProps) {
 
     const handleChange = (newValue: string) => {
         // Format the time string from 22.00 to 22:00
-        const formattedValue = newValue.toString().replace(':', '.');
-        setValue(formattedValue);
-        setval(formattedValue)
+        if(newValue){
+            const formattedValue = newValue.toString().replace(':', '.');
+            setValue(formattedValue);
+            setval(formattedValue)
+        }
     };
 
     // Function to parse time value back to 22.00 format

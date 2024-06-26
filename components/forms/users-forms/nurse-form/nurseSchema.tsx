@@ -6,7 +6,7 @@ const doctorSchema = z.object({
   birth_date: z.date().refine((date) => date <= new Date(), {
     message: "Date cannot be in the future",
   }),
-  gender: z.enum(["male", "female"]).optional(),
+  gender: z.enum(["male", "female"]),
   phone: z.string().regex(/^\d{11}$/, "Phone number must be exactly 11 digits"),
   avatarFile: z.union([
     z.any().refine((file): file is File => file instanceof File, {
@@ -45,8 +45,8 @@ const doctorSchema = z.object({
     }, {
       message: 'String must be a valid image URL (jpeg, png, gif)',
     })
-  ]).optional(),
-  summary: z.string().optional(),
+  ]),
+  summary: z.string().min(15,"at least 15 characters"),
   experience: z.coerce.number().min(0, "Year of experience is required"),
 });
 
