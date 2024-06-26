@@ -75,7 +75,7 @@ const doctorSchema = z.object({
   specialization_id: z.string().min(1, "Specialization ID is required"),
   summery: z.string().min(15, "at least 15 characters"),
   year_of_experience: z.coerce.number().min(0, "Year of experience is required"),
-  is_urgent: z.union([z.string(), z.boolean()]).optional(),
+  is_urgent: z.union([z.string(), z.boolean()]),
 
   latitude: z.number({
     required_error: "Please Pick A Location On The Map",

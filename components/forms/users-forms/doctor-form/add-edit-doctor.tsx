@@ -464,15 +464,6 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                   {errors.home_consultation_price && <FormMessage>{errors.home_consultation_price.message}</FormMessage>}
                 </FormItem>
               )} />
-              <FormField name="clinic_consultation_price" control={control} render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Clinic Consultation Price <span className="text-gray-600">(optional)</span></FormLabel>
-                  <FormControl>
-                    <Input type="number" {...field} />
-                  </FormControl>
-                  {errors.clinic_consultation_price && <FormMessage>{errors.clinic_consultation_price.message}</FormMessage>}
-                </FormItem>
-              )} />
               {/* Specialization ID */}
               <FormField name="specialization_id" control={control} render={({ field }) => (
                 <FormItem>
@@ -538,7 +529,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
-                        defaultValue={field.value?`${field.value}`:undefined}
+                        defaultValue={field.value ? `${field.value}` : undefined}
                         className="flex flex-col space-y-1"
                       >
 
@@ -562,86 +553,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                   </FormItem>
                 )}
               />
-              <Separator style={{ margin: "25px 0 10px 0" }} />
-              <h5 style={{ margin: "5px 0 0 0" }} className="text-gray-500">Clinic Info:</h5>
-              <FormField
-                control={form.control}
-                name="clinic.name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Clinic Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder="Clinic name"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* Latitude */}
 
-              {/* Longitude */}
-              <Map
-                setMapData={setClinicMapData}
-              // defaultPos={workArea?.id ? { lat: workArea.latitude, lng: workArea.longitude } : null}
-              />
-              {errors.clinic?.longitude && <FormMessage>{errors.clinic.longitude.message}</FormMessage>}
-
-              <FormField
-                control={form.control}
-                name="clinic.address"
-                disabled
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Clinic address <span className="text-red-800">*</span></FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder="address"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* Is Active */}
-              <FormField
-                control={form.control}
-                name="clinic.is_active"
-                render={({ field }) => (
-                  <FormItem className="space-y-3">
-                    <FormLabel>Is Active</FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value?`${field.value}`:undefined}
-                        className="flex flex-col space-y-1"
-                      >
-
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value={"true"} />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            Active
-                          </FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value={"false"} />
-                          </FormControl>
-                          <FormLabel className="font-normal">Disabled</FormLabel>
-                        </FormItem>
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <Separator style={{ margin: "25px 0 10px 0" }} />
               <h5 style={{ margin: "5px 0 0 0", color: error ? "red" : "unset" }} className="text-gray-500">Availablity:</h5>
               {error && <h5 style={{ color: error ? "red" : "unset" }}>{error}</h5>}
@@ -712,6 +624,96 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                   )
                 })
               }
+
+              <Separator style={{ margin: "25px 0 10px 0" }} />
+              <h5 style={{ margin: "5px 0 0 0" }} className="text-gray-500">Clinic Info<span className="text-gray-600">(optional)</span>:</h5>
+              <FormField
+                control={form.control}
+                name="clinic.name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Clinic Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        placeholder="Clinic name"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField name="clinic_consultation_price" control={control} render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Clinic Consultation Price </FormLabel>
+                  <FormControl>
+                    <Input type="number" {...field} />
+                  </FormControl>
+                  {errors.clinic_consultation_price && <FormMessage>{errors.clinic_consultation_price.message}</FormMessage>}
+                </FormItem>
+              )} />
+              {/* Latitude */}
+
+              {/* Longitude */}
+              <Map
+                setMapData={setClinicMapData}
+              // defaultPos={workArea?.id ? { lat: workArea.latitude, lng: workArea.longitude } : null}
+              />
+              {errors.clinic?.longitude && <FormMessage>{errors.clinic.longitude.message}</FormMessage>}
+
+              <FormField
+                control={form.control}
+                name="clinic.address"
+                disabled
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Clinic address <span className="text-red-800">*</span></FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        placeholder="address"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* Is Active */}
+              <FormField
+                control={form.control}
+                name="clinic.is_active"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel>Is Active</FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value ? `${field.value}` : undefined}
+                        className="flex flex-col space-y-1"
+                      >
+
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value={"true"} />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            Active
+                          </FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value={"false"} />
+                          </FormControl>
+                          <FormLabel className="font-normal">Disabled</FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
             <Button disabled={loading} className="ml-auto" type="submit">
               {action}
