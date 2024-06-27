@@ -53,11 +53,10 @@ export const AddPharmacy = async (formData: FormData): Promise<any> => {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log(res)
     if(res?.data?.data?.id){
       await AcceptPharmacyRequest(res?.data?.data?.id);
      }
-    revalidatePath("/dashboard/pharmacy");
+    revalidatePath("/dashboard/pharmacies");
   } catch (error) {
     return {
       error: getErrorMessage(error),
@@ -80,7 +79,7 @@ export const updatePharmacys = async (
       },
     });
 
-    revalidatePath("/dashboard/pharmacy");
+    revalidatePath("/dashboard/pharmacies");
   } catch (error) {
     return {
       error: getErrorMessage(error),
