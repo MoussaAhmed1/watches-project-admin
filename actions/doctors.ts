@@ -87,14 +87,16 @@ export const AddDoctor = async (formData: FormData): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   try {
     const accessToken = cookies().get("access_token")?.value;
-    await axiosInstance.post(endpoints.doctors.register, formData, {
+  const res =   await axiosInstance.post(endpoints.doctors.register, formData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Accept-Language": lang,
         "Content-Type": "multipart/form-data",
       },
     });
-
+    if(res?.data?.data?.id){
+      await AcceptDoctorRequest(res?.data?.data?.id);
+     }
     revalidatePath("/dashboard/doctors");
   } catch (error) {
     return {

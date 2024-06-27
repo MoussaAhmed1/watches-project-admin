@@ -17,7 +17,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
-import { AddDoctor, updateDoctors } from "@/actions/doctors";
+import { AcceptDoctorRequest, AddDoctor, updateDoctors } from "@/actions/doctors";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import doctorSchema from "./doctorSchema";
@@ -174,7 +174,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
   const [error, setError] = useState("");
 
   const onSubmit = async (data: DoctorFormValues) => {
-    alert(JSON.stringify(data)); //testing
+    // alert(JSON.stringify(data)); //testing
     setLoading(true);
     const formData = new FormData();
     toFormData(data, formData);
@@ -218,13 +218,16 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
         title: initialData ? "Updated successfully" : "Added successfully",
         description: initialData ? `Doctor has been successfully updated.` : `Doctor has been successfully added.`,
       });
+      if(res?.data?.id){
+        AcceptDoctorRequest(res?.data?.id);
+      }
       router.push(`/dashboard/doctors`);
     }
 
     setLoading(false);
   };
   //show error messages
-  console.log(form.formState.errors);
+  // console.log(form.formState.errors);
 
   useEffect(() => {
     console.log("avaliablity", form.getValues("avaliablity"))

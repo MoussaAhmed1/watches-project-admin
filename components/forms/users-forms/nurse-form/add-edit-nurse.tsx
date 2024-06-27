@@ -17,7 +17,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
-import { AddNurse, updateNurses } from "@/actions/nurses";
+import { AcceptNurseRequest, AddNurse, updateNurses } from "@/actions/nurses";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import nurseSchema from "./nurseSchema";
@@ -108,7 +108,7 @@ export const NurseForm: React.FC<NurseFormProps> = ({
   )
 
   const onSubmit = async (data: NurseFormValues) => {
-    alert(JSON.stringify(data)); //testing
+    // alert(JSON.stringify(data)); //testing
     setLoading(true);
     const formData = new FormData();
     toFormData(data, formData);
@@ -144,7 +144,7 @@ export const NurseForm: React.FC<NurseFormProps> = ({
     setLoading(false);
   };
   //show error messages
-  console.log(form.formState.errors);
+  // console.log(form.formState.errors);
 
   return (
     <>

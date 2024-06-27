@@ -11,6 +11,7 @@ import axiosInstance, {
   getErrorMessage,
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
+import { AcceptPharmacyRequest } from "./pharmacies";
 
 export const fetchPharmacy = async ({
 
@@ -45,14 +46,17 @@ export const AddPharmacy = async (formData: FormData): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   try {
     const accessToken = cookies().get("access_token")?.value;
-    await axiosInstance.post(endpoints.pharmacy.register, formData, {
+    const res =  await axiosInstance.post(endpoints.pharmacy.register, formData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Accept-Language": lang,
         "Content-Type": "multipart/form-data",
       },
     });
-
+    console.log(res)
+    if(res?.data?.data?.id){
+      await AcceptPharmacyRequest(res?.data?.data?.id);
+     }
     revalidatePath("/dashboard/pharmacy");
   } catch (error) {
     return {

@@ -82,7 +82,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({
 
 
   const onSubmit = async (data: PatientFormValues) => {
-    alert(JSON.stringify(data)); //testing
+    // alert(JSON.stringify(data)); //testing
     setLoading(true);
     const formData = new FormData();
     toFormData(data, formData);
@@ -112,7 +112,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({
     setLoading(false);
   };
   //show error messages
-  console.log(form.formState.errors);
+  // console.log(form.formState.errors);
 
   return (
     <>

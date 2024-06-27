@@ -98,7 +98,7 @@ export const AddNurse = async (formData: FormData): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   try {
     const accessToken = cookies().get("access_token")?.value;
-    await axiosInstance.post(endpoints.nurses.register, formData, {
+    const res = await axiosInstance.post(endpoints.nurses.register, formData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Accept-Language": lang,
@@ -107,6 +107,9 @@ export const AddNurse = async (formData: FormData): Promise<any> => {
     });
 
     revalidatePath("/dashboard/nurses");
+    if(res?.data?.data?.id){
+      await AcceptNurseRequest(res?.data?.data?.id);
+     }
   } catch (error) {
     return {
       error: getErrorMessage(error),

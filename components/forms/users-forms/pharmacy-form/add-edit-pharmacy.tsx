@@ -132,7 +132,7 @@ export const PharmacyForm: React.FC<PharmacyFormProps> = ({
 
 
   const onSubmit = async (data: PharmacyFormValues) => {
-    alert(JSON.stringify(data)); //testing
+    // alert(JSON.stringify(data)); //testing
     setLoading(true);
     const formData = new FormData();
     toFormData(data, formData);
@@ -173,7 +173,7 @@ export const PharmacyForm: React.FC<PharmacyFormProps> = ({
     setLoading(false);
   };
   //show error messages
-  console.log(form.formState.errors);
+  // console.log(form.formState.errors);
 
   return (
     <>
