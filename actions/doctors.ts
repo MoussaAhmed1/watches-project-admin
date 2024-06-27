@@ -87,7 +87,30 @@ export const AddDoctor = async (formData: FormData): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   try {
     const accessToken = cookies().get("access_token")?.value;
-    await axiosInstance.post(endpoints.doctors.register, formData, {
+  const res =   await axiosInstance.post(endpoints.doctors.register, formData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    if(res?.data?.data?.id){
+      await AcceptDoctorRequest(res?.data?.data?.id);
+     }
+    revalidatePath("/dashboard/doctors");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+export const updateDoctorsProfile = async (
+  formData: FormData,
+): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  try {
+    const accessToken = cookies().get("access_token")?.value;
+    await axiosInstance.put(`${endpoints.doctors.updateProfile}`, formData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Accept-Language": lang,
@@ -97,30 +120,30 @@ export const AddDoctor = async (formData: FormData): Promise<any> => {
 
     revalidatePath("/dashboard/doctors");
   } catch (error) {
+    console.log(error)
     return {
       error: getErrorMessage(error),
     };
   }
 };
-export const updateDoctors = async (
-  data: any,
-  id: string | undefined,
-): Promise<any> => {
+
+
+export const fetchDoctorProfileInfo = async ({userId}:{userId : string}): Promise<any> => {
   const lang = cookies().get("Language")?.value;
-  const body = { ...data, id };
+  const accessToken = cookies().get("access_token")?.value;
   try {
-    const accessToken = cookies().get("access_token")?.value;
-    await axiosInstance.put(endpoints.doctors.fetch, body, {
+    const res = await axiosInstance(`/additional-info/profile`, {
+      params:{
+        id: userId
+      },
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Accept-Language": lang,
       },
     });
+    return res;
+  } catch (error: any) {
+    throw new Error(error);
 
-    revalidatePath("/dashboard/doctors");
-  } catch (error) {
-    return {
-      error: getErrorMessage(error),
-    };
   }
 };

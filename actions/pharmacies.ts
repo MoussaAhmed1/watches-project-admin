@@ -114,14 +114,14 @@ export const AddPharmacyDrug = async (data: Drug): Promise<any> => {
   const accessToken = cookies().get('access_token')?.value;
 
   try {
-    await axiosInstance.post(endpoints.pharmacy.drugs, data, {
+   await axiosInstance.post(endpoints.pharmacy.drugs, data, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         'Accept-Language': lang,
       },
     });
 
-    revalidatePath('/dashboard/pharmacy/drugs');
+    revalidatePath('/dashboard/pharmacies');
   } catch (error) {
     return {
       error: getErrorMessage(error),

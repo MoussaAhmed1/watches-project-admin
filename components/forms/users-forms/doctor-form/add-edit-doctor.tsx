@@ -17,10 +17,10 @@ import { useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
-import { AddDoctor, updateDoctors } from "@/actions/doctors";
+import { AcceptDoctorRequest, AddDoctor} from "@/actions/doctors";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import doctorSchema from "./doctorSchema";
+import doctorSchema from "./schema/doctorSchema";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -72,25 +72,20 @@ const workingTimeCards: { id: string, name: string }[] = [
   }
 ];
 interface DoctorFormProps {
-  initialData?: DoctorFormValues;
-  id?: string;
   specializations: ISpecializations[];
 
 }
 
 export const DoctorForm: React.FC<DoctorFormProps> = ({
-  initialData,
-  id,
   specializations
 }) => {
   const router = useRouter();
   const currentLang = Cookie.get("Language");
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const title = initialData ? "Edit doctor" : "Create doctor";
-  const description = initialData ? "Edit a doctor." : "Add a new doctor";
-  const toastMessage = initialData ? "Doctor updated." : "Doctor created.";
-  const action = initialData ? "Save changes" : "Create";
+  const title = "Create doctor";
+  const description = "Add a new doctor";
+  const action = "Create";
 
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,23 +96,10 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
     }
   };
 
-  const defaultValues = initialData
-    ? initialData
-    : {
-      name_en: "",
-      name_ar: "",
-      description_ar: "",
-      description_en: "",
-      price: 0,
-      expiration_days: 0,
-      number_of_pharmacy_order: 0,
-    };
-
   const form = useForm<DoctorFormValues>({
     resolver: zodResolver(doctorSchema),
-    // defaultValues: initialData ? defaultValues : undefined,
   });
-  const { control, handleSubmit, formState: { errors } } = form;
+  const { control, formState: { errors } } = form;
 
   useEffect(() => {
     form.setValue("role", "DOCTOR")
@@ -174,7 +156,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
   const [error, setError] = useState("");
 
   const onSubmit = async (data: DoctorFormValues) => {
-    alert(JSON.stringify(data)); //testing
+    // alert(JSON.stringify(data)); //testing
     setLoading(true);
     const formData = new FormData();
     toFormData(data, formData);
@@ -198,37 +180,30 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
       formData.set('license_images', license_images_array.join());
     }
 
-    let res;
-    if (initialData) {
-      res = await updateDoctors(data, id);
-    } else {
-
-      res = await AddDoctor(formData);
-    }
+    const res = await AddDoctor(formData);
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: initialData ? "Update failed" : "Add failed",
+        title:"Add failed",
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: initialData ? "Updated successfully" : "Added successfully",
-        description: initialData ? `Doctor has been successfully updated.` : `Doctor has been successfully added.`,
+        title:  "Added successfully",
+        description: `Doctor has been successfully added.`,
       });
+      if (res?.data?.id) {
+        AcceptDoctorRequest(res?.data?.id);
+      }
       router.push(`/dashboard/doctors`);
     }
 
     setLoading(false);
   };
   //show error messages
-  console.log(form.formState.errors);
-
-  useEffect(() => {
-    console.log("avaliablity", form.getValues("avaliablity"))
-  }, [form.getValues("avaliablity")])
+  // console.log(form.formState.errors);
 
   return (
     <>

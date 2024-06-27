@@ -8,45 +8,36 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
-import { AcceptNurseRequest, AddNurse, updateNurses } from "@/actions/nurses";
+import { updateDoctorsProfile } from "@/actions/doctors";
 import { Card } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
-import nurseSchema from "./nurseSchema";
+import doctorProfileSchema from "./schema/doctorProfileSchema";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns"
 import { cn } from "@/lib/utils"
-import { getImageUrl } from "@/actions/storage-actions";
 import { toFormData } from "axios";
 import AvatarPreview from "@/components/shared/AvatarPreview";
+export type DoctorFormValues = z.infer<typeof doctorProfileSchema>;
 
-export type NurseFormValues = z.infer<typeof nurseSchema>;
-
-interface NurseFormProps {
-  initialData?: NurseFormValues;
-  id?: string;
+interface DoctorFormProps {
+  initialData?: DoctorFormValues;
+  id: string;
 }
 
-export const NurseForm: React.FC<NurseFormProps> = ({
+export const DoctorProfileForm: React.FC<DoctorFormProps> = ({
   initialData,
   id,
 }) => {
-  const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const title = initialData ? "Edit nurse" : "Create nurse";
-  const description = initialData ? "Edit a nurse." : "Add a new nurse";
-  const toastMessage = initialData ? "Nurse updated." : "Nurse created.";
   const action = initialData ? "Save changes" : "Create";
 
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
@@ -57,74 +48,36 @@ export const NurseForm: React.FC<NurseFormProps> = ({
       setSelectedAvatar(URL?.createObjectURL(file));
     }
   };
-  
-  const defaultValues = initialData
-  ? initialData
-  : {
-    name_en: "",
-    name_ar: "",
-    description_ar: "",
-    description_en: "",
-    price: 0,
-    expiration_days: 0,
-    number_of_pharmacy_order: 0,
+
+  const defaultValues = {
+    first_name: initialData?.first_name,
+    last_name: initialData?.last_name,
+    birth_date: initialData?.birth_date,
+    gender: initialData?.gender,
+    phone: initialData?.gender,
   };
-  
-  const form = useForm<NurseFormValues>({
-    resolver: zodResolver(nurseSchema),
-    // defaultValues: initialData ? defaultValues : undefined,
+
+  const form = useForm<DoctorFormValues>({
+    resolver: zodResolver(doctorProfileSchema),
+    defaultValues
   });
-  const { control, handleSubmit, formState: { errors } } = form;
-  
+  const { control, formState: { errors } } = form;
+
   useEffect(() => {
-      form.setValue("role", "NURSE")
-  }, [form]);
+    if (typeof initialData?.avatarFile === 'string') {
+      setSelectedAvatar(initialData?.avatarFile)
+    }
+  }, [initialData])
 
 
-  // store
-  const getUrls = useCallback(
-    async (fileList: FileList|File) => {
-      const formData = new FormData();
-      toFormData(fileList, formData);
-      let imagesUrls:string[] = [];
-      if(fileList instanceof FileList){
-        const imagesArray = Array.from(fileList);
-        const _images: FormData[] = [];
-        await imagesArray.forEach((img) => {
-          _images.push(new FormData());
-          _images[_images.length - 1].set('file', img);
-        });
-         imagesUrls = await Promise.all(
-          _images.map(async (img) => (await getImageUrl({ image: img })) as string)
-        );
-      }else{
-        const image = new FormData();
-        image.set('file', fileList);
-        imagesUrls = await getImageUrl({ image})
-      }
-      return imagesUrls;
-    },
-    [],
-  )
-
-  const onSubmit = async (data: NurseFormValues) => {
+  const onSubmit = async (data: DoctorFormValues) => {
     // alert(JSON.stringify(data)); //testing
     setLoading(true);
     const formData = new FormData();
     toFormData(data, formData);
-    if(data?.license_images){
-      formData.delete('license_images[]');
-      const license_images_array = await getUrls(data?.license_images as unknown as FileList);
-      formData.set('license_images', license_images_array.join().toString());
-    }
+    formData.set('id', id);
+    const res = await updateDoctorsProfile(formData);
 
-    let res;
-    if (initialData) {
-      res = await updateNurses(data, id);
-    } else {
-
-      res = await AddNurse(formData);
-    }
     if (res?.error) {
       toast({
         variant: "destructive",
@@ -136,23 +89,15 @@ export const NurseForm: React.FC<NurseFormProps> = ({
       toast({
         variant: "default",
         title: initialData ? "Updated successfully" : "Added successfully",
-        description: initialData ? `Nurse has been successfully updated.` : `Nurse has been successfully added.`,
+        description: initialData ? `Doctor has been successfully updated.` : `Doctor has been successfully added.`,
       });
-      router.push(`/dashboard/nurses`);
     }
 
     setLoading(false);
   };
-  //show error messages
-  // console.log(form.formState.errors);
-
   return (
     <>
-      <div className="flex items-center justify-between">
-        <Heading title={title} description={description} />
-      </div>
-
-      <Card className="p-10 mx-0 border-0" style={{ boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >
+      <Card className="p-10 mx-0 border-0 min-h-[63dvh]" style={{ boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -169,7 +114,7 @@ export const NurseForm: React.FC<NurseFormProps> = ({
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Nurse name"
+                        placeholder="Doctor name"
                         {...field}
                       />
                     </FormControl>
@@ -186,7 +131,7 @@ export const NurseForm: React.FC<NurseFormProps> = ({
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Nurse name"
+                        placeholder="Doctor name"
                         {...field}
                       />
                     </FormControl>
@@ -282,6 +227,7 @@ export const NurseForm: React.FC<NurseFormProps> = ({
                       <Input
                         type="file"
                         accept="image/*"
+                        placeholder="Edit your avatar"
                         multiple={false}
                         onChange={(e) => {
                           field.onChange(e.target.files ? e.target.files[0] : null);
@@ -293,58 +239,7 @@ export const NurseForm: React.FC<NurseFormProps> = ({
                 </div>
                 {errors?.avatarFile?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.avatarFile?.message as any}</FormMessage>}
               </FormItem>
-              {/* License Images */}
-              <FormItem
-                style={{
-                  margin: "-2px 0",
-                }}
-              >
-                <FormLabel className="max-w-30 mx-1">License Images <span className="text-red-800">*</span></FormLabel>
-                <div>
-                  <Controller
-                    name="license_images"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        type="file"
-                        name="file"
-                        multiple
-                        accept="image/*"
-                        onChange={(e) => {
-                          field.onChange(e.target.files ? e.target.files : null);
-                          // if(e.target.files){
-                          //   getUrls(e.target.files)
-                          // }
-                        }}
-                      />
-                    )}
-                  />
-                </div>
-                {errors?.license_images?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.license_images?.message as any}</FormMessage>}
-              </FormItem>
-              {/* Year of Experience */}
-              <FormField name="experience" control={control} render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Year of Experience <span className="text-red-800">*</span></FormLabel>
-                  <FormControl>
-                    <Input type="number" {...field} />
-                  </FormControl>
-                  {errors.experience && <FormMessage>{errors.experience.message}</FormMessage>}
-                </FormItem>
-              )} />
             </div>
-            <div className="md:grid md:grid-cols-1 gap-8">
-              {/* Summary */}
-              <FormField name="summary" control={control} render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Summary <span className="text-red-800">*</span></FormLabel>
-                  <FormControl>
-                    <Textarea {...field} rows={4} />
-                  </FormControl>
-                  {errors.summary && <FormMessage>{errors.summary.message}</FormMessage>}
-                </FormItem>
-              )} />
-              </div>
             <Button disabled={loading} className="ml-auto" type="submit">
               {action}
             </Button>

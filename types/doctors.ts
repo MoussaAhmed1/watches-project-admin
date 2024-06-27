@@ -16,6 +16,8 @@ export interface ISingleDoctor {
   user_id: string;
   avatar: string;
   name: string;
+  first_name: string;
+  last_name: string;
   experience: number;
   summery: string;
   rating: number;
