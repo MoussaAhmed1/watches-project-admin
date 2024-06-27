@@ -11,7 +11,7 @@ import axiosInstance, {
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
 
-export const fetchPatients = async ({
+export const fetchUsers = async ({
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,

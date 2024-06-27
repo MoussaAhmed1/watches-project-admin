@@ -52,12 +52,12 @@ const page = async ({ params, searchParams }: {
     <>
       <div className="mx-auto w-full mt-8 bg-background">
         <BreadCrumb items={breadcrumbItems} customStyle="ml-4" />
-        <div className="flex flex-col md:flex-row gap-1 items-center justify-between">
+        <div className="flex flex-col md:flex-row gap-1 md:items-center md:justify-between  justify-start items-start">
           <Heading
             title={`Doctor Details`}
             customStyle="ml-4"
           />
-          {(!doctor?.is_verified) && <div className="px-4">
+          {(!doctor?.is_verified) && <div className="px-0 md:px-4">
             <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptDoctorRequest} id={doctor?.user_id} />
           </div>}
         </div>

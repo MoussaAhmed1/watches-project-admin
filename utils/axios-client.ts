@@ -57,10 +57,13 @@ export const fetcher = async ({
 };
 export const getErrorMessage = (error: unknown): string => {
   let message: string;
-  if (error instanceof Error) {
+ if (error instanceof Error) {
     // eslint-disable-next-line prefer-destructuring
     message = error.message;
   } else if (error && typeof error === "object" && "message" in error) {
+    if(typeof error?.message  === "object" && error?.message && "message" in error?.message)
+      message = String(error?.message?.message )
+    else
     message = String(error.message);
   } else if (typeof error === "string") {
     message = error;
@@ -74,7 +77,8 @@ export const endpoints = {
   doctors: {
     fetch: "/doctor",
     accept: "/doctor/accept",
-    register:"/auth/register/doctor"
+    register:"/auth/register/doctor",
+    updateProfile:"/additional-info/update-profile",
   },
   users: {
     fetch: "/user",

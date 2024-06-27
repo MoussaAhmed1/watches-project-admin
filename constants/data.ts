@@ -150,7 +150,7 @@ export const navItems: NavItem[] = [
   {
     title: "Verification Requests",
     icon: "patients",
-    label: "user",
+    label: "verification",
     subItems: true,
 
     children: [
@@ -172,7 +172,7 @@ export const navItems: NavItem[] = [
     title: "Orders",
     href: "/dashboard/nurses",
     icon: "reservations",
-    label: "user",
+    label: "orders",
     subItems: true,
 
     children: [
@@ -193,7 +193,7 @@ export const navItems: NavItem[] = [
   {
     title: "Cancel Requests",
     icon: "reservations",
-    label: "user",
+    label: "cancel",
     subItems: true,
 
     children: [
@@ -223,7 +223,7 @@ export const navItems: NavItem[] = [
     title: "Notifications",
     href: "/dashboard/notifications",
     icon: "notification",
-    label: "kanban",
+    label: "settings",
     subItems: false,
   },
   // {
@@ -275,7 +275,7 @@ export const navItems: NavItem[] = [
     title: "General Settings",
     href: "/dashboard/settings",
     icon: "settings",
-    label: "kanban",
+    label: "settings",
     subItems: true,
     children: [
       {
@@ -300,7 +300,7 @@ export const navItems: NavItem[] = [
     title: "Data Management", 
     href: "/dashboard/settings",
     icon: "settings",
-    label: "kanban",
+    label: "data_management",
     subItems: true,
     children: [
       {

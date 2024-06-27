@@ -1,5 +1,5 @@
 import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
-import { fetchPatients } from "@/actions/patients";
+import { fetchUsers } from "@/actions/patients";
 import BreadCrumb from "@/components/breadcrumb";
 import { PatientsColumns } from "@/components/tables/patients-tables/columns";
 import { SharedTable } from "@/components/tables/shared/Shared-table";
@@ -24,7 +24,7 @@ export default async function page({ searchParams }: paramsProps) {
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
     typeof searchParams?.search === "string" ? searchParams?.search : "";
-  const res = await fetchPatients({
+  const res = await fetchUsers({
     page,
     limit,
     filters: search,

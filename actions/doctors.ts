@@ -104,25 +104,46 @@ export const AddDoctor = async (formData: FormData): Promise<any> => {
     };
   }
 };
-export const updateDoctors = async (
-  data: any,
-  id: string | undefined,
+export const updateDoctorsProfile = async (
+  formData: FormData,
 ): Promise<any> => {
   const lang = cookies().get("Language")?.value;
-  const body = { ...data, id };
   try {
     const accessToken = cookies().get("access_token")?.value;
-    await axiosInstance.put(endpoints.doctors.fetch, body, {
+    await axiosInstance.put(`${endpoints.doctors.updateProfile}`, formData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Accept-Language": lang,
+        "Content-Type": "multipart/form-data",
       },
     });
 
     revalidatePath("/dashboard/doctors");
   } catch (error) {
+    console.log(error)
     return {
       error: getErrorMessage(error),
     };
+  }
+};
+
+
+export const fetchDoctorProfileInfo = async ({userId}:{userId : string}): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+  try {
+    const res = await axiosInstance(`/additional-info/profile`, {
+      params:{
+        id: userId
+      },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+    return res;
+  } catch (error: any) {
+    throw new Error(error);
+
   }
 };
