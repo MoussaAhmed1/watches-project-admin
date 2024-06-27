@@ -22,6 +22,7 @@ interface DashboardNavProps {
 export function DashboardNav({ items, setOpen }: DashboardNavProps) {
   const path = usePathname();
   const currentLang = Cookie.get("Language");
+  console.log(path)
   if (!items?.length) {
     return null;
   }
