@@ -1,18 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import Cookie from 'js-cookie';
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Icons } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import { NavItem } from "@/types";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import {
   Accordion,
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
 } from "./ui/accordion";
+import useCostomSearchParams from "@/hooks/use-searchParams";
 
 interface DashboardNavProps {
   items: NavItem[];
@@ -20,9 +20,22 @@ interface DashboardNavProps {
 }
 
 export function DashboardNav({ items, setOpen }: DashboardNavProps) {
-  const path = usePathname();
-  const currentLang = Cookie.get("Language");
-  console.log(path)
+  let path = usePathname();
+  const searchParams = useSearchParams();
+  const currentLable = searchParams?.get("currentLable") ?? undefined;
+  const removeLanguageCode = useCallback(
+    (url: string): string => {
+      // Check if the url starts with /en or /ar
+      if (url.startsWith('/en') || url.startsWith('/ar')) {
+        return url.slice(3); // Remove '/en' which is 3 characters long
+      }
+      // Return the original string if it doesn't start with /en or /ar
+      return url;
+    },
+    [],
+  )
+  path = removeLanguageCode(path);
+  const [selectedLable, setselectedLable] = useState<string|undefined>(currentLable)
   if (!items?.length) {
     return null;
   }
@@ -36,19 +49,22 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
             link.href && (
               <Link
                 key={index}
-                href={link.disabled ? "/" : link.href}
-                onClick={() => {
-                  if (setOpen) setOpen(false);
+                href={link.disabled ? "/" : `${link.href}?currentLable=undefined`}
+                onClick={()=>{
+                  setselectedLable(undefined);
                 }}
-
               >
                 <span
                   className={cn(
                     "hover:text-blue-700 hover:no-underline text-start items-center flex w-full h-12 px-3 mt-2  ",
-                    path === `/${currentLang}${link.href}`
+                    path === link.href 
                       ? "items-center w-full h-12 px-3 mt-2 bg-blue-100 rounded text-blue-700"
-                      : "rounded hover:bg-blue-50 "
+                      : "rounded hover:bg-blue-50"
                   )}
+                // style={{
+                //   color:path === `/${currentLang}${link.href}` ?"blue":"unset",
+                //   backgroundColor:path === `/${currentLang}${link.href}` ?"#DBEAFE":"unset",
+                // }}
                 >
                   <Icon className="mr-2 h-4 w-4" />
                   <span className="text-nowrap flex-grow text-xs font-semibold">{link.title}</span>
@@ -65,6 +81,7 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
               collapsible
               key={link.label}
               className="w-full"
+              defaultValue={selectedLable??undefined}
             >
               <AccordionItem
                 value={link.label ?? ""}
@@ -84,11 +101,14 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
                 </AccordionTrigger>
                 <AccordionContent>
                   {link.children.map((child) => {
-                    const isActive = `/${currentLang}${child.href}` === path;
+                    const isActive = !!(child.href === path);
                     return (
                       <Link
                         key={child.href}
-                        href={child.href}
+                        href={`${child.href}?currentLable=${link.label}`}
+                        onClick={()=>{
+                          setselectedLable(link.label);
+                        }}
                         className={cn(
                           " flex gap-1 items-center",
                           isActive
