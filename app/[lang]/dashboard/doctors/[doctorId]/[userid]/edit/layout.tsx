@@ -6,7 +6,6 @@ import { Heading } from "@/components/ui/heading"
 import { Separator } from "@/components/ui/separator"
 import { ISingleDoctor } from "@/types/doctors"
 import { Metadata } from "next"
-import Image from "next/image"
 
 
 export const metadata: Metadata = {
@@ -17,11 +16,11 @@ export const metadata: Metadata = {
 
 interface updateLayoutProps {
   children: React.ReactNode,
-  params: { lang: Locale, doctorId: string }
+  params: { lang: Locale, doctorId: string, userid:string }
 }
 
 export default async function updateLayout({ children, params }: updateLayoutProps) {
-  // const lang=params.lang;
+  const lang=params.lang;
   const res = await fetchSingleDoctor(params.doctorId);
   const doctor: ISingleDoctor = res?.data?.data;
   const breadcrumbItems = [
@@ -31,12 +30,12 @@ export default async function updateLayout({ children, params }: updateLayoutPro
   const sidebarNavItems = [
     {
       title: "Profile",
-      href: `/dashboard/doctors/${params.doctorId}/edit`,
+      href: `/${lang}/dashboard/doctors/${params.doctorId}/${params.userid}/edit`,
       clicked:"edit"
     },
     {
       title: "Additional Information",
-      href: `/dashboard/doctors/${params.doctorId}/edit/additional-info`,
+      href: `/${lang}/dashboard/doctors/${params.doctorId}/${params.userid}/edit/additional-info`,
       clicked:"edit/additional-info"
     },
   ]

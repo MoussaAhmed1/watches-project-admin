@@ -12,8 +12,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "./ui/accordion";
-import useCostomSearchParams from "@/hooks/use-searchParams";
-
+import Cookie from 'js-cookie';
 interface DashboardNavProps {
   items: NavItem[];
   setOpen?: Dispatch<SetStateAction<boolean>>;
@@ -22,6 +21,7 @@ interface DashboardNavProps {
 export function DashboardNav({ items, setOpen }: DashboardNavProps) {
   let path = usePathname();
   const searchParams = useSearchParams();
+  const currentLang = Cookie.get("Language") ?? "en";
   const currentLable = searchParams?.get("currentLable") ?? undefined;
   const removeLanguageCode = useCallback(
     (url: string): string => {
@@ -49,7 +49,7 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
             link.href && (
               <Link
                 key={index}
-                href={link.disabled ? "/" : `${link.href}?currentLable=undefined`}
+                href={link.disabled ? "/" : `/${currentLang}${link.href}?currentLable=undefined`}
                 onClick={()=>{
                   setselectedLable(undefined);
                 }}
@@ -105,7 +105,7 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
                     return (
                       <Link
                         key={child.href}
-                        href={`${child.href}?currentLable=${link.label}`}
+                        href={`/${currentLang}${child.href}?currentLable=${link.label}`}
                         onClick={()=>{
                           setselectedLable(link.label);
                         }}
