@@ -1,5 +1,6 @@
 export interface IDoctor {
   id: string;
+  user_id: string;
   avatar: string;
   name: string;
   rating: number;
