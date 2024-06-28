@@ -4,20 +4,21 @@ import { Separator } from "@/components/ui/separator";
 import { AccountProfile } from "@/types/patients";
 
 export default async function SettingsProfilePage({ params, searchParams }: {
-  params: { doctorId: string }, searchParams: {
+  params: { doctorId: string,userid:string }, searchParams: {
     [key: string]: string | string[] | undefined;
   }
 }) {
   
   //----------------------------------------------------------------
-  const res = await fetchDoctorProfileInfo({userId:params.doctorId});
+  const res = await fetchDoctorProfileInfo({userId:params.userid});
   const doctor: AccountProfile = res?.data?.data;
+  console.log(doctor)
   return (
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-medium">Profile</h3>
         <p className="text-sm text-muted-foreground">
-          This is how others will see you on the site.
+          This is how others see this profile on the application.
         </p>
       </div>
       <Separator />

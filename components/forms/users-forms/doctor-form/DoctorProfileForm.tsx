@@ -54,7 +54,7 @@ export const DoctorProfileForm: React.FC<DoctorFormProps> = ({
     last_name: initialData?.last_name,
     birth_date: initialData?.birth_date,
     gender: initialData?.gender,
-    phone: initialData?.gender,
+    phone: initialData?.phone,
   };
 
   const form = useForm<DoctorFormValues>({
