@@ -4,15 +4,14 @@ import { Separator } from "@/components/ui/separator";
 import { AccountProfile } from "@/types/patients";
 
 export default async function SettingsProfilePage({ params, searchParams }: {
-  params: { doctorId: string,userid:string }, searchParams: {
+  params: { doctorId: string, userid: string }, searchParams: {
     [key: string]: string | string[] | undefined;
   }
 }) {
-  
+
   //----------------------------------------------------------------
-  const res = await fetchDoctorProfileInfo({userId:params.userid});
+  const res = await fetchDoctorProfileInfo({ userId: params.userid });
   const doctor: AccountProfile = res?.data?.data;
-  console.log(doctor)
   return (
     <div className="space-y-6">
       <div>
@@ -22,16 +21,16 @@ export default async function SettingsProfilePage({ params, searchParams }: {
         </p>
       </div>
       <Separator />
-      <DoctorProfileForm  
-      id={doctor?.id}  
-      initialData={{
-        first_name: doctor?.first_name,
-        last_name: doctor?.last_name,
-        birth_date: new Date(doctor?.birth_date),
-        gender: doctor?.gender,
-        phone: doctor?.phone,
-        avatarFile: doctor?.avatar,
-      }}
+      <DoctorProfileForm
+        id={params.userid}
+        initialData={{
+          first_name: doctor?.first_name,
+          last_name: doctor?.last_name,
+          birth_date: doctor?.birth_date,
+          gender: doctor?.gender,
+          phone: doctor?.phone,
+          avatarFile: doctor?.avatar,
+        }}
       />
     </div>
   )

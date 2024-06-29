@@ -46,7 +46,7 @@ export default async function updateLayout({ children, params }: updateLayoutPro
           <BreadCrumb items={breadcrumbItems}  />
           <div className="flex flex-col md:flex-row gap-1 md:items-center md:justify-between  justify-start items-start">
             <Heading
-              title={`Doctor Details`}
+              title={`Update Doctor`}
               description={doctor?.name}
             />
             {(!doctor?.is_verified) && <div className="px-0 md:px-4">

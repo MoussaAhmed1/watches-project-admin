@@ -1,6 +1,6 @@
 import { fetchAdditionalSpecializations } from "@/actions/additional-info-specializations";
 import BreadCrumb from "@/components/breadcrumb";
-import { DoctorForm } from "@/components/forms/users-forms/doctor-form/add-edit-doctor";
+import { DoctorForm } from "@/components/forms/users-forms/doctor-form/add-doctor";
 import { ISpecializations } from "@/types/additional-info-specializations";
 import React from "react";
 
