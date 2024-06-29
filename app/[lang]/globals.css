@@ -81,3 +81,7 @@
 .side-nav {
   -ms-overflow-style: none;
 }
+
+.error-text {
+  @apply text-xs text-destructive font-semibold;
+}

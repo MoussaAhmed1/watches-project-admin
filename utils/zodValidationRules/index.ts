@@ -1,5 +1,17 @@
 import { z } from "zod";
 
+
+export const isNotFutureDate = (date: string) => {
+  const val = new Date(date);
+  // Check if the date is not in the future based on day
+
+  const now = new Date();
+  now.setDate(now.getDate() + 1);
+  now.setHours(0, 0, 0, 0);
+  return val < now;
+};
+
+
 const validationRules = {
   // string
   string_en: z
@@ -15,9 +27,7 @@ const validationRules = {
   //number
   number: z.coerce.number().positive("Must be a positive number"),
   //date
-  date: z.date().refine((date) => date <= new Date(), {
-    message: "Date cannot be in the future",
-  }),
+  date:z.string().refine((val) => isNotFutureDate(val), "Date cannot be in the future"),
   // multiple files
   images: z.union([
     z.any().refine((file): file is FileList => file instanceof FileList, {
@@ -74,6 +84,8 @@ const validationRules = {
       },
     ),
   ]),
+  //phone 
+  phone:z.string().regex(/^\+\d{12}$/, "Phone number must be exactly 13 characters, starting with a plus sign followed by 12 digits"),
   //lat and long
   latLng: z
     .number({

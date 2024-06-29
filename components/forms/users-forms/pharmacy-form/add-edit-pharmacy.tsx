@@ -21,11 +21,6 @@ import { useToast } from "../../../ui/use-toast";
 import { AddPharmacy, updatePharmacys } from "@/actions/pharmacy";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { format } from "date-fns"
-import { cn } from "@/lib/utils"
 import { getImageUrl } from "@/actions/storage-actions";
 import { toFormData } from "axios";
 import Map from "@/components/map/map";
@@ -37,6 +32,7 @@ import { getCustomNameKeyLang } from "@/utils/helperFunctions";
 import CustomTimePicker from "@/components/shared/timepicker/TimePicker";
 import Cookie from 'js-cookie';
 import { Separator } from "@/components/ui/separator";
+import InputDate from "@/components/shared/timepicker/InputDate";
 
 export type PharmacyFormValues = z.infer<typeof pharmacySchema>;
 
@@ -58,7 +54,6 @@ export const PharmacyForm: React.FC<PharmacyFormProps> = ({
   const [loading, setLoading] = useState(false);
   const title = initialData ? "Edit pharmacy" : "Create pharmacy";
   const description = initialData ? "Edit a pharmacy." : "Add a new pharmacy";
-  const toastMessage = initialData ? "Pharmacy updated." : "Pharmacy created.";
   const action = initialData ? "Save changes" : "Create";
 
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
@@ -69,23 +64,11 @@ export const PharmacyForm: React.FC<PharmacyFormProps> = ({
       setSelectedAvatar(URL?.createObjectURL(file));
     }
   };
-  const defaultValues = initialData
-    ? initialData
-    : {
-      name_en: "",
-      name_ar: "",
-      description_ar: "",
-      description_en: "",
-      price: 0,
-      expiration_days: 0,
-      number_of_pharmacy_order: 0,
-    };
-
   const form = useForm<PharmacyFormValues>({
     resolver: zodResolver(pharmacySchema),
     // defaultValues: initialData ? defaultValues : undefined,
   });
-  const { control, handleSubmit, formState: { errors } } = form;
+  const { control, formState: { errors } } = form;
 
   useEffect(() => {
     form.setValue("role", "PHARMACY")
@@ -224,47 +207,26 @@ export const PharmacyForm: React.FC<PharmacyFormProps> = ({
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="birth_date"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col gap-1 mt-2">
-                    <FormLabel>birth date <span className="text-red-800">*</span></FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              " pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            {field.value ? (
-                              format(field.value, "PPP")
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto  w-4 opacity-80" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          disabled={(date) =>
-                            date < new Date("1900-01-01")
-                          }
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="flex w-full justify-end flex-col items-start gap-1">
+                <label htmlFor="date" className="font-medium text-sm">
+                  birth date <span className="text-red-800">*</span>
+                </label>
+                <div className="flex-col w-full">
+                  <InputDate
+                    value={form.getValues("birth_date")}
+                    onChange={(val) => {
+                      form.setValue("birth_date", val);
+                    }}
+                    disableFuture
+                    maxWidth={"100%"}
+                  />
+                  {errors.birth_date && (
+                    <span className="error-text">
+                      {errors.birth_date.message}
+                    </span>
+                  )}
+                </div>
+              </div>
               {/* Gender */}
               <FormField name="gender" control={control} render={({ field }) => (
                 <FormItem>
@@ -291,7 +253,7 @@ export const PharmacyForm: React.FC<PharmacyFormProps> = ({
                   <FormItem>
                     <FormLabel>Phone <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
-                      <Input type="number" disabled={loading} {...field} />
+                      <Input disabled={loading} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
