@@ -127,8 +127,8 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
   const InitialClinicMapData = initialData?.clinic
     ? {
       coords: {
-        lat: initialData?.clinic?.latitude ?? 0,
-        lng: initialData?.clinic?.longitude ?? 0,
+        lat: initialData?.clinic?.latitude,
+        lng: initialData?.clinic?.longitude,
       },
       address: {
         add_ar: initialData?.clinic?.address ?? "",
@@ -137,11 +137,11 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
     }
     : null;
 
-  const InitialMapData = initialData
+  const InitialMapData = initialData?.latitude
     ? {
       coords: {
-        lat: initialData?.latitude ?? 0,
-        lng: initialData?.longitude ?? 0,
+        lat: initialData?.latitude ,
+        lng: initialData?.longitude ,
       },
       address: {
         add_ar: "",
@@ -435,7 +435,7 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
                 }}
               >
                 <Image
-                  src={coverImage}
+                  src={coverImage??""}
                   style={{
                     objectFit: "cover",
                   }}
@@ -510,6 +510,7 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
             )} />
 
           </div>
+          
           <div className="md:grid md:grid-cols-1 gap-8">
             {/* Summary */}
             <FormField name="summery" control={control} render={({ field }) => (
