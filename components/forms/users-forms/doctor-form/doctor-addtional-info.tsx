@@ -11,12 +11,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
-import { AcceptDoctorRequest, AddDoctor } from "@/actions/doctors";
+import { removeDoctorLicence, updateDoctorAddtionalInfo } from "@/actions/doctors";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import doctorAddtionalInfoSchema from "./schema/doctorAddtionalInfoSchema";
@@ -31,7 +30,11 @@ import { Separator } from "@/components/ui/separator";
 import Cookie from 'js-cookie';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import CustomTimePicker from "@/components/shared/timepicker/TimePicker";
-export type DoctorFormValues = z.infer<typeof doctorAddtionalInfoSchema>;
+import { License } from "@/types/doctors";
+import Image from "next/image";
+import { X } from "lucide-react";
+import { AlertModal } from "@/components/modal/alert-modal";
+export type DoctorAddtionalInfoFormValues = z.infer<typeof doctorAddtionalInfoSchema>;
 
 const workingTimeCards: { id: string, name: string }[] = [
   {
@@ -65,32 +68,36 @@ const workingTimeCards: { id: string, name: string }[] = [
     name: "Saturday"
   }
 ];
+
 interface DoctorFormProps {
   specializations: ISpecializations[];
-  initialData?: DoctorFormValues;
+  initialData?: DoctorAddtionalInfoFormValues;
   id: string;
+  initialLicensesImages: License[];
+  coverImage: string;
 }
 
 export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
   specializations,
   initialData,
-  id
+  id,
+  initialLicensesImages,
+  coverImage
 }) => {
-  const router = useRouter();
   const currentLang = Cookie.get("Language");
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const action = "Create";
+  const action = "Save changes";
 
   const defaultValues = initialData;
 
-  const form = useForm<DoctorFormValues>({
+  const form = useForm<DoctorAddtionalInfoFormValues>({
     resolver: zodResolver(doctorAddtionalInfoSchema),
     defaultValues
   });
   const { control, formState: { errors } } = form;
 
-
+  const [hasupload, setHasupload] = useState(false)
   // store
   const getUrls = useCallback(
     async (fileList: FileList | File) => {
@@ -117,10 +124,35 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
     [],
   )
 
+  const InitialClinicMapData = initialData?.clinic
+    ? {
+      coords: {
+        lat: initialData?.clinic?.latitude ?? 0,
+        lng: initialData?.clinic?.longitude ?? 0,
+      },
+      address: {
+        add_ar: initialData?.clinic?.address ?? "",
+        add_en: initialData?.clinic?.address ?? "",
+      },
+    }
+    : null;
+
+  const InitialMapData = initialData
+    ? {
+      coords: {
+        lat: initialData?.latitude ?? 0,
+        lng: initialData?.longitude ?? 0,
+      },
+      address: {
+        add_ar: "",
+        add_en: "",
+      },
+    }
+    : null;
 
   //map:
-  const [mapData, setMapData] = useState<MapData | null>();
-  const [ClinicMapData, setClinicMapData] = useState<MapData | null>();
+  const [mapData, setMapData] = useState<MapData | null>(InitialMapData);
+  const [ClinicMapData, setClinicMapData] = useState<MapData | null>(InitialClinicMapData);
   useEffect(() => {
     if (mapData) {
       form.setValue("latitude", mapData?.coords?.lat)
@@ -140,65 +172,225 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
 
   const [error, setError] = useState("");
 
-  const onSubmit = async (data: DoctorFormValues) => {
+  //new Images
+  const [previewUrls, setPreviewUrls] = useState<string[] | []>([]);
+
+  const handleFileChange = (fileList: FileList) => {
+    const fileArray = Array.from(fileList);
+    const urls = fileArray.map((file) => URL.createObjectURL(file));
+    setPreviewUrls(urls);
+  };
+
+
+  //remove files 
+  const [open, setOpen] = useState(false);
+  const [selectedImgId, setSelectedImgId] = useState<string | undefined>(undefined);
+
+  const onRemoveLicense = useCallback(
+    async () => {
+      if (selectedImgId) {
+        const res = await removeDoctorLicence({ id: selectedImgId });
+        if (res?.error) {
+          toast({
+            variant: "destructive",
+            title: "Delete failed",
+            description: res?.error,
+          });
+        }
+        else {
+          toast({
+            variant: "default",
+            title: "Deleted successfully",
+            description: `Doctor license has been successfully deleted.`,
+          });
+          setOpen(false);
+          //remove old from preview
+          // const remaining_images = licensesImages.filter((image) =>image.id !== id);
+          // setLicensesImages(remaining_images);
+        }
+      }
+    },
+    [selectedImgId, toast],
+  )
+
+  const onSubmit = async (data: any) => {
     // alert(JSON.stringify(data)); //testing
     setLoading(true);
-    const formData = new FormData();
-    toFormData(data, formData);
-
     //Availability
-    const Availabilityarray = data.avaliablity.map((value) => value.is_active);
+    const Availabilityarray = data.avaliablity.map((value: any) => value.is_active);
     if (Availabilityarray.length === 0) {
       setError("Availability shouldn't be empty")
       return;
     }
-    formData.delete('avaliablity');
-    formData.set('avaliablity', Availabilityarray.join());
+    //cover_image
     if (data?.cover_image) {
-      formData.delete('cover_image');
       const cover_image = await getUrls(data?.cover_image as unknown as File);
-      formData.set('cover_image', cover_image.toString());
+      data.cover_image = cover_image as unknown as string;
     }
-    if (data?.license_images) {
-      formData.delete('license_images[]');
+    //license_images
+    if (data?.license_images && hasupload) {
       const license_images_array = await getUrls(data?.license_images as unknown as FileList);
-      formData.set('license_images', license_images_array.join());
+      data.license_images = license_images_array?.join();
     }
+    else {
+      data.license_images = null as unknown as any;
+    }
+    //lat & long
+    data.latitude = data.latitude.toString();
+    data.longitude = data.longitude.toString();
 
-    const res = await AddDoctor(formData);
+    const res = await updateDoctorAddtionalInfo({ data, userId: id });
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: "Add failed",
+        title: "Updat failed",
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: "Added successfully",
-        description: `Doctor has been successfully added.`,
+        title: "Updated successfully",
+        description: `Doctor has been successfully updated.`,
       });
-      if (res?.data?.id) {
-        AcceptDoctorRequest(res?.data?.id);
-      }
-      router.push(`/dashboard/doctors`);
     }
 
     setLoading(false);
+    //remove files from preview
+    setPreviewUrls([])
+    form.reset();
+    setHasupload(false);
   };
   //show error messages
   // console.log(form.formState.errors);
 
   return (
     <Card className="p-10 mx-0 border-0" style={{ boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >
+      <AlertModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onConfirm={onRemoveLicense}
+        loading={loading}
+      />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
-          {/* <AvatarPreview selectedAvatar={selectedAvatar} /> */}
-          <div className="md:grid md:grid-cols-2 gap-8">
+          <div className="md:grid md:grid-cols-1 gap-8">
+            {/* License Images */}
+            <FormItem
+              style={{
+                margin: "0px 0",
+                padding: "0px",
+              }}
+            >
+              <FormLabel className="max-w-30 mx-1">License Images <span className="text-red-800">*</span></FormLabel>
+              <div>
+                <Controller
+                  name="license_images"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      type="file"
+                      name="file"
+                      multiple
+                      accept="image/*"
+                      onChange={(e) => {
+                        field.onChange(e.target.files ? e.target.files : null);
+                        if (e.target.files) {
+                          handleFileChange(e.target.files);
+                          setHasupload(true);
+                        }
+                        else {
+                          setHasupload(false);
+                        }
+                      }}
+                    />
+                  )}
+                />
+              </div>
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 4,
+                overflow: "auto",
+                maxWidth: "100%",
+                flexWrap: "wrap",
+                flexShrink: "no-shrink",
+              }}>
+                {initialLicensesImages?.map((image: License, index: number) => (
+                  <div
+                    key={image?.id}
+                    style={{
+                      color: "darkgray",
+                      padding: 0,
+                      width: 100,
+                      height: 100,
+                      overflow: "hidden",
+                      borderColor: "darkgray",
+                      position: "relative",
+                      borderRadius: "10px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <Button
+                      variant={"link"}
+                      type="button"
+                      onClick={() => {
+                        setOpen(true);
+                        setSelectedImgId(image.id);
+                      }}
+                      style={{
+                        position: "absolute",
+                        top: -4,
+                        right: 0,
+                        zIndex: 5,
+                        padding: 0
+                      }}
+                    >
+                      <X color="red" />
+                    </Button>
+                    <Image
+                      src={image?.image}
+                      style={{
+                        objectFit: "cover",
+                      }}
+                      fill
+                      alt="licensesImage"
+                    />
+                  </div>
+                ))}
+                {previewUrls?.map((image: string, index: number) => (
+                  <div
+                    key={index}
+                    style={{
+                      color: "darkgray",
+                      padding: 0,
+                      width: 100,
+                      height: 100,
+                      overflow: "hidden",
+                      borderColor: "darkgray",
+                      position: "relative",
+                      borderRadius: "10px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <Image
+                      src={image}
+                      style={{
+                        objectFit: "cover",
+                      }}
+                      fill
+                      alt="licensesImage"
+                    />
+                  </div>
+                ))}
+              </div>
+              {errors?.license_images?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.license_images?.message as any}</FormMessage>}
+            </FormItem>
+
+
             {/* Cover Image */}
             <FormItem
               style={{
@@ -228,36 +420,35 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
                 />
               </div>
               {errors?.cover_image?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.cover_image?.message as any}</FormMessage>}
-            </FormItem>
-            {/* License Images */}
-            <FormItem
-              style={{
-                margin: "-2px 0",
-              }}
-            >
-              <FormLabel className="max-w-30 mx-1">License Images <span className="text-red-800">*</span></FormLabel>
-              <div>
-                <Controller
-                  name="license_images"
-                  control={control}
-                  render={({ field }) => (
-                    <Input
-                      type="file"
-                      name="file"
-                      multiple
-                      accept="image/*"
-                      onChange={(e) => {
-                        field.onChange(e.target.files ? e.target.files : null);
-                        // if(e.target.files){
-                        //   getUrls(e.target.files)
-                        // }
-                      }}
-                    />
-                  )}
+
+              <div
+                style={{
+                  color: "darkgray",
+                  padding: 0,
+                  width: 100,
+                  height: 100,
+                  overflow: "hidden",
+                  borderColor: "darkgray",
+                  position: "relative",
+                  borderRadius: "10px",
+                  marginBottom: "10px",
+                }}
+              >
+                <Image
+                  src={coverImage}
+                  style={{
+                    objectFit: "cover",
+                  }}
+                  fill
+                  alt="CoverImage"
                 />
               </div>
-              {errors?.license_images?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.license_images?.message as any}</FormMessage>}
+
             </FormItem>
+
+          </div>
+          {/* <AvatarPreview selectedAvatar={selectedAvatar} /> */}
+          <div className="md:grid md:grid-cols-2 gap-8">
             {/* Consultation Prices */}
             <FormField name="video_consultation_price" control={control} render={({ field }) => (
               <FormItem>
@@ -336,7 +527,7 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
             {/* Longitude */}
             <Map
               setMapData={setMapData}
-              defaultPos={id ? { lat: initialData?.latitude, lng: initialData?.longitude } : null}
+              defaultPos={(initialData?.latitude && initialData?.longitude) ? { lat: initialData?.latitude, lng: initialData?.longitude } : null}
             />
             {errors.longitude && <FormMessage>{errors.longitude.message}</FormMessage>}
             {/* {errors.latitude && <FormMessage>{errors.latitude.message}</FormMessage>} */}
@@ -511,8 +702,10 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
                   <FormLabel>Is Active</FormLabel>
                   <FormControl>
                     <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value ? `${field.value}` : undefined}
+                      onValueChange={(e: string) => {
+                        form.setValue("clinic.is_active", e === "true");
+                      }}
+                      defaultValue={form.getValues("clinic.is_active") !== undefined ? `${form.getValues("clinic.is_active")}` : undefined}
                       className="flex flex-col space-y-1"
                     >
 

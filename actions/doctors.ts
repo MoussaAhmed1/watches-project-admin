@@ -11,6 +11,7 @@ import axiosInstance, {
   getErrorMessage,
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
+import { DoctorAddtionalInfoFormValues } from "@/components/forms/users-forms/doctor-form/doctor-addtional-info";
 
 export const fetchDoctors = async ({
 
@@ -104,6 +105,9 @@ export const AddDoctor = async (formData: FormData): Promise<any> => {
     };
   }
 };
+
+
+
 export const updateDoctorsProfile = async (
   formData: FormData,
   id:string
@@ -149,6 +153,7 @@ export const fetchDoctorProfileInfo = async ({userId}:{userId : string}): Promis
   }
 };
 
+
 export const fetchDoctorAdditionalInfo = async ({userId}:{userId : string}): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
@@ -166,5 +171,44 @@ export const fetchDoctorAdditionalInfo = async ({userId}:{userId : string}): Pro
   } catch (error: any) {
     throw new Error(error);
 
+  }
+};
+
+export const removeDoctorLicence = async ({id}:{id : string}): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+  try {
+     await axiosInstance.delete(`/additional-info/doctor-license/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+    revalidatePath("/dashboard/doctors");
+  } catch (error: any) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+export const updateDoctorAddtionalInfo= async ({userId,data}:{userId : string,data:DoctorAddtionalInfoFormValues}): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  try {
+    const accessToken = cookies().get("access_token")?.value;
+    await axiosInstance.put(`/additional-info/doctor/info`, data, {
+      params:{
+        id: userId
+      },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+    //need to validate the specified doctor /id
+    revalidatePath("/dashboard/doctors");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
   }
 };

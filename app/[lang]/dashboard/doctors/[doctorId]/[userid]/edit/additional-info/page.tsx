@@ -3,7 +3,7 @@ import { fetchDoctorAdditionalInfo } from "@/actions/doctors";
 import { DoctorAddtionalInfoForm } from "@/components/forms/users-forms/doctor-form/doctor-addtional-info";
 import { Separator } from "@/components/ui/separator";
 import { ISpecializations } from "@/types/additional-info-specializations";
-import { DoctorAdditionalInfo, ISingleDoctor } from "@/types/doctors";
+import { DoctorAdditionalInfo } from "@/types/doctors";
 
 export default async function SettingsProfilePage({ params, searchParams }: {
   params: { doctorId: string, userid: string }, searchParams: {
@@ -14,7 +14,7 @@ export default async function SettingsProfilePage({ params, searchParams }: {
   //----------------------------------------------------------------
   const res = await fetchDoctorAdditionalInfo({ userId: params.userid });
   const doctor: DoctorAdditionalInfo = res?.data?.data;
-console.log(doctor)
+  console.log(doctor)
   const res_specializations = await fetchAdditionalSpecializations({
     page: 1,
     limit: 100,
@@ -41,10 +41,12 @@ console.log(doctor)
           "is_urgent": doctor?.is_urgent_doctor ?? false, // missing from Backend
           "latitude": doctor?.latitude,
           "longitude": doctor?.longitude,
-          "license_images": doctor?.licenses.join(),
+          "license_images": doctor?.licenses ? doctor?.licenses.map(lic=>lic.image) : undefined,
           "avaliablity": doctor?.avaliablity,
-          "clinic": {...doctor?.clinic,is_active: doctor?.clinic?.is_active===true ? "true" : "false"},
+          "clinic": doctor?.clinic ? {...doctor?.clinic,is_active: doctor?.clinic?.is_active===true ? true : false} : doctor?.clinic,
         }}
+        initialLicensesImages={doctor?.licenses}
+        coverImage={doctor?.cover_image}
       />
     </div>
   )
