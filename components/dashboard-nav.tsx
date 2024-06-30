@@ -101,7 +101,7 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
                 </AccordionTrigger>
                 <AccordionContent>
                   {link.children.map((child) => {
-                    const isActive = !!(child.href === path);
+                    const isActive = !!(path?.includes(child.href) );
                     return (
                       <Link
                         key={child.href}

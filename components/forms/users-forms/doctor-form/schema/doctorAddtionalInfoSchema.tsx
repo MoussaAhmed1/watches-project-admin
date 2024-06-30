@@ -27,7 +27,7 @@ const doctorAddtionalInfoSchema = z.object({
     z.any().refine((file): file is FileList => file instanceof FileList, {
       message: 'license images is required',
     }),
-    z.string().refine((url) => {
+    z.string().array().refine((urls) => urls.every((url) => {
       try {
         const { pathname } = new URL(url);
         const extension = pathname.split('.').pop();
@@ -35,10 +35,10 @@ const doctorAddtionalInfoSchema = z.object({
       } catch (error) {
         return false;
       }
-    }, {
-      message: 'String must be a valid image URL (jpeg, png, gif)',
-    })
-  ]),
+    }), {
+      message: 'Each string must be a valid image URL (jpeg, png, gif)',
+    }),
+  ]).optional(),
   video_consultation_price: z.coerce.number().positive('Must be a positive number'),
   voice_consultation_price: z.coerce.number().positive('Must be a positive number'),
   home_consultation_price: z.coerce.number().positive('Must be a positive number'),

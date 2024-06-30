@@ -52,7 +52,7 @@ const page = async ({ params, searchParams }: {
     <>
       <div className="mx-auto w-full mt-8 bg-background">
         <BreadCrumb items={breadcrumbItems} customStyle="ml-4" />
-        <div className="flex flex-col md:flex-row gap-1 md:items-center md:justify-between justify-start items-start">
+        <div className="flex flex-col lg:flex-row gap-1 lg:items-center lg:justify-between justify-start items-start">
           <Heading
             title={`Doctor Details`}
             customStyle="ml-4"

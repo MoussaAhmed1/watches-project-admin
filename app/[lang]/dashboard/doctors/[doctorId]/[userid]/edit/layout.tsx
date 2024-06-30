@@ -41,8 +41,8 @@ export default async function updateLayout({ children, params }: updateLayoutPro
   ]
   return (
     <>
-      <div className="space-y-6 p-5 pb-16 md:block">
-        <div className="space-y-0.5">
+      <div className="space-y-5 p-5 pb-16 md:block">
+        <div className="space-y-0">
           <BreadCrumb items={breadcrumbItems}  />
           <div className="flex flex-col md:flex-row gap-1 md:items-center md:justify-between  justify-start items-start">
             <Heading
