@@ -107,33 +107,7 @@ export const AddDoctor = async (formData: FormData): Promise<any> => {
 };
 
 
-
-export const updateDoctorsProfile = async (
-  formData: FormData,
-  id:string
-): Promise<any> => {
-  const lang = cookies().get("Language")?.value;
-  try {
-    const accessToken = cookies().get("access_token")?.value;
-    await axiosInstance.put(`${endpoints.doctors.updateProfile}`, formData, {
-      params:{id},
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Accept-Language": lang,
-        "Content-Type": "multipart/form-data",
-      },
-    });
-
-    revalidatePath("/dashboard/doctors");
-  } catch (error) {
-    return {
-      error: getErrorMessage(error),
-    };
-  }
-};
-
-
-export const fetchDoctorProfileInfo = async ({userId}:{userId : string}): Promise<any> => {
+export const fetchProfileInfo = async ({userId}:{userId : string}): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
   try {

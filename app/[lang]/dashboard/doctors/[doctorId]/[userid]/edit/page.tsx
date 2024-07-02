@@ -1,5 +1,5 @@
-import { fetchDoctorProfileInfo } from "@/actions/doctors";
-import { DoctorProfileForm } from "@/components/forms/users-forms/doctor-form/DoctorProfileForm";
+import { fetchProfileInfo } from "@/actions/doctors";
+import { UserProfileForm } from "@/components/forms/users-forms/profileForm/ProfileForm";
 import { Separator } from "@/components/ui/separator";
 import { AccountProfile } from "@/types/patients";
 
@@ -10,7 +10,7 @@ export default async function SettingsProfilePage({ params, searchParams }: {
 }) {
 
   //----------------------------------------------------------------
-  const res = await fetchDoctorProfileInfo({ userId: params.userid });
+  const res = await fetchProfileInfo({ userId: params.userid });
   const doctor: AccountProfile = res?.data?.data;
   return (
     <div className="space-y-6">
@@ -21,7 +21,7 @@ export default async function SettingsProfilePage({ params, searchParams }: {
         </p>
       </div>
       <Separator />
-      <DoctorProfileForm
+      <UserProfileForm
         id={params.userid}
         initialData={{
           first_name: doctor?.first_name,
@@ -31,6 +31,7 @@ export default async function SettingsProfilePage({ params, searchParams }: {
           phone: doctor?.phone,
           avatarFile: doctor?.avatar,
         }}
+        revalidatequery="/dashboard/doctors"
       />
     </div>
   )
