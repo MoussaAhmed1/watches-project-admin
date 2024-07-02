@@ -42,7 +42,6 @@ export const PatientForm: React.FC<PatientFormProps> = ({
   const [loading, setLoading] = useState(false);
   const title = initialData ? "Edit patient" : "Create patient";
   const description = initialData ? "Edit a patient." : "Add a new patient";
-  const toastMessage = initialData ? "Patient updated." : "Patient created.";
   const action = initialData ? "Save changes" : "Create";
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
 

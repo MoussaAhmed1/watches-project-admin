@@ -15,22 +15,24 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
-import { updateDoctorsProfile } from "@/actions/doctors";
 import { Card } from "@/components/ui/card";
-import doctorProfileSchema from "./schema/doctorProfileSchema";
+import ProfileSchema from "./ProfileSchema";
 import { toFormData } from "axios";
 import AvatarPreview from "@/components/shared/AvatarPreview";
 import InputDate from "@/components/shared/timepicker/InputDate";
-export type DoctorFormValues = z.infer<typeof doctorProfileSchema>;
+import { updateUsersProfile } from "@/actions/patients";
+export type UserFormValues = z.infer<typeof ProfileSchema>;
 
-interface DoctorFormProps {
-  initialData?: DoctorFormValues;
+interface UserFormProps {
+  initialData?: UserFormValues;
   id: string;
+  revalidatequery:string;
 }
 
-export const DoctorProfileForm: React.FC<DoctorFormProps> = ({
+export const UserProfileForm: React.FC<UserFormProps> = ({
   initialData,
   id,
+  revalidatequery
 }) => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
@@ -53,8 +55,8 @@ export const DoctorProfileForm: React.FC<DoctorFormProps> = ({
     phone: initialData?.phone,
   };
 
-  const form = useForm<DoctorFormValues>({
-    resolver: zodResolver(doctorProfileSchema),
+  const form = useForm<UserFormValues>({
+    resolver: zodResolver(ProfileSchema),
     defaultValues
   });
   const { control, formState: { errors } } = form;
@@ -66,13 +68,13 @@ export const DoctorProfileForm: React.FC<DoctorFormProps> = ({
   }, [initialData])
 
 
-  const onSubmit = async (data: DoctorFormValues) => {
+  const onSubmit = async (data: UserFormValues) => {
     // alert(JSON.stringify(data)); //testing
     setLoading(true);
     const formData = new FormData();
     toFormData(data, formData);
     formData.set('id', id);
-    const res = await updateDoctorsProfile(formData,id);
+    const res = await updateUsersProfile(formData,id,revalidatequery);
 
     if (res?.error) {
       toast({
@@ -85,7 +87,7 @@ export const DoctorProfileForm: React.FC<DoctorFormProps> = ({
       toast({
         variant: "default",
         title: initialData ? "Updated successfully" : "Added successfully",
-        description: initialData ? `Doctor has been successfully updated.` : `Doctor has been successfully added.`,
+        description: initialData ? `Profile has been successfully updated.` : `Profile has been successfully added.`,
       });
     }
 
@@ -110,7 +112,7 @@ export const DoctorProfileForm: React.FC<DoctorFormProps> = ({
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Doctor name"
+                        placeholder="first name"
                         {...field}
                       />
                     </FormControl>
@@ -127,7 +129,7 @@ export const DoctorProfileForm: React.FC<DoctorFormProps> = ({
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Doctor name"
+                        placeholder="last name"
                         {...field}
                       />
                     </FormControl>
@@ -137,7 +139,7 @@ export const DoctorProfileForm: React.FC<DoctorFormProps> = ({
               />
               <div className="flex w-full justify-end flex-col items-start gap-1">
                 <label htmlFor="date" className="font-medium text-sm">
-                  birth date <span className="text-red-800">*</span>
+                  Birth date <span className="text-red-800">*</span>
                 </label>
                 <div className="flex-col w-full">
                   <InputDate

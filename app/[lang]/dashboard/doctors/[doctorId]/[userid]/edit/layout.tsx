@@ -25,7 +25,7 @@ export default async function updateLayout({ children, params }: updateLayoutPro
   const doctor: ISingleDoctor = res?.data?.data;
   const breadcrumbItems = [
     { title: "Doctors", link: "/dashboard/doctors" },
-    { title: `${doctor?.name}`, link: `/dashboard/doctors/${doctor?.name}` },
+    { title: `update`, link: `/dashboard/doctors/${doctor?.name}` },
   ];
   const sidebarNavItems = [
     {
@@ -41,7 +41,7 @@ export default async function updateLayout({ children, params }: updateLayoutPro
   ]
   return (
     <>
-      <div className="space-y-5 p-5 pb-16 md:block">
+      <div className="space-y-4 p-5 pt-8 pb-16 md:block">
         <div className="space-y-0">
           <BreadCrumb items={breadcrumbItems}  />
           <div className="flex flex-col md:flex-row gap-1 md:items-center md:justify-between  justify-start items-start">
