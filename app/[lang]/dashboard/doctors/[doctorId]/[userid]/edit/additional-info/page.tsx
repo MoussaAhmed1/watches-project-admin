@@ -14,7 +14,6 @@ export default async function SettingsProfilePage({ params, searchParams }: {
   //----------------------------------------------------------------
   const res = await fetchDoctorAdditionalInfo({ userId: params.userid });
   const doctor: DoctorAdditionalInfo = res?.data?.data;
-  console.log(doctor)
   const res_specializations = await fetchAdditionalSpecializations({
     page: 1,
     limit: 100,

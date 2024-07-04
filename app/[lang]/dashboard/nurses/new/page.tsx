@@ -4,7 +4,7 @@ import React from "react";
 
 export default async function Page() {
   const breadcrumbItems = [
-    { title: "Nurse", link: "/dashboard/nurse" },
+    { title: "Nurses", link: "/dashboard/nurses" },
     { title: "Create", link: "/dashboard/nurse/new" },
   ];
 

@@ -11,6 +11,7 @@ import axiosInstance, {
   getErrorMessage,
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
+import { NurseAddtionalInfoFormValues } from "@/components/forms/users-forms/nurse-form/nurse-addtional-info";
 
 export const fetchNurses = async ({
   page = 1,
@@ -132,6 +133,66 @@ export const updateNurses = async (
       },
     });
 
+    revalidatePath("/dashboard/nurses");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
+
+export const fetchNurseAdditionalInfo = async ({userId}:{userId : string}): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+  try {
+    const res = await axiosInstance(`/additional-info/nurse-info`, {
+      params:{
+        id: userId
+      },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+    return res;
+  } catch (error: any) {
+    throw new Error(error);
+
+  }
+};
+
+export const removeNurseLicence = async ({id}:{id : string}): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+  try {
+     await axiosInstance.delete(`/additional-info/delete-nurse-license/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+    revalidatePath("/dashboard/nurses");
+  } catch (error: any) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+export const updateNurseAddtionalInfo= async ({userId,data}:{userId : string,data:NurseAddtionalInfoFormValues}): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  try {
+    const accessToken = cookies().get("access_token")?.value;
+    await axiosInstance.put(`/additional-info/update-nurse-info`, data, {
+      params:{
+        id: userId
+      },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+    //need to validate the specified doctor /id
     revalidatePath("/dashboard/nurses");
   } catch (error) {
     return {

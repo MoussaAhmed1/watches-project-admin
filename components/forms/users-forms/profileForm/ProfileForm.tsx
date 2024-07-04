@@ -74,6 +74,12 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
     const formData = new FormData();
     toFormData(data, formData);
     formData.set('id', id);
+    //phone changed 
+    const hasChanged = data.phone !== initialData?.phone;
+    if(!hasChanged){
+      formData.delete('phone');
+    } 
+
     const res = await updateUsersProfile(formData,id,revalidatequery);
 
     if (res?.error) {

@@ -1,4 +1,4 @@
-import { fetchProfileInfo } from "@/actions/doctors";
+import { fetchProfileInfo } from "@/actions/patients";
 import BreadCrumb from "@/components/breadcrumb";
 import { UserProfileForm } from "@/components/forms/users-forms/profileForm/ProfileForm";
 import { Heading } from "@/components/ui/heading";

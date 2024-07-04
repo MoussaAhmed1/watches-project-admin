@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { AccountProfile } from "@/types/patients";
 
 export default async function SettingsProfilePage({ params, searchParams }: {
-  params: { doctorId: string, userid: string }, searchParams: {
+  params: { nurseId: string, userid: string }, searchParams: {
     [key: string]: string | string[] | undefined;
   }
 }) {
@@ -31,7 +31,7 @@ export default async function SettingsProfilePage({ params, searchParams }: {
           phone: doctor?.phone,
           avatarFile: doctor?.avatar,
         }}
-        revalidatequery="/dashboard/doctors"
+        revalidatequery="/dashboard/nurses"
       />
     </div>
   )

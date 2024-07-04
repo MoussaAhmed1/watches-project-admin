@@ -3,8 +3,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 import { CheckCircle, CircleSlash, Star } from "lucide-react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { AvatarImage } from "@radix-ui/react-avatar";
 import { IPharmacy } from "@/types/pharmacy";
 import { formatCreatedAtDate, shortenText } from "@/utils/helperFunctions";
 import Link from "next/link";
@@ -12,7 +10,7 @@ import Link from "next/link";
 export const PharmaciesColumns: ColumnDef<IPharmacy>[] = [
   {
     accessorKey: "ph_name",
-    header: "Name"
+    header: "Pharmacy Name"
   },
   {
     accessorKey: "address",

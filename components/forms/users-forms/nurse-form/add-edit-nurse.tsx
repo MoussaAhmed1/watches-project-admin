@@ -25,6 +25,7 @@ import { getImageUrl } from "@/actions/storage-actions";
 import { toFormData } from "axios";
 import AvatarPreview from "@/components/shared/AvatarPreview";
 import InputDate from "@/components/shared/timepicker/InputDate";
+import UseImagesStore from "@/hooks/use-images-store";
 
 export type NurseFormValues = z.infer<typeof nurseSchema>;
 
@@ -42,7 +43,6 @@ export const NurseForm: React.FC<NurseFormProps> = ({
   const [loading, setLoading] = useState(false);
   const title = initialData ? "Edit nurse" : "Create nurse";
   const description = initialData ? "Edit a nurse." : "Add a new nurse";
-  const toastMessage = initialData ? "Nurse updated." : "Nurse created.";
   const action = initialData ? "Save changes" : "Create";
 
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
@@ -54,23 +54,12 @@ export const NurseForm: React.FC<NurseFormProps> = ({
     }
   };
   
-  const defaultValues = initialData
-  ? initialData
-  : {
-    name_en: "",
-    name_ar: "",
-    description_ar: "",
-    description_en: "",
-    price: 0,
-    expiration_days: 0,
-    number_of_pharmacy_order: 0,
-  };
-  
+
   const form = useForm<NurseFormValues>({
     resolver: zodResolver(nurseSchema),
     // defaultValues: initialData ? defaultValues : undefined,
   });
-  const { control, handleSubmit, formState: { errors } } = form;
+  const { control, formState: { errors } } = form;
   
   useEffect(() => {
       form.setValue("role", "NURSE")
@@ -78,30 +67,7 @@ export const NurseForm: React.FC<NurseFormProps> = ({
 
 
   // store
-  const getUrls = useCallback(
-    async (fileList: FileList|File) => {
-      const formData = new FormData();
-      toFormData(fileList, formData);
-      let imagesUrls:string[] = [];
-      if(fileList instanceof FileList){
-        const imagesArray = Array.from(fileList);
-        const _images: FormData[] = [];
-        await imagesArray.forEach((img) => {
-          _images.push(new FormData());
-          _images[_images.length - 1].set('file', img);
-        });
-         imagesUrls = await Promise.all(
-          _images.map(async (img) => (await getImageUrl({ image: img })) as string)
-        );
-      }else{
-        const image = new FormData();
-        image.set('file', fileList);
-        imagesUrls = await getImageUrl({ image})
-      }
-      return imagesUrls;
-    },
-    [],
-  )
+  const {getUrls} = UseImagesStore();
 
   const onSubmit = async (data: NurseFormValues) => {
     // alert(JSON.stringify(data)); //testing

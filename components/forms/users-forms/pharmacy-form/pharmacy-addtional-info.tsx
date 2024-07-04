@@ -8,80 +8,90 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Select from "react-select";
-import { Select as ShadcnSelect, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
-import { AddPharmacy, updatePharmacys } from "@/actions/pharmacy";
+import { removePharmacyLicence, removePharmacyLogo, updatePharmacyAddtionalInfo } from "@/actions/pharmacy";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { getImageUrl } from "@/actions/storage-actions";
-import { toFormData } from "axios";
 import Map from "@/components/map/map";
 import { MapData } from "@/types/map";
-import AvatarPreview from "@/components/shared/AvatarPreview";
-import pharmacySchema from "./pharmacySchema";
-import { Category } from "@/types/pharmacy";
+import { pharmacyAddtionalInfoSchema } from "./pharmacySchema";
+import { Category, License, Logo } from "@/types/pharmacy";
 import { getCustomNameKeyLang } from "@/utils/helperFunctions";
 import CustomTimePicker from "@/components/shared/timepicker/TimePicker";
 import Cookie from 'js-cookie';
 import { Separator } from "@/components/ui/separator";
-import InputDate from "@/components/shared/timepicker/InputDate";
 import UseImagesStore from "@/hooks/use-images-store";
+import ImagesUploadfield from "@/components/shared/fileUpload/imagesUpload";
 
-export type PharmacyFormValues = z.infer<typeof pharmacySchema>;
+export type PharmacyFormValues = z.infer<typeof pharmacyAddtionalInfoSchema>;
 
 interface PharmacyFormProps {
   initialData?: PharmacyFormValues;
-  id?: string;
+  id: string;
   categories: Category[];
+  initialLicensesImages: License[];
+  LogoImage: Logo[];
 
 }
 
-export const PharmacyForm: React.FC<PharmacyFormProps> = ({
+export const PharmacyAddtionalInfoForm: React.FC<PharmacyFormProps> = ({
   initialData,
   id,
-  categories
+  categories,
+  initialLicensesImages,
+  LogoImage
 }) => {
   const router = useRouter();
   const { toast } = useToast();
   const currentLang = Cookie.get("Language");
   const [loading, setLoading] = useState(false);
-  const title = initialData ? "Edit pharmacy" : "Create pharmacy";
-  const description = initialData ? "Edit a pharmacy." : "Add a new pharmacy";
-  const action = initialData ? "Save changes" : "Create";
+  const action = "Save changes";
 
-  const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
-  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-
-    if (file) {
-      setSelectedAvatar(URL?.createObjectURL(file));
-    }
-  };
+  const defaultValues = initialData;
   const form = useForm<PharmacyFormValues>({
-    resolver: zodResolver(pharmacySchema),
-    // defaultValues: initialData ? defaultValues : undefined,
+    resolver: zodResolver(pharmacyAddtionalInfoSchema),
+    defaultValues
   });
   const { control, formState: { errors } } = form;
 
-  useEffect(() => {
-    form.setValue("role", "PHARMACY")
-  }, [form]);
+  //categories options 
 
+  const categoriesOptions = useMemo(() => categories.map((cate) => {
+    return { label: getCustomNameKeyLang(cate?.name_en, cate?.name_ar) ?? "", value: cate.id }
+  }), [categories])
 
   // store
-  const {getUrls} = UseImagesStore();
+  const { getUrls } = UseImagesStore();
 
+  //new Images
+  //License
+  const [previewUrls, setPreviewUrls] = useState<string[] | []>([]);
+  const [hasuploadLicense, setHasuploadLicense] = useState(false)
 
+  //Logo
+  const [previewLogoUrl, setPreviewLogoUrl] = useState<string[] | []>([]);
+  const [hasuploadLogo, setHasuploadLogo] = useState(false)
   //map:
-  const [mapData, setMapData] = useState<MapData | null>();
+  const InitialMapData = initialData?.latitude
+    ? {
+      coords: {
+        lat: initialData?.latitude,
+        lng: initialData?.longitude,
+      },
+      address: {
+        add_ar: initialData?.address,
+        add_en: initialData?.address,
+      },
+    }
+    : null;
+  const [mapData, setMapData] = useState<MapData | null>(InitialMapData);
   useEffect(() => {
     if (mapData) {
       form.setValue("latitude", mapData?.coords?.lat);
@@ -92,178 +102,87 @@ export const PharmacyForm: React.FC<PharmacyFormProps> = ({
   }, [currentLang, form, mapData]);
 
 
-  const onSubmit = async (data: PharmacyFormValues) => {
+  const onSubmit = async (data: any) => {
     // alert(JSON.stringify(data)); //testing
     setLoading(true);
-    const formData = new FormData();
-    toFormData(data, formData);
-    if (data?.logo_images) {
-      formData.delete('logo_images');
+    //TODO
+    // logo_images
+    if (data?.logo_images && hasuploadLogo) {
       const logo_images = await getUrls(data?.logo_images as unknown as File);
-      formData.set('logo_images', logo_images.toString());
+      data.logo_images = logo_images as unknown as string;
     }
-    if (data?.license_images) {
-      formData.delete('license_images[]');
+    //license_images
+    if (data?.license_images && hasuploadLicense) {
       const license_images_array = await getUrls(data?.license_images as unknown as FileList);
-      formData.set('license_images', license_images_array.join());
+      data.license_images = license_images_array?.join();
+    }
+    else {
+      data.license_images = null as unknown as any;
     }
 
-    let res;
-    if (initialData) {
-      res = await updatePharmacys(data, id);
-    } else {
-
-      res = await AddPharmacy(formData);
-    }
+    const res = await updatePharmacyAddtionalInfo({ data, userId: id });
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: initialData ? "Update failed" : "Add failed",
+        title: "Update failed",
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: initialData ? "Updated successfully" : "Added successfully",
-        description: initialData ? `Pharmacy has been successfully updated.` : `Pharmacy has been successfully added.`,
+        title: "Updated successfully",
+        description: `Pharmacy has been successfully updated.`,
       });
-      router.push(`/dashboard/pharmacies`);
     }
-
     setLoading(false);
+    //remove files from preview
+    setPreviewUrls([])
+    setPreviewLogoUrl([])
+    setHasuploadLicense(false);
+    setHasuploadLogo(false);
   };
   //show error messages
   // console.log(form.formState.errors);
 
   return (
     <>
-      <div className="flex items-center justify-between">
-        <Heading title={title} description={description} />
-      </div>
-
       <Card className="p-10 mx-0 border-0" style={{ boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-8 w-full"
           >
-            <AvatarPreview selectedAvatar={selectedAvatar} />
-            <h5>Owner Info:</h5>
-            <div className="md:grid md:grid-cols-2 gap-8">
-              <FormField
-                control={form.control}
-                name="first_name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>First Name <span className="text-red-800">*</span></FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder="First Name"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+            <div className="md:grid md:grid-cols-1 gap-8">
+              {/* License Images */}
+              <ImagesUploadfield
+                control={control}
+                initialImages={initialLicensesImages.map(license => ({ id: license?.id, image: license?.mage }))}
+                license_images_errors={errors?.license_images?.message}
+                title={"License Images"}
+                name={"license_images"}
+                removeLicencefn={removePharmacyLicence}
+                setHasupload={setHasuploadLicense}
+                previewUrls={previewUrls}
+                setPreviewUrls={setPreviewUrls}
+                ismulti
+                isremovable
               />
-              <FormField
-                control={form.control}
-                name="last_name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Last Name <span className="text-red-800">*</span></FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder="Last Name"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="flex w-full justify-end flex-col items-start gap-1">
-                <label htmlFor="date" className="font-medium text-sm">
-                  birth date <span className="text-red-800">*</span>
-                </label>
-                <div className="flex-col w-full">
-                  <InputDate
-                    value={form.getValues("birth_date")}
-                    onChange={(val) => {
-                      form.setValue("birth_date", val);
-                    }}
-                    disableFuture
-                    maxWidth={"100%"}
-                  />
-                  {errors.birth_date && (
-                    <span className="error-text">
-                      {errors.birth_date.message}
-                    </span>
-                  )}
-                </div>
-              </div>
-              {/* Gender */}
-              <FormField name="gender" control={control} render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Gender <span className="text-red-800">*</span></FormLabel>
-                  <FormControl>
-                    <ShadcnSelect  {...field} onValueChange={field.onChange}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select Gender" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="male">Male</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
-                      </SelectContent>
-                    </ShadcnSelect >
-                  </FormControl>
-                  {errors.gender && <FormMessage>{errors.gender.message}</FormMessage>}
-                </FormItem>
-              )} />
 
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone <span className="text-red-800">*</span></FormLabel>
-                    <FormControl>
-                      <Input disabled={loading} {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* Avatar */}
-              <FormItem
-                style={{
-                  margin: "-2px 0",
-                }}
-              >
-                <FormLabel className="max-w-30 mx-1">Avatar</FormLabel>
-                <div>
-                  <Controller
-                    name="avatarFile"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        type="file"
-                        accept="image/*"
-                        multiple={false}
-                        onChange={(e) => {
-                          field.onChange(e.target.files ? e.target.files[0] : null);
-                          handleAvatarChange(e);
-                        }}
-                      />
-                    )}
-                  />
-                </div>
-                {errors?.avatarFile?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.avatarFile?.message as any}</FormMessage>}
-              </FormItem>
               {/* Logo Image */}
+              <ImagesUploadfield
+                control={control}
+                initialImages={LogoImage}
+                license_images_errors={errors?.logo_images?.message}
+                title={"Logo Images"}
+                name={"logo_images"}
+                removeLicencefn={removePharmacyLogo}
+                setHasupload={setHasuploadLogo}
+                previewUrls={previewLogoUrl}
+                setPreviewUrls={setPreviewLogoUrl}
+                ismulti={false}
+                isremovable
+              />
               <FormItem
                 style={{
                   margin: "-2px 0",
@@ -293,36 +212,11 @@ export const PharmacyForm: React.FC<PharmacyFormProps> = ({
                 </div>
                 {errors?.logo_images?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.logo_images?.message as any}</FormMessage>}
               </FormItem>
-              {/* License Images */}
-              <FormItem
-                style={{
-                  margin: "-2px 0",
-                }}
-              >
-                <FormLabel className="max-w-30 mx-1">License Images <span className="text-red-800">*</span></FormLabel>
-                <div>
-                  <Controller
-                    name="license_images"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        type="file"
-                        name="file"
-                        multiple
-                        accept="image/*"
-                        onChange={(e) => {
-                          field.onChange(e.target.files ? e.target.files : null);
-                          // if(e.target.files){
-                          //   getUrls(e.target.files)
-                          // }
-                        }}
-                      />
-                    )}
-                  />
-                </div>
-                {errors?.license_images?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.license_images?.message as any}</FormMessage>}
-              </FormItem>
 
+
+            </div>
+
+            <div className="md:grid md:grid-cols-1 gap-8">
               {/* Year of Experience */}
               <FormField name="expierence" control={control} render={({ field }) => (
                 <FormItem>
@@ -333,9 +227,6 @@ export const PharmacyForm: React.FC<PharmacyFormProps> = ({
                   {errors.expierence && <FormMessage>{errors.expierence.message}</FormMessage>}
                 </FormItem>
               )} />
-            </div>
-
-            <div className="md:grid md:grid-cols-1 gap-8">
               {/* Summary */}
               <FormField name="summery" control={control} render={({ field }) => (
                 <FormItem>
@@ -377,6 +268,11 @@ export const PharmacyForm: React.FC<PharmacyFormProps> = ({
                     isSearchable={true}
                     isClearable={true}
                     isMulti
+                    defaultValue={initialData?.categories?.map((category) =>
+                      categoriesOptions.find(
+                        (option) => option.value === category
+                      )
+                    )}
                     onChange={(values: any) => {
                       form.clearErrors("categories");
                       form.setValue(
@@ -385,11 +281,7 @@ export const PharmacyForm: React.FC<PharmacyFormProps> = ({
                       );
                     }}
                     className="w-full"
-                    options={
-                      categories.map((cate) => {
-                        return { label: getCustomNameKeyLang(cate?.name_en, cate?.name_ar) ?? "", value: cate.id }
-                      })
-                    }
+                    options={categoriesOptions}
                   />
                   {errors.categories && (
                     <span className="error-text">
@@ -403,7 +295,7 @@ export const PharmacyForm: React.FC<PharmacyFormProps> = ({
               {/* Longitude */}
               <Map
                 setMapData={setMapData}
-              // defaultPos={workArea?.id ? { lat: workArea.latitude, lng: workArea.longitude } : null}
+                defaultPos={(initialData?.latitude && initialData?.longitude) ? { lat: initialData?.latitude, lng: initialData?.longitude } : null}
               />
               {errors.longitude && <FormMessage>{errors.longitude.message}</FormMessage>}
 

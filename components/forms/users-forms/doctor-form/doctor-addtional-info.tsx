@@ -22,8 +22,6 @@ import doctorAddtionalInfoSchema from "./schema/doctorAddtionalInfoSchema";
 
 import { Switch } from "@/components/ui/switch";
 import { ISpecializations } from "@/types/additional-info-specializations";
-import { getImageUrl } from "@/actions/storage-actions";
-import { toFormData } from "axios";
 import Map from "@/components/map/map";
 import { MapData } from "@/types/map";
 import { Separator } from "@/components/ui/separator";
@@ -32,8 +30,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import CustomTimePicker from "@/components/shared/timepicker/TimePicker";
 import { License } from "@/types/doctors";
 import Image from "next/image";
-import { X } from "lucide-react";
-import { AlertModal } from "@/components/modal/alert-modal";
+import UseImagesStore from "@/hooks/use-images-store";
+import ImagesUploadfield from "@/components/shared/fileUpload/imagesUpload";
 export type DoctorAddtionalInfoFormValues = z.infer<typeof doctorAddtionalInfoSchema>;
 
 const workingTimeCards: { id: string, name: string }[] = [
@@ -97,38 +95,14 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
   });
   const { control, formState: { errors } } = form;
 
-  const [hasupload, setHasupload] = useState(false)
   // store
-  const getUrls = useCallback(
-    async (fileList: FileList | File) => {
-      const formData = new FormData();
-      toFormData(fileList, formData);
-      let imagesUrls: string[] = [];
-      if (fileList instanceof FileList) {
-        const imagesArray = Array.from(fileList);
-        const _images: FormData[] = [];
-        await imagesArray.forEach((img) => {
-          _images.push(new FormData());
-          _images[_images.length - 1].set('file', img);
-        });
-        imagesUrls = await Promise.all(
-          _images.map(async (img) => (await getImageUrl({ image: img })) as string)
-        );
-      } else {
-        const image = new FormData();
-        image.set('file', fileList);
-        imagesUrls = await getImageUrl({ image })
-      }
-      return imagesUrls;
-    },
-    [],
-  )
-
+  const { getUrls } = UseImagesStore();
+  
   const InitialClinicMapData = initialData?.clinic
-    ? {
-      coords: {
-        lat: initialData?.clinic?.latitude,
-        lng: initialData?.clinic?.longitude,
+  ? {
+    coords: {
+      lat: initialData?.clinic?.latitude,
+      lng: initialData?.clinic?.longitude,
       },
       address: {
         add_ar: initialData?.clinic?.address ?? "",
@@ -136,12 +110,12 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
       },
     }
     : null;
-
-  const InitialMapData = initialData?.latitude
+    
+    const InitialMapData = initialData?.latitude
     ? {
       coords: {
-        lat: initialData?.latitude ,
-        lng: initialData?.longitude ,
+        lat: initialData?.latitude,
+        lng: initialData?.longitude,
       },
       address: {
         add_ar: "",
@@ -149,70 +123,35 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
       },
     }
     : null;
-
-  //map:
-  const [mapData, setMapData] = useState<MapData | null>(InitialMapData);
-  const [ClinicMapData, setClinicMapData] = useState<MapData | null>(InitialClinicMapData);
-  useEffect(() => {
-    if (mapData) {
-      form.setValue("latitude", mapData?.coords?.lat)
-      form.setValue("longitude", mapData?.coords?.lng)
-      form.clearErrors(["longitude", "latitude"]);
-    }
-  }, [form, mapData]);
-
-  useEffect(() => {
-    if (ClinicMapData) {
-      form.setValue("clinic.latitude", ClinicMapData?.coords?.lat)
+    
+    //map:
+    const [mapData, setMapData] = useState<MapData | null>(InitialMapData);
+    const [ClinicMapData, setClinicMapData] = useState<MapData | null>(InitialClinicMapData);
+    useEffect(() => {
+      if (mapData) {
+        form.setValue("latitude", mapData?.coords?.lat)
+        form.setValue("longitude", mapData?.coords?.lng)
+        form.clearErrors(["longitude", "latitude"]);
+      }
+    }, [form, mapData]);
+    
+    useEffect(() => {
+      if (ClinicMapData) {
+        form.setValue("clinic.latitude", ClinicMapData?.coords?.lat)
       form.setValue("clinic.longitude", ClinicMapData?.coords?.lng)
       form.setValue("clinic.address", currentLang === 'en' ? ClinicMapData?.address.add_en : ClinicMapData?.address.add_ar);
       form.clearErrors(["clinic.longitude", "clinic.latitude", "clinic.address"]);
     }
   }, [form, ClinicMapData, currentLang]);
-
+  
   const [error, setError] = useState("");
-
+  
   //new Images
   const [previewUrls, setPreviewUrls] = useState<string[] | []>([]);
-
-  const handleFileChange = (fileList: FileList) => {
-    const fileArray = Array.from(fileList);
-    const urls = fileArray.map((file) => URL.createObjectURL(file));
-    setPreviewUrls(urls);
-  };
-
-
-  //remove files 
-  const [open, setOpen] = useState(false);
-  const [selectedImgId, setSelectedImgId] = useState<string | undefined>(undefined);
-
-  const onRemoveLicense = useCallback(
-    async () => {
-      if (selectedImgId) {
-        const res = await removeDoctorLicence({ id: selectedImgId });
-        if (res?.error) {
-          toast({
-            variant: "destructive",
-            title: "Delete failed",
-            description: res?.error,
-          });
-        }
-        else {
-          toast({
-            variant: "default",
-            title: "Deleted successfully",
-            description: `Doctor license has been successfully deleted.`,
-          });
-          setOpen(false);
-          //remove old from preview
-          // const remaining_images = licensesImages.filter((image) =>image.id !== id);
-          // setLicensesImages(remaining_images);
-        }
-      }
-    },
-    [selectedImgId, toast],
-  )
-
+  const [hasupload, setHasupload] = useState(false)
+  
+  
+  
   const onSubmit = async (data: any) => {
     // alert(JSON.stringify(data)); //testing
     setLoading(true);
@@ -258,7 +197,6 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
     setLoading(false);
     //remove files from preview
     setPreviewUrls([])
-    form.reset();
     setHasupload(false);
   };
   //show error messages
@@ -266,12 +204,6 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
 
   return (
     <Card className="p-10 mx-0 border-0" style={{ boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >
-      <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onRemoveLicense}
-        loading={loading}
-      />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -279,118 +211,19 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
         >
           <div className="md:grid md:grid-cols-1 gap-8">
             {/* License Images */}
-            <FormItem
-              style={{
-                margin: "0px 0",
-                padding: "0px",
-              }}
-            >
-              <FormLabel className="max-w-30 mx-1">License Images <span className="text-red-800">*</span></FormLabel>
-              <div>
-                <Controller
-                  name="license_images"
-                  control={control}
-                  render={({ field }) => (
-                    <Input
-                      type="file"
-                      name="file"
-                      multiple
-                      accept="image/*"
-                      onChange={(e) => {
-                        field.onChange(e.target.files ? e.target.files : null);
-                        if (e.target.files) {
-                          handleFileChange(e.target.files);
-                          setHasupload(true);
-                        }
-                        else {
-                          setHasupload(false);
-                        }
-                      }}
-                    />
-                  )}
-                />
-              </div>
-              <div style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 4,
-                overflow: "auto",
-                maxWidth: "100%",
-                flexWrap: "wrap",
-                flexShrink: "no-shrink",
-              }}>
-                {initialLicensesImages?.map((image: License, index: number) => (
-                  <div
-                    key={image?.id}
-                    style={{
-                      color: "darkgray",
-                      padding: 0,
-                      width: 100,
-                      height: 100,
-                      overflow: "hidden",
-                      borderColor: "darkgray",
-                      position: "relative",
-                      borderRadius: "10px",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    <Button
-                      variant={"link"}
-                      type="button"
-                      onClick={() => {
-                        setOpen(true);
-                        setSelectedImgId(image.id);
-                      }}
-                      style={{
-                        position: "absolute",
-                        top: -4,
-                        right: 0,
-                        zIndex: 5,
-                        padding: 0
-                      }}
-                    >
-                      <X color="red" />
-                    </Button>
-                    <Image
-                      src={image?.image}
-                      style={{
-                        objectFit: "cover",
-                      }}
-                      fill
-                      alt="licensesImage"
-                    />
-                  </div>
-                ))}
-                {previewUrls?.map((image: string, index: number) => (
-                  <div
-                    key={index}
-                    style={{
-                      color: "darkgray",
-                      padding: 0,
-                      width: 100,
-                      height: 100,
-                      overflow: "hidden",
-                      borderColor: "darkgray",
-                      position: "relative",
-                      borderRadius: "10px",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    <Image
-                      src={image}
-                      style={{
-                        objectFit: "cover",
-                      }}
-                      fill
-                      alt="licensesImage"
-                    />
-                  </div>
-                ))}
-              </div>
-              {errors?.license_images?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.license_images?.message as any}</FormMessage>}
-            </FormItem>
-
-
+            <ImagesUploadfield
+              control={control}
+              initialImages={initialLicensesImages}
+              license_images_errors={errors?.license_images?.message}
+              title={"License Images"}
+              name={"license_images"}
+              removeLicencefn={removeDoctorLicence}
+              setHasupload={setHasupload}
+              previewUrls={previewUrls}
+              setPreviewUrls={setPreviewUrls}
+              ismulti
+              isremovable
+            />
             {/* Cover Image */}
             <FormItem
               style={{
@@ -410,10 +243,6 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
                       accept="image/*"
                       onChange={async (e) => {
                         field.onChange(e.target.files ? e.target.files[0] : null);
-                        if (e.target.files) {
-                          getUrls(e.target.files[0])
-                        }
-                        // handleAvatarChange(e);
                       }}
                     />
                   )}
@@ -435,7 +264,7 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
                 }}
               >
                 <Image
-                  src={coverImage??""}
+                  src={coverImage ?? ""}
                   style={{
                     objectFit: "cover",
                   }}
@@ -510,7 +339,7 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
             )} />
 
           </div>
-          
+
           <div className="md:grid md:grid-cols-1 gap-8">
             {/* Summary */}
             <FormField name="summery" control={control} render={({ field }) => (
