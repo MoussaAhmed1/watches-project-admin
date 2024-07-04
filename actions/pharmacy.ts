@@ -12,6 +12,7 @@ import axiosInstance, {
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
 import { AcceptPharmacyRequest } from "./pharmacies";
+import { NurseAddtionalInfoFormValues } from "@/components/forms/users-forms/nurse-form/nurse-addtional-info";
 
 export const fetchPharmacy = async ({
 
