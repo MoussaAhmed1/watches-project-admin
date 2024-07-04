@@ -8,6 +8,7 @@ function UseImagesStore() {
     const getUrls = useCallback(
         async (fileList: FileList | File) => {
             const formData = new FormData();
+            console.log(fileList);
             toFormData(fileList, formData);
             let imagesUrls: string[] = [];
             if (fileList instanceof FileList) {

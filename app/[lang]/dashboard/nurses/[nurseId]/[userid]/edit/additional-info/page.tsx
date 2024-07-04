@@ -1,9 +1,6 @@
-import { fetchDoctorAdditionalInfo } from "@/actions/doctors";
 import { fetchNurseAdditionalInfo } from "@/actions/nurses";
-import { DoctorAddtionalInfoForm } from "@/components/forms/users-forms/doctor-form/doctor-addtional-info";
 import { NurseAddtionalInfoForm } from "@/components/forms/users-forms/nurse-form/nurse-addtional-info";
 import { Separator } from "@/components/ui/separator";
-import { DoctorAdditionalInfo } from "@/types/doctors";
 import { NurseAdditionalInfo } from "@/types/nurses";
 
 export default async function SettingsProfilePage({ params, searchParams }: {
@@ -15,7 +12,6 @@ export default async function SettingsProfilePage({ params, searchParams }: {
   //----------------------------------------------------------------
   const res = await fetchNurseAdditionalInfo({ userId: params.userid });
   const nurse: NurseAdditionalInfo = res?.data?.data;
-  console.log(nurse)
   return (
     <div className="space-y-6">
       <div>

@@ -49,3 +49,30 @@ export interface License {
   mage: string;
   id: string;
 }
+
+
+export interface PharmacyAddtionalInfo {
+  id: string
+  ph_name: string
+  open_time: string
+  close_time: string
+  expierence: number
+  user: User
+  address: string
+  summery: string
+  latitude: number
+  longitude: number
+  created_at: string
+  logo: Logo[]
+  license: License[]
+  categories: Category[]
+  is_verified: boolean
+}
+
+export interface User {
+  name: string
+  id: string
+  avatar: any
+}
+
+
