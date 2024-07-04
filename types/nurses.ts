@@ -1,4 +1,5 @@
 export interface INurse {
+  user_id: string
   id: string
   name: string
   avatar: string
@@ -17,6 +18,21 @@ export interface ISingleNurse {
   user_id: string
   is_verified: boolean
 }
+
+export interface NurseAdditionalInfo {
+  id: string
+  created_at: string
+  updated_at: string
+  deleted_at: any
+  user_id: string
+  is_verified: boolean
+  experience: number
+  summary: string
+  rating: any
+  license_images: LicenseImage[]
+}
+
+
 
 export interface LicenseImage {
   id: string

@@ -82,6 +82,25 @@ export const updatePatients = async (
   }
 };
 
+export const fetchProfileInfo = async ({userId}:{userId : string}): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+  try {
+    const res = await axiosInstance(`/additional-info/profile`, {
+      params:{
+        id: userId
+      },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+    return res;
+  } catch (error: any) {
+    throw new Error(error);
+
+  }
+};
 
 export const updateUsersProfile = async (
   formData: FormData,

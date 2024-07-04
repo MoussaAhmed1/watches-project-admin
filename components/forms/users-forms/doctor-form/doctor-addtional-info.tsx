@@ -258,7 +258,6 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
     setLoading(false);
     //remove files from preview
     setPreviewUrls([])
-    form.reset();
     setHasupload(false);
   };
   //show error messages

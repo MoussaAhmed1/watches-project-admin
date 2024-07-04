@@ -42,7 +42,6 @@ export const NurseForm: React.FC<NurseFormProps> = ({
   const [loading, setLoading] = useState(false);
   const title = initialData ? "Edit nurse" : "Create nurse";
   const description = initialData ? "Edit a nurse." : "Add a new nurse";
-  const toastMessage = initialData ? "Nurse updated." : "Nurse created.";
   const action = initialData ? "Save changes" : "Create";
 
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
@@ -54,23 +53,12 @@ export const NurseForm: React.FC<NurseFormProps> = ({
     }
   };
   
-  const defaultValues = initialData
-  ? initialData
-  : {
-    name_en: "",
-    name_ar: "",
-    description_ar: "",
-    description_en: "",
-    price: 0,
-    expiration_days: 0,
-    number_of_pharmacy_order: 0,
-  };
-  
+
   const form = useForm<NurseFormValues>({
     resolver: zodResolver(nurseSchema),
     // defaultValues: initialData ? defaultValues : undefined,
   });
-  const { control, handleSubmit, formState: { errors } } = form;
+  const { control, formState: { errors } } = form;
   
   useEffect(() => {
       form.setValue("role", "NURSE")

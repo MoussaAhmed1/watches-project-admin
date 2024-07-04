@@ -107,25 +107,7 @@ export const AddDoctor = async (formData: FormData): Promise<any> => {
 };
 
 
-export const fetchProfileInfo = async ({userId}:{userId : string}): Promise<any> => {
-  const lang = cookies().get("Language")?.value;
-  const accessToken = cookies().get("access_token")?.value;
-  try {
-    const res = await axiosInstance(`/additional-info/profile`, {
-      params:{
-        id: userId
-      },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Accept-Language": lang,
-      },
-    });
-    return res;
-  } catch (error: any) {
-    throw new Error(error);
 
-  }
-};
 
 
 export const fetchDoctorAdditionalInfo = async ({userId}:{userId : string}): Promise<any> => {
