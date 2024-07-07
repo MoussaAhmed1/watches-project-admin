@@ -10,6 +10,7 @@ import axiosInstance, {
   getErrorMessage,
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
+import { ClientAddtionalInfo } from "@/types/patients";
 
 export const fetchUsers = async ({
   page = 1,
@@ -102,6 +103,29 @@ export const fetchProfileInfo = async ({
       },
     });
     return res;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
+
+export const fetchClientAddtionalInfo = async ({
+  userId,
+}: {
+  userId: string;
+}): Promise<{data:{data:ClientAddtionalInfo}}> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+  try {
+    const res = await axiosInstance(`/additional-info/client/info`, {
+      params: {
+        id: userId,
+      },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+    return res.data;
   } catch (error: any) {
     throw new Error(error);
   }

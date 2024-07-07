@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { IPatient } from "@/types/patients";
-import { Edit, MoreHorizontal, Trash } from "lucide-react";
+import { Edit, Eye, MoreHorizontal, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Cookie from 'js-cookie';
 import Approve from "@/components/details/role-details/Approve";
@@ -32,7 +32,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-
+          <DropdownMenuItem
+            onClick={() => router.push(`/${currentLang}/dashboard/patients/${data.id}`)}
+          >
+            <Eye className="mr-2 h-4 w-4" /> View
+          </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => router.push(`/${currentLang}/dashboard/patients/${data?.id}/edit`)}
           >
