@@ -60,7 +60,7 @@ export const fetchSingleNurseOrder = async (id: string): Promise<any> => {
   }
 };
 
-export const AcceptNurseOrderCancelRequest = async (id:string,reason?:string): Promise<any> => {
+export const AcceptNurseOrderCancelRequest = async ({id,reason}:{id:string,reason?:string}): Promise<any> => {
   const accessToken = cookies().get("access_token")?.value;
   const lang = cookies().get("Language")?.value;
   try {

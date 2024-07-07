@@ -32,7 +32,7 @@ interface IProps {
   CancelRequest?: { reason: string }
   id: string
   dialogTitle: string
-  method: (id: string, reason?: string) => Promise<any>;
+  method: ({id,reason}:{id: string, reason?: string}) => Promise<any>;
 }
 const formSchema = z.object({
   reason: z
@@ -60,7 +60,7 @@ export default function CancelWithReason({ CancelRequest, id, dialogTitle, metho
 
   const onSubmit = async (data: { reason: string }) => {
     setLoading(true);
-    const res = await method(id, data?.reason);
+    const res = await method({id, reason:data?.reason});
     if (CancelRequest) {
       // TODO: handle social patch after getting reason 
     }
