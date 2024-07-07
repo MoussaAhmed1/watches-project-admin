@@ -5,7 +5,7 @@ import BreadCrumb from "@/components/breadcrumb";
 import { Heading } from "@/components/ui/heading";
 import { AccountProfile, ClientAddtionalInfo } from "@/types/patients";
 import { fetchClientAddtionalInfo, fetchProfileInfo } from "@/actions/patients";
-import { Calendar, Info, Languages } from "lucide-react";
+import { Calendar, Info, Languages, Ruler, Weight } from "lucide-react";
 export const metadata: Metadata = {
   title: "Client Deatails",
   description:
@@ -76,9 +76,11 @@ const page = async ({ params }: {
               </div>
               <div className="p-4 border-t border-gray-200">
                 <h2 className="text-xl font-bold">Additional Info</h2>
-                <p>weight: {user_AddtionalInfo?.weight ?? "-"}</p>
-                <p>height: {user_AddtionalInfo?.height ?? "-"}</p>
-                <p>Allergic reactions: {user_AddtionalInfo?.allergic_reactions ?? "-"}</p>
+                <div className="flex-col space-y-3">
+                  <p className="flex"><Weight className="details_icon" />weight: {user_AddtionalInfo?.weight ?? "-"}</p>
+                  <p className="flex"><Ruler className="details_icon" />height: {user_AddtionalInfo?.height ?? "-"}</p>
+                  <p className="flex"><Info className="details_icon" />Allergic reactions: {user_AddtionalInfo?.allergic_reactions ?? "-"}</p>
+                </div>
               </div>
 
             </div>
