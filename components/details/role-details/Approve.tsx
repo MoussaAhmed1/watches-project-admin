@@ -9,12 +9,13 @@ interface IProps {
     title: string;
     id: string;
     successMessage: string;
-    defualt:boolean,
-    method:(id:string)=> Promise<any>;
+    defualt: boolean,
+    method: (id: string) => Promise<any>;
+    children?: React.ReactNode;
 
 }
 
-function Approve({ title ,defualt=false,successMessage,method,id}: IProps) {
+function Approve({ title, defualt = false, successMessage, method, id, children }: IProps) {
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const { toast } = useToast();
@@ -32,7 +33,7 @@ function Approve({ title ,defualt=false,successMessage,method,id}: IProps) {
             toast({
                 variant: "default",
                 title: "Action updated",
-                description: successMessage ? successMessage :`Request has been Approved.`,
+                description: successMessage ? successMessage : `Request has been Approved.`,
             });
         }
 
@@ -49,14 +50,29 @@ function Approve({ title ,defualt=false,successMessage,method,id}: IProps) {
                 loading={loading}
                 defualt={defualt}
             />
-            <Button
-                disabled={loading}
-                type="button"
-                size="lg"
-                onClick={() => setOpen(true)}
-            >
-                {title}
-            </Button>
+            {!children ?
+                <Button
+                    disabled={loading}
+                    type="button"
+                    size="lg"
+                    onClick={() => setOpen(true)}
+                >
+                    {title}
+                </Button>
+                : (
+                    <Button
+                        disabled={loading}
+                        type="button"
+                        style={{ all: "unset", width: "100%" }}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setOpen(true)
+                        }}
+                    >
+                        {children}
+                    </Button>
+                )}
         </>
     )
 }
