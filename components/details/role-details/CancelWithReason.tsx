@@ -5,7 +5,6 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -18,14 +17,11 @@ import * as z from "zod";
 import { useToast } from "../../ui/use-toast";
 
 import { Input } from "@/components/ui/input";
-import { ISocialLink } from "@/types/social-links";
-import { Pencil, Plus } from "lucide-react";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 interface IProps {
@@ -43,7 +39,6 @@ const formSchema = z.object({
 export default function CancelWithReason({ CancelRequest, id, dialogTitle, method }: IProps) {
   const action = CancelRequest ? "Continue1" : "Continue";
   const [loading, setLoading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<string | Blob>("");
   const { toast } = useToast();
   const closeRef = useRef<HTMLButtonElement | null>(null);
 
