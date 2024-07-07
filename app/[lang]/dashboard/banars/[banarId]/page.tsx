@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Heading } from "@/components/ui/heading";
 import { IBanner } from "@/types/banars";
 import Image from "next/image";
-import { Calendar, CheckCircle, FileText, Image as ImageIcon, Info, RefreshCcw } from 'lucide-react';
+import { Calendar, CheckCircle, FileText, Info, RefreshCcw } from 'lucide-react';
 import { formatCreatedAtDate } from "@/utils/helperFunctions";
 
 export const metadata = {
@@ -71,7 +71,7 @@ export default async function Page({ params, searchParams }: Props) {
                   Ended At: {formatCreatedAtDate(banner.ended_at)}
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <FileText style={{ marginRight: '0.5rem' }} />
+                  <FileText style={{ marginRight: '0.5rem'  }} />
                   Description: {banner.description ? banner?.description : 'No description provided'}
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
