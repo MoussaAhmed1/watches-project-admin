@@ -9,21 +9,25 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { IDoctor } from "@/types/doctors";
-import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";
+import { Edit, MoreHorizontal, Trash, Eye, BadgeCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Cookie from 'js-cookie';
+import Approve from "@/components/details/role-details/Approve";
+import { AcceptDoctorRequest } from "@/actions/doctors";
 
 interface CellActionProps {
-  data: IDoctor ;
+  data: IDoctor;
+  toBeVerified?: boolean;
 }
 
-export const CellAction: React.FC<CellActionProps> = ({ data }) => {
+export const CellAction: React.FC<CellActionProps> = ({ data, toBeVerified = false }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const currentLang = Cookie.get("Language") ?? "en";
-  const onConfirm = async () => {};
+  //handle delete
+  const onConfirm = async () => { };
 
   return (
     <>
@@ -42,6 +46,62 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          {toBeVerified && <DropdownMenuItem
+          >
+            <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptDoctorRequest} id={data?.user_id} >
+              <div className="flex">
+                <BadgeCheck className="mr-2 h-4 w-4" />Approve
+              </div>
+            </Approve>
+          </DropdownMenuItem>}
+          <DropdownMenuItem
+            onClick={() => router.push(`/${currentLang}/dashboard/doctors/${data.id}`)}
+          >
+            <Eye className="mr-2 h-4 w-4" /> View
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => router.push(`/${currentLang}/dashboard/doctors/${data?.id}/${data?.user_id}/edit`)}
+          >
+            <Edit className="mr-2 h-4 w-4" /> Update
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setOpen(true)}>
+            <Trash className="mr-2 h-4 w-4" /> Delete
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
+  );
+};
+
+export const VerificationRequestsCellAction: React.FC<CellActionProps> = ({ data }) => {
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const currentLang = Cookie.get("Language") ?? "en";
+  const onConfirm = async () => { };
+
+  return (
+    <>
+      <AlertModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onConfirm={onConfirm}
+        loading={loading}
+      />
+      <DropdownMenu modal={false}>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only">Open menu</span>
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuItem
+            onClick={() => router.push(`/${currentLang}/dashboard/doctors/${data.id}`)}
+          >
+            <Eye className="mr-2 h-4 w-4" /> View
+          </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => router.push(`/${currentLang}/dashboard/doctors/${data.id}`)}
           >

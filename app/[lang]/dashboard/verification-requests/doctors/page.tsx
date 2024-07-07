@@ -1,7 +1,7 @@
 import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
 import { fetchDoctors } from "@/actions/doctors";
 import BreadCrumb from "@/components/breadcrumb";
-import { columns } from "@/components/tables/doctors-tables/columns";
+import { columns, verificationRequestsColumns } from "@/components/tables/doctors-tables/columns";
 import { SharedTable } from "@/components/tables/shared/Shared-table";
 import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
@@ -49,7 +49,7 @@ export default async function page({ searchParams }: paramsProps) {
         <SharedTable
           searchKey="doctors"
           pageNo={page}
-          columns={columns}
+          columns={verificationRequestsColumns}
           totalitems={totalDoctors}
           data={doctors as unknown as IDoctor[] }
           pageCount={pageCount}

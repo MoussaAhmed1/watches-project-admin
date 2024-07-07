@@ -47,3 +47,32 @@ export const columns: ColumnDef<IDoctor>[] = [
     cell: ({ row }) => <CellAction data={row.original} />,
   },
 ];
+
+
+export const verificationRequestsColumns: ColumnDef<IDoctor>[] = [
+  {
+    accessorKey: "name",
+    header: "Name",
+    cell: ({ row }) => <div className="flex items-center gap-3">
+      <Avatar className="w-10 h-10">
+        <AvatarImage
+          src={row?.original?.avatar ?? ""}
+          alt={row?.original?.name ?? ""}
+        />
+        <AvatarFallback>{row?.original?.name[0]}</AvatarFallback>
+      </Avatar>
+      <p className="hidden text-black dark:text-white sm:block">
+        {row?.original?.name}
+      </p>
+    </div>
+  },
+  {
+    accessorKey: "specialization",
+    header: "specialization",
+    cell: ({ row }) => row?.original?.specialization?.name
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <CellAction data={row.original} toBeVerified />,
+  },
+];
