@@ -1,16 +1,12 @@
 import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
 import { fetchDoctors } from "@/actions/doctors";
 import BreadCrumb from "@/components/breadcrumb";
-import { columns, verificationRequestsColumns } from "@/components/tables/doctors-tables/columns";
+import { verificationRequestsColumns } from "@/components/tables/doctors-tables/columns";
 import { SharedTable } from "@/components/tables/shared/Shared-table";
-import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { Employee } from "@/constants/data";
-import { cn } from "@/lib/utils";
 import { IDoctor } from "@/types/doctors";
-import { Plus } from "lucide-react";
-import Link from "next/link";
 
 const breadcrumbItems = [{ title: "Doctors Requests", link: "/dashboard/doctors" }];
 

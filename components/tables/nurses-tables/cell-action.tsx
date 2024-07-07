@@ -9,10 +9,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { INurse } from "@/types/nurses";
-import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";
+import { Edit, MoreHorizontal, Trash, Eye, BadgeCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Cookie from 'js-cookie';
+import Approve from "@/components/details/role-details/Approve";
+import { AcceptNurseRequest } from "@/actions/nurses";
+import { removeUser } from "@/actions/patients";
 interface CellActionProps {
   data: INurse;
 }
@@ -22,7 +25,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const currentLang = Cookie.get("Language") ?? "en";
-  const onConfirm = async () => {};
+  const onConfirm = async () => {
+    setLoading(true);
+    await removeUser({ id: data?.user_id, revalidateData: "/dashboard/nurses" })
+    setLoading(false);
+  };
 
   return (
     <>
@@ -41,6 +48,13 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          {!data?.is_verified && <DropdownMenuItem>
+            <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptNurseRequest} id={data?.user_id} >
+              <div className="flex">
+                <BadgeCheck className="mr-2 h-4 w-4" />Approve
+              </div>
+            </Approve>
+          </DropdownMenuItem>}
           <DropdownMenuItem
             onClick={() => router.push(`/${currentLang}/dashboard/nurses/${data.id}`)}
           >
@@ -51,8 +65,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpen(true)}>
-            <Trash className="mr-2 h-4 w-4" /> Delete
+          <DropdownMenuItem>
+            <Approve successMessage="User Deleted Successfully" title="Delete User" method={removeUser} revalidateData="/dashboard/nurses" id={data?.user_id} >
+              <div className="flex">
+                <Trash className="mr-2 h-4 w-4" /> Delete
+              </div>
+            </Approve>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

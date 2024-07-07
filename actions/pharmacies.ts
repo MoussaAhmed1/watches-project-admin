@@ -87,7 +87,7 @@ export const fetchPharmacyProducts = async ({
   }
 };
 
-export const AcceptPharmacyRequest = async (id:string): Promise<any> => {
+export const AcceptPharmacyRequest = async ({id}:{id:string}): Promise<any> => {
   const accessToken = cookies().get("access_token")?.value;
   const lang = cookies().get("Language")?.value;
   try {

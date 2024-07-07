@@ -8,20 +8,21 @@ import { useState } from "react";
 interface IProps {
     title: string;
     id: string;
+    revalidateData?: string;
     successMessage: string;
-    defualt: boolean,
-    method: (id: string) => Promise<any>;
+    defualt?: boolean,
+    method: ({id,revalidateData}:{id:string,revalidateData?:string}) => Promise<any>;
     children?: React.ReactNode;
 
 }
 
-function Approve({ title, defualt = false, successMessage, method, id, children }: IProps) {
+function Approve({ title, defualt = false, successMessage, method, id, children,revalidateData }: IProps) {
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const { toast } = useToast();
     const onConfirm = async () => {
         setLoading(true);
-        const res = await method(id);
+        const res = await method({id,revalidateData});
         if (res?.error) {
             toast({
                 variant: "destructive",

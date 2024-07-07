@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Metadata } from "next";
-import Link from "next/link";
 import nurseImage from "../../../../../public/assets/doctor.avif";
 import BreadCrumb from "@/components/breadcrumb";
 import { AcceptDoctorRequest, fetchSingleDoctor } from "@/actions/doctors";

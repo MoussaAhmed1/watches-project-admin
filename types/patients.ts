@@ -30,3 +30,15 @@ export interface AccountProfile {
   gender: "male" | "female";
   language: string;
 }
+
+export interface ClientAddtionalInfo {
+  id: string
+  created_at: string
+  updated_at: string
+  deleted_at: any
+  user_id: string
+  height: string
+  weight: string
+  allergic_reactions: string
+  notes: string
+}

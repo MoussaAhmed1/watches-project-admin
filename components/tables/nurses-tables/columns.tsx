@@ -46,3 +46,29 @@ export const NursesColumns: ColumnDef<INurse>[] = [
     cell: ({ row }) => <CellAction data={row.original} />,
   },
 ];
+export const VerificationRequestsNursesColumns: ColumnDef<INurse>[] = [
+  {
+    accessorKey: "name",
+    header: "Name",
+    cell: ({ row }) => <div className="flex items-center gap-3">
+      <Avatar className="w-10 h-10">
+        <AvatarImage
+          src={row?.original?.avatar ?? ""}
+          alt={row?.original?.name ?? ""}
+        />
+        <AvatarFallback>{row?.original?.name[0]}</AvatarFallback>
+      </Avatar>
+      <p className="hidden text-black dark:text-white sm:block">
+        {row?.original?.name}
+      </p>
+    </div>
+  },
+  {
+    accessorKey: "phone",
+    header: "Phone",
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <CellAction data={row.original} />,
+  },
+];

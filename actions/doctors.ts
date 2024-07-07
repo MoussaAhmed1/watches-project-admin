@@ -61,12 +61,12 @@ export const fetchSingleDoctor = async (doctorId : string): Promise<any> => {
   }
 };
 
-export const AcceptDoctorRequest = async (user_id:string): Promise<any> => {
+export const AcceptDoctorRequest = async ({id}:{id:string}): Promise<any> => {
   const accessToken = cookies().get("access_token")?.value;
   const lang = cookies().get("Language")?.value;
   try {
      await axiosInstance.post(
-      `${endpoints.doctors.accept}/${user_id}`,
+      `${endpoints.doctors.accept}/${id}`,
       {},
       {
         headers: {
@@ -75,7 +75,7 @@ export const AcceptDoctorRequest = async (user_id:string): Promise<any> => {
         },
       },
     );
-    revalidatePath(`/dashboard/doctors/${user_id}`);
+    revalidatePath(`/dashboard/doctors/${id}`);
   } catch (error: any) {
     return {
       error: getErrorMessage(error),
