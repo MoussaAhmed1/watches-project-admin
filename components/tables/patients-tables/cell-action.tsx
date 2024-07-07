@@ -1,5 +1,4 @@
 "use client";
-import { AlertModal } from "@/components/modal/alert-modal";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,32 +7,22 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Employee } from "@/constants/data";
-import { IDoctor } from "@/types/doctors";
 import { IPatient } from "@/types/patients";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import Cookie from 'js-cookie';
+import Approve from "@/components/details/role-details/Approve";
+import { removeUser } from "@/actions/patients";
 interface CellActionProps {
-  data: Employee | IDoctor | IPatient;
+  data:  IPatient;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
   const router = useRouter();
   const currentLang = Cookie.get("Language") ?? "en";
-  const onConfirm = async () => {};
 
   return (
     <>
-      <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onConfirm}
-        loading={loading}
-      />
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
@@ -49,8 +38,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpen(true)}>
-            <Trash className="mr-2 h-4 w-4" /> Delete
+          <DropdownMenuItem>
+            <Approve successMessage="User Deleted Successfully" title="Delete User" method={removeUser} revalidateData="/dashboard/patients" id={data?.id} >
+              <div className="flex">
+                <Trash className="mr-2 h-4 w-4" /> Delete
+              </div>
+            </Approve>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

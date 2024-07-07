@@ -1,15 +1,11 @@
 import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
 import { fetchNurses } from "@/actions/nurses";
 import BreadCrumb from "@/components/breadcrumb";
-import { NursesColumns } from "@/components/tables/nurses-tables/columns";
+import {  VerificationRequestsNursesColumns } from "@/components/tables/nurses-tables/columns";
 import { SharedTable } from "@/components/tables/shared/Shared-table";
-import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
 import { INurse } from "@/types/nurses";
-import { Plus } from "lucide-react";
-import Link from "next/link";
 
 const breadcrumbItems = [{ title: "Nurses Requests", link: "/dashboard/nurses" }];
 
@@ -48,7 +44,7 @@ export default async function page({ searchParams }: paramsProps) {
         <SharedTable
           searchKey="nurses"
           pageNo={page}
-          columns={NursesColumns}
+          columns={VerificationRequestsNursesColumns}
           totalitems={totalNurses}
           data={nurses as unknown as INurse[] }
           pageCount={pageCount}

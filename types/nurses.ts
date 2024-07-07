@@ -1,4 +1,5 @@
 export interface INurse {
+  is_verified: boolean
   user_id: string
   id: string
   name: string
