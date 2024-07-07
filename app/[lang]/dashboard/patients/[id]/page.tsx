@@ -5,6 +5,7 @@ import BreadCrumb from "@/components/breadcrumb";
 import { Heading } from "@/components/ui/heading";
 import { AccountProfile, ClientAddtionalInfo } from "@/types/patients";
 import { fetchClientAddtionalInfo, fetchProfileInfo } from "@/actions/patients";
+import { Calendar, Info, Languages } from "lucide-react";
 export const metadata: Metadata = {
   title: "Client Deatails",
   description:
@@ -32,7 +33,7 @@ const page = async ({ params }: {
         <div className="flex flex-col lg:flex-row gap-1 lg:items-center lg:justify-between justify-start items-start">
           <Heading
             title={`Patient Details`}
-            description={user?.first_name +" "+ user?.last_name}
+            description={user?.first_name + " " + user?.last_name}
             customStyle="ml-4"
           />
         </div>
@@ -41,15 +42,15 @@ const page = async ({ params }: {
             <div className="flex items-center justify-start p-4 bg-[#3c50e0] text-white">
               <Image
                 src={user?.avatar || nurseImage}
-                alt={user?.first_name +" "+ user?.last_name}
+                alt={user?.first_name + " " + user?.last_name}
                 className="rounded-full"
                 width={65}
                 height={65}
               />
               <div className="ml-4">
-                <h1 className="text-2xl font-bold">Name: {user?.first_name +" "+ user?.last_name}</h1>
+                <h1 className="text-2xl font-bold">Name: {user?.first_name + " " + user?.last_name}</h1>
                 <h6>Phone: {user?.phone}</h6>
-                {user?.email&&<h6>Email: {user?.email}</h6>}
+                {user?.email && <h6>Email: {user?.email}</h6>}
               </div>
             </div>
             <div className="tab1">
@@ -57,16 +58,19 @@ const page = async ({ params }: {
                 <h2 className="text-xl font-bold">Profile Info</h2>
                 <div className="grid grid-cols-1">
                   <div className="flex mt-3">
+                    <Calendar className="details_icon" />
                     <p className="mr-1">Birth Date:</p>
                     <p>{user?.birth_date}</p>
                   </div>
                   <div className="flex mt-3">
+                    <Info className="details_icon" />
                     <p className="mr-1">Gender:</p>
                     <p>{user?.gender}</p>
                   </div>
                   <div className="flex mt-3">
+                    <Languages className="details_icon" />
                     <p className="mr-1">Language:</p>
-                    <p>{user?.language=="en"?"English":"Arabic"}</p>
+                    <p>{user?.language == "en" ? "English" : "Arabic"}</p>
                   </div>
                 </div>
               </div>
