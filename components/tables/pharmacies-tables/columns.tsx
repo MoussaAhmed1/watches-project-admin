@@ -30,19 +30,19 @@ export const PharmaciesColumns: ColumnDef<IPharmacy>[] = [
   },
   {
     accessorKey: "open_time",
-    header: "Open Time"
+    header: "Open Time",
+    cell: ({ row }) => <div className="flex items-center">
+      <p className="text-center w-[50%]">
+        {row?.original?.open_time}
+      </p>
+    </div>
   },
   {
     accessorKey: "close_time",
-    header: "Close Time"
-  },
-  {
-    accessorKey: "is_verified",
-    header: "Is Verified",
-    cell: ({ row }) => <div className="flex items-center gap-3">
-      <p
-      >
-        {row?.original?.is_verified ? <CheckCircle stroke="#39a845" size={18} /> : <CircleSlash style={{ color: '#8C0101' }} size={18} />}
+    header: "Close Time",
+    cell: ({ row }) => <div className="flex items-center">
+      <p className="text-center w-[50%]">
+        {row?.original?.close_time}
       </p>
     </div>
   },
@@ -50,7 +50,7 @@ export const PharmaciesColumns: ColumnDef<IPharmacy>[] = [
     accessorKey: "created_at",
     header: "Created At",
     cell: ({ row }) => <div className="flex items-center gap-3">
-      <p className="hidden text-black dark:text-white sm:block">
+      <p className="text-center w-[50%]">
         {formatCreatedAtDate(row?.original?.created_at)}
       </p>
     </div>

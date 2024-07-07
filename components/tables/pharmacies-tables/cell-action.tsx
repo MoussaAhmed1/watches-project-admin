@@ -9,10 +9,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { IPharmacy } from "@/types/pharmacy";
-import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";
+import { Edit, MoreHorizontal, Trash, Eye, BadgeCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Cookie from 'js-cookie';
+import Approve from "@/components/details/role-details/Approve";
+import { AcceptPharmacyRequest } from "@/actions/pharmacies";
 interface CellActionProps {
   data: IPharmacy;
 }
@@ -41,6 +43,14 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          {!data?.is_verified && <DropdownMenuItem
+          >
+            <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptPharmacyRequest} id={data?.user_id} >
+              <div className="flex">
+                <BadgeCheck className="mr-2 h-4 w-4" />Approve
+              </div>
+            </Approve>
+          </DropdownMenuItem>}
           <DropdownMenuItem
             onClick={() => router.push(`/${currentLang}/dashboard/pharmacies/${data.id}`)}
           >
