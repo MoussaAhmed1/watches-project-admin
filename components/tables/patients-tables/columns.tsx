@@ -22,7 +22,7 @@ export const PatientsColumns: ColumnDef<IPatient>[] = [
         />
         <AvatarFallback>{row?.original?.first_name[0]}</AvatarFallback>
       </Avatar>
-      <p className="hidden text-black dark:text-white sm:block">
+      <p >
         {row?.original?.first_name + " " + row?.original?.last_name}
       </p>
     </div>

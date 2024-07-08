@@ -25,7 +25,7 @@ export const NurseOrderColumns: ColumnDef<INurseOrder>[] = [
         />
         <AvatarFallback>{row?.original?.user?.name[0]}</AvatarFallback>
       </Avatar>
-      <p className="hidden text-black dark:text-white sm:block">
+      <p >
         {row?.original?.user?.name}
       </p>
     </div>
@@ -43,7 +43,7 @@ export const NurseOrderColumns: ColumnDef<INurseOrder>[] = [
             />
             <AvatarFallback>{row?.original?.nurse?.name[0]}</AvatarFallback>
           </Avatar>
-          <p className="hidden text-black dark:text-white sm:block">
+          <p >
             {row?.original?.nurse?.name}
           </p>
         </div>)
@@ -57,7 +57,7 @@ export const NurseOrderColumns: ColumnDef<INurseOrder>[] = [
     accessorKey: "address",
     header: "Address",
     cell: ({ row }) => <div className="flex items-center gap-3">
-      <p className="hidden text-black dark:text-white sm:block">
+      <p >
         <Link
           href={`https://www.google.com/maps/search/?api=1&query=${row?.original?.address?.latitude},${row?.original?.address?.longitude}`}
           target="_blank"
@@ -100,7 +100,7 @@ export const NurseOrderColumns: ColumnDef<INurseOrder>[] = [
     accessorKey: "created_at",
     header: "Created At",
     cell: ({ row }) => <div className="flex items-center gap-3">
-      <p className="hidden text-black dark:text-white sm:block">
+      <p>
         {formatCreatedAtDate(row?.original?.created_at)}
       </p>
     </div>

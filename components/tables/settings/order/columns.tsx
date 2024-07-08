@@ -21,7 +21,7 @@ import { PharmacyOrder } from "@/types/pharmacy-order";
         />
         <AvatarFallback>{row?.original?.user?.name}</AvatarFallback>
       </Avatar>
-      <p className="hidden text-black dark:text-white sm:block">
+      <p >
         {row?.original?.user?.name}
       </p>
     </div>

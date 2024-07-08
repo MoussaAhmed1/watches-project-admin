@@ -21,7 +21,7 @@ import {  IPatient } from "@/types/patients";
         />
         <AvatarFallback>{row?.original?.ph_name}</AvatarFallback>
       </Avatar>
-      <p className="hidden text-black dark:text-white sm:block">
+      <p >
         {row?.original?.ph_name}
       </p>
     </div>

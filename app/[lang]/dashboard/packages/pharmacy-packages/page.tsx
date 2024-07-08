@@ -1,17 +1,17 @@
 import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
-import { fetchPackages } from "@/actions/packages";
+import {  fetchPharmacyPackages } from "@/actions/packages";
 import BreadCrumb from "@/components/breadcrumb";
 import { SharedTable } from "@/components/tables/shared/Shared-table";
-import { PackagesColumns } from "@/components/tables/packages-table/columns";
+import { PackagesColumns, PackagesPharmacyColumns } from "@/components/tables/packages-table/columns";
 import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import { IPackage } from "@/types/packages";
+import { IClientPackage, IPharmacyPackage } from "@/types/packages";
 
-const breadcrumbItems = [{ title: "Packages", link: "/dashboard/packages" }];
+const breadcrumbItems = [{ title: "Pharmacy Packages", link: "/dashboard/packages" }];
 
 type paramsProps = {
   searchParams: {
@@ -22,19 +22,16 @@ type paramsProps = {
   }
 };
 
-export default async function page({ searchParams ,params}: paramsProps) {
-  const page = Number(searchParams.page) || 1;
-  const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
+export default async function page({ searchParams }: paramsProps) {
   const search =
   typeof searchParams?.search === "string" ? searchParams?.search : "";
-  const res = await fetchPackages({
-    page,
-    limit,
+  const res = await fetchPharmacyPackages({
+    page:0,
+    limit:100,
     filters: search,
   });
-  const totalPackages = res?.data?.meta?.total || 0; //1000
-  const pageCount = Math.ceil(totalPackages / limit);
-  const packages: IPackage[] = res?.data?.data || [] ;
+  const packages: IClientPackage[] = res?.data?.data || [] ;
+  const totalPackages = packages?.length ; //1000
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
@@ -42,11 +39,11 @@ export default async function page({ searchParams ,params}: paramsProps) {
 
         <div className="flex items-start justify-between">
           <Heading
-            title={`Packages (${totalPackages})`}
+            title={`Pharmacy Packages (${totalPackages})`}
           />
 
           <Link
-            href={"/dashboard/packages/new"}
+            href={"/dashboard/packages/pharmacy-packages/new"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New
@@ -56,11 +53,11 @@ export default async function page({ searchParams ,params}: paramsProps) {
 
         <SharedTable
           searchKey="packages"
-          pageNo={page}
-          columns={PackagesColumns}
+          pageNo={1}
+          columns={PackagesPharmacyColumns}
           totalitems={totalPackages}
-          data={packages as unknown as IPackage[] }
-          pageCount={pageCount}
+          data={packages as unknown as IPharmacyPackage[] }
+          pageCount={1}
         />
       </div>
     </>

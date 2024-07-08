@@ -1,5 +1,5 @@
 "use client";
-import { deletePackage } from "@/actions/packages";
+import { deleteClientPackage, deletePharmacyPackage } from "@/actions/packages";
 import { AlertModal } from "@/components/modal/alert-modal";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,22 +10,24 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
-import { IPackage } from "@/types/packages";
+import { IClientPackage, IPharmacyPackage } from "@/types/packages";
 import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface CellActionProps {
-  data: IPackage;
+  data: IClientPackage | IPharmacyPackage;
+  packageType?: "client-packages" | "pharmacy-packages";
 }
 
-export const CellAction: React.FC<CellActionProps> = ({ data }) => {
+export const CellAction: React.FC<CellActionProps> = ({ data, packageType = "client-packages" }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
   const onConfirm = async () => {
-    const res = await deletePackage(data.id);
+    const DeleteMethod = packageType === "pharmacy-packages" ? deletePharmacyPackage : deleteClientPackage;
+    const res = await DeleteMethod(data.id);
     if (res?.error) {
       toast({
         variant: "destructive",
@@ -37,7 +39,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       toast({
         variant: "default",
         title: "Deleted successfully",
-        description: `Specialization has been successfully deleted.`,
+        description: `Package has been successfully deleted.`,
       });
     }
 
@@ -63,7 +65,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/packages/${data.id}/edit`)}
+            onClick={() => router.push(`/dashboard/packages/${packageType}/${data.id}/edit`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>

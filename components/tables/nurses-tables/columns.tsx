@@ -19,7 +19,7 @@ export const NursesColumns: ColumnDef<INurse>[] = [
         />
         <AvatarFallback>{row?.original?.name[0]}</AvatarFallback>
       </Avatar>
-      <p className="hidden text-black dark:text-white sm:block">
+      <p >
         {row?.original?.name}
       </p>
     </div>
@@ -58,7 +58,7 @@ export const VerificationRequestsNursesColumns: ColumnDef<INurse>[] = [
         />
         <AvatarFallback>{row?.original?.name[0]}</AvatarFallback>
       </Avatar>
-      <p className="hidden text-black dark:text-white sm:block">
+      <p >
         {row?.original?.name}
       </p>
     </div>

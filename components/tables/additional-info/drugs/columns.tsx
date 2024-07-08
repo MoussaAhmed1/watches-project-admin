@@ -18,7 +18,7 @@ import {  IPharmacy } from "@/types/pharmacy";
         />
         <AvatarFallback>{row?.original?.ph_name}</AvatarFallback>
       </Avatar>
-      <p className="hidden text-black dark:text-white sm:block">
+      <p >
         {row?.original?.ph_name}
       </p>
     </div>

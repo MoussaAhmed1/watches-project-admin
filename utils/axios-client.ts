@@ -117,6 +117,7 @@ export const endpoints = {
   },
   packages: {
     fetch: "/package",
+    pharmacy:"/package/pharmacy"
   },
   banar: {
     fetch: "/banar",

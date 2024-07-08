@@ -16,7 +16,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../ui/use-toast";
-import { AddClientPackages, updateClientPackages } from "@/actions/packages";
+import { AddPharmacyPackage, updatePharmacyPackage } from "@/actions/packages";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -35,25 +35,25 @@ const formSchema = z.object({
     .min(3, { message: "Package description must be at least 3 characters" }),
   price: z.coerce.number().positive('Must be a positive number'),
   expiration_days: z.coerce.number().positive('Must be a positive number'),
-  number_of_pharmacy_order: z.coerce.number().positive('Must be a positive number'),
+  advantage_mins: z.coerce.number().positive('Must be a positive number'),
 });
 
-export type PackageFormValues = z.infer<typeof formSchema>;
+export type PharmacyPackageFormValues = z.infer<typeof formSchema>;
 
 interface PackageFormProps {
-  initialData?: PackageFormValues;
+  initialData?: PharmacyPackageFormValues;
   id?: string;
 }
 
-export const PackageForm: React.FC<PackageFormProps> = ({
+export const PharmacyPackageForm: React.FC<PackageFormProps> = ({
   initialData,
   id
 }) => {
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const title = initialData ? "Edit client package" : "Create client package";
-  const description = initialData ? "Edit a client package." : "Add a new client package";
+  const title = initialData ? "Edit pharmacy package" : "Create pharmacy package";
+  const description = initialData ? "Edit a pharmacy package." : "Add a new pharmacy package";
   const action = initialData ? "Save changes" : "Create";
 
   const defaultValues = initialData
@@ -65,23 +65,23 @@ export const PackageForm: React.FC<PackageFormProps> = ({
       description_en: "",
       price: 0,
       expiration_days: 0,
-      number_of_pharmacy_order: 0,
+      advantage_mins: 0,
     };
 
-  const form = useForm<PackageFormValues>({
+  const form = useForm<PharmacyPackageFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData ? defaultValues : undefined,
   });
 
-  const onSubmit = async (data: PackageFormValues) => {
+  const onSubmit = async (data: PharmacyPackageFormValues) => {
     setLoading(true);
     // alert(JSON.stringify(data)); //testing
     let res;
     if (initialData) {
-      res = await updateClientPackages(data,id );
+      res = await updatePharmacyPackage(data,id );
     } else {
 
-      res = await AddClientPackages(data);
+      res = await AddPharmacyPackage(data);
     }
     if (res?.error) {
       toast({
@@ -99,7 +99,7 @@ export const PackageForm: React.FC<PackageFormProps> = ({
     }
 
     setLoading(false);
-    router.push(`/dashboard/packages/client-packages`);
+    router.push(`/dashboard/packages/pharmacy-packages`);
   };
 
 
@@ -218,10 +218,10 @@ export const PackageForm: React.FC<PackageFormProps> = ({
               />
               <FormField
                 control={form.control}
-                name="number_of_pharmacy_order"
+                name="advantage_mins"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Number of pharmacy order</FormLabel>
+                    <FormLabel>Advantage minutes</FormLabel>
                     <FormControl>
                       <Input type="number" disabled={loading} {...field} />
                     </FormControl>
