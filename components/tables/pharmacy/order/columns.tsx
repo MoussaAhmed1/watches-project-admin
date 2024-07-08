@@ -32,7 +32,7 @@ const columns: ColumnDef<PharmacyOrder>[] = [
         />
         <AvatarFallback>{row?.original?.user?.name[0]}</AvatarFallback>
       </Avatar>
-      <p className="hidden text-black dark:text-white sm:block">
+      <p >
         {row?.original?.user?.name}
       </p>
     </div>

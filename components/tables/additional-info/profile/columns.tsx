@@ -19,7 +19,7 @@ const columns: ColumnDef<AdditionalInfoProfile>[] = [
           />
           <AvatarFallback>{row?.original?.first_name}</AvatarFallback>
         </Avatar>
-        <p className="hidden text-black dark:text-white sm:block">
+        <p >
           {row?.original?.first_name}
         </p>
       </div>

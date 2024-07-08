@@ -217,7 +217,18 @@ export const navItems: NavItem[] = [
     title: "Packages",
     href: "/dashboard/packages",
     icon: "inbox",
-    subItems: false,
+    label: "packages",
+    subItems: true,
+    children: [
+      {
+        title: "Client Packages",
+        href: "/dashboard/packages/client-packages",
+      },
+      {
+        title: "Pharmacy Packages",
+        href: "/dashboard/packages/pharmacy-packages",
+      }
+    ]
   },
   {
     title: "Notifications",

@@ -25,7 +25,7 @@ export const BanarsColumns: ColumnDef<IBanner>[] = [
     accessorKey: "Start Date",
     header: "Start Date",
     cell: ({ row }) => <div className="flex items-center gap-3">
-      <p className="hidden text-black dark:text-white sm:block">
+      <p >
         {formatCreatedAtDate(row?.original?.started_at)}
       </p>
     </div>
@@ -34,7 +34,7 @@ export const BanarsColumns: ColumnDef<IBanner>[] = [
     accessorKey: "End Date",
     header: "End Date",
     cell: ({ row }) => <div className="flex items-center gap-3">
-      <p className="hidden text-black dark:text-white sm:block">
+      <p >
         {formatCreatedAtDate(row?.original?.ended_at)}
       </p>
     </div>

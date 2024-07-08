@@ -19,7 +19,7 @@ export const columns: ColumnDef<IDoctor>[] = [
         />
         <AvatarFallback>{row?.original?.name[0]}</AvatarFallback>
       </Avatar>
-      <p className="hidden text-black dark:text-white sm:block">
+      <p >
         {row?.original?.name}
       </p>
     </div>
@@ -61,7 +61,7 @@ export const verificationRequestsColumns: ColumnDef<IDoctor>[] = [
         />
         <AvatarFallback>{row?.original?.name[0]}</AvatarFallback>
       </Avatar>
-      <p className="hidden text-black dark:text-white sm:block">
+      <p >
         {row?.original?.name}
       </p>
     </div>

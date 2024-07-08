@@ -16,7 +16,7 @@ export const PharmaciesColumns: ColumnDef<IPharmacy>[] = [
     accessorKey: "address",
     header: "Address",
     cell: ({ row }) => <div className="flex items-center gap-3">
-      <p className="hidden text-black dark:text-white sm:block">
+      <p >
         <Link
           href={`https://www.google.com/maps/search/?api=1&query=${row?.original?.latitude},${row?.original?.longitude}`}
           target="_blank"
