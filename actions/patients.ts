@@ -62,6 +62,7 @@ export const AddPatient = async (formData: FormData): Promise<any> => {
     };
   }
 };
+
 export const updatePatients = async (
   data: any,
   id: string | undefined,

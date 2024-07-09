@@ -7,17 +7,18 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { IPatient } from "@/types/patients";
+import { IUser } from "@/types/patients";
 import { Edit, Eye, MoreHorizontal, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Cookie from 'js-cookie';
 import Approve from "@/components/details/role-details/Approve";
 import { removeUser } from "@/actions/patients";
 interface CellActionProps {
-  data:  IPatient;
+  data:  IUser;
+  role?: "patients" | "admins";
 }
 
-export const CellAction: React.FC<CellActionProps> = ({ data }) => {
+export const CellAction: React.FC<CellActionProps> = ({ data,role }) => {
   const router = useRouter();
   const currentLang = Cookie.get("Language") ?? "en";
 
@@ -33,12 +34,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() => router.push(`/${currentLang}/dashboard/patients/${data.id}`)}
+            onClick={() => router.push(`/${currentLang}/dashboard/${role}/${data.id}`)}
           >
             <Eye className="mr-2 h-4 w-4" /> View
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => router.push(`/${currentLang}/dashboard/patients/${data?.id}/edit`)}
+            onClick={() => router.push(`/${currentLang}/dashboard/${role}/${data?.id}/edit`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>

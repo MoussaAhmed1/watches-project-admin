@@ -7,7 +7,7 @@ import { Star } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import {  IPharmacy } from "@/types/pharmacy";
-import {  IPatient } from "@/types/patients";
+import {  IUser } from "@/types/patients";
 
  const columns: ColumnDef<IPharmacy>[] = [
   {

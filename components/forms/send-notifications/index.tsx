@@ -19,7 +19,7 @@ import { useToast } from "../../ui/use-toast";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea"
 import useCostomSearchParams from "@/hooks/use-searchParams";
-import { IPatient } from "@/types/patients";
+import { IUser } from "@/types/patients";
 import { sendNotifications } from "@/actions/notifications";
 import { SelectContent, SelectItem, SelectTrigger, SelectValue, Select as ShadcnSelect } from "@/components/ui/select";
 
@@ -62,7 +62,7 @@ const formSchema = z.object({
 export type NotificationFormValues = z.infer<typeof formSchema>;
 
 interface NotificationFormProps {
-  users: IPatient[]
+  users: IUser[]
 }
 
 export const NotificationForm: React.FC<NotificationFormProps> = ({

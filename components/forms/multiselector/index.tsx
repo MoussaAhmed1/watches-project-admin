@@ -1,8 +1,8 @@
 import MultipleSelector, { Option } from '@/components/ui/multiple-selector';
-import { IPatient } from '@/types/patients';
+import { IUser } from '@/types/patients';
 
 
-const CustomMultipleSelector = ({ options, onCustomChange }: { options: IPatient[], onCustomChange: (options: Option[]) => void }) => {
+const CustomMultipleSelector = ({ options, onCustomChange }: { options: IUser[], onCustomChange: (options: Option[]) => void }) => {
   return (
     <div className="w-full">
       <MultipleSelector

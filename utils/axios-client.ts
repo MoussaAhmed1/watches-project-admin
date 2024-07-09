@@ -85,6 +85,11 @@ export const endpoints = {
     register:"/auth/register/client"
     
   },
+  admins: {
+    fetch: "/user",
+    register:"/auth/register/admin"
+    
+  },
   nurse_orders: {
     fetch: "/nurse/order",
     cancleRequest: "/nurse/admin/cancel/order",

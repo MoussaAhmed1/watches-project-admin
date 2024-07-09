@@ -144,6 +144,10 @@ export const navItems: NavItem[] = [
         title: "Nurses",
         href: "/dashboard/nurses",
       },
+      {
+        title: "Admins",
+        href: "/dashboard/admins",
+      },
     ],
   },
 

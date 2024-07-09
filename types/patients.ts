@@ -1,4 +1,4 @@
-export interface IPatient {
+export interface IUser {
   id: string;
   account: string;
   first_name: string;
