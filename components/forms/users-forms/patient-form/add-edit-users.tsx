@@ -19,11 +19,12 @@ import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
 import { AddPatient, updatePatients } from "@/actions/patients";
 import { Card } from "@/components/ui/card";
-import patientSchema from "../patient-form/patientSchema";
+import patientSchema from "./patientSchema";
 
 import { toFormData } from "axios";
 import AvatarPreview from "@/components/shared/AvatarPreview";
 import InputDate from "@/components/shared/timepicker/InputDate";
+import { AddAdmin } from "@/actions/users/admin";
 
 
 export type PatientFormValues = z.infer<typeof patientSchema>;
@@ -31,17 +32,19 @@ export type PatientFormValues = z.infer<typeof patientSchema>;
 interface PatientFormProps {
   initialData?: PatientFormValues;
   id?: string;
+  _role?: "CLIENT" | "ADMIN";
 }
 
-export const PatientForm: React.FC<PatientFormProps> = ({
+export const UserForm: React.FC<PatientFormProps> = ({
   initialData,
   id,
+  _role = "CLIENT"
 }) => {
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const title = initialData ? "Edit patient" : "Create patient";
-  const description = initialData ? "Edit a patient." : "Add a new patient";
+  const title = _role === "CLIENT" ? "Create patient" : "Create admin";
+  const description = _role === "CLIENT" ? "Add a new patient." : "Add a new admin";
   const action = initialData ? "Save changes" : "Create";
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
 
@@ -52,28 +55,15 @@ export const PatientForm: React.FC<PatientFormProps> = ({
       setSelectedAvatar(URL?.createObjectURL(file));
     }
   };
-
-  const defaultValues = initialData
-    ? initialData
-    : {
-      name_en: "",
-      name_ar: "",
-      description_ar: "",
-      description_en: "",
-      price: 0,
-      expiration_days: 0,
-      number_of_pharmacy_order: 0,
-    };
-
   const form = useForm<PatientFormValues>({
     resolver: zodResolver(patientSchema),
     // defaultValues: initialData ? defaultValues : undefined,
   });
-  const { control, handleSubmit, formState: { errors } } = form;
+  const { control, formState: { errors } } = form;
 
   useEffect(() => {
-    form.setValue("role", "CLIENT")
-  }, [form]);
+    form.setValue("role", _role)
+  }, [_role, form]);
 
 
   const onSubmit = async (data: PatientFormValues) => {
@@ -81,13 +71,9 @@ export const PatientForm: React.FC<PatientFormProps> = ({
     setLoading(true);
     const formData = new FormData();
     toFormData(data, formData);
-    let res;
-    if (initialData) {
-      res = await updatePatients(data, id);
-    } else {
+    const AddUserMethod = _role === "CLIENT" ? AddPatient : AddAdmin
+    const res = await AddUserMethod(formData);
 
-      res = await AddPatient(formData);
-    }
     if (res?.error) {
       toast({
         variant: "destructive",
@@ -99,9 +85,15 @@ export const PatientForm: React.FC<PatientFormProps> = ({
       toast({
         variant: "default",
         title: initialData ? "Updated successfully" : "Added successfully",
-        description: initialData ? `Patient has been successfully updated.` : `Patient has been successfully added.`,
+        description: _role === "CLIENT" ? `Patient has been successfully updated.` : `Admin has been successfully added.`,
       });
-      router.push(`/dashboard/patients`);
+      if (_role === "CLIENT") {
+        router.push(`/dashboard/patients`);
+
+      } else {
+
+        router.push(`/dashboard/admins`);
+      }
     }
 
     setLoading(false);
@@ -132,7 +124,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Patient name"
+                        placeholder="First Name"
                         {...field}
                       />
                     </FormControl>
@@ -149,7 +141,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Patient name"
+                        placeholder="Last Name"
                         {...field}
                       />
                     </FormControl>

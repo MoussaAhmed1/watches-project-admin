@@ -7,8 +7,8 @@ import React from "react";
 
 export default async function Page({ params }:{params: { id: string }}) {
   const breadcrumbItems = [
-    { title: "Patients", link: "/dashboard/patients" },
-    { title: "Update", link: "/dashboard/patients/edit" },
+    { title: "Admins", link: "/dashboard/admins" },
+    { title: "Update", link: "/dashboard/admins/edit" },
   ];
   //----------------------------------------------------------------
   const res = await fetchProfileInfo({ userId: params.id });
@@ -16,9 +16,8 @@ export default async function Page({ params }:{params: { id: string }}) {
   return (
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems}  />
-      
       <Heading
-            title={`Update Patient`}
+            title={`Update Admin`}
             description={user.first_name + " " + user.last_name}
           />
       <UserProfileForm
@@ -31,7 +30,7 @@ export default async function Page({ params }:{params: { id: string }}) {
           phone: user?.phone,
           avatarFile: user?.avatar,
         }}
-        revalidatequery="/dashboard/patients"
+        revalidatequery="/dashboard/admins"
       />
     </div>
   );

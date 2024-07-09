@@ -28,7 +28,7 @@ const patientSchema = z.object({
       message: 'String must be a valid image URL (jpeg, png, gif)',
     })
   ]).optional(),
-  role: z.literal("CLIENT"),
+  role: z.enum(["CLIENT", "ADMIN"]),
 });
 
 export default patientSchema;

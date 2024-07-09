@@ -11,13 +11,13 @@ import {
 import { Employee } from "@/constants/data";
 import { IDoctor } from "@/types/doctors";
 import {  IPharmacy } from "@/types/pharmacy";
-import {  IPatient } from "@/types/patients";
+import {  IUser } from "@/types/patients";
 import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface CellActionProps {
-  data: Employee | IDoctor | IPatient | IPharmacy;
+  data: Employee | IDoctor | IUser | IPharmacy;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
