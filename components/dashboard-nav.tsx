@@ -113,7 +113,7 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
                           " flex gap-1 items-center",
                           isActive
                             ? "flex items-center w-full h-12 px-3 mt-2 bg-blue-100 rounded text-blue-700"
-                            : "flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-blue-50 text-gray-600"
+                            : "flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-blue-50 text-gray-600 dark:text-gray-400"
                         )}
                       >
                         <Icon className="w-5 h-5 text-xs" />
