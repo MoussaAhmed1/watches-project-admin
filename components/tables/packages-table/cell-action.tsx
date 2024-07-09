@@ -14,14 +14,15 @@ import { IClientPackage, IPharmacyPackage } from "@/types/packages";
 import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
+import Cookie from 'js-cookie';
 interface CellActionProps {
   data: IClientPackage | IPharmacyPackage;
   packageType?: "client-packages" | "pharmacy-packages";
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data, packageType = "client-packages" }) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);  
+  const currentLang = Cookie.get("Language") ?? "en";
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
@@ -65,7 +66,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data, packageType = "cli
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/packages/${packageType}/${data.id}/edit`)}
+            onClick={() => router.push(`/${currentLang}/dashboard/packages/${packageType}/${data.id}`)}
+          >
+            <Eye className="mr-2 h-4 w-4" /> View
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => router.push(`/${currentLang}/dashboard/packages/${packageType}/${data.id}/edit`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>
