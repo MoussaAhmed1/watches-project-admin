@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
-import { AddPatient, updatePatients } from "@/actions/patients";
+import { AddPatient } from "@/actions/patients";
 import { Card } from "@/components/ui/card";
 import patientSchema from "./patientSchema";
 
@@ -208,26 +208,69 @@ export const UserForm: React.FC<PatientFormProps> = ({
                 }}
               >
                 <FormLabel className="max-w-30 mx-1">Avatar</FormLabel>
-                <div>
-                  <Controller
-                    name="avatarFile"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        type="file"
-                        accept="image/*"
-                        multiple={false}
-                        onChange={(e) => {
-                          field.onChange(e.target.files ? e.target.files[0] : null);
-                          handleAvatarChange(e);
-                        }}
-                      />
-                    )}
-                  />
-                </div>
+                <Controller
+                  name="avatarFile"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      multiple={false}
+                      onChange={(e) => {
+                        field.onChange(e.target.files ? e.target.files[0] : null);
+                        handleAvatarChange(e);
+                      }}
+                    />
+                  )}
+                />
+
                 {errors?.avatarFile?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.avatarFile?.message as any}</FormMessage>}
               </FormItem>
             </div>
+            {_role === "ADMIN" && (
+              <div className="md:grid md:grid-cols-2 gap-8">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email <span className="text-red-800">*</span></FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder="email"
+                          {...field}
+                          type="email"
+                          required
+                          autoComplete={"false"}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>password <span className="text-red-800">*</span></FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder="password"
+                          type="password"
+                          required
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
             <Button disabled={loading} className="ml-auto" type="submit">
               {action}
             </Button>

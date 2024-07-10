@@ -1,10 +1,8 @@
-import Image from "next/image";
 import { Metadata } from "next";
-import nurseImage from "../../../../../public/assets/doctor.avif";
 import BreadCrumb from "@/components/breadcrumb";
 import { AcceptDoctorRequest, fetchSingleDoctor } from "@/actions/doctors";
 import { ISingleDoctor } from "@/types/doctors";
-import { Star } from "lucide-react";
+import { Edit, Home, Hotel, Info, MapPin, PhoneCall, Star, Video } from "lucide-react";
 import { Heading } from "@/components/ui/heading";
 import Approve from "@/components/details/role-details/Approve";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,6 +10,14 @@ import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
 import { fetchReviews } from "@/actions/reviews";
 import { IReview } from "@/types/reviews";
 import Reviews from "@/components/details/doctor-details/reviews";
+import { Separator } from "@/components/ui/separator";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { ImageRender } from "@/components/shared/imagesRender/imagesRender";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import Link from "next/link";
+import ProfileImg from "@/components/shared/imagesRender/profileImg";
+
 export const metadata: Metadata = {
   title: "Next.js Profile | TailAdmin - Next.js Dashboard Template",
   description:
@@ -50,30 +56,37 @@ const page = async ({ params, searchParams }: {
   return (
     <>
       <div className="mx-auto w-full mt-8 bg-background">
-        <BreadCrumb items={breadcrumbItems} customStyle="ml-4" />
-        <div className="flex flex-col lg:flex-row gap-1 lg:items-center lg:justify-between justify-start items-start">
+        <BreadCrumb items={breadcrumbItems} customStyle="mx-5" />
+        <div className="flex items-baseline justify-between mx-5">
           <Heading
             title={`Doctor Details`}
-            customStyle="ml-4"
           />
-          {(!doctor?.is_verified) && <div className="px-0 md:px-4">
-            <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptDoctorRequest} id={doctor?.user_id} />
-          </div>}
+          <div className="flex gap-1 justify-end">
+            {(!doctor?.is_verified) && <div className="px-0 md:px-4">
+              <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptDoctorRequest} id={doctor?.user_id} />
+            </div>}
+            <Link
+              href={`/dashboard/doctors/${params?.doctorId}/${doctor?.user_id}/edit`}
+              className={cn(buttonVariants({ variant: "default" }), "p-5")}
+
+            >
+              <Edit className="mr-2 h-5 w-5" /> Edit
+            </Link>
+          </div>
         </div>
         <div className="w-full mx-auto p-4 ">
-          <div className="bg-background shadow-md rounded-lg overflow-hidden border min-h-[77dvh] border-gray-400">
+          <div className="bg-background shadow-md rounded-lg overflow-x-hidden border min-h-[77dvh] border-gray-400">
             <div className="flex items-center justify-start p-4 bg-[#3c50e0] text-white">
-              <Image
-                src={doctor?.avatar||nurseImage}
-                alt={doctor?.name}
-                className="rounded-full"
-                width={65}
-                height={65}
-              />
+              <ProfileImg
+                className="w-[100px] h-[100px]"
+                src={doctor?.avatar}
+                alt={doctor?.name} 
+                />
               <div className="ml-4">
                 <h1 className="text-2xl font-bold">Name: {doctor?.name}</h1>
                 <p>Specialization: {doctor?.specialization?.name}</p>
                 <p>Experience: {doctor?.experience} years</p>
+                <p>Phone: {doctor?.phone}</p>
                 <div className="flex">
                   <span className="mr-2">Rating:</span>
                   <div className="stars flex">
@@ -108,29 +121,75 @@ const page = async ({ params, searchParams }: {
                     <h2 className="text-xl font-bold">Consultation Prices</h2>
                     <div className="grid grid-cols-1 mt-2">
                       <div className="flex mt-3">
-                        <p className="mr-3">Video Consultation:</p>
+                        <Video className="details_icon" />
+                        <p className="mr-1">Video Consultation:</p>
                         <p>{doctor?.video_consultation_price} EGP </p>
                       </div>
                       <div className="flex mt-3">
-                        <p className="mr-3">Voice Consultation:</p>
+                        <PhoneCall className="details_icon" />
+                        <p className="mr-1">Voice Consultation:</p>
                         <p>{doctor?.voice_consultation_price} EGP </p>
                       </div>
                       <div className="flex mt-3">
-                        <p className="mr-3"> Home Consultation:</p>
+                        <Home className="details_icon" />
+                        <p className="mr-1"> Home Consultation:</p>
                         <p>{doctor?.home_consultation_price} EGP </p>
                       </div>
                       <div className="flex mt-3">
-                        <p className="mr-3">Clinic Consultation:</p>
+                        <Hotel className="details_icon" />
+                        <p className="mr-1">Clinic Consultation:</p>
                         <p>{doctor?.clinic_consultation_price} EGP </p>
                       </div>
                     </div>
                   </div>
                   <div className="p-4 border-t border-gray-200">
                     <h2 className="text-xl font-bold">Clinic Information</h2>
-                    <p>Name: {doctor?.clinic?.name ?? "-"}</p>
-                    <p>Address: {doctor?.clinic?.address ?? "-"}</p>
+                    <div className="flex mt-3">
+                      <Info className="details_icon" />
+                      <p className="mr-1">Name:</p>
+                      <p>{doctor?.clinic?.name ?? "-"} </p>
+                    </div>
+                    <div className="flex mt-3">
+                      <MapPin className="details_icon" />
+                      <p className="mr-1">Address:</p>
+                      <p>{doctor?.clinic?.address ?? "-"}</p>
+                    </div>
                   </div>
-
+                  <Separator className="my-1" />
+                  <div className="relative p-2">
+                    <h2 className="text-xl font-bold">License Images</h2>
+                    <ScrollArea>
+                      <div className="flex space-x-4 py-4">
+                        {doctor?.licenses.map((license) => (
+                          <ImageRender
+                            key={license.id}
+                            src={license?.image}
+                            className="w-[200px]"
+                            aspectRatio="portrait"
+                            width={250}
+                            height={330}
+                          />
+                        ))}
+                      </div>
+                      <ScrollBar orientation="horizontal" />
+                    </ScrollArea>
+                  </div>
+                  <Separator className="my-1" />
+                  <div className="relative p-2">
+                    <h2 className="text-xl font-bold">Cover Images</h2>
+                    <ScrollArea>
+                      <div className="flex space-x-4 py-4">
+                        <ImageRender
+                          src={doctor?.cover_image}
+                          className="w-[200px]"
+                          aspectRatio="portrait"
+                          width={250}
+                          height={330}
+                        />
+                      </div>
+                      <ScrollBar orientation="horizontal" />
+                    </ScrollArea>
+                  </div>
                 </div>
               </TabsContent>
               <TabsContent value="review">
