@@ -25,6 +25,10 @@ export const columns: ColumnDef<IDoctor>[] = [
     </div>
   },
   {
+    accessorKey: "phone",
+    header: "Phone",
+  },
+  {
     accessorKey: "rating",
     header: "Rating",
     cell: ({ row }) => <div className="stars flex">
