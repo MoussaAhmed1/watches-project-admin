@@ -1,18 +1,18 @@
-import Image from "next/image";
 import { Metadata } from "next";
 import Link from "next/link";
 import BreadCrumb from "@/components/breadcrumb";
-import doctorImage from "../../../../../public/assets/doctor.avif";
-import { CheckCircle, CircleSlash, Star } from "lucide-react";
+import { BadgeCheck, CheckCircle, CircleSlash, Clock2, Edit, Image as ImageIcon, MapPin, Phone, Pill, Star, User } from "lucide-react";
 import { Heading } from "@/components/ui/heading";
 import { IPharmacy } from "@/types/pharmacy";
 import { AcceptPharmacyRequest, fetchSinglePharmacy } from "@/actions/pharmacies";
-import { formatCreatedAtDate } from "@/utils/helperFunctions";
 import Approve from "@/components/details/role-details/Approve";
+import ProfileImg from "@/components/shared/imagesRender/profileImg";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { ImageRender } from "@/components/shared/imagesRender/imagesRender";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 export const metadata: Metadata = {
-  title: "Next.js Profile | TailAdmin - Next.js Dashboard Template",
-  description:
-    "This is Next.js Profile page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
+  title: "Pharmacy Details | Dacatra Dashboard",
 };
 
 const page = async ({ params }: { params: { pharmacyId: string } }) => {
@@ -28,31 +28,33 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
 
   return (
     <>
-      <div className="mx-auto w-full mt-8 bg-background">
+      <div className="mx-auto w-full mt-4 bg-background">
         <BreadCrumb items={breadcrumbItems} customStyle="ml-4" />
-        <div className="flex flex-col md:flex-row gap-1 md:items-center md:justify-between  justify-start items-start">
+        <div className="flex items-baseline justify-between mx-5">
           <Heading
             title={`Pharmacy Details`}
-            customStyle="ml-4"
           />
+          <div className="flex gap-1 justify-end">
           {(!pharmacy?.is_verified) && <div className="px-0 md:px-4">
             <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptPharmacyRequest} id={pharmacy?.user_id} />
           </div>}
+            <Link
+              href={`/dashboard/pharmacies/${params?.pharmacyId}/${pharmacy?.user_id}/edit`}
+              className={cn(buttonVariants({ variant: "default" }), "p-5")}
+            >
+              <Edit className="mr-2 h-5 w-5" /> Edit
+            </Link>
+          </div>
         </div>
-        <div className="mx-auto w-full mt-8 bg-background">
+        <div className="mx-auto w-full mt-2 bg-background">
           <div className="w-full mx-auto p-4 ">
             <div className="bg-background shadow-md rounded-lg overflow-hidden border min-h-[77dvh] border-gray-400">
               <div className="flex items-center justify-start p-4 bg-[#3c50e0] text-white">
-                {pharmacy?.logo?.map((logo) => (
-                  <Image
-                    key={logo.id}
-                    src={logo.image}
-                    alt={pharmacy?.ph_name}
-                    className="w-32 h-32 rounded-full"
-                    width={500}
-                    height={500}
-                  />
-                ))}
+                <ProfileImg
+                  className="w-[100px] h-[100px]"
+                  src={pharmacy?.logo[0].image}
+                  alt={pharmacy?.ph_name}
+                />
                 <div className="ml-4">
                   <h1 className="text-2xl font-bold">
                     Name: {pharmacy?.ph_name}
@@ -66,54 +68,107 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
               </div>
               <div className="p-4 border-t border-gray-200">
                 <h2 className="text-xl font-bold mb-2">Details</h2>
-                <p className="mb-2">Created at: {formatCreatedAtDate(pharmacy?.created_at)}</p>
-                <p className="mb-2">Updated at: {formatCreatedAtDate(pharmacy?.updated_at)}</p>
-                <p className="flex items-center mb-2">Is verified: {pharmacy?.is_verified ? <CheckCircle stroke="#39a845" className="ms-3" /> : <CircleSlash style={{ color: '#8C0101' }} />}</p>
-                <p className="mb-2">Address: {pharmacy?.address}</p>
+
+                <div className="flex mt-3">
+                  <BadgeCheck className="details_icon" />
+                  <p className="mr-1">Is verified:</p>
+                  <p>{pharmacy?.is_verified ? <CheckCircle stroke="#39a845" className="ms-3" /> : <CircleSlash style={{ color: '#8C0101' }} />} </p>
+                </div>
+
+                <div className="flex mt-3">
+                  <MapPin className="details_icon" />
+                  <p className="mr-1">Address:</p>
+                  <p>{pharmacy?.address}</p>
+                </div>
               </div>
               <div className="p-4 border-t border-gray-200">
                 <h2 className="text-xl font-bold mb-2">Appointments</h2>
-                <p className="mb-2">Open at: {pharmacy?.open_time}</p>
-                <p>Close at: {pharmacy?.close_time}</p>
+                <div className="flex mt-3">
+                  <Clock2 className="details_icon" />
+                  <p className="mr-1">Open at:</p>
+                  <p>{pharmacy?.open_time} </p>
+                </div>
+                <div className="flex mt-3">
+                  <Clock2 className="details_icon" />
+                  <p className="mr-1">Close at:</p>
+                  <p>{pharmacy?.close_time} </p>
+                </div>
               </div>
+
               <div className="p-4 border-t border-gray-200">
                 <h2 className="text-xl font-bold">Categories</h2>
-                <ul className="list-disc list-inside">
+                <ul className="list-none">
                   {pharmacy?.categories.map((category) => (
-                    <li key={category.id}>{category.name}</li>
+                    <li className="flex mt-3" key={category.id}>
+                      <Pill className="details_icon" />
+                      <p>{category.name} </p>
+                    </li>
                   ))}
                 </ul>
               </div>
 
               <div className="p-4 border-t border-gray-200">
-                <h2 className="text-xl font-bold">Licenses</h2>
-                <div className="flex items-center py-2">
-                  {pharmacy?.license.map((license) => (
-                    <div key={license.id} className="w-1/4 mx-2">
-                      <Image
-                        src={license.mage}
-                        alt={license?.mage}
-                        width={500}
-                        height={500}
-                      />
-                    </div>
-                  ))}
+                <h2 className="text-xl font-bold">Owner Info</h2>
+                <div className="flex mt-3">
+                  <User className="details_icon" />
+                  <p className="mr-1">Name:</p>
+                  <p>{pharmacy?.user?.name} </p>
+                </div>
+                <div className="flex mt-3">
+                  <Phone className="details_icon" />
+                  <p className="mr-1">Phone:</p>
+                  <p>{pharmacy?.user?.phone} </p>
+                </div>
+                <div className="flex mt-3 items-center">
+                  <ImageIcon className="details_icon"/>
+                  <p className="mr-1">Avatar:</p>
+                  <ProfileImg
+                    src={pharmacy?.user?.avatar??""}
+                    alt={pharmacy?.user?.avatar}
+                    className="w-[50px] h-[50px]"
+                  />
                 </div>
               </div>
-              
+
+              <div className="p-4 border-t border-gray-200">
+                <h2 className="text-xl font-bold">Licenses</h2>
+                <div className="flex items-center py-2">
+                  <ScrollArea>
+                    <div className="flex space-x-4 py-4">
+                      {pharmacy?.license.map((lic) => (
+                        <ImageRender
+                          key={lic.id}
+                          src={lic?.mage}
+                          className="w-[200px]"
+                          aspectRatio="portrait"
+                          width={250}
+                          height={330}
+                        />
+                      ))}
+                    </div>
+                    <ScrollBar orientation="horizontal" />
+                  </ScrollArea>
+                </div>
+              </div>
+
               <div className="p-4 border-t border-gray-200">
                 <h2 className="text-xl font-bold">Logo</h2>
-                <div className="flex items-center py-1">
-                  {pharmacy?.logo.map((logo) => (
-                    <div key={logo.id} className="w-1/4 mx-2">
-                      <Image
-                        src={logo.image}
-                        alt={logo?.image}
-                        width={1000}
-                        height={1000}
-                      />
+                <div className="flex items-center py-2">
+                  <ScrollArea>
+                    <div className="flex space-x-4 py-4">
+                      {pharmacy?.logo.map((lo) => (
+                        <ImageRender
+                          key={lo.id}
+                          src={lo?.image}
+                          className="w-[200px]"
+                          aspectRatio="portrait"
+                          width={250}
+                          height={330}
+                        />
+                      ))}
                     </div>
-                  ))}
+                    <ScrollBar orientation="horizontal" />
+                  </ScrollArea>
                 </div>
               </div>
 

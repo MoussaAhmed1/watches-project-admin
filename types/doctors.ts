@@ -12,32 +12,25 @@ export interface Specialization {
   name: string;
 }
 export interface ISingleDoctor {
-  is_verified: boolean;
-  id: string;
-  user_id: string;
-  avatar: string;
-  name: string;
-  first_name: string;
-  last_name: string;
-  experience: number;
-  summery: string;
-  rating: number;
-  specialization: {
-    id: string;
-    name: string;
-  };
-  video_consultation_price: string;
-  voice_consultation_price: string;
-  home_consultation_price: string;
-  clinic_consultation_price: string;
-  clinic: {
-    id: string;
-    name: string;
-    address: string;
-    latitude: number;
-    longitude: number;
-    is_active: boolean;
-  };
+  id: string
+  user_id: string
+  is_verified: boolean
+  avatar: string
+  cover_image: string
+  first_name: string
+  last_name: string
+  phone: string
+  name: string
+  experience: number
+  summery: string
+  rating: number
+  specialization: Specialization
+  video_consultation_price: string
+  voice_consultation_price: string
+  home_consultation_price: string
+  clinic_consultation_price: string
+  clinic: Clinic
+  licenses: License[]
 }
 
 
