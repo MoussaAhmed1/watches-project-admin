@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import BreadCrumb from "@/components/breadcrumb";
 import { AcceptNurseRequest, fetchSingleNurse } from "@/actions/nurses";
 import nurseImage from "../../../../../public/assets/doctor.avif";
-import { Star } from "lucide-react";
+import { Edit, Star } from "lucide-react";
 import { Heading } from "@/components/ui/heading";
 import Approve from "@/components/details/role-details/Approve";
 import { ISingleNurse } from "@/types/nurses";
@@ -12,11 +12,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { fetchReviews } from "@/actions/reviews";
 import { IReview } from "@/types/reviews";
 import Reviews from "@/components/details/doctor-details/reviews";
+import ProfileImg from "@/components/shared/imagesRender/profileImg";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { ImageRender } from "@/components/shared/imagesRender/imagesRender";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+
 export const metadata: Metadata = {
-  title: "Next.js Profile | TailAdmin - Next.js Dashboard Template",
-  description:
-    "This is Next.js Profile page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
-};
+  title: "Nurse Details | Dacatra Dashboard",
+ };
 
 const page = async ({ params, searchParams }: {
   params: { nurseId: string }, searchParams: {
@@ -50,27 +55,34 @@ const page = async ({ params, searchParams }: {
     <>
       <div className="mx-auto w-full mt-8 bg-background">
         <BreadCrumb items={breadcrumbItems} customStyle="ml-4" />
-        <div className="flex flex-col md:flex-row gap-1 items-center justify-between">
+        <div className="flex items-baseline justify-between mx-5">
           <Heading
             title={`Nurse Details`}
-            customStyle="ml-4"
           />
-          {(!nurse?.is_verified) && <div className="px-4">
+          <div className="flex gap-1 justify-end">
+          {(!nurse?.is_verified) && <div className="px-0 md:px-4">
             <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptNurseRequest} id={nurse?.user_id} />
           </div>}
+            <Link
+              href={`/dashboard/nurses/${params?.nurseId}/${nurse?.user_id}/edit`}
+              className={cn(buttonVariants({ variant: "default" }), "p-5")}
+            >
+              <Edit className="mr-2 h-5 w-5" /> Edit
+            </Link>
+          </div>
         </div>
         <div className="w-full mx-auto p-4 ">
           <div className="bg-background shadow-md rounded-lg overflow-hidden border min-h-[77dvh] border-gray-400">
             <div className="flex items-center justify-start p-4 bg-[#3c50e0] text-white">
               <Image
-                src={nurseImage}
+                src={nurse?.avatar}
                 alt={nurse?.name}
                 className="w-32 h-32 rounded-full"
               />
               <div className="ml-4">
                 <h1 className="text-2xl font-bold">Name: {nurse?.name}</h1>
-                {/* <p>Specialization: {nurse?.specialization.name}</p> */}
                 <p>Experience: {nurse?.experience} years</p>
+                <p>Phone: {nurse?.phone}</p>
                 <div className="flex">
                   <span className="mr-2">Rating:</span>
                   <div className="stars flex">
@@ -105,16 +117,21 @@ const page = async ({ params, searchParams }: {
                   <div className="p-4 border-t border-gray-200">
                     <h2 className="text-xl font-bold">Licenses</h2>
                     <div className="flex items-center py-2">
-                      {nurse?.license_images.map(({ image }) => (
-                        <div key={image} className="w-1/4 mx-2">
-                          <Image
-                            src={image}
-                            alt={"license"}
-                            width={500}
-                            height={500}
-                          />
+                      <ScrollArea>
+                        <div className="flex space-x-4 py-4">
+                          {nurse?.license_images.map((lic) => (
+                            <ImageRender
+                              key={lic.id}
+                              src={lic?.image}
+                              className="w-[200px]"
+                              aspectRatio="portrait"
+                              width={250}
+                              height={330}
+                            />
+                          ))}
                         </div>
-                      ))}
+                        <ScrollBar orientation="horizontal" />
+                      </ScrollArea>
                     </div>
                   </div>
                 </div>
@@ -124,33 +141,7 @@ const page = async ({ params, searchParams }: {
               </TabsContent>
             </Tabs>
 
-            {/* <div className="p-4 border-t border-gray-200">
-              <h2 className="text-xl font-bold">Consultation Prices</h2>
-              <div className="grid grid-cols-1 mt-2">
-                <div className="flex mt-3">
-                  <p className="mr-3">Video Consultation:</p>
-                  <p>{nurse?.video_consultation_price} EGP </p>
-                </div>
-                <div className="flex mt-3">
-                  <p className="mr-3">Voice Consultation:</p>
-                  <p>{nurse?.voice_consultation_price} EGP </p>
-                </div>
-                <div className="flex mt-3">
-                  <p className="mr-3"> Home Consultation:</p>
-                  <p>{nurse?.home_consultation_price} EGP </p>
-                </div>
-                <div className="flex mt-3">
-                  <p className="mr-3">Clinic Consultation:</p>
-                  <p>{nurse?.clinic_consultation_price} EGP </p>
-                </div>
-              </div>
-            </div> */}
 
-            {/* <div className="p-4 border-t border-gray-200">
-              <h2 className="text-xl font-bold">Clinic Information</h2>
-              <p>Name: {nurse?.clinic.name}</p>
-              <p>Address: {nurse?.clinic.address}</p>
-            </div> */}
 
           </div>
         </div>

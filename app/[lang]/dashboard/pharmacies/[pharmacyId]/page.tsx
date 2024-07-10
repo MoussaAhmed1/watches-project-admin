@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import BreadCrumb from "@/components/breadcrumb";
-import { BadgeCheck, CheckCircle, CircleSlash, Clock2, Edit, Image as ImageIcon, MapPin, Phone, Pill, Star, User } from "lucide-react";
+import { BadgeCheck, CheckCircle, CircleSlash, Clock2, Edit, Image as ImageIcon, MapPin, Phone, Pill, User } from "lucide-react";
 import { Heading } from "@/components/ui/heading";
 import { IPharmacy } from "@/types/pharmacy";
 import { AcceptPharmacyRequest, fetchSinglePharmacy } from "@/actions/pharmacies";
