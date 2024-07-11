@@ -7,8 +7,11 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
+  ColumnFiltersState,
+  SortingState,
+  getSortedRowModel,
 } from "@tanstack/react-table";
-import React from "react";
+import React, { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -34,6 +37,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import SearchInput from "./SearchInput";
+import { DataTableToolbar } from "./DataTableToolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -69,6 +73,9 @@ export function SharedTable<TData, TValue>({
   const perPageAsNumber = Number(per_page);
   const fallbackPerPage = isNaN(perPageAsNumber) ? 10 : perPageAsNumber;
 
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [rowSelection, setRowSelection] = useState({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   /* this can be used to get the selectedrows 
   console.log("value", table.getFilteredSelectedRowModel()); */
 
@@ -119,9 +126,12 @@ export function SharedTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       pagination: { pageIndex, pageSize },
+      sorting,
+      rowSelection,
+      columnFilters,
     },
-    onPaginationChange: setPagination,
-    getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     manualPagination: true,
     manualFiltering: true,
   });
@@ -162,15 +172,17 @@ export function SharedTable<TData, TValue>({
 
   return (
     <>
-      <SearchInput searchKey={searchKey} />
-      <ScrollArea className="border h-[calc(67.5dvh)] ">
-        <Table className="relative">
-          <TableHeader className="bg-zinc-200 dark:bg-[#181D26]" style={{ fontWeight: "700 !important", lineHeight: '1.5rem !important', }}>
+      <DataTableToolbar table={table} >
+        <SearchInput searchKey={searchKey} />
+      </DataTableToolbar>
+      <ScrollArea className="border h-[calc(71.8dvh)]  rounded-md">
+        <Table className="relative p-1">
+          <TableHeader className="bg-[#F1F5F9] dark:bg-[#1E293B]" style={{ fontWeight: "700 !important", lineHeight: '1.5rem !important', }}>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} >
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead  key={header.id} className="dark:text-white p-3" style={{ whiteSpace: "nowrap", textAlign: columns?.length < MaxCenteredColumn? "start":"center", margin: "0 5px" }} >
+                    <TableHead key={header.id} className="dark:text-white p-3" style={{ whiteSpace: "nowrap", textAlign: columns?.length < MaxCenteredColumn ? "start" : "center", margin: "0 5px" }} >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -191,7 +203,7 @@ export function SharedTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} style={{ whiteSpace: "nowrap", textAlign: columns?.length < MaxCenteredColumn? "start":"center",  }}>
+                    <TableCell key={cell.id} style={{ whiteSpace: "nowrap", textAlign: columns?.length < MaxCenteredColumn ? "start" : "center", }}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),
@@ -204,7 +216,7 @@ export function SharedTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-[calc(60.75dvh)] text-center"
                 >
                   No results.
                 </TableCell>

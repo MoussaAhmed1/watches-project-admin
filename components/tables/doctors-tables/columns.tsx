@@ -6,12 +6,15 @@ import { IDoctor } from "@/types/doctors";
 import { Star } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
+import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
 
 export const columns: ColumnDef<IDoctor>[] = [
   {
     accessorKey: "name",
-    header: "Name",
-    cell: ({ row }) => <div className="flex items-center gap-3">
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title={("Name")} />
+    ),
+    cell: ({ row }) => (<div className="flex items-center gap-3">
       <Avatar className="w-10 h-10">
         <AvatarImage
           src={row?.original?.avatar ?? ""}
@@ -22,7 +25,8 @@ export const columns: ColumnDef<IDoctor>[] = [
       <p >
         {row?.original?.name}
       </p>
-    </div>
+    </div>),
+    enableHiding: false,
   },
   {
     accessorKey: "phone",
@@ -30,7 +34,9 @@ export const columns: ColumnDef<IDoctor>[] = [
   },
   {
     accessorKey: "rating",
-    header: "Rating",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title={("Rating")} />
+    ),
     cell: ({ row }) => <div className="stars flex">
       {Array.from({ length: Math.ceil(row?.original?.rating) }, (ele, index) => (
         <Star key={index} fill="#f7d722" strokeWidth={0} size={20} />

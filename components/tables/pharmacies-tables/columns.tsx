@@ -30,7 +30,7 @@ export const PharmaciesColumns: ColumnDef<IPharmacy>[] = [
     </div>
   },
   {
-    accessorKey: "open_time",
+    accessorKey: "Open Time",
     header: "Open Time",
     cell: ({ row }) => <div className="flex items-center">
       <p className="text-center w-[70%]">
@@ -39,7 +39,7 @@ export const PharmaciesColumns: ColumnDef<IPharmacy>[] = [
     </div>
   },
   {
-    accessorKey: "close_time",
+    accessorKey: "Close Time",
     header: "Close Time",
     cell: ({ row }) => <div className="flex items-center">
       <p className="text-center w-[70%]">
