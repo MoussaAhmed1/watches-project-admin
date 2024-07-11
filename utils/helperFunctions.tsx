@@ -73,3 +73,32 @@ export function getCustomNameKeyLang(enKey:string|undefined,arKey:string|undefin
   const lang = Cookie.get("Language") ?? "en"  
   return lang === 'en' ? enKey : arKey;
 }
+
+
+export const serializeFormQuery = (
+  params: Record<
+    string,
+    string | number | boolean | undefined | string[] | number[]
+  >
+) => {
+  return Object.entries(params)
+    .map(([key, value]) => {
+      if (Array.isArray(value)) {
+        if (value.length === 0) return "";
+        return `${key}=${value.join(",")}`;
+      }
+      if (value === undefined || value === "") return "";
+      return `${key}=${value}`;
+    })
+    .filter((val) => val !== "")
+    .join("&");
+};
+
+export const arrFromQuery = (query: string | null) =>
+  !query || query === null || query === ""
+    ? []
+    : query.split(",").map((val) => parseInt(val));
+
+export const capitalizeString = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
