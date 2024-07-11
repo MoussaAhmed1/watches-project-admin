@@ -2,7 +2,7 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 import { Table } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
-import {  FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { arrFromQuery, serializeFormQuery } from "@/utils/helperFunctions";
 import { DataTableViewOptions } from "@/components/ui/data-table-view-options";
@@ -18,10 +18,8 @@ export function DataTableToolbar<TData>({
 }: DataTableToolbarProps<TData>) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [searchTerm, setSearchTerm] = useState(
-    searchParams.get("search") || "")
-    const [isFiltered, setIsFiltered] = useState(searchParams.get("isFiltered") === "true");
-    
+  const [isFiltered, setIsFiltered] = useState(searchParams.get("isFiltered") === "true");
+
   //   const [createdBySearchTerm, setCreatedBySearchTerm] = useState<number[]>(
   //     arrFromQuery(searchParams.get("created_by"))
   //   );
@@ -51,7 +49,6 @@ export function DataTableToolbar<TData>({
   // };
 
   const clearFilters = () => {
-    setSearchTerm("");
     setIsFiltered(false);
     router.push("?isfliter=false");
   };

@@ -130,12 +130,10 @@ export function SharedTable<TData, TValue>({
       rowSelection,
       columnFilters,
     },
-    onPaginationChange: setPagination,
-    getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
     getSortedRowModel: getSortedRowModel(),
-    onRowSelectionChange: setRowSelection,
+    manualPagination: true,
+    manualFiltering: true,
   });
 
   const searchValue = table.getColumn(searchKey)?.getFilterValue() as string;
@@ -174,10 +172,10 @@ export function SharedTable<TData, TValue>({
 
   return (
     <>
-    <DataTableToolbar table={table} >
-      <SearchInput searchKey={searchKey} />
-    </DataTableToolbar>
-      <ScrollArea className="border h-[calc(67.5dvh)]  rounded-md">
+      <DataTableToolbar table={table} >
+        <SearchInput searchKey={searchKey} />
+      </DataTableToolbar>
+      <ScrollArea className="border h-[calc(71.8dvh)]  rounded-md">
         <Table className="relative p-1">
           <TableHeader className="bg-[#F1F5F9] dark:bg-[#1E293B]" style={{ fontWeight: "700 !important", lineHeight: '1.5rem !important', }}>
             {table.getHeaderGroups().map((headerGroup) => (
