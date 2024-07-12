@@ -4,15 +4,21 @@ import BreadCrumb from "@/components/breadcrumb";
 import { AcceptReservationCancelRequest, fetchSingleReservation } from "@/actions/reservations";
 import { ISingleReservation } from "@/types/reservations";
 import { Heading } from "@/components/ui/heading";
-import { formatCreatedAtDate, formatCreatedAtDateAsDateTime } from "@/utils/helperFunctions";
+import { formatCreatedAtDateAsDateTime } from "@/utils/helperFunctions";
 import { Card } from "@/components/ui/card";
 import DoctorInfoCard from "@/components/details/reservation-details/DoctorInfo";
 import ClientInfoCard from "@/components/details/reservation-details/UserInfo";
-import { CheckCircle, CircleSlash } from "lucide-react";
+import { CheckCircle, CircleSlash, FileText } from "lucide-react";
 import Approve from "@/components/details/role-details/Approve";
 import CancelWithReason from "@/components/details/role-details/CancelWithReason";
+import ProfileImg from "@/components/shared/imagesRender/profileImg";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { ImageRender } from "@/components/shared/imagesRender/imagesRender";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
 export const metadata: Metadata = {
-  title: "Next.js Profile | TailAdmin - Next.js Dashboard Template",
+  title: "Reservation Details | Dashboard",
   description:
     "This is Next.js Profile page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
 };
@@ -58,6 +64,8 @@ const page = async ({ params }: { params: { id: string } }) => {
         data_value: reservation?.cancel_reason,
       },
     ]
+
+  console.log(reservation);
   return (
     <>
       <div className="mx-auto w-full mt-8 bg-background">
@@ -90,7 +98,7 @@ const page = async ({ params }: { params: { id: string } }) => {
               {reservation?.status}
             </p>
           </div>
-          {reservation?.status != "CANCELED" && <div className="px-3">
+          {(reservation?.status != "CANCELED" && reservation?.status != "COMPLETED") && <div className="px-3">
             {(reservation?.cancel_request) ?
               <Approve title="Approve Cancel" successMessage="Request canceled Successfully" defualt method={AcceptReservationCancelRequest} id={params?.id} /> :
               <CancelWithReason dialogTitle="Cancel Reservation" id={reservation?.id} method={AcceptReservationCancelRequest} />
@@ -135,48 +143,58 @@ const page = async ({ params }: { params: { id: string } }) => {
                       <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">Attachments</h3>
 
 
-                      <div className="flex justify-between items-start w-full border-b py-3">
-                        <div className="flex justify-center items-center space-x-4">
-                          <div className="flex flex-col justify-start items-center">
+                      <div className="flex flex-col w-full border-b py-3">
+                        <div className="flex space-x-4">
+                          <div className="flex flex-col justify-start">
                             <p className="text-lg leading-6 dark:text-white font-semibold text-gray-800">Doctor</p>
                           </div>
                         </div>
-                        <div>
-                          {reservation?.attachments?.length > 0 ? reservation?.attachments?.filter(item => item?.provider === "DOCTOR").map(item => (
-                            <Image
-                              key={item?.provider}
-                              width={50}
-                              height={50}
-                              style={{ marginRight: "3%", cursor: "pointer", borderRadius: 8 }}
-                              alt="image"
-                              src={item?.file}
-                            />
-                          )) :
-                            (<p className="text-lg font-semibold leading-6 dark:text-white text-gray-800">-</p>
-                            )}
+                        <div className="flex gap-2">
+                          <ScrollArea>
+                            <div className="flex space-x-4 py-4">
+                              {reservation?.attachments?.length > 0 ? reservation?.attachments?.filter(item => item?.provider === "DOCTOR").map(item => (
+                                (
+                                  <Link key={item?.file}
+                                    href={item?.file}
+                                    target="_blank"
+                                  >
+                                    <FileText />
+                                  </Link>
+                                )))
+                                :
+                                (<p className="text-lg font-semibold leading-6 dark:text-white text-gray-800"> - </p>
+                                )}
+                            </div>
+                            <ScrollBar orientation="horizontal" />
+                          </ScrollArea>
                         </div>
                       </div>
 
 
-                      <div className="flex justify-between items-start w-full">
-                        <div className="flex justify-center items-center space-x-4">
-                          <div className="flex flex-col justify-start items-center">
+                      <div className="flex flex-col w-full">
+                        <div className="flex flex-col space-x-4">
+                          <div className="flex flex-col">
                             <p className="text-lg leading-6 dark:text-white font-semibold text-gray-800">Client</p>
                           </div>
                         </div>
                         <div className="flex gap-2">
-                          {reservation?.attachments?.length > 0 ? reservation?.attachments?.filter(item => item?.provider === "CLIENT").map(item => (
-                            <Image
-                              key={item?.provider}
-                              width={50}
-                              height={50}
-                              style={{ marginRight: "3%", cursor: "pointer", borderRadius: 8 }}
-                              alt="image"
-                              src={item?.file}
-                            />
-                          )) :
-                            (<p className="text-lg font-semibold leading-6 dark:text-white text-gray-800">-</p>
-                            )}
+                          <ScrollArea>
+                            <div className="flex space-x-4 py-4">
+                              {reservation?.attachments?.length > 0 ? reservation?.attachments?.filter(item => item?.provider === "CLIENT").map(item => (
+                                (
+                                  <Link key={item?.file}
+                                    href={item?.file}
+                                    target="_blank"
+                                  >
+                                    <FileText />
+                                  </Link>
+                                )))
+                                :
+                                (<p className="text-lg font-semibold leading-6 dark:text-white text-gray-800"> - </p>
+                                )}
+                            </div>
+                            <ScrollBar orientation="horizontal" />
+                          </ScrollArea>
                         </div>
                       </div>
 
@@ -187,10 +205,10 @@ const page = async ({ params }: { params: { id: string } }) => {
                 <div className="flex flex-col justify-start items-start xl:w-fit w-full space-y-4 md:space-y-6 xl:space-y-9">
 
                   {reservation?.doctor && <DoctorInfoCard doctor={reservation?.doctor} />}
+                  <ClientInfoCard client={reservation?.client_info} />
                   {reservation?.family_member &&
                     <ClientInfoCard client={reservation?.family_member} familyMember={true} />
                   }
-                  <ClientInfoCard client={reservation?.client_info} />
                 </div>
               </div>
             </div>
