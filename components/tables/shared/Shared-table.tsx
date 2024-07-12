@@ -132,6 +132,7 @@ export function SharedTable<TData, TValue>({
     },
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onPaginationChange: setPagination,
     manualPagination: true,
     manualFiltering: true,
   });

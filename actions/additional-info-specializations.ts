@@ -13,7 +13,6 @@ import axiosInstance, {
 import { ITEMS_PER_PAGE } from "./Global-variables";
 import {
   AddEditSpecializationBody,
-  ISpecializations,
 } from "@/types/additional-info-specializations";
 
 export const fetchAdditionalSpecializations = async ({
