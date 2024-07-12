@@ -42,6 +42,7 @@ export interface Clinic {
 }
 
 export interface ClientInfo {
+  phone: string;
   kinship: string;
   id: string;
   name: string;

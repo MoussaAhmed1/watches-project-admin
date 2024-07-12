@@ -12,7 +12,7 @@ import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
@@ -21,14 +21,8 @@ import { AcceptDoctorRequest, AddDoctor } from "@/actions/doctors";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import doctorSchema from "./schema/doctorSchema";
-import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { format } from "date-fns"
-import { cn } from "@/lib/utils"
 import { Switch } from "@/components/ui/switch";
 import { ISpecializations } from "@/types/additional-info-specializations";
-import { getImageUrl } from "@/actions/storage-actions";
 import { toFormData } from "axios";
 import Map from "@/components/map/map";
 import { MapData } from "@/types/map";
@@ -183,6 +177,31 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
   };
   //show error messages
   // console.log(form.formState.errors);
+
+  useEffect(() => {
+    const handleOnBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (typeof window !== 'undefined') {
+        event.preventDefault();
+        return (event.returnValue = '');
+      }
+    };
+
+    const handlePopState = (event: PopStateEvent) => {
+      const confirmationMessage = 'Are you sure you want to leave this page? Your changes may not be saved.';
+      if (!window.confirm(confirmationMessage)) {
+        event.preventDefault();
+        window.history.pushState(null, '', window.location.href);
+      }
+    };
+
+    window.addEventListener('beforeunload', handleOnBeforeUnload);
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleOnBeforeUnload);
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
 
   return (
     <>

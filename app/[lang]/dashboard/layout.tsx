@@ -1,5 +1,6 @@
 import Header from "@/components/layout/header";
 import Sidebar from "@/components/layout/sidebar";
+import { Locale } from "@/i18n.config";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -9,12 +10,14 @@ export const metadata: Metadata = {
 
 export default function DashboardLayout({
   children,
+  params
 }: {
   children: React.ReactNode;
+  params:{lang:Locale}
 }) {
   return (
     <>
-      <Header />
+      <Header lang={params.lang} />
       <div className="flex min-h-screen">
         <div className=" hidden xl:block min-w-[16.5%] border-r">
           <Sidebar />

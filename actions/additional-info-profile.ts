@@ -3,14 +3,11 @@
 /* eslint-disable consistent-return */
 
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
 
 import axiosInstance, {
-  Params,
   endpoints,
   getErrorMessage,
 } from "../utils/axios-client";
-import { ITEMS_PER_PAGE } from "./Global-variables";
 
 export const fetchAdditionalProfile = async (): Promise<any> => {
   const lang = cookies().get("Language")?.value;
