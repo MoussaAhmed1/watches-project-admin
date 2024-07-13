@@ -1,4 +1,5 @@
 import CredentialsProvider from 'next-auth/providers/credentials'
+import { cookies } from "next/headers";
 
 export const authOptions = {
   providers: [
@@ -22,7 +23,7 @@ export const authOptions = {
         // (i.e., the request IP address)
         // console.log('credentials',credentials?.username)
         try {
-          const res = await fetch('http://31.220.73.176:3000/v1/auth/signin', {
+          const res = await fetch('https://dcatrah.com/v1/auth/signin', {
             method: 'POST',
             body: JSON.stringify({
               username: credentials?.username,
@@ -40,9 +41,48 @@ export const authOptions = {
         } catch (error) {
           return null
         }
+        
         // If no error and we have user data, return it
         // Return null if user data could not be retrieved
       }
     })
-  ]
+  ],
+  callbacks: {
+    async jwt({ token, user }: any) {
+        if (user) {
+            token.username = user.data?.username;
+            token.name = user.data?.first_name + " " +user.data?.last_name;
+            token.first_name = user.data?.first_name;
+            token.last_name = user.data?.last_name;
+            token.email = user.data?.email;
+            token.phone = user.data?.phone;
+            token.gender = user.data?.gender;
+            token.avatar = user.data?.avatar;
+            token.image = user.data?.avatar;
+            token.birth_date = user.data?.birth_date;
+            token.id = user.data?.id;
+            token.accessToken = user.data?.access_token;
+
+            cookies().set("access_token", user.data?.access_token, {
+                path: "/",
+                httpOnly: true,
+              });
+        }
+        return token;
+      },
+      async session({ session, token, newSession }: any) {
+        delete(token?.accessToken);//remove session token
+        session.user = {...token}
+        if (newSession ) {
+            session.user.name = newSession.data?.first_name + " " + newSession.data?.last_name;
+            session.user.firs = newSession.first_name;
+            session.user.name = newSession.last_name;
+            session.user.email = newSession.email;
+            session.user.image = newSession.avatar;
+            session.user.phone = newSession.phone;
+            session.user.gender = newSession.gender; 
+        }
+        return session;
+    },
+},
 }

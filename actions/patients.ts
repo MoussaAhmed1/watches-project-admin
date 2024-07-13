@@ -113,7 +113,7 @@ export const fetchClientAddtionalInfo = async ({
   userId,
 }: {
   userId: string;
-}): Promise<{data:{data:ClientAddtionalInfo}}> => {
+}): Promise<{ data: { data: ClientAddtionalInfo } }> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
   try {
@@ -141,7 +141,7 @@ export const updateUsersProfile = async (
   try {
     const accessToken = cookies().get("access_token")?.value;
     await axiosInstance.put(`${endpoints.doctors.updateProfile}`, formData, {
-      params: { id },
+      params: { id: id !=="" ? id : null },
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Accept-Language": lang,

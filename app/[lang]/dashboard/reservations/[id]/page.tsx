@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Metadata } from "next";
 import BreadCrumb from "@/components/breadcrumb";
 import { AcceptReservationCancelRequest, fetchSingleReservation } from "@/actions/reservations";
@@ -11,10 +10,7 @@ import ClientInfoCard from "@/components/details/reservation-details/UserInfo";
 import { CheckCircle, CircleSlash, FileText } from "lucide-react";
 import Approve from "@/components/details/role-details/Approve";
 import CancelWithReason from "@/components/details/role-details/CancelWithReason";
-import ProfileImg from "@/components/shared/imagesRender/profileImg";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { ImageRender } from "@/components/shared/imagesRender/imagesRender";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -56,6 +52,10 @@ const page = async ({ params }: { params: { id: string } }) => {
         data_key: "Rate",
         data_value: reservation?.rate,
       },
+      {
+        data_key: "Phone",
+        data_value: reservation?.family_member?.phone || reservation?.client_info?.phone,
+      },
     ]
   const cancel_data_items =
     [
@@ -65,7 +65,6 @@ const page = async ({ params }: { params: { id: string } }) => {
       },
     ]
 
-  console.log(reservation);
   return (
     <>
       <div className="mx-auto w-full mt-8 bg-background">

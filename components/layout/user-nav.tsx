@@ -11,8 +11,10 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Language } from "@/utils/changeLanguageHandler";
 import { signOut, useSession } from "next-auth/react";
-export function UserNav() {
+import Link from "next/link";
+export function UserNav({lang}:{lang:Language}) {
   const { data: session } = useSession();
   if (session) {
     return (
@@ -42,13 +44,12 @@ export function UserNav() {
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem>
-              Profile
+             <Link href={`/${lang}/dashboard/profile`}>Profile</Link>
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => signOut()}>
             Log out
-            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
