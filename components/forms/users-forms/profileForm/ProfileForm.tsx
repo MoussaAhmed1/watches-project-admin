@@ -21,6 +21,7 @@ import { toFormData } from "axios";
 import AvatarPreview from "@/components/shared/AvatarPreview";
 import InputDate from "@/components/shared/timepicker/InputDate";
 import { updateUsersProfile } from "@/actions/patients";
+import { useSession } from "next-auth/react";
 export type UserFormValues = z.infer<typeof ProfileSchema>;
 
 interface UserFormProps {
@@ -37,7 +38,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const action = initialData ? "Save changes" : "Create";
-
+  const { update,data:session } = useSession();
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -95,6 +96,10 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
         title: initialData ? "Updated successfully" : "Added successfully",
         description: initialData ? `Profile has been successfully updated.` : `Profile has been successfully added.`,
       });
+      if(id===""){
+        const updatedUser = { ...session?.user, ...data,name:data.first_name + " " + data?.last_name };
+        update(updatedUser);
+      }
     }
 
     setLoading(false);
