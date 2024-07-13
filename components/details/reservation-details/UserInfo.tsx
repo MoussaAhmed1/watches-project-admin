@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card"
 import UserIcon from '../../../public/assets/user.png'
-import { ClientInfo, FamilyMember } from "@/types/reservations";
+import { ClientInfo} from "@/types/reservations";
 import ProfileImg from "@/components/shared/imagesRender/profileImg";
 interface IProps {
   client: ClientInfo;

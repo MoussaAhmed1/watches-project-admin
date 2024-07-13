@@ -36,7 +36,7 @@ export default function Header({ lang }: { lang: Language }) {
 
         <div className="flex items-center gap-2">
           {/*Lang toggle */}
-          <UserNav />
+          <UserNav lang={lang} />
           {/* <LocaleSwitcher lang={lang} /> */}
           <ThemeToggle />
         </div>
