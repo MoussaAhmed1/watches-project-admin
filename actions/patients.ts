@@ -141,7 +141,7 @@ export const updateUsersProfile = async (
   try {
     const accessToken = cookies().get("access_token")?.value;
     await axiosInstance.put(`${endpoints.doctors.updateProfile}`, formData, {
-      params: { id: id ? id : null },
+      params: { id: id !=="" ? id : null },
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Accept-Language": lang,
