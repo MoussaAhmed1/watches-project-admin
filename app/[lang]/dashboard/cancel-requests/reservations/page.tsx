@@ -28,7 +28,7 @@ export default async function page({ searchParams }: paramsProps) {
     page,
     limit,
     filters: search,
-    otherfilters:["cancel_request=1","status!=CANCELED"]
+    otherfilters:["cancel_request=1","status!=CANCELED","status!=COMPLETED"]
   });
   const totalReservations = res?.data?.meta?.total ||0; //1000
   const pageCount = Math.ceil(totalReservations / limit);
