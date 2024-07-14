@@ -14,7 +14,7 @@ export default function Header({ lang }: { lang: Language }) {
   return (
     <div className="fixed top-0 left-0 right-0 supports-backdrop-blur:bg-background/60 border-b dark:border-gray-700 bg-background/95 backdrop-blur z-50 dark:bg-[#181D26]">
       <nav className="h-14 flex items-center justify-between px-4">
-        <div className="hidden lg:flex">
+        <div className="hidden xl:flex">
           <Link
             href={"/"}
             className="flex items-center gap-1"
@@ -30,7 +30,7 @@ export default function Header({ lang }: { lang: Language }) {
             <h2 className="text-2xl font-bold tracking-tight">Dacatra</h2>
           </Link>
         </div>
-        <div className={cn("block lg:!hidden")}>
+        <div className={cn("block xl:!hidden")}>
           <MobileSidebar />
         </div>
 
