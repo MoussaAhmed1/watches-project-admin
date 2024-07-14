@@ -5,7 +5,6 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
-  getPaginationRowModel,
   useReactTable,
   ColumnFiltersState,
   SortingState,
@@ -50,6 +49,7 @@ interface DataTableProps<TData, TValue> {
   searchParams?: {
     [key: string]: string | string[] | undefined;
   };
+  children?: React.ReactNode;
 }
 const MaxCenteredColumn = 8;
 export function SharedTable<TData, TValue>({
@@ -60,6 +60,7 @@ export function SharedTable<TData, TValue>({
   totalitems,
   pageCount,
   pageSizeOptions = [10, 20, 30, 40, 50],
+  children
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
   const pathname = usePathname();
@@ -74,10 +75,7 @@ export function SharedTable<TData, TValue>({
   const fallbackPerPage = isNaN(perPageAsNumber) ? 10 : perPageAsNumber;
 
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [rowSelection, setRowSelection] = useState({});
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  /* this can be used to get the selectedrows 
-  console.log("value", table.getFilteredSelectedRowModel()); */
+
 
   // Create query string
   const createQueryString = React.useCallback(
@@ -127,8 +125,6 @@ export function SharedTable<TData, TValue>({
     state: {
       pagination: { pageIndex, pageSize },
       sorting,
-      rowSelection,
-      columnFilters,
     },
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
@@ -175,6 +171,7 @@ export function SharedTable<TData, TValue>({
     <>
       <DataTableToolbar table={table} >
         <SearchInput searchKey={searchKey} />
+        {children}
       </DataTableToolbar>
       <ScrollArea className="border h-[calc(71.8dvh)]  rounded-md">
         <Table className="relative p-1">

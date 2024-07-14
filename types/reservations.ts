@@ -27,6 +27,7 @@ export interface Specialization {
 export interface Doctor {
   id: string;
   name: string;
+  phone: string;
   avatar: string;
   clinic: Clinic;
   rating: number;

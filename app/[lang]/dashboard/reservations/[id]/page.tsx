@@ -9,14 +9,11 @@ import DoctorInfoCard from "@/components/details/reservation-details/DoctorInfo"
 import ClientInfoCard from "@/components/details/reservation-details/UserInfo";
 import { CheckCircle, CircleSlash, FileText } from "lucide-react";
 import Approve from "@/components/details/role-details/Approve";
-import CancelWithReason from "@/components/details/role-details/CancelWithReason";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Reservation Details | Dashboard",
-  description:
-    "This is Next.js Profile page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
 };
 
 const page = async ({ params }: { params: { id: string } }) => {
@@ -54,7 +51,7 @@ const page = async ({ params }: { params: { id: string } }) => {
       },
       {
         data_key: "Phone",
-        data_value: reservation?.family_member?.phone || reservation?.client_info?.phone,
+        data_value: reservation?.phone || reservation?.family_member?.phone || reservation?.client_info?.phone,
       },
     ]
   const cancel_data_items =
@@ -98,9 +95,8 @@ const page = async ({ params }: { params: { id: string } }) => {
             </p>
           </div>
           {(reservation?.status != "CANCELED" && reservation?.status != "COMPLETED") && <div className="px-3">
-            {(reservation?.cancel_request) ?
-              <Approve title="Approve Cancel" successMessage="Request canceled Successfully" defualt method={AcceptReservationCancelRequest} id={params?.id} /> :
-              <CancelWithReason dialogTitle="Cancel Reservation" id={reservation?.id} method={AcceptReservationCancelRequest} />
+            {
+              <Approve title={reservation?.cancel_request ? "Approve Cancel" : "Cancel Reservation"} successMessage="Request canceled Successfully" defualt method={AcceptReservationCancelRequest} id={params?.id} />
             }
           </div>}
 
