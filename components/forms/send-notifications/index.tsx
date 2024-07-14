@@ -75,7 +75,7 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
   const description = "Add a new notification";
   const toastMessage = "Notification Sent.";
   const action = "Send";
-  const { createQueryString, pathname, searchParams } = useCostomSearchParams();
+  const { createQueryString, pathname } = useCostomSearchParams();
 
   // const { getValues } = useFormContext();
   const defaultValues = {
