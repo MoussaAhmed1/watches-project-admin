@@ -21,12 +21,13 @@ export const fetchReservations = async ({
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get('access_token')?.value;
   const spreadotherfilters:string = otherfilters? otherfilters.toString() : "";
+  
   try {
     const res = await axiosInstance(endpoints.reservations.fetch, {
       params: {
         page,
         limit,
-        filters: filters ? [`name_en=${filters}`, `name_ar=${filters}`,spreadotherfilters] : spreadotherfilters ? [spreadotherfilters]:null,
+        filters: filters ? [`user.phone=${filters},status=${spreadotherfilters}`, `doctor.user.phone=${filters},status=${spreadotherfilters}`] :null,
         sortBy: "created_at=desc",
       },
       headers: {
@@ -65,7 +66,7 @@ export const AcceptReservationCancelRequest = async ({id,reason}:{id:string,reas
   try {
      await axiosInstance.post(
       `${endpoints.reservations.cancleRequest}`,
-      {id,reason},
+      {id},
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
