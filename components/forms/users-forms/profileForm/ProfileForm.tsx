@@ -251,6 +251,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                           id="premessions"
                           isSearchable={true}
                           isClearable={true}
+                          isDisabled={id===""}
                           isMulti
                           defaultValue={initialData?.premessions?.map((permission) =>
                             PermissionsOptions.find(

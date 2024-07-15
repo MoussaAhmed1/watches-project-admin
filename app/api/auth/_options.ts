@@ -60,6 +60,7 @@ export const authOptions = {
             token.avatar = user.data?.avatar;
             token.image = user.data?.avatar;
             token.birth_date = user.data?.birth_date;
+            token.premessions = user.data?.premessions;
             token.id = user.data?.id;
             token.accessToken = user.data?.access_token;
 
@@ -75,12 +76,13 @@ export const authOptions = {
         session.user = {...token}
         if (newSession ) {
             session.user.name = newSession.data?.first_name + " " + newSession.data?.last_name;
-            session.user.firs = newSession.first_name;
-            session.user.name = newSession.last_name;
+            session.user.first_name = newSession.first_name;
+            session.user.last_name = newSession.last_name;
             session.user.email = newSession.email;
             session.user.image = newSession.avatar;
             session.user.phone = newSession.phone;
             session.user.gender = newSession.gender; 
+            session.user.premessions = newSession.premessions; 
         }
         return session;
     },
