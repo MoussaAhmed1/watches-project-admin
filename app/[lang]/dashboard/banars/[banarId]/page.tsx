@@ -30,6 +30,10 @@ export default async function Page({ params, searchParams }: Props) {
   const banner: IBanner = await fetchSingleBanar(headers);
   const breadcrumbItems = [
     {
+      title:  "Banners",
+      link: "/dashboard/banars",
+    },
+    {
       title: "Banner details",
       link: "/dashboard/banars/view",
     },

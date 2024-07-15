@@ -39,6 +39,10 @@ export default async function Page({ params, searchParams }: Props) {
   const doctors: IDoctor[] = res?.data?.data || [];
   const breadcrumbItems = [
     {
+      title:  "Banners",
+      link: "/dashboard/banars",
+    },
+    {
       title: "Edit Banner",
       link: "/dashboard/banars/edit",
     },
