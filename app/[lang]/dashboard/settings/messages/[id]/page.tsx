@@ -18,7 +18,7 @@ const page = async ({ params }: {
   params: { id: string }
 }) => {
   const breadcrumbItems = [
-    { title: "Message", link: "/dashboard/patients" },
+    { title: "Messages", link: "/dashboard/patients" },
     { title: "Details", link: "/dashboard/patients/id" },
   ];
   //----------------------------------------------------------------
