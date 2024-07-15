@@ -1,6 +1,7 @@
 import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
 import { fetchNurseOrder } from "@/actions/nurse-orders";
 import BreadCrumb from "@/components/breadcrumb";
+import ReservationsFilters from "@/components/filters/orders/ReservationsFilters";
 import { NurseOrderColumns } from "@/components/tables/nurse-orders-tables/columns";
 import { SharedTable } from "@/components/tables/shared/Shared-table";
 import { buttonVariants } from "@/components/ui/button";
@@ -23,15 +24,18 @@ export default async function page({ searchParams }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
-  typeof searchParams?.search === "string" ? searchParams?.search : "";
+    typeof searchParams?.search === "string" ? searchParams?.search : "";
+  const status =
+    typeof searchParams?.status === "string" ? searchParams?.status : "";
   const res = await fetchNurseOrder({
     page,
     limit,
+    status,
     filters: search,
   });
-  const totalNurseOrder = res?.data?.meta?.total ||0; //1000
+  const totalNurseOrder = res?.data?.meta?.total || 0; //1000
   const pageCount = Math.ceil(totalNurseOrder / limit);
-  const nurse_orders: INurseOrder[] = res?.data?.data || [] ;
+  const nurse_orders: INurseOrder[] = res?.data?.data || [];
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
@@ -56,9 +60,11 @@ export default async function page({ searchParams }: paramsProps) {
           pageNo={page}
           columns={NurseOrderColumns}
           totalitems={totalNurseOrder}
-          data={nurse_orders as unknown as INurseOrder[] }
+          data={nurse_orders as unknown as INurseOrder[]}
           pageCount={pageCount}
-        />
+        >
+          <ReservationsFilters />
+        </SharedTable>
       </div>
     </>
   );

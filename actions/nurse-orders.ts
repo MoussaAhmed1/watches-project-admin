@@ -10,24 +10,36 @@ import axiosInstance, {
   getErrorMessage,
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
+import { getDateSimpleFormat } from "@/utils/helperFunctions";
 
 
 export const fetchNurseOrder = async ({
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,
+  status,
   otherfilters
 }: Params): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get('access_token')?.value;
-  const spreadotherfilters:string = otherfilters? otherfilters.toString() : "";
+  let _status: string = status !== "" ? `,status=${status}` : "";
+  const userPhone = filters?`user.phone=${filters}`:"";
+  const nursePhone = filters?`nurse.user.phone=${filters}`:"";
 
+  if(status==="COMPLETED"){
+    _status = `,status=STARTED,date_to<${getDateSimpleFormat(new Date())}`
+  }
   try {
     const res = await axiosInstance(endpoints.nurse_orders.fetch, {
       params: {
         page,
         limit,
-        filters: filters ? [`name_en=${filters}`, `name_ar=${filters}`,spreadotherfilters] : spreadotherfilters ? [spreadotherfilters]:null,
+        filters: filters || status
+          ? [
+              `${userPhone}${_status}`,
+              `${nursePhone}${_status}`,
+            ]
+          : otherfilters ? otherfilters:null,
         sortBy: "created_at=desc",
       },
       headers: {

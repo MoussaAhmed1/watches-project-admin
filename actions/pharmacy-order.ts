@@ -19,12 +19,13 @@ export const fetchPharmacyOrder = async ({
 }: Params): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
+
   try {
     const res = await axiosInstance(endpoints.pharmacy.order, {
       params: {
         page,
         limit,
-        filters: filters ? [`name_en=${filters}`, `name_ar=${filters}`] : null,
+        filters: filters ? [`user.phone=${filters}`] : null,
         sortBy: "created_at=desc",
       },
       headers: {

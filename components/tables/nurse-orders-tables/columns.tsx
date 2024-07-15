@@ -25,9 +25,10 @@ export const NurseOrderColumns: ColumnDef<INurseOrder>[] = [
         />
         <AvatarFallback>{row?.original?.user?.name[0]}</AvatarFallback>
       </Avatar>
-      <p >
-        {row?.original?.user?.name}
-      </p>
+      <div className="flex flex-col items-start">
+        <span> {row?.original?.user?.name}</span>
+        <span> {row?.original?.user?.phone}</span>
+      </div>
     </div>
   },
   {
@@ -43,9 +44,10 @@ export const NurseOrderColumns: ColumnDef<INurseOrder>[] = [
             />
             <AvatarFallback>{row?.original?.nurse?.name[0]}</AvatarFallback>
           </Avatar>
-          <p >
-            {row?.original?.nurse?.name}
-          </p>
+          <div className="flex flex-col items-start">
+            <span> {row?.original?.nurse?.name}</span>
+            <span> {row?.original?.nurse?.phone}</span>
+          </div>
         </div>)
       }
       else {

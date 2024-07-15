@@ -40,6 +40,10 @@ export function getDateString(date: Date): string {
   return moment(date).format().slice(0, -6);
 }
 
+export function getDateSimpleFormat(date: Date): string {
+  return moment(date).format('DD-MM-YYYY');
+}
+
 
 export const Captalize = (word: any) => {
   if (typeof word == "string")

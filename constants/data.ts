@@ -323,7 +323,7 @@ export const navItems: NavItem[] = [
         href: "/dashboard/data-management/commission",
       },
       {
-        title: "Pharmacy Orders",
+        title: "Pharmacy Orders Limits",
         href: "/dashboard/data-management/pharmacy-order-number",
       },
       {
