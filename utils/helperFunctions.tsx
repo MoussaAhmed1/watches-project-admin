@@ -40,7 +40,7 @@ export function getDateString(date: Date): string {
   return moment(date).format().slice(0, -6);
 }
 
-export function getDateSimpleFormat(date: Date): string {
+export function getDateSimpleFormat(date: Date|string): string {
   return moment(date).format('DD-MM-YYYY');
 }
 
