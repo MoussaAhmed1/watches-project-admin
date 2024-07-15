@@ -58,7 +58,7 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
                 <span
                   className={cn(
                     "hover:text-blue-700 hover:no-underline text-start items-center flex w-full h-12 px-3 mt-2  ",
-                    path === link.href 
+                    path===link.href ||(path?.includes(link.href) && link.href !=="/dashboard" )
                       ? "items-center w-full h-12 px-3 mt-2 bg-blue-100 rounded text-blue-700"
                       : "rounded hover:bg-blue-50"
                   )}
