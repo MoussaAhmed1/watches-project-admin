@@ -34,10 +34,10 @@ export const ReservationsColumns: ColumnDef<IReservation>[] = [
         />
         <AvatarFallback>{row?.original?.client_info?.name[0]}</AvatarFallback>
       </Avatar>
-      <p className="flex flex-col items-start">
+      <div className="flex flex-col items-start">
         <span> {row?.original?.client_info?.name}</span>
         <span> {row?.original?.client_info?.phone}</span>
-      </p>
+      </div>
     </div>
   },
   {
@@ -53,10 +53,10 @@ export const ReservationsColumns: ColumnDef<IReservation>[] = [
             />
             <AvatarFallback>{row?.original?.doctor?.name[0]}</AvatarFallback>
           </Avatar>
-          <p className="flex flex-col items-start">
+          <div className="flex flex-col items-start">
             <span> {row?.original?.doctor?.name}</span>
             <span> {row?.original?.doctor?.phone}</span>
-          </p>
+          </div>
         </div>)
       }
       else {
