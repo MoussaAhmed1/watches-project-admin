@@ -47,12 +47,12 @@ export default async function page({ searchParams }: paramsProps) {
             title={`Reservations (${totalReservations})`}
           />
 
-          <Link
+          {/* <Link
             href={"/dashboard/reservations/new"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New
-          </Link>
+          </Link> */}
         </div>
         <Separator />
 

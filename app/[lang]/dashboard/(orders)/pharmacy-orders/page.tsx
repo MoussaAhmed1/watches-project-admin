@@ -40,12 +40,12 @@ export default async function page({ searchParams }: paramsProps) {
         <div className="flex items-start justify-between">
           <Heading title={`Pharmacy Orders (${totalPharmacyOrder})`} />
 
-          <Link
+          {/* <Link
             href={"/dashboard/pharmacy-order/new"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New
-          </Link>
+          </Link> */}
         </div>
         <Separator />
 
