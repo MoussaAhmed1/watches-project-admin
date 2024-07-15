@@ -8,17 +8,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Employee } from "@/constants/data";
-import { IDoctor } from "@/types/doctors";
-import { PharmacyOrder } from "@/types/pharmacy-order";
-import {  IPharmacy } from "@/types/pharmacy";
-import {  IUser } from "@/types/patients";
+import { AdditionalInfoProfile } from "@/types/additional-info-profile";
 import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface CellActionProps {
-  data: Employee | IDoctor | IPharmacy | IUser| PharmacyOrder;
+  data: AdditionalInfoProfile;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
