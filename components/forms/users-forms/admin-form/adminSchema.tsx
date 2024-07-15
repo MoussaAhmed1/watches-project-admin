@@ -36,7 +36,7 @@ const adminSchema = z.object({
     .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
     .regex(/[0-9]/, { message: "Password must contain at least one number" })
     .regex(/[@$!%*?&]/, { message: "Password must contain at least one special character" }),
-  permissions:z.array(z.string())
+  premessions:z.array(z.string())
 });
 
 export default adminSchema;

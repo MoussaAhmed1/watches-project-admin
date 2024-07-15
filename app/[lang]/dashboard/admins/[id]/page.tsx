@@ -82,7 +82,7 @@ const page = async ({ params }: {
               <div className="p-4 border-t border-gray-200">
                 <h2 className="text-xl font-bold">Permissions</h2>
                 <ul className="list-none">
-                  {admin?.permissions?.map((permission) => (
+                  {admin?.premessions?.map((permission) => (
                     <li className="flex mt-3" key={permission}>
                       <ShieldCheck  className="details_icon" />
                       <p>{permission}</p>

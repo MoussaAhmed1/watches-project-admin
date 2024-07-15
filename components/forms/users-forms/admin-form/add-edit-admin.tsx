@@ -69,7 +69,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({
     // alert(JSON.stringify(data)); //testing
     setLoading(true);
     const formData = new FormData();
-    toFormData(data, formData);
+    toFormData({...data,premession:data.premessions.join()}, formData);
     const res = await AddAdmin(formData);
 
     if (res?.error) {
@@ -93,7 +93,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({
   //show error messages
   // console.log(form.formState.errors);
 
-    //permissions options 
+    //premessions options 
 
     const PermissionsOptions = useMemo(() => navItems?.map((nav) => {
       return { label: (nav?.title) ?? "", value: nav.title }
@@ -270,33 +270,33 @@ export const AdminForm: React.FC<AdminFormProps> = ({
             </div>
             <div className="md:grid md:grid-cols-1 gap-8">
             <div>
-                <label htmlFor="permissions" className="font-medium text-sm">
+                <label htmlFor="premessions" className="font-medium text-sm">
                   {("Permissions")} <span className="text-red-800">*</span>
                 </label>
                 <div className="flex-col w-full ">
                   <Select
-                    id="permissions"
+                    id="premessions"
                     isSearchable={true}
                     isClearable={true}
                     isMulti
-                    defaultValue={initialData?.permissions?.map((permission) =>
+                    defaultValue={initialData?.premessions?.map((permission) =>
                       PermissionsOptions.find(
                         (option) => option.value === permission
                       )
                     )}
                     onChange={(values: any) => {
-                      form.clearErrors("permissions");
+                      form.clearErrors("premessions");
                       form.setValue(
-                        "permissions",
+                        "premessions",
                         values!.map((val: any) => val.value)
                       );
                     }}
                     className="w-full"
                     options={PermissionsOptions}
                   />
-                  {errors.permissions && (
+                  {errors.premessions && (
                     <span className="error-text">
-                      {errors.permissions.message}
+                      {errors.premessions.message}
                     </span>
                   )}
                 </div>

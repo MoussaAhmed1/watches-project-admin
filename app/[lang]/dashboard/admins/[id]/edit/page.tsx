@@ -12,23 +12,25 @@ export default async function Page({ params }:{params: { id: string }}) {
   ];
   //----------------------------------------------------------------
   const res = await fetchProfileInfo({ userId: params.id });
-  const user: AccountProfile = res?.data?.data;
+  const admin: AccountProfile = res?.data?.data;
+  console.log(admin)
   return (
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems}  />
       <Heading
             title={`Update Admin`}
-            description={user.first_name + " " + user.last_name}
+            description={admin.first_name + " " + admin.last_name}
           />
       <UserProfileForm
         id={params.id}
         initialData={{
-          first_name: user?.first_name,
-          last_name: user?.last_name,
-          birth_date: user?.birth_date,
-          gender: user?.gender,
-          phone: user?.phone,
-          avatarFile: user?.avatar,
+          first_name: admin?.first_name,
+          last_name: admin?.last_name,
+          birth_date: admin?.birth_date,
+          gender: admin?.gender,
+          phone: admin?.phone,
+          avatarFile: admin?.avatar,
+          premessions:admin?.premessions
         }}
         revalidatequery="/dashboard/admins"
       />

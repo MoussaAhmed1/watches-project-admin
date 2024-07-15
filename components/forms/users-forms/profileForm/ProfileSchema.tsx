@@ -8,7 +8,7 @@ const ProfileSchema = z.object({
   gender: z.enum(["male", "female"]),
   phone: validationRules.phone,
   avatarFile: validationRules.image.optional(),
-  permissions: z.array(z.string()).optional(),
+  premessions: z.array(z.string()).optional(),
 });
 
 export default ProfileSchema;

@@ -50,13 +50,13 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
       setSelectedAvatar(URL?.createObjectURL(file));
     }
   };
-
   const defaultValues = {
     first_name: initialData?.first_name,
     last_name: initialData?.last_name,
     birth_date: initialData?.birth_date,
     gender: initialData?.gender,
     phone: initialData?.phone,
+    premessions: initialData?.premessions,
   };
 
   const form = useForm<UserFormValues>({
@@ -76,7 +76,12 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
     // alert(JSON.stringify(data)); //testing
     setLoading(true);
     const formData = new FormData();
-    toFormData(data, formData);
+    if(revalidatequery==="/dashboard/admins" && data?.premessions){
+      toFormData({...data,premessions:data?.premessions.join()}, formData);
+    }
+    else{
+      toFormData({data}, formData);
+    }
     formData.set('id', id);
     //phone changed 
     const hasChanged = data.phone !== initialData?.phone;
@@ -107,7 +112,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
 
     setLoading(false);
   };
-  //permissions options 
+  //premessions options 
 
   const PermissionsOptions = useMemo(() => navItems?.map((nav) => {
     return { label: (nav?.title) ?? "", value: nav.title }
@@ -238,33 +243,33 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
             </div>
                   {revalidatequery==="/dashboard/admins" &&<div className="md:grid md:grid-cols-1 gap-8">
                     <div>
-                      <label htmlFor="permissions" className="font-medium text-sm">
+                      <label htmlFor="premessions" className="font-medium text-sm">
                         {("Permissions")} <span className="text-red-800">*</span>
                       </label>
                       <div className="flex-col w-full ">
                         <Select
-                          id="permissions"
+                          id="premessions"
                           isSearchable={true}
                           isClearable={true}
                           isMulti
-                          defaultValue={initialData?.permissions?.map((permission) =>
+                          defaultValue={initialData?.premessions?.map((permission) =>
                             PermissionsOptions.find(
                               (option) => option.value === permission
                             )
                           )}
                           onChange={(values: any) => {
-                            form.clearErrors("permissions");
+                            form.clearErrors("premessions");
                             form.setValue(
-                              "permissions",
+                              "premessions",
                               values!.map((val: any) => val.value)
                             );
                           }}
                           className="w-full"
                           options={PermissionsOptions}
                         />
-                        {errors.permissions && (
+                        {errors.premessions && (
                           <span className="error-text">
-                            {errors.permissions.message}
+                            {errors.premessions.message}
                           </span>
                         )}
                       </div>
