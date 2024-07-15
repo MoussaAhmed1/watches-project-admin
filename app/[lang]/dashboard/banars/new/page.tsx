@@ -22,8 +22,11 @@ export default async function Page({ searchParams }: paramsProps) {
   });
   
   const doctors: IDoctor[] = res?.data?.data || [] ;
-  console.log('doctors',doctors)
   const breadcrumbItems = [
+    {
+      title:  "Banners",
+      link: "/dashboard/banars",
+    },
     {
       title:  "New Banner",
       link: "/dashboard/banars/new",

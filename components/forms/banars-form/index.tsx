@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -30,6 +29,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { format } from "date-fns"
 import { cn } from "@/lib/utils"
 import { IBanner } from "@/types/banars";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const formSchema: any = z.object({
   is_active: z.boolean(),
@@ -92,9 +92,10 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
       doctor_id: banar?.doctor_id || undefined,
     } : undefined,
   });
-  const { control, formState: { errors }, setValue } = form;
+  const { control, formState: { errors } } = form;
 
   const onSubmit = async (data: BanarFormValues) => {
+    setLoading(true)
     const formData = new FormData();
     toFormData(data, formData);
     if (banar) {
@@ -135,6 +136,7 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
         router.back();
       }
     }
+    setLoading(false);
   };
 
   const handleChange = (isChecked: boolean) => {
@@ -170,28 +172,14 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
-          <div className=" md:grid md:grid-cols-1 gap-8">
-            {selectedBanar && (
-              <div style={{ maxWidth: "100%", height: '250px', overflow: "hidden", position: 'relative', }}>
-                <Image
-                  src={selectedBanar}
-                  alt="Selected Banner"
-                  fill
-                  objectFit="cover"
-                  style={{
-                    borderRadius: "10px",
-                  }}
-                />
-              </div>
-            )}
+          <div className="md:grid md:grid-cols-1 gap-10">
+            {/* banar Image */}
             <FormItem
               style={{
-                margin: "30px 0",
-                display: "flex",
-                alignItems: "center",
+                margin: "-2px 0",
               }}
             >
-              <FormLabel className="max-w-30 mx-1">Banner</FormLabel>
+              <FormLabel className="max-w-30 mx-1">Banner Image</FormLabel>
               <div>
                 <Controller
                   name="banar"
@@ -199,8 +187,10 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
                   render={({ field }) => (
                     <Input
                       type="file"
+                      name="file"
+                      multiple={false}
                       accept="image/*"
-                      onChange={(e) => {
+                      onChange={async (e) => {
                         field.onChange(e.target.files ? e.target.files[0] : null);
                         handleBanarChange(e);
                       }}
@@ -209,7 +199,32 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
                 />
               </div>
               {errors?.banar?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.banar?.message as any}</FormMessage>}
+
+              {selectedBanar && <div
+                style={{
+                  color: "darkgray",
+                  padding: 0,
+                  width: 100,
+                  height: 100,
+                  overflow: "hidden",
+                  borderColor: "darkgray",
+                  position: "relative",
+                  borderRadius: "10px",
+                  marginBottom: "10px",
+                }}
+              >
+                <Image
+                  src={selectedBanar ?? ""}
+                  style={{
+                    objectFit: "cover",
+                  }}
+                  fill
+                  alt="CoverImage"
+                />
+              </div>}
+
             </FormItem>
+            <div className="md:grid md:grid-cols-2 gap-8">
             {
               //start date 
             }
@@ -225,7 +240,7 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
                         <Button
                           variant={"outline"}
                           className={cn(
-                            "w-[240px] pl-3 text-left font-normal",
+                            "w-full pl-3 text-left font-normal",
                             !field.value && "text-muted-foreground"
                           )}
                         >
@@ -269,7 +284,7 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
                         <Button
                           variant={"outline"}
                           className={cn(
-                            "w-[240px] pl-3 text-left font-normal",
+                            "w-full pl-3 text-left font-normal",
                             !field.value && "text-muted-foreground"
                           )}
                         >
@@ -298,6 +313,7 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
                 </FormItem>
               )}
             />
+            </div>
             <FormField
               control={form.control}
               name="doctor_id"
@@ -340,23 +356,41 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
                 </FormItem>
               )}
             />
-            <FormItem style={{ display: "flex", alignItems: "center" }}>
-              <FormLabel style={{ marginRight: "70px" }}>
-                Banner status
-              </FormLabel>
-              <FormControl>
-                <Switch
-                  checked={form.watch("is_active")}
-                  onClick={() => handleChange(!form.watch("is_active"))}
-                  name="is_active"
-                />
-              </FormControl>
-              <FormMessage style={{ marginLeft: "px" }}>
-                {form.formState.errors?.is_active?.message
-                  ? "is_active file is required"
-                  : ""}
-              </FormMessage>
-            </FormItem>
+            <FormField
+              control={form.control}
+              name="is_active"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormLabel>Banner status</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={(e: string) => {
+                        form.setValue("is_active", e === "true");
+                      }}
+                      defaultValue={form.getValues("is_active") !== undefined ? `${form.getValues("is_active")}` : undefined}
+                      className="flex flex-col space-y-1"
+                    >
+
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value={"true"} />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          Active
+                        </FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value={"false"} />
+                        </FormControl>
+                        <FormLabel className="font-normal">Disabled</FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
 
           <Button disabled={loading} className="ml-auto " type="submit">
