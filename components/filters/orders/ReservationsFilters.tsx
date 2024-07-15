@@ -17,6 +17,8 @@ enum Status {
     CREATED = 'CREATED',
     CANCELED = 'CANCELED',
     COMPLETED = 'COMPLETED',
+    STARTED = 'STARTED',
+    SCHEDULED = 'SCHEDULED',
 }
 
 
@@ -37,6 +39,8 @@ function ReservationsFilters() {
                     <SelectItem value={Status.CREATED}>Created</SelectItem>
                     <SelectItem value={Status.CANCELED}>Canceled</SelectItem>
                     <SelectItem value={Status.COMPLETED}>Completed</SelectItem>
+                    <SelectItem value={Status.STARTED}>Started</SelectItem>
+                    <SelectItem value={Status.SCHEDULED}>scheduled</SelectItem>
                 </SelectGroup>
             </SelectContent>
         </Select>
