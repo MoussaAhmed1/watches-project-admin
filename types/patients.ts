@@ -13,6 +13,7 @@ export interface IUser {
   gender: string;
   language: string;
   fcm_token: string;
+  premessions: string[];
 }
 
 export interface AccountProfile {

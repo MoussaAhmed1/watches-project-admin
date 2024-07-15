@@ -24,6 +24,7 @@ export default async function ProfilePage() {
           gender: session?.user?.gender as "male" | "female",
           phone: session?.user?.phone,
           avatarFile: session.user?.avatar,
+          premessions: session.user?.premessions,
         } : undefined}
         revalidatequery="/dashboard/admins"
 
