@@ -138,6 +138,8 @@ export const endpoints = {
     termsConditions: "/static-page/TERMS_AND_CONDITIONS",
     aboutUs: "/static-page/ABOUT_US",
     ContactUs: "/Contact-us",
+    Commission:"/settings?type=COMMISSION",
+    PharmacyOrder:"/settings?type=PHARMACY_ORDER_NUMBER"
   },
   faq: {
     fetch: "/faq",

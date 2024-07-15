@@ -10,6 +10,7 @@ import Approve from "@/components/details/role-details/Approve";
 import CancelWithReason from "@/components/details/role-details/CancelWithReason";
 import UserInfoCard from "@/components/details/pharmacy-order/UserInfo";
 import Link from "next/link";
+import NurseInfoCard from "@/components/details/pharmacy-order/NurseInfo";
 export const metadata: Metadata = {
   title: "Next.js Profile | TailAdmin - Next.js Dashboard Template",
   description:
@@ -54,13 +55,17 @@ const page = async ({ params }: { params: { id: string } }) => {
         data_value: NurseOrder?.notes,
       },
       {
+        data_key: "Sent Offer",
+        data_value: NurseOrder?.sentOffer ? <CheckCircle stroke="#39a845" size={18} /> : <CircleSlash style={{ color: '#8C0101' }} size={18} />,
+      },
+      {
         data_key: "Address",
         data_value: (<Link
           href={`https://www.google.com/maps/search/?api=1&query=${NurseOrder?.address?.latitude},${NurseOrder?.address?.longitude}`}
           target="_blank"
           style={{ color: '#3A72EC' }}
         >
-          {shortenText(NurseOrder?.address?.address,45)}
+          {shortenText(NurseOrder?.address?.address, 45)}
         </Link>),
       },
     ]
@@ -105,8 +110,8 @@ const page = async ({ params }: { params: { id: string } }) => {
           </div>
           {NurseOrder?.status != "CANCELED" && <div className="px-3">
             {(NurseOrder?.cancel_request) ?
-              <Approve title="Approve Cancel" successMessage="Request canceled Successfully" defualt method={AcceptNurseOrderCancelRequest} id={params?.id} /> :
-              <CancelWithReason dialogTitle="Cancel Nurse Order" id={NurseOrder?.id} method={AcceptNurseOrderCancelRequest} />
+              <Approve title="Approve Cancel" successMessage="Request canceled Successfully"  method={AcceptNurseOrderCancelRequest} id={params?.id} /> :
+              <Approve title="Cancel Nurse Order" successMessage="Request canceled Successfully"  method={AcceptNurseOrderCancelRequest} id={params?.id} />
             }
           </div>}
 
@@ -125,7 +130,7 @@ const page = async ({ params }: { params: { id: string } }) => {
 
                       {
                         render_data_items?.map(({ data_key, data_value }, index) => (
-                          <div className="flex justify-between w-full pb-5" key={data_key} style={{ borderBottom: ((index < render_data_items?.length - 1) || (NurseOrder?.cancel_reason!="")) ? "1px solid lightgray" : "unset" }}>
+                          <div className="flex justify-between w-full pb-5" key={data_key} style={{ borderBottom: ((index < render_data_items?.length - 1) || (NurseOrder?.cancel_reason != "")) ? "1px solid lightgray" : "unset" }}>
                             <p className="text-base dark:text-white leading-4 text-gray-800">{data_key}</p>
                             <p className="text-base dark:text-gray-300 leading-4 text-gray-600">{data_value ?? "-"}</p>
                           </div>
@@ -150,6 +155,7 @@ const page = async ({ params }: { params: { id: string } }) => {
                 {/* customerDoctorDetails  */}
                 <div className="flex flex-col justify-start items-start xl:w-fit w-full space-y-4 md:space-y-6 xl:space-y-9">
                   <UserInfoCard user={NurseOrder?.user} />
+                  {NurseOrder?.nurse && <NurseInfoCard nurse={NurseOrder?.nurse} />}
                 </div>
               </div>
             </div>

@@ -16,6 +16,7 @@ export interface IUser {
 }
 
 export interface AccountProfile {
+  premessions: string[];
   id: string;
   account: string;
   first_name: string;

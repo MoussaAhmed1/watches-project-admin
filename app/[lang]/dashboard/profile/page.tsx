@@ -8,8 +8,7 @@ import { authOptions } from "@/app/api/auth/_options";
 
 const breadcrumbItems = [{ title: "Profile", link: "/dashboard/profile" }];
 export default async function ProfilePage() {
-  const session: { user: IUser } | null = await getServerSession(authOptions) as any
-  console.log("*/*/*session",session)
+  const session: { user: IUser } | null = await getServerSession(authOptions) as any;
   return (
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
       <BreadCrumb items={breadcrumbItems} />
@@ -27,6 +26,7 @@ export default async function ProfilePage() {
           avatarFile: session.user?.avatar,
         } : undefined}
         revalidatequery="/dashboard/admins"
+
       />
     </div>
   );

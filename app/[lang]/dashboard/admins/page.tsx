@@ -9,7 +9,7 @@ import { IUser } from "@/types/patients";
 import { Plus } from "lucide-react";
 import Link from "next/link"; 
 import { fetchUsers } from "@/actions/patients";
-import { AdminColumns, PatientsColumns as UserColumns } from "@/components/tables/users-tables/columns";
+import { AdminColumns} from "@/components/tables/users-tables/columns";
 
 
 const breadcrumbItems = [{ title: "Admins", link: "/dashboard/admins" }];

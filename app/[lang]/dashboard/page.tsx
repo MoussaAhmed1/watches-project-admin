@@ -18,38 +18,38 @@ export default async function page({ params }: { params: { lang: string } }) {
     {
       title: "Patients",
       total: statistics_res?.clients_count,
-      link: "/dashboard/patients"
+      link: `/${params?.lang}/dashboard/patients`
     },
     {
       title: "Doctors",
       total: statistics_res?.doctors_count,
-      link: "/dashboard/doctors"
+      link: `/${params?.lang}/dashboard/doctors`
     },
     {
       title: "Nurses",
       total: statistics_res?.nurses_count,
-      link: "/dashboard/nurses"
+      link: `/${params?.lang}/dashboard/nurses`
     },
     {
       title: "Pharmacies",
       total: statistics_res?.pharmacy_count,
-      link: "/dashboard/pharmacies"
+      link: `/${params?.lang}/dashboard/pharmacies`
     },
     {
       title: "Pharmacy Orders",
       total: statistics_res?.pharamcy_order_count,
-      link: '/dashboard/pharmacy-orders'
+      link: `/${params?.lang}/dashboard/pharmacy-orders`
     },
     {
       title: "Nurse Orders",
       total: statistics_res?.nurse_order_count,
-      link: '/dashboard/nurse-orders'
+      link: `/${params?.lang}/dashboard/nurse-orders`
     },
 
     {
       title: "Reservations",
       total: statistics_res?.reservations_count,
-      link: "/dashboard/reservations"
+      link: `/${params?.lang}/dashboard/reservations`
     },
   ]
 

@@ -27,6 +27,7 @@ export interface Specialization {
 export interface Doctor {
   id: string;
   name: string;
+  phone: string;
   avatar: string;
   clinic: Clinic;
   rating: number;
@@ -61,6 +62,13 @@ export interface FamilyMember {
   kinship: string
   allergic_reactions: string
   notes: string
+}
+export interface Nurse {
+  phone: string;
+  name: string;
+  avatar: string;
+  rating: number;
+
 }
 
 export interface Attachment {

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Icons } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import { NavItem } from "@/types";
@@ -52,6 +52,7 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
                 href={link.disabled ? "/" : `/${currentLang}${link.href}?currentLable=undefined`}
                 onClick={()=>{
                   setselectedLable(undefined);
+                  setOpen && setOpen(false);
                 }}
               >
                 <span
@@ -108,6 +109,7 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
                         href={`/${currentLang}${child.href}?currentLable=${link.label}`}
                         onClick={()=>{
                           setselectedLable(link.label);
+                          setOpen && setOpen(false);
                         }}
                         className={cn(
                           " flex gap-1 items-center",

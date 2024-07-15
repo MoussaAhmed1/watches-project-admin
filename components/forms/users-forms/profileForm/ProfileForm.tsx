@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useEffect, useState } from "react";
+import { Select as ShadcnSelect, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
@@ -21,12 +21,16 @@ import { toFormData } from "axios";
 import AvatarPreview from "@/components/shared/AvatarPreview";
 import InputDate from "@/components/shared/timepicker/InputDate";
 import { updateUsersProfile } from "@/actions/patients";
+import { useSession } from "next-auth/react";
+import { navItems } from "@/constants/data";
+import Select from "react-select";
+
 export type UserFormValues = z.infer<typeof ProfileSchema>;
 
 interface UserFormProps {
   initialData?: UserFormValues;
   id: string;
-  revalidatequery:string;
+  revalidatequery: string;
 }
 
 export const UserProfileForm: React.FC<UserFormProps> = ({
@@ -37,7 +41,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const action = initialData ? "Save changes" : "Create";
-
+  const { update, data: session } = useSession();
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -46,13 +50,13 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
       setSelectedAvatar(URL?.createObjectURL(file));
     }
   };
-
   const defaultValues = {
     first_name: initialData?.first_name,
     last_name: initialData?.last_name,
     birth_date: initialData?.birth_date,
     gender: initialData?.gender,
     phone: initialData?.phone,
+    premessions: initialData?.premessions,
   };
 
   const form = useForm<UserFormValues>({
@@ -72,15 +76,20 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
     // alert(JSON.stringify(data)); //testing
     setLoading(true);
     const formData = new FormData();
-    toFormData(data, formData);
+    if(revalidatequery==="/dashboard/admins" && data?.premessions){
+      toFormData({...data,premessions:data?.premessions.join()}, formData);
+    }
+    else{
+      toFormData({data}, formData);
+    }
     formData.set('id', id);
     //phone changed 
     const hasChanged = data.phone !== initialData?.phone;
-    if(!hasChanged){
+    if (!hasChanged) {
       formData.delete('phone');
-    } 
+    }
 
-    const res = await updateUsersProfile(formData,id,revalidatequery);
+    const res = await updateUsersProfile(formData, id, revalidatequery);
 
     if (res?.error) {
       toast({
@@ -95,10 +104,19 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
         title: initialData ? "Updated successfully" : "Added successfully",
         description: initialData ? `Profile has been successfully updated.` : `Profile has been successfully added.`,
       });
+      if (id === "") {
+        const updatedUser = { ...session?.user, ...data, name: data.first_name + " " + data?.last_name };
+        update({ ...session, user: updatedUser });
+      }
     }
 
     setLoading(false);
   };
+  //premessions options 
+
+  const PermissionsOptions = useMemo(() => navItems?.map((nav) => {
+    return { label: (nav?.title) ?? "", value: nav.title }
+  }), [])
   return (
     <>
       <Card className="p-10 mx-0 border-0 min-h-[63dvh]" style={{ boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >
@@ -168,7 +186,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                 <FormItem>
                   <FormLabel>Gender <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
-                    <Select {...field} onValueChange={field.onChange}>
+                    <ShadcnSelect {...field} onValueChange={field.onChange}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select Gender" />
                       </SelectTrigger>
@@ -176,7 +194,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                         <SelectItem value="male">Male</SelectItem>
                         <SelectItem value="female">Female</SelectItem>
                       </SelectContent>
-                    </Select>
+                    </ShadcnSelect>
                   </FormControl>
                   {errors.gender && <FormMessage>{errors.gender.message}</FormMessage>}
                 </FormItem>
@@ -223,6 +241,40 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                 {errors?.avatarFile?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.avatarFile?.message as any}</FormMessage>}
               </FormItem>
             </div>
+                  {revalidatequery==="/dashboard/admins" &&<div className="md:grid md:grid-cols-1 gap-8">
+                    <div>
+                      <label htmlFor="premessions" className="font-medium text-sm">
+                        {("Permissions")} <span className="text-red-800">*</span>
+                      </label>
+                      <div className="flex-col w-full ">
+                        <Select
+                          id="premessions"
+                          isSearchable={true}
+                          isClearable={true}
+                          isMulti
+                          defaultValue={initialData?.premessions?.map((permission) =>
+                            PermissionsOptions.find(
+                              (option) => option.value === permission
+                            )
+                          )}
+                          onChange={(values: any) => {
+                            form.clearErrors("premessions");
+                            form.setValue(
+                              "premessions",
+                              values!.map((val: any) => val.value)
+                            );
+                          }}
+                          className="w-full"
+                          options={PermissionsOptions}
+                        />
+                        {errors.premessions && (
+                          <span className="error-text">
+                            {errors.premessions.message}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>}
             <Button disabled={loading} className="ml-auto" type="submit">
               {action}
             </Button>

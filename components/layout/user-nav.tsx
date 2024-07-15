@@ -8,14 +8,14 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Language } from "@/utils/changeLanguageHandler";
 import { signOut, useSession } from "next-auth/react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 export function UserNav({lang}:{lang:Language}) {
   const { data: session } = useSession();
+  const {push} = useRouter();
   if (session) {
     return (
       <DropdownMenu>
@@ -43,8 +43,8 @@ export function UserNav({lang}:{lang:Language}) {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem>
-             <Link href={`/${lang}/dashboard/profile`}>Profile</Link>
+            <DropdownMenuItem onClick={() => push(`/${lang}/dashboard/profile`)}>
+             Profile
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />

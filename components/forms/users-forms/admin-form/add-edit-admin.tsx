@@ -11,39 +11,39 @@ import {
 import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select as ShadcnSelect, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
-import { AddPatient } from "@/actions/patients";
 import { Card } from "@/components/ui/card";
-import patientSchema from "./patientSchema";
+import adminSchema from "./adminSchema";
 
 import { toFormData } from "axios";
 import AvatarPreview from "@/components/shared/AvatarPreview";
 import InputDate from "@/components/shared/timepicker/InputDate";
+import { AddAdmin } from "@/actions/users/admin";
+import { navItems } from "@/constants/data";
+import Select from "react-select";
+export type AdminFormValues = z.infer<typeof adminSchema>;
 
-
-export type PatientFormValues = z.infer<typeof patientSchema>;
-
-interface PatientFormProps {
-  initialData?: PatientFormValues;
+interface AdminFormProps {
+  initialData?: AdminFormValues;
   id?: string;
-  _role?: "CLIENT" ;
+  _role?: "ADMIN";
 }
 
-export const UserForm: React.FC<PatientFormProps> = ({
+export const AdminForm: React.FC<AdminFormProps> = ({
   initialData,
   id,
-  _role = "CLIENT"
+  _role = "ADMIN"
 }) => {
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const title = "Create patient";
-  const description = "Add a new patient.";
+  const title = "Create admin";
+  const description = "Add a new admin";
   const action = initialData ? "Save changes" : "Create";
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
 
@@ -54,8 +54,8 @@ export const UserForm: React.FC<PatientFormProps> = ({
       setSelectedAvatar(URL?.createObjectURL(file));
     }
   };
-  const form = useForm<PatientFormValues>({
-    resolver: zodResolver(patientSchema),
+  const form = useForm<AdminFormValues>({
+    resolver: zodResolver(adminSchema),
     // defaultValues: initialData ? defaultValues : undefined,
   });
   const { control, formState: { errors } } = form;
@@ -65,12 +65,12 @@ export const UserForm: React.FC<PatientFormProps> = ({
   }, [_role, form]);
 
 
-  const onSubmit = async (data: PatientFormValues) => {
+  const onSubmit = async (data: AdminFormValues) => {
     // alert(JSON.stringify(data)); //testing
     setLoading(true);
     const formData = new FormData();
-    toFormData(data, formData);
-    const res = await AddPatient(formData);
+    toFormData({...data,premession:data.premessions.join()}, formData);
+    const res = await AddAdmin(formData);
 
     if (res?.error) {
       toast({
@@ -83,18 +83,21 @@ export const UserForm: React.FC<PatientFormProps> = ({
       toast({
         variant: "default",
         title: initialData ? "Updated successfully" : "Added successfully",
-        description: _role === "CLIENT" ? `Patient has been successfully updated.` : `Admin has been successfully added.`,
+        description: `Admin has been successfully added.`,
       });
-      if (_role === "CLIENT") {
-        router.push(`/dashboard/patients`);
-
-      }
+      router.push(`/dashboard/admins`);
     }
 
     setLoading(false);
   };
   //show error messages
   // console.log(form.formState.errors);
+
+    //premessions options 
+
+    const PermissionsOptions = useMemo(() => navItems?.map((nav) => {
+      return { label: (nav?.title) ?? "", value: nav.title }
+    }), [])
 
   return (
     <>
@@ -169,7 +172,7 @@ export const UserForm: React.FC<PatientFormProps> = ({
                 <FormItem>
                   <FormLabel>Gender <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
-                    <Select {...field} onValueChange={field.onChange}>
+                    <ShadcnSelect {...field} onValueChange={field.onChange}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select Gender" />
                       </SelectTrigger>
@@ -177,7 +180,7 @@ export const UserForm: React.FC<PatientFormProps> = ({
                         <SelectItem value="male">Male</SelectItem>
                         <SelectItem value="female">Female</SelectItem>
                       </SelectContent>
-                    </Select>
+                    </ShadcnSelect>
                   </FormControl>
                   {errors.gender && <FormMessage>{errors.gender.message}</FormMessage>}
                 </FormItem>
@@ -221,6 +224,83 @@ export const UserForm: React.FC<PatientFormProps> = ({
 
                 {errors?.avatarFile?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.avatarFile?.message as any}</FormMessage>}
               </FormItem>
+            </div>
+
+            <div className="md:grid md:grid-cols-2 gap-8">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email <span className="text-red-800">*</span></FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        placeholder="email"
+                        {...field}
+                        type="email"
+                        required
+                        autoComplete={"false"}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>password <span className="text-red-800">*</span></FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        placeholder="password"
+                        type="password"
+                        required
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="md:grid md:grid-cols-1 gap-8">
+            <div>
+                <label htmlFor="premessions" className="font-medium text-sm">
+                  {("Permissions")} <span className="text-red-800">*</span>
+                </label>
+                <div className="flex-col w-full ">
+                  <Select
+                    id="premessions"
+                    isSearchable={true}
+                    isClearable={true}
+                    isMulti
+                    defaultValue={initialData?.premessions?.map((permission) =>
+                      PermissionsOptions.find(
+                        (option) => option.value === permission
+                      )
+                    )}
+                    onChange={(values: any) => {
+                      form.clearErrors("premessions");
+                      form.setValue(
+                        "premessions",
+                        values!.map((val: any) => val.value)
+                      );
+                    }}
+                    className="w-full"
+                    options={PermissionsOptions}
+                  />
+                  {errors.premessions && (
+                    <span className="error-text">
+                      {errors.premessions.message}
+                    </span>
+                  )}
+                </div>
+              </div>
             </div>
             <Button disabled={loading} className="ml-auto" type="submit">
               {action}

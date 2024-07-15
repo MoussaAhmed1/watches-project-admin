@@ -1,12 +1,36 @@
 import { Card } from "@/components/ui/card";
 import UserIcon from "../../../public/assets/user.png";
-import Image from "next/image";
-import { ClientInfo, FamilyMember } from "@/types/reservations";
+import ProfileImg from "@/components/shared/imagesRender/profileImg";
 interface IProps {
-  user: { id: string, name: string; avatar: string };
+  user: {
+    phone: string; id: string, name: string; avatar: string
+  };
 }
 
 function UserInfoCard({ user }: IProps) {
+  const client_data_items =
+    [
+      {
+        data_key: "Phone",
+        data_value: user?.phone,
+      },
+      // {
+      //   data_key: "Allergic reactions",
+      //   data_value: user?.allergic_reactions,
+      // },
+      // {
+      //   data_key: "Height",
+      //   data_value: user?.height + " Cm",
+      // },
+      // {
+      //   data_key: "Weight",
+      //   data_value: user?.weight + " Kg",
+      // },
+      // {
+      //   data_key: "Notes",
+      //   data_value: user?.notes,
+      // },
+    ]
   return (
     <Card className="bg-gray-50 dark:bg-gray-800 w-full xl:w-96 flex justify-between items-center md:items-start px-1 py-6 md:p-3 xl:p-4 flex-col">
       <h6
@@ -19,11 +43,10 @@ function UserInfoCard({ user }: IProps) {
         {
           <div className="flex flex-col justify-start items-start flex-shrink-0">
             <div className="flex justify-center w-full md:justify-start items-center space-x-4 py-8">
-              <Image
-                width={50}
-                height={50}
-                src={UserIcon || user?.avatar}
-                alt="avatar"
+              <ProfileImg
+                className="w-[50px] h-[50px]"
+                src={user?.avatar || UserIcon}
+                alt={user?.name}
               />
               <div className="flex justify-start items-start flex-col space-y-2">
                 <p className="text-base dark:text-white font-semibold leading-4 text-left text-gray-800">
@@ -33,6 +56,12 @@ function UserInfoCard({ user }: IProps) {
             </div>
           </div>
         }
+        {client_data_items.map(({ data_key, data_value }) => (
+          <div className="flex justify-between w-full border-t py-4" key={data_key}>
+            <p className="text-base dark:text-white leading-4 text-gray-800">{data_key}</p>
+            <p className="text-base dark:text-gray-300 leading-4 text-gray-600">{data_value ?? "-"}</p>
+          </div>
+        ))}
       </div>
     </Card>
   );

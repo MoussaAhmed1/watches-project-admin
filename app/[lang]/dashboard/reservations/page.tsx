@@ -10,6 +10,7 @@ import Link from "next/link";
 import { IReservation } from "@/types/reservations";
 import { ReservationsColumns } from "@/components/tables/reservations-tables/columns";
 import { fetchReservations } from "@/actions/reservations";
+import ReservationsFilters from "@/components/filters/orders/ReservationsFilters";
 
 const breadcrumbItems = [{ title: "Reservations", link: "/dashboard/reservations" }];
 
@@ -24,10 +25,14 @@ export default async function page({ searchParams }: paramsProps) {
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
   typeof searchParams?.search === "string" ? searchParams?.search : "";
+  const status =
+  typeof searchParams?.status === "string" ? searchParams?.status : "";
   const res = await fetchReservations({
     page,
     limit,
     filters: search,
+    status,
+    otherfilters:[]
   });
   const totalReservations = res?.data?.meta?.total ||0; //1000
   const pageCount = Math.ceil(totalReservations / limit);
@@ -52,13 +57,15 @@ export default async function page({ searchParams }: paramsProps) {
         <Separator />
 
         <SharedTable
-          searchKey="reservations"
+          searchKey="With phone"
           pageNo={page}
           columns={ReservationsColumns}
           totalitems={totalReservations}
           data={reservations as unknown as IReservation[] }
           pageCount={pageCount}
-        />
+        >
+          <ReservationsFilters/>
+        </SharedTable>
       </div>
     </>
   );

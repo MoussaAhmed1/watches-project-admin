@@ -24,6 +24,7 @@ export interface INurseOrder {
   }
   
   export interface User {
+    phone:string
     name: string
     id: string
     avatar: string
@@ -37,6 +38,7 @@ export interface INurseOrder {
   }
   
   export interface SingleNurseOrder {
+    sentOffer: boolean
     id: string
     created_at: string
     updated_at: string

@@ -8,7 +8,7 @@ const auth = () => ({ id: "fakeId" }); // Fake auth function
 export const ourFileRouter = {
   // Define as many FileRoutes as you like, each with a unique routeSlug
   imageUploader: f({ image: { maxFileSize: "4MB", maxFileCount: 3 } })
-    // Set permissions and file types for this FileRoute
+    // Set premessions and file types for this FileRoute
     .middleware(async ({}) => {
       // This code runs on your server before upload
       const user = await auth();
