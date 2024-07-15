@@ -31,7 +31,8 @@ export default async function page({ searchParams }: paramsProps) {
     page,
     limit,
     filters: search,
-    otherfilters:[status]
+    status,
+    otherfilters:[]
   });
   const totalReservations = res?.data?.meta?.total ||0; //1000
   const pageCount = Math.ceil(totalReservations / limit);

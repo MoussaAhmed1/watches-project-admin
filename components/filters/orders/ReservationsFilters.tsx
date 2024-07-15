@@ -14,8 +14,8 @@ import { useRouter } from "next/navigation";
 
 enum Status {
     ALL = '',
-    STARTED = 'STARTED',
-    CANCELLED = 'CANCELLED',
+    CREATED = 'CREATED',
+    CANCELED = 'CANCELED',
     COMPLETED = 'COMPLETED',
 }
 
@@ -34,8 +34,8 @@ function ReservationsFilters() {
                 <SelectGroup>
                     <SelectLabel>status</SelectLabel>
                     <SelectItem value={Status.ALL}>All</SelectItem>
-                    <SelectItem value={Status.STARTED}>Started</SelectItem>
-                    <SelectItem value={Status.CANCELLED}>Cancelled</SelectItem>
+                    <SelectItem value={Status.CREATED}>Created</SelectItem>
+                    <SelectItem value={Status.CANCELED}>Canceled</SelectItem>
                     <SelectItem value={Status.COMPLETED}>Completed</SelectItem>
                 </SelectGroup>
             </SelectContent>

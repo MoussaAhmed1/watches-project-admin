@@ -98,7 +98,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
       });
       if(id===""){
         const updatedUser = { ...session?.user, ...data,name:data.first_name + " " + data?.last_name };
-        update(updatedUser);
+        update({ ...session, user: updatedUser });
       }
     }
 

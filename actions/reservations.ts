@@ -11,23 +11,29 @@ import axiosInstance, {
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
 
-
 export const fetchReservations = async ({
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,
-  otherfilters
+  status,
+  otherfilters,
 }: Params): Promise<any> => {
   const lang = cookies().get("Language")?.value;
-  const accessToken = cookies().get('access_token')?.value;
-  const spreadotherfilters:string = otherfilters? otherfilters.toString() : "";
-  
+  const accessToken = cookies().get("access_token")?.value;
+  const _status: string = status !== "" ? `,status=${status}` : "";
+  const userPhone = filters?`user.phone=${filters}`:"";
+  const doctorPhone = filters?`doctor.user.phone=${filters}`:"";
   try {
     const res = await axiosInstance(endpoints.reservations.fetch, {
       params: {
         page,
         limit,
-        filters: filters ? [`user.phone=${filters},status=${spreadotherfilters}`, `doctor.user.phone=${filters},status=${spreadotherfilters}`] :null,
+        filters: filters || status
+          ? [
+              `${userPhone}${_status}`,
+              `${doctorPhone}${_status}`,
+            ]
+          : null,
         sortBy: "created_at=desc",
       },
       headers: {
@@ -43,7 +49,7 @@ export const fetchReservations = async ({
   }
 };
 
-export const fetchSingleReservation = async (id : string): Promise<any> => {
+export const fetchSingleReservation = async (id: string): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
   try {
@@ -56,17 +62,22 @@ export const fetchSingleReservation = async (id : string): Promise<any> => {
     return res;
   } catch (error: any) {
     throw new Error(error);
-
   }
 };
 
-export const AcceptReservationCancelRequest = async ({id,reason}:{id:string,reason?:string}): Promise<any> => {
+export const AcceptReservationCancelRequest = async ({
+  id,
+  reason,
+}: {
+  id: string;
+  reason?: string;
+}): Promise<any> => {
   const accessToken = cookies().get("access_token")?.value;
   const lang = cookies().get("Language")?.value;
   try {
-     await axiosInstance.post(
+    await axiosInstance.post(
       `${endpoints.reservations.cancleRequest}`,
-      {id},
+      { id },
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,

@@ -63,6 +63,13 @@ export interface FamilyMember {
   allergic_reactions: string
   notes: string
 }
+export interface Nurse {
+  phone: string;
+  name: string;
+  avatar: string;
+  rating: number;
+
+}
 
 export interface Attachment {
   file: string;
