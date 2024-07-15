@@ -23,7 +23,6 @@ export const fetchReservations = async ({
   const _status: string = status !== "" ? `,status=${status}` : "";
   const userPhone = filters?`user.phone=${filters}`:"";
   const doctorPhone = filters?`doctor.user.phone=${filters}`:"";
-  console.log(otherfilters)
   try {
     const res = await axiosInstance(endpoints.reservations.fetch, {
       params: {

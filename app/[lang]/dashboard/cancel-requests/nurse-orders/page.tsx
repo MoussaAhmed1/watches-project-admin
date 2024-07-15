@@ -3,13 +3,9 @@ import { fetchNurseOrder } from "@/actions/nurse-orders";
 import BreadCrumb from "@/components/breadcrumb";
 import { NurseOrderColumns } from "@/components/tables/nurse-orders-tables/columns";
 import { SharedTable } from "@/components/tables/shared/Shared-table";
-import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
 import { INurseOrder } from "@/types/nurse-order";
-import { Plus } from "lucide-react";
-import Link from "next/link";
 
 const breadcrumbItems = [{ title: "Nurse Orders Cancel Requests", link: "/dashboard/cancel-requests/nurse-orders" }];
 
@@ -28,7 +24,7 @@ export default async function page({ searchParams }: paramsProps) {
     page,
     limit,
     filters: search,
-    otherfilters:["cancel_request=1"]
+    otherfilters:["cancel_request=1,status!=CANCELED"]
   });
   const totalNurseOrder = res?.data?.meta?.total ||0; //1000
   const pageCount = Math.ceil(totalNurseOrder / limit);

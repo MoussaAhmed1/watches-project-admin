@@ -8,41 +8,45 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Select as ShadcnSelect, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
 import { Card } from "@/components/ui/card";
-import ProfileSchema from "./ProfileSchema";
+import adminSchema from "./adminSchema";
+
 import { toFormData } from "axios";
 import AvatarPreview from "@/components/shared/AvatarPreview";
 import InputDate from "@/components/shared/timepicker/InputDate";
-import { updateUsersProfile } from "@/actions/patients";
-import { useSession } from "next-auth/react";
+import { AddAdmin } from "@/actions/users/admin";
 import { navItems } from "@/constants/data";
 import Select from "react-select";
+export type AdminFormValues = z.infer<typeof adminSchema>;
 
-export type UserFormValues = z.infer<typeof ProfileSchema>;
-
-interface UserFormProps {
-  initialData?: UserFormValues;
-  id: string;
-  revalidatequery: string;
+interface AdminFormProps {
+  initialData?: AdminFormValues;
+  id?: string;
+  _role?: "ADMIN";
 }
 
-export const UserProfileForm: React.FC<UserFormProps> = ({
+export const AdminForm: React.FC<AdminFormProps> = ({
   initialData,
   id,
-  revalidatequery
+  _role = "ADMIN"
 }) => {
+  const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const title = "Create admin";
+  const description = "Add a new admin";
   const action = initialData ? "Save changes" : "Create";
-  const { update, data: session } = useSession();
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
+
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
@@ -50,41 +54,23 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
       setSelectedAvatar(URL?.createObjectURL(file));
     }
   };
-
-  const defaultValues = {
-    first_name: initialData?.first_name,
-    last_name: initialData?.last_name,
-    birth_date: initialData?.birth_date,
-    gender: initialData?.gender,
-    phone: initialData?.phone,
-  };
-
-  const form = useForm<UserFormValues>({
-    resolver: zodResolver(ProfileSchema),
-    defaultValues
+  const form = useForm<AdminFormValues>({
+    resolver: zodResolver(adminSchema),
+    // defaultValues: initialData ? defaultValues : undefined,
   });
   const { control, formState: { errors } } = form;
 
   useEffect(() => {
-    if (typeof initialData?.avatarFile === 'string') {
-      setSelectedAvatar(initialData?.avatarFile)
-    }
-  }, [initialData])
+    form.setValue("role", _role)
+  }, [_role, form]);
 
 
-  const onSubmit = async (data: UserFormValues) => {
+  const onSubmit = async (data: AdminFormValues) => {
     // alert(JSON.stringify(data)); //testing
     setLoading(true);
     const formData = new FormData();
     toFormData(data, formData);
-    formData.set('id', id);
-    //phone changed 
-    const hasChanged = data.phone !== initialData?.phone;
-    if (!hasChanged) {
-      formData.delete('phone');
-    }
-
-    const res = await updateUsersProfile(formData, id, revalidatequery);
+    const res = await AddAdmin(formData);
 
     if (res?.error) {
       toast({
@@ -97,24 +83,29 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
       toast({
         variant: "default",
         title: initialData ? "Updated successfully" : "Added successfully",
-        description: initialData ? `Profile has been successfully updated.` : `Profile has been successfully added.`,
+        description: `Admin has been successfully added.`,
       });
-      if (id === "") {
-        const updatedUser = { ...session?.user, ...data, name: data.first_name + " " + data?.last_name };
-        update({ ...session, user: updatedUser });
-      }
+      router.push(`/dashboard/admins`);
     }
 
     setLoading(false);
   };
-  //permissions options 
+  //show error messages
+  // console.log(form.formState.errors);
 
-  const PermissionsOptions = useMemo(() => navItems?.map((nav) => {
-    return { label: (nav?.title) ?? "", value: nav.title }
-  }), [])
+    //permissions options 
+
+    const PermissionsOptions = useMemo(() => navItems?.map((nav) => {
+      return { label: (nav?.title) ?? "", value: nav.title }
+    }), [])
+
   return (
     <>
-      <Card className="p-10 mx-0 border-0 min-h-[63dvh]" style={{ boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >
+      <div className="flex items-center justify-between">
+        <Heading title={title} description={description} />
+      </div>
+
+      <Card className="p-10 mx-0 border-0" style={{ boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -131,7 +122,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="first name"
+                        placeholder="First Name"
                         {...field}
                       />
                     </FormControl>
@@ -148,7 +139,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="last name"
+                        placeholder="Last Name"
                         {...field}
                       />
                     </FormControl>
@@ -158,7 +149,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
               />
               <div className="flex w-full justify-end flex-col items-start gap-1">
                 <label htmlFor="date" className="font-medium text-sm">
-                  Birth date <span className="text-red-800">*</span>
+                  birth date <span className="text-red-800">*</span>
                 </label>
                 <div className="flex-col w-full">
                   <InputDate
@@ -202,7 +193,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                   <FormItem>
                     <FormLabel>Phone <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
-                      <Input type="text" disabled={loading} {...field} />
+                      <Input disabled={loading} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -215,61 +206,102 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                 }}
               >
                 <FormLabel className="max-w-30 mx-1">Avatar</FormLabel>
-                <div>
-                  <Controller
-                    name="avatarFile"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        type="file"
-                        accept="image/*"
-                        placeholder="Edit your avatar"
-                        multiple={false}
-                        onChange={(e) => {
-                          field.onChange(e.target.files ? e.target.files[0] : null);
-                          handleAvatarChange(e);
-                        }}
-                      />
-                    )}
-                  />
-                </div>
+                <Controller
+                  name="avatarFile"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      multiple={false}
+                      onChange={(e) => {
+                        field.onChange(e.target.files ? e.target.files[0] : null);
+                        handleAvatarChange(e);
+                      }}
+                    />
+                  )}
+                />
+
                 {errors?.avatarFile?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.avatarFile?.message as any}</FormMessage>}
               </FormItem>
             </div>
-                  {revalidatequery==="/dashboard/admins" &&<div className="md:grid md:grid-cols-1 gap-8">
-                    <div>
-                      <label htmlFor="permissions" className="font-medium text-sm">
-                        {("Permissions")} <span className="text-red-800">*</span>
-                      </label>
-                      <div className="flex-col w-full ">
-                        <Select
-                          id="permissions"
-                          isSearchable={true}
-                          isClearable={true}
-                          isMulti
-                          defaultValue={initialData?.permissions?.map((permission) =>
-                            PermissionsOptions.find(
-                              (option) => option.value === permission
-                            )
-                          )}
-                          onChange={(values: any) => {
-                            form.clearErrors("permissions");
-                            form.setValue(
-                              "permissions",
-                              values!.map((val: any) => val.value)
-                            );
-                          }}
-                          className="w-full"
-                          options={PermissionsOptions}
-                        />
-                        {errors.permissions && (
-                          <span className="error-text">
-                            {errors.permissions.message}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>}
+
+            <div className="md:grid md:grid-cols-2 gap-8">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email <span className="text-red-800">*</span></FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        placeholder="email"
+                        {...field}
+                        type="email"
+                        required
+                        autoComplete={"false"}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>password <span className="text-red-800">*</span></FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        placeholder="password"
+                        type="password"
+                        required
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="md:grid md:grid-cols-1 gap-8">
+            <div>
+                <label htmlFor="permissions" className="font-medium text-sm">
+                  {("Permissions")} <span className="text-red-800">*</span>
+                </label>
+                <div className="flex-col w-full ">
+                  <Select
+                    id="permissions"
+                    isSearchable={true}
+                    isClearable={true}
+                    isMulti
+                    defaultValue={initialData?.permissions?.map((permission) =>
+                      PermissionsOptions.find(
+                        (option) => option.value === permission
+                      )
+                    )}
+                    onChange={(values: any) => {
+                      form.clearErrors("permissions");
+                      form.setValue(
+                        "permissions",
+                        values!.map((val: any) => val.value)
+                      );
+                    }}
+                    className="w-full"
+                    options={PermissionsOptions}
+                  />
+                  {errors.permissions && (
+                    <span className="error-text">
+                      {errors.permissions.message}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
             <Button disabled={loading} className="ml-auto" type="submit">
               {action}
             </Button>

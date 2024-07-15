@@ -1,7 +1,7 @@
 import validationRules from "@/utils/zodValidationRules";
 import * as z from "zod";
 
-const patientSchema = z.object({
+const adminSchema = z.object({
   first_name: z.string().min(1, "First name is required"),
   last_name: z.string().min(1, "Last name is required"),
   birth_date: validationRules.date,
@@ -28,7 +28,15 @@ const patientSchema = z.object({
       message: 'String must be a valid image URL (jpeg, png, gif)',
     })
   ]).optional(),
-  role: z.enum(["CLIENT"]),
+  role: z.enum(["ADMIN"]),
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z.string()
+    .min(8, { message: "Password must be at least 8 characters long" })
+    .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
+    .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
+    .regex(/[0-9]/, { message: "Password must contain at least one number" })
+    .regex(/[@$!%*?&]/, { message: "Password must contain at least one special character" }),
+  permissions:z.array(z.string())
 });
 
-export default patientSchema;
+export default adminSchema;

@@ -24,7 +24,6 @@ import patientSchema from "./patientSchema";
 import { toFormData } from "axios";
 import AvatarPreview from "@/components/shared/AvatarPreview";
 import InputDate from "@/components/shared/timepicker/InputDate";
-import { AddAdmin } from "@/actions/users/admin";
 
 
 export type PatientFormValues = z.infer<typeof patientSchema>;
@@ -32,7 +31,7 @@ export type PatientFormValues = z.infer<typeof patientSchema>;
 interface PatientFormProps {
   initialData?: PatientFormValues;
   id?: string;
-  _role?: "CLIENT" | "ADMIN";
+  _role?: "CLIENT" ;
 }
 
 export const UserForm: React.FC<PatientFormProps> = ({
@@ -43,8 +42,8 @@ export const UserForm: React.FC<PatientFormProps> = ({
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const title = _role === "CLIENT" ? "Create patient" : "Create admin";
-  const description = _role === "CLIENT" ? "Add a new patient." : "Add a new admin";
+  const title = "Create patient";
+  const description = "Add a new patient.";
   const action = initialData ? "Save changes" : "Create";
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
 
@@ -71,8 +70,7 @@ export const UserForm: React.FC<PatientFormProps> = ({
     setLoading(true);
     const formData = new FormData();
     toFormData(data, formData);
-    const AddUserMethod = _role === "CLIENT" ? AddPatient : AddAdmin
-    const res = await AddUserMethod(formData);
+    const res = await AddPatient(formData);
 
     if (res?.error) {
       toast({
@@ -90,9 +88,6 @@ export const UserForm: React.FC<PatientFormProps> = ({
       if (_role === "CLIENT") {
         router.push(`/dashboard/patients`);
 
-      } else {
-
-        router.push(`/dashboard/admins`);
       }
     }
 
@@ -227,50 +222,6 @@ export const UserForm: React.FC<PatientFormProps> = ({
                 {errors?.avatarFile?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.avatarFile?.message as any}</FormMessage>}
               </FormItem>
             </div>
-            {_role === "ADMIN" && (
-              <div className="md:grid md:grid-cols-2 gap-8">
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email <span className="text-red-800">*</span></FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={loading}
-                          placeholder="email"
-                          {...field}
-                          type="email"
-                          required
-                          autoComplete={"false"}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>password <span className="text-red-800">*</span></FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={loading}
-                          placeholder="password"
-                          type="password"
-                          required
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            )}
             <Button disabled={loading} className="ml-auto" type="submit">
               {action}
             </Button>

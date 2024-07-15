@@ -16,6 +16,7 @@ export interface IUser {
 }
 
 export interface AccountProfile {
+  permissions: string[];
   id: string;
   account: string;
   first_name: string;

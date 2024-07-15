@@ -22,7 +22,7 @@ export default function DashboardLayout({
         <div className="hidden xl:block xl:w-[17%] border-r fixed h-full w-0">
           <Sidebar />
         </div>
-        <main className="xl:w-[81%] w-full top-10 relative xl:ml-[17%] ml-0">
+        <main className="xl:w-[83%] w-full top-10 relative xl:ml-[17%] ml-0">
           {children}
         </main>
       </div>
