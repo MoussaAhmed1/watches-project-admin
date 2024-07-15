@@ -320,7 +320,11 @@ export const navItems: NavItem[] = [
     children: [
       {
         title: "Commission",
-        href: "/dashboard/settings",
+        href: "/dashboard/data-management/commission",
+      },
+      {
+        title: "Pharmacy Orders",
+        href: "/dashboard/data-management/pharmacy-order-number",
       },
       {
         title: "Doctor Specialiations",
