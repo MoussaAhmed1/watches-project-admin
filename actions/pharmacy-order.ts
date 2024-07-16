@@ -3,7 +3,6 @@
 /* eslint-disable consistent-return */
 
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
 
 import axiosInstance, {
   Params,
@@ -19,13 +18,12 @@ export const fetchPharmacyOrder = async ({
 }: Params): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
-
   try {
     const res = await axiosInstance(endpoints.pharmacy.order, {
       params: {
         page,
         limit,
-        filters: filters ? [`user.phone=${filters}`] : null,
+        filters: filters ? [`${filters}`] : "",
         sortBy: "created_at=desc",
       },
       headers: {
