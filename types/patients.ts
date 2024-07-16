@@ -44,3 +44,12 @@ export interface ClientAddtionalInfo {
   allergic_reactions: string
   notes: string
 }
+
+export enum Role {
+  SUPERADMIN = 'SUPERADMIN',
+  ADMIN = 'ADMIN',
+  CLIENT = 'CLIENT',
+  DOCTOR = 'DOCTOR',
+  PHARMACY = 'PHARMACY',
+  NURSE = 'NURSE',
+}

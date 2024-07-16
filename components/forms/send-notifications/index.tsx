@@ -19,18 +19,11 @@ import { useToast } from "../../ui/use-toast";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea"
 import useCostomSearchParams from "@/hooks/use-searchParams";
-import { IUser } from "@/types/patients";
+import { IUser, Role } from "@/types/patients";
 import { sendNotifications } from "@/actions/notifications";
 import { SelectContent, SelectItem, SelectTrigger, SelectValue, Select as ShadcnSelect } from "@/components/ui/select";
 
-enum Role {
-  SUPERADMIN = 'SUPERADMIN',
-  ADMIN = 'ADMIN',
-  CLIENT = 'CLIENT',
-  DOCTOR = 'DOCTOR',
-  PHARMACY = 'PHARMACY',
-  NURSE = 'NURSE',
-}
+
 
 const formSchema = z.object({
   title_en: z
@@ -71,9 +64,6 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const title = "Create notification";
-  const description = "Add a new notification";
-  const toastMessage = "Notification Sent.";
   const action = "Send";
   const { createQueryString, pathname } = useCostomSearchParams();
 

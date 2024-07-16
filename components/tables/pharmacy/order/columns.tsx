@@ -2,7 +2,6 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
-import { IDoctor } from "@/types/doctors";
 import { CheckCircle, CircleSlash, Star } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
@@ -32,9 +31,10 @@ const columns: ColumnDef<PharmacyOrder>[] = [
         />
         <AvatarFallback>{row?.original?.user?.name[0]}</AvatarFallback>
       </Avatar>
-      <p >
-        {row?.original?.user?.name}
-      </p>
+      <div className="flex flex-col">
+        <p>{row?.original?.user?.name}</p>
+        <p>{row?.original?.user?.phone}</p>
+      </div>
     </div>
   },
   {

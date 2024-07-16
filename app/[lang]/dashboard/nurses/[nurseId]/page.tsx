@@ -21,7 +21,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Nurse Details | Dacatra Dashboard",
- };
+};
 
 const page = async ({ params, searchParams }: {
   params: { nurseId: string }, searchParams: {
@@ -60,9 +60,9 @@ const page = async ({ params, searchParams }: {
             title={`Nurse Details`}
           />
           <div className="flex gap-1 justify-end">
-          {(!nurse?.is_verified) && <div className="px-0 md:px-4">
-            <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptNurseRequest} id={nurse?.user_id} />
-          </div>}
+            {(!nurse?.is_verified) && <div className="px-0 md:px-4">
+              <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptNurseRequest} id={nurse?.user_id} />
+            </div>}
             <Link
               href={`/dashboard/nurses/${params?.nurseId}/${nurse?.user_id}/edit`}
               className={cn(buttonVariants({ variant: "default" }), "p-5")}
@@ -74,10 +74,10 @@ const page = async ({ params, searchParams }: {
         <div className="w-full mx-auto p-4 ">
           <div className="bg-background shadow-md rounded-lg overflow-hidden border min-h-[77dvh] border-gray-400">
             <div className="flex items-center justify-start p-4 bg-[#3c50e0] text-white">
-              <Image
-                src={nurse?.avatar}
+              <ProfileImg
+                className="w-[100px] h-[100px]"
+                src={nurse?.avatar||nurseImage}
                 alt={nurse?.name}
-                className="w-32 h-32 rounded-full"
               />
               <div className="ml-4">
                 <h1 className="text-2xl font-bold">Name: {nurse?.name}</h1>
@@ -119,9 +119,9 @@ const page = async ({ params, searchParams }: {
                     <div className="flex items-center py-2">
                       <ScrollArea>
                         <div className="flex space-x-4 py-4">
-                          {nurse?.license_images.map((lic) => (
+                          {nurse?.license_images?.map((lic) => (
                             <ImageRender
-                              key={lic.id}
+                              key={lic?.id}
                               src={lic?.image}
                               className="w-[200px]"
                               aspectRatio="portrait"
