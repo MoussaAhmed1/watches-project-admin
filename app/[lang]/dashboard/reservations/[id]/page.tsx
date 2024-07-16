@@ -94,7 +94,7 @@ const page = async ({ params }: { params: { id: string } }) => {
               {reservation?.status}
             </p>
           </div>
-          {(reservation?.status != "CANCELED" && reservation?.status != "COMPLETED") && <div className="px-3">
+          {(reservation?.cancel_request && reservation?.status != "CANCELED" && reservation?.status != "COMPLETED") && <div className="px-3">
             {
               <Approve title={reservation?.cancel_request ? "Approve Cancel" : "Cancel Reservation"} successMessage="Request canceled Successfully" defualt method={AcceptReservationCancelRequest} id={params?.id} />
             }

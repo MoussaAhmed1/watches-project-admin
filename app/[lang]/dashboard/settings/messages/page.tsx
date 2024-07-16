@@ -21,7 +21,11 @@ export default async function page({ searchParams }: paramsProps) {
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
     typeof searchParams?.search === "string" ? searchParams?.search : "";
-  const res = await fetchSuggestions();
+  const res = await fetchSuggestions({
+    page,
+    limit,
+    filters:search
+  });
   const totalSuggestions = res?.data?.meta?.total || 0; //1000
   const pageCount = Math.ceil(totalSuggestions / limit);
   const suggestions: SuggestionsComplaints[] = res?.data?.data || [];

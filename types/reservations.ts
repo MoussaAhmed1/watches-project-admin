@@ -52,7 +52,7 @@ export interface ClientInfo {
   weight: any;
   allergic_reactions: any;
   notes: any;
-  address: any;
+  address: Address;
 }
 export interface FamilyMember {
   id: string
@@ -97,4 +97,12 @@ export interface ISingleReservation {
   doctor: Doctor;
   family_member: any;
   client_info: ClientInfo;
+}
+
+
+export interface Address {
+  address: string
+  name: string
+  latitude: number
+  longitude: number
 }

@@ -5,6 +5,7 @@ import { SuggestionsComplaints } from "@/types/suggestions-complaints";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { CellAction } from "./cell-action";
+import { formatCreatedAtDateAsDateTime } from "@/utils/helperFunctions";
 
 const columns: ColumnDef<SuggestionsComplaints>[] = [
   {
@@ -46,6 +47,15 @@ const columns: ColumnDef<SuggestionsComplaints>[] = [
     cell: ({ row }) => (
       <div className="stars flex">{row?.original?.email ?? " - "}</div>
     ),
+  },
+  {
+    accessorKey: "created_at",
+    header: "Created At",
+    cell: ({ row }) => <div className="flex items-center gap-3">
+      <p>
+        {formatCreatedAtDateAsDateTime(row?.original?.created_at)}
+      </p>
+    </div>
   },
   {
     id: "actions",

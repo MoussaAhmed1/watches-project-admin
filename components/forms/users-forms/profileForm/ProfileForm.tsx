@@ -24,6 +24,9 @@ import { updateUsersProfile } from "@/actions/patients";
 import { useSession } from "next-auth/react";
 import { navItems } from "@/constants/data";
 import Select from "react-select";
+import { useRouter } from "next/navigation";
+import { reloadSession } from "@/lib/funcs";
+import { IUser } from "@/types/patients";
 
 export type UserFormValues = z.infer<typeof ProfileSchema>;
 
@@ -42,6 +45,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
   const [loading, setLoading] = useState(false);
   const action = initialData ? "Save changes" : "Create";
   const { update, data: session } = useSession();
+  const router = useRouter();
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -76,11 +80,11 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
     // alert(JSON.stringify(data)); //testing
     setLoading(true);
     const formData = new FormData();
-    if(revalidatequery==="/dashboard/admins" && data?.premessions){
-      toFormData({...data,premessions:data?.premessions.join()}, formData);
+    if (revalidatequery === "/dashboard/admins" && data?.premessions) {
+      toFormData({ ...data, premessions: data?.premessions.join() }, formData);
     }
-    else{
-      toFormData({data}, formData);
+    else {
+      toFormData({ data }, formData);
     }
     formData.set('id', id);
     //phone changed 
@@ -89,13 +93,13 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
       formData.delete('phone');
     }
 
-    const res = await updateUsersProfile(formData, id, revalidatequery);
+    const newUser:{error:string} & IUser = await updateUsersProfile(formData, id, revalidatequery);
 
-    if (res?.error) {
+    if (newUser?.error) {
       toast({
         variant: "destructive",
         title: initialData ? "Update failed" : "Add failed",
-        description: res?.error,
+        description: newUser?.error,
       });
     }
     else {
@@ -105,15 +109,25 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
         description: initialData ? `Profile has been successfully updated.` : `Profile has been successfully added.`,
       });
       if (id === "") {
-        const updatedUser = { ...session?.user, ...data, name: data.first_name + " " + data?.last_name };
-        update({ ...session, user: updatedUser });
+      await update({
+          ...session,
+          user:{
+            ...newUser,
+            name:newUser?.first_name +" "+ newUser?.last_name,
+            first_name:newUser?.first_name,
+            last_name: newUser?.last_name,
+            image:newUser?.avatar,
+            avatar:newUser?.avatar,
+          }
+        })
+        reloadSession();
+        router.refresh();
       }
     }
-
     setLoading(false);
   };
+  
   //premessions options 
-
   const PermissionsOptions = useMemo(() => navItems?.map((nav) => {
     return { label: (nav?.title) ?? "", value: nav.title }
   }), [])
@@ -241,41 +255,41 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                 {errors?.avatarFile?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.avatarFile?.message as any}</FormMessage>}
               </FormItem>
             </div>
-                  {revalidatequery==="/dashboard/admins" &&<div className="md:grid md:grid-cols-1 gap-8">
-                    <div>
-                      <label htmlFor="premessions" className="font-medium text-sm">
-                        {("Permissions")} <span className="text-red-800">*</span>
-                      </label>
-                      <div className="flex-col w-full ">
-                        <Select
-                          id="premessions"
-                          isSearchable={true}
-                          isClearable={true}
-                          isDisabled={id===""}
-                          isMulti
-                          defaultValue={initialData?.premessions?.map((permission) =>
-                            PermissionsOptions.find(
-                              (option) => option.value === permission
-                            )
-                          )}
-                          onChange={(values: any) => {
-                            form.clearErrors("premessions");
-                            form.setValue(
-                              "premessions",
-                              values!.map((val: any) => val.value)
-                            );
-                          }}
-                          className="w-full"
-                          options={PermissionsOptions}
-                        />
-                        {errors.premessions && (
-                          <span className="error-text">
-                            {errors.premessions.message}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>}
+            {revalidatequery === "/dashboard/admins" && <div className="md:grid md:grid-cols-1 gap-8">
+              <div>
+                <label htmlFor="premessions" className="font-medium text-sm">
+                  {("Permissions")} <span className="text-red-800">*</span>
+                </label>
+                <div className="flex-col w-full ">
+                  <Select
+                    id="premessions"
+                    isSearchable={true}
+                    isClearable={true}
+                    isDisabled={id === ""}
+                    isMulti
+                    defaultValue={initialData?.premessions?.map((permission) =>
+                      PermissionsOptions.find(
+                        (option) => option.value === permission
+                      )
+                    )}
+                    onChange={(values: any) => {
+                      form.clearErrors("premessions");
+                      form.setValue(
+                        "premessions",
+                        values!.map((val: any) => val.value)
+                      );
+                    }}
+                    className="w-full"
+                    options={PermissionsOptions}
+                  />
+                  {errors.premessions && (
+                    <span className="error-text">
+                      {errors.premessions.message}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>}
             <Button disabled={loading} className="ml-auto" type="submit">
               {action}
             </Button>
