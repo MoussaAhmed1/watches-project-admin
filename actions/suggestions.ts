@@ -3,15 +3,23 @@
 /* eslint-disable consistent-return */
 import { cookies } from "next/headers";
 
-import axiosInstance, {
-  endpoints,
-} from "../utils/axios-client";
+import axiosInstance, { endpoints, Params } from "../utils/axios-client";
+import { ITEMS_PER_PAGE } from "./Global-variables";
 
-export const fetchSuggestions = async (): Promise<any> => {
+export const fetchSuggestions = async ({
+  page = 1,
+  limit = ITEMS_PER_PAGE,
+  filters,
+}: Params): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
   try {
     const res = await axiosInstance(endpoints.suggestions.fetch, {
+      params:{
+        page,
+        limit,
+        filters
+      },
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Accept-Language": lang,
@@ -23,7 +31,7 @@ export const fetchSuggestions = async (): Promise<any> => {
   }
 };
 
-export const fetchSingleSuggestion = async (id:string): Promise<any> => {
+export const fetchSingleSuggestion = async (id: string): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
   try {

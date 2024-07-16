@@ -1,4 +1,5 @@
 export interface SuggestionsComplaints {
+  created_at: string
   id: string
   title: string
   description: string
