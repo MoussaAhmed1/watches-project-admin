@@ -140,7 +140,7 @@ export const updateUsersProfile = async (
   const lang = cookies().get("Language")?.value;
   try {
     const accessToken = cookies().get("access_token")?.value;
-    await axiosInstance.put(`${endpoints.doctors.updateProfile}`, formData, {
+   const res =  await axiosInstance.put(`${endpoints.doctors.updateProfile}`, formData, {
       params: { id: id !=="" ? id : null },
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -150,6 +150,7 @@ export const updateUsersProfile = async (
     });
 
     revalidatePath(revalidatequery);
+    return res?.data?.data
   } catch (error) {
     return {
       error: getErrorMessage(error),
