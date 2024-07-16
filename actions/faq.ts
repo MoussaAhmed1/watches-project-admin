@@ -14,7 +14,6 @@ import { ITEMS_PER_PAGE } from "./Global-variables";
 import { AddEditFaqsBody } from "@/types/faqs";
 
 export const fetchFaqs = async ({
-
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,
