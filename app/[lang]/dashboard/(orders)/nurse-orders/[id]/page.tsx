@@ -114,15 +114,6 @@ const page = async ({ params }: { params: { id: string } }) => {
               (NurseOrder?.status==="CREATED"||(NurseOrder?.status==="STARTED" && (new Date(NurseOrder?.date_to) > new Date())))&&<CancelWithReason dialogTitle="Cancel Nurse Order" id={NurseOrder?.id} method={AcceptNurseOrderCancelRequest} />
             }
           </div>}
-
-          {/* "cancel_request=1,status=CREATED","cancel_request=1,status=STARTED","cancel_request=1,status=SCHEDULED" */}
-          {/* <div className="px-5">
-            {(reservation?.cancel_request) ?
-              <Approve title="Approve Cancel" successMessage="Request canceled Successfully" defualt method={AcceptReservationCancelRequest} id={params?.id} /> :
-              (reservation?.status==="CREATED"||reservation?.status==="STARTED"||reservation?.status==="SCHEDULED") && <CancelWithReason dialogTitle="Cancel Reservation" id={reservation?.id} method={AcceptReservationCancelRequest} />
-            }
-          </div> */}
-
         </div>
         <div className="w-full mx-auto p-4">
           <div className="overflow-hidden min-h-[77dvh]">
