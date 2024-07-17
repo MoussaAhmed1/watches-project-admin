@@ -52,7 +52,7 @@ const page = async ({ params, searchParams }: {
     { title: "Doctors", link: "/dashboard/doctors" },
     { title: `${doctor?.name}`, link: `/dashboard/doctors/${doctor?.name}` },
   ];
-
+  console.log(doctor)
   return (
     <>
       <div className="mx-auto w-full mt-8 bg-background">
@@ -80,8 +80,8 @@ const page = async ({ params, searchParams }: {
               <ProfileImg
                 className="w-[100px] h-[100px]"
                 src={doctor?.avatar}
-                alt={doctor?.name} 
-                />
+                alt={doctor?.name}
+              />
               <div className="ml-4">
                 <h1 className="text-2xl font-bold">Name: {doctor?.name}</h1>
                 <p>Specialization: {doctor?.specialization?.name}</p>
@@ -160,9 +160,9 @@ const page = async ({ params, searchParams }: {
                     <h2 className="text-xl font-bold">License Images</h2>
                     <ScrollArea>
                       <div className="flex space-x-4 py-4">
-                        {doctor?.licenses.map((license) => (
+                        {doctor?.licenses?.length && doctor?.licenses?.map((license) => (
                           <ImageRender
-                            key={license.id}
+                            key={license?.id}
                             src={license?.image}
                             className="w-[200px]"
                             aspectRatio="portrait"
@@ -174,22 +174,26 @@ const page = async ({ params, searchParams }: {
                       <ScrollBar orientation="horizontal" />
                     </ScrollArea>
                   </div>
-                  <Separator className="my-1" />
-                  <div className="relative p-2">
-                    <h2 className="text-xl font-bold">Cover Images</h2>
-                    <ScrollArea>
-                      <div className="flex space-x-4 py-4">
-                        <ImageRender
-                          src={doctor?.cover_image}
-                          className="w-[200px]"
-                          aspectRatio="portrait"
-                          width={250}
-                          height={330}
-                        />
+                  {doctor?.cover_image &&
+                    <>
+                      <Separator className="my-1" />
+                      <div className="relative p-2">
+                        <h2 className="text-xl font-bold">Cover Images</h2>
+                        <ScrollArea>
+                          <div className="flex space-x-4 py-4">
+                            <ImageRender
+                              src={doctor?.cover_image}
+                              className="w-[200px]"
+                              aspectRatio="portrait"
+                              width={250}
+                              height={330}
+                            />
+                          </div>
+                          <ScrollBar orientation="horizontal" />
+                        </ScrollArea>
                       </div>
-                      <ScrollBar orientation="horizontal" />
-                    </ScrollArea>
-                  </div>
+                    </>
+                  }
                 </div>
               </TabsContent>
               <TabsContent value="review">
