@@ -111,7 +111,7 @@ const page = async ({ params }: { params: { id: string } }) => {
           {(NurseOrder?.status != "CANCELED") && <div className="px-3">
             {(NurseOrder?.cancel_request) ?
               <Approve title="Approve Cancel" successMessage="Request canceled Successfully" defualt method={AcceptNurseOrderCancelRequest} id={params?.id} /> :
-              (NurseOrder?.status==="CREATED"||(NurseOrder?.status==="STARTED"&&NurseOrder?.date_to!==getDateSimpleFormat(new Date())))&&<CancelWithReason dialogTitle="Cancel Nurse Order" id={NurseOrder?.id} method={AcceptNurseOrderCancelRequest} />
+              (NurseOrder?.status==="CREATED"||(NurseOrder?.status==="STARTED" && (new Date(NurseOrder?.date_to) > new Date())))&&<CancelWithReason dialogTitle="Cancel Nurse Order" id={NurseOrder?.id} method={AcceptNurseOrderCancelRequest} />
             }
           </div>}
 
