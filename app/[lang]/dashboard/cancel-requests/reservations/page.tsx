@@ -1,12 +1,8 @@
 import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
 import BreadCrumb from "@/components/breadcrumb";
 import { SharedTable } from "@/components/tables/shared/Shared-table";
-import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
-import { Plus } from "lucide-react";
-import Link from "next/link";
 import { IReservation } from "@/types/reservations";
 import { ReservationsColumns } from "@/components/tables/reservations-tables/columns";
 import { fetchReservations } from "@/actions/reservations";

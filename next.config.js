@@ -7,6 +7,9 @@ const nextConfig = {
     domains: [process.env.NEXT_PUBLIC_HOST_DOMAIN,'dcatrah.com','https://dcatrah.com',"https://www.pexels.com"],
     unoptimized: true,
   },
+  experimental: {
+    appDir: true,
+  },
 };
 
 module.exports = nextConfig;
