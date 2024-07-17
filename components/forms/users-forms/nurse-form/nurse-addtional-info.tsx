@@ -18,8 +18,6 @@ import { removeNurseLicence, updateNurseAddtionalInfo } from "@/actions/nurses";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 
-import { getImageUrl } from "@/actions/storage-actions";
-import { toFormData } from "axios";
 import { LicenseImage } from "@/types/nurses";
 import Image from "next/image";
 import { X } from "lucide-react";

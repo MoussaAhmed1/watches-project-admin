@@ -3,36 +3,19 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Heading } from "@/components/ui/heading";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BellRing, Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../ui/use-toast";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import useCostomSearchParams from "@/hooks/use-searchParams";
-import { IDoctor } from "@/types/doctors";
-import { IUser } from "@/types/patients";
-import { INurse } from "@/types/nurses";
-import { IPharmacy } from "@/types/pharmacy";
 import { changeAboutUs } from "@/actions/about-us";
 
 const formSchema = z.object({
@@ -68,7 +51,6 @@ export const AboutUsForm: React.FC<Prop> = ({
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const action = "Save";
-  const { createQueryString, pathname, searchParams } = useCostomSearchParams();
 
   const defaultValues = {
     description_ar,

@@ -11,7 +11,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Select from "react-select";
-import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
@@ -48,7 +47,6 @@ export const PharmacyAddtionalInfoForm: React.FC<PharmacyFormProps> = ({
   initialLicensesImages,
   LogoImage
 }) => {
-  const router = useRouter();
   const { toast } = useToast();
   const currentLang = Cookie.get("Language");
   const [loading, setLoading] = useState(false);

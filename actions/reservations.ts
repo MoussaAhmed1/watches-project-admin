@@ -77,7 +77,7 @@ export const AcceptReservationCancelRequest = async ({
   try {
     await axiosInstance.post(
       `${endpoints.reservations.cancleRequest}`,
-      { id },
+      { id,reason },
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,

@@ -11,6 +11,7 @@ import { CheckCircle, CircleSlash, FileText } from "lucide-react";
 import Approve from "@/components/details/role-details/Approve";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import Link from "next/link";
+import CancelWithReason from "@/components/details/role-details/CancelWithReason";
 
 export const metadata: Metadata = {
   title: "Reservation Details | Dashboard",
@@ -94,11 +95,13 @@ const page = async ({ params }: { params: { id: string } }) => {
               {reservation?.status}
             </p>
           </div>
-          {(reservation?.cancel_request && reservation?.status != "CANCELED" && reservation?.status != "COMPLETED") && <div className="px-3">
-            {
-              <Approve title={reservation?.cancel_request ? "Approve Cancel" : "Cancel Reservation"} successMessage="Request canceled Successfully" defualt method={AcceptReservationCancelRequest} id={params?.id} />
+          {/* "cancel_request=1,status=CREATED","cancel_request=1,status=STARTED","cancel_request=1,status=SCHEDULED" */}
+          <div className="px-5">
+            {(reservation?.cancel_request) ?
+              <Approve title="Approve Cancel" successMessage="Request canceled Successfully" defualt method={AcceptReservationCancelRequest} id={params?.id} /> :
+              (reservation?.status==="CREATED"||reservation?.status==="STARTED"||reservation?.status==="SCHEDULED") && <CancelWithReason dialogTitle="Cancel Reservation" id={reservation?.id} method={AcceptReservationCancelRequest} />
             }
-          </div>}
+          </div>
 
         </div>
         <div className="w-full mx-auto p-4">
