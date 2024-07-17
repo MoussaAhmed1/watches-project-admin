@@ -2,11 +2,11 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
-import { CheckCircle, CircleSlash, Star } from "lucide-react";
+import { CheckCircle, CircleSlash} from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { PharmacyOrder } from "@/types/pharmacy-order";
-import { formatCreatedAtDate } from "@/utils/helperFunctions";
+import {  formatCreatedAtDateAsDateTime } from "@/utils/helperFunctions";
 
 const columns: ColumnDef<PharmacyOrder>[] = [
   {
@@ -52,7 +52,7 @@ const columns: ColumnDef<PharmacyOrder>[] = [
     header: "Created time",
     cell: ({ row }) => (
       <div className="stars flex">
-        {formatCreatedAtDate(row?.original?.created_at)}
+        {formatCreatedAtDateAsDateTime(row?.original?.created_at)}
       </div>
     ),
   },

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Metadata } from "next";
-import nurseImage from "../../../../../public/assets/doctor.avif";
 import BreadCrumb from "@/components/breadcrumb";
 import { Heading } from "@/components/ui/heading";
 import { AccountProfile } from "@/types/patients";
@@ -46,7 +45,7 @@ const page = async ({ params }: {
           <div className="bg-background shadow-md rounded-lg overflow-hidden border min-h-[77dvh] border-gray-400">
             <div className="flex items-center justify-start p-4 bg-[#3c50e0] text-white">
               <Image
-                src={admin?.avatar || nurseImage}
+                src={admin?.avatar}
                 alt={admin?.first_name + " " + admin?.last_name}
                 className="rounded-full"
                 width={65}

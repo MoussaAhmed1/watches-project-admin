@@ -1,5 +1,4 @@
 "use client";
-import { AlertModal } from "@/components/modal/alert-modal";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,9 +8,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SuggestionsComplaints } from "@/types/suggestions-complaints";
-import { Edit, MoreHorizontal, Trash, Eye, Reply } from "lucide-react";
+import { MoreHorizontal, Eye, Reply } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 interface CellActionProps {
   data: SuggestionsComplaints;

@@ -1,8 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { CircleSlash, Mail, Star } from "lucide-react";
-import DoctorIcon from "../../../public/assets/doctor.png";
-import Image from "next/image";
-import { Doctor } from "@/types/reservations";
+import { CircleSlash, } from "lucide-react";
 import { Category } from "@/types/pharmacy";
 import Noitems from "../no-items/NoItems";
 interface IProps {

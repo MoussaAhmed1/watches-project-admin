@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Metadata } from "next";
-import nurseImage from "../../../../../public/assets/doctor.avif";
+import nurseImage from "../../../../../../public/assets/doctor.avif";
 import BreadCrumb from "@/components/breadcrumb";
 import { Heading } from "@/components/ui/heading";
 import { AccountProfile, ClientAddtionalInfo } from "@/types/patients";

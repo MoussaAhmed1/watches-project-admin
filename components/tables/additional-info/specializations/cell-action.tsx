@@ -1,7 +1,6 @@
 "use client";
 
 import { deleteSpecialization } from "@/actions/additional-info-specializations";
-import PharmacyDrugsForm from "@/components/forms/pharmacy-drugs/PharmacyDrugsForm";
 import SpecializationForm from "@/components/forms/specialization/SpecializationForm";
 import { AlertModal } from "@/components/modal/alert-modal";
 import { Button } from "@/components/ui/button";

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import BreadCrumb from "@/components/breadcrumb";
-import { CheckCircle, CircleSlash } from "lucide-react";
+import { CheckCircle, CircleSlash, FileAudio, FileText } from "lucide-react";
 import { Heading } from "@/components/ui/heading";
 import {
   formatCreatedAtDateAsDateTime,
@@ -12,6 +12,7 @@ import DrugsCard from "@/components/details/pharmacy-order/DrugsCard";
 import { fetchPharmacyCategories } from "@/actions/pharmacy-categories";
 import UserInfoCard from "@/components/details/pharmacy-order/UserInfo";
 import Noitems from "@/components/details/no-items/NoItems";
+import Link from "next/link";
 export const metadata: Metadata = {
   title: "Next.js Profile | TailAdmin - Next.js Dashboard Template",
   description:
@@ -118,36 +119,24 @@ const page = async ({ params }: { params: { pharmacyOrderId: string } }) => {
                     <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
                       Attachments
                     </h3>
-                    {pharmacyOrder?.voice_recording?.length > 0 ? (
-                      <div className="flex justify-between flex-wrap items-start w-full border-b py-3 mt-2">
+                    {pharmacyOrder?.attachments?.length > 0 ? (
+                      <div className="flex justify-between flex-wrap items-start w-full py-3 mt-2">
                         <div className="flex justify-center items-center space-x-4">
                           <div className="flex flex-wrap justify-center items-center">
-                            {pharmacyOrder?.attachments.map(
+                            {pharmacyOrder?.attachments?.map(
                               (attachment, index) => (
                                 <div
-                                  className="flex flex-col justify-center items-center w-1/2 mb-8"
+                                  className="flex justify-center items-center w-1/2 mb-8"
                                   key={attachment?.id}
                                 >
                                   <p className="text-base dark:text-gray-300 leading-4 text-gray-600">
-                                    <a
+                                    <Link
                                       href={attachment.file}
                                       target="_blank"
                                       rel="noopener noreferrer"
                                     >
-                                      {attachment.type}
-                                    </a>
-                                  </p>
-                                  <p className="text-base dark:text-gray-300 leading-4 my-4 text-gray-600">
-                                    Created at :{" "}
-                                    {formatCreatedAtDateAsDateTime(
-                                      attachment?.created_at,
-                                    )}
-                                  </p>
-                                  <p className="text-base dark:text-gray-300 leading-4 text-gray-600">
-                                    Updated at :{" "}
-                                    {formatCreatedAtDateAsDateTime(
-                                      attachment?.updated_at,
-                                    )}
+                                      <FileText />
+                                    </Link>
                                   </p>
                                 </div>
                               ),
@@ -171,35 +160,23 @@ const page = async ({ params }: { params: { pharmacyOrderId: string } }) => {
                       Voice Recordings
                     </h3>
                     {pharmacyOrder?.voice_recording?.length > 0 ? (
-                      <div className="flex justify-between flex-wrap items-start w-full border-b py-3 mt-2">
-                        <div className="flex justify-center items-center w-1/2 space-x-4">
-                          <div className="flex flex-wrap justify-center items-center w-full">
+                      <div className="flex justify-between flex-wrap items-start w-full py-3 mt-2">
+                        <div className="flex w-1/2 space-x-4">
+                          <div className="flex flex-row flex-wrap w-full">
                             {pharmacyOrder?.voice_recording.map(
                               (voice, index) => (
                                 <div
-                                  className="flex flex-col  justify-center items-center w-full mb-8"
+                                  className="flex flex-row w-full mb-8"
                                   key={voice?.id}
-                                >
+                                  >
                                   <p className="text-base dark:text-gray-300 leading-4 text-gray-600">
-                                    <a
+                                    <Link
                                       href={voice.file}
                                       target="_blank"
                                       rel="noopener noreferrer"
                                     >
-                                      {voice.type}
-                                    </a>
-                                  </p>
-                                  <p className="text-base dark:text-gray-300 leading-4 my-4 text-gray-600">
-                                    Created at :{" "}
-                                    {formatCreatedAtDateAsDateTime(
-                                      voice?.created_at,
-                                    )}
-                                  </p>
-                                  <p className="text-base dark:text-gray-300 leading-4 text-gray-600">
-                                    Updated at :{" "}
-                                    {formatCreatedAtDateAsDateTime(
-                                      voice?.updated_at,
-                                    )}
+                                      <FileAudio />
+                                    </Link>
                                   </p>
                                 </div>
                               ),

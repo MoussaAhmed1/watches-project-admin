@@ -3,7 +3,7 @@ import BreadCrumb from "@/components/breadcrumb";
 import { AcceptNurseOrderCancelRequest, fetchSingleNurseOrder } from "@/actions/nurse-orders";
 import { SingleNurseOrder } from "@/types/nurse-order";
 import { Heading } from "@/components/ui/heading";
-import { formatCreatedAtDateAsDateTime, shortenText } from "@/utils/helperFunctions";
+import { formatCreatedAtDateAsDateTime, getDateSimpleFormat, shortenText } from "@/utils/helperFunctions";
 import { Card } from "@/components/ui/card";
 import { CheckCircle, CircleSlash } from "lucide-react";
 import Approve from "@/components/details/role-details/Approve";
@@ -108,12 +108,20 @@ const page = async ({ params }: { params: { id: string } }) => {
               {NurseOrder?.status}
             </p>
           </div>
-          {NurseOrder?.status != "CANCELED" && <div className="px-3">
+          {(NurseOrder?.status != "CANCELED") && <div className="px-3">
             {(NurseOrder?.cancel_request) ?
-              <Approve title="Approve Cancel" successMessage="Request canceled Successfully"  method={AcceptNurseOrderCancelRequest} id={params?.id} /> :
-              <Approve title="Cancel Nurse Order" successMessage="Request canceled Successfully"  method={AcceptNurseOrderCancelRequest} id={params?.id} />
+              <Approve title="Approve Cancel" successMessage="Request canceled Successfully" defualt method={AcceptNurseOrderCancelRequest} id={params?.id} /> :
+              (NurseOrder?.status==="CREATED"||(NurseOrder?.status==="STARTED" && (new Date(NurseOrder?.date_to) > new Date())))&&<CancelWithReason dialogTitle="Cancel Nurse Order" id={NurseOrder?.id} method={AcceptNurseOrderCancelRequest} />
             }
           </div>}
+
+          {/* "cancel_request=1,status=CREATED","cancel_request=1,status=STARTED","cancel_request=1,status=SCHEDULED" */}
+          {/* <div className="px-5">
+            {(reservation?.cancel_request) ?
+              <Approve title="Approve Cancel" successMessage="Request canceled Successfully" defualt method={AcceptReservationCancelRequest} id={params?.id} /> :
+              (reservation?.status==="CREATED"||reservation?.status==="STARTED"||reservation?.status==="SCHEDULED") && <CancelWithReason dialogTitle="Cancel Reservation" id={reservation?.id} method={AcceptReservationCancelRequest} />
+            }
+          </div> */}
 
         </div>
         <div className="w-full mx-auto p-4">
