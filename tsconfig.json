@@ -34,8 +34,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/[lang]/dashboard/doctors"
-, "components/forms/multiselector"  ],
+    "app/[lang]/dashboard/(users)/doctors"
+, "components/forms/multiselector", "app/[lang]/dashboard/(users)/nurses"  ],
   "exclude": [
     "node_modules"
   ]
