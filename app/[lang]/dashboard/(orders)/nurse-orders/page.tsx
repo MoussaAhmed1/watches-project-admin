@@ -1,6 +1,7 @@
 import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
 import { fetchNurseOrder } from "@/actions/nurse-orders";
 import BreadCrumb from "@/components/breadcrumb";
+import NurseOrdersFilters from "@/components/filters/orders/nurse_ordersFilters";
 import ReservationsFilters from "@/components/filters/orders/ReservationsFilters";
 import { NurseOrderColumns } from "@/components/tables/nurse-orders-tables/columns";
 import { SharedTable } from "@/components/tables/shared/Shared-table";
@@ -63,7 +64,7 @@ export default async function page({ searchParams }: paramsProps) {
           data={nurse_orders as unknown as INurseOrder[]}
           pageCount={pageCount}
         >
-          <ReservationsFilters />
+          <NurseOrdersFilters />
         </SharedTable>
       </div>
     </>
