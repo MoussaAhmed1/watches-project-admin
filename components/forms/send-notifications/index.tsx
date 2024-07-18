@@ -11,8 +11,8 @@ import {
 import { Input } from "@/components/ui/input";
 import Select from "react-select";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {  useRouter } from "next/navigation";
-import {  useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../ui/use-toast";
@@ -244,12 +244,44 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
                         values!.map((val) => val.value)
                       );
                     }}
-                    className="w-full"
                     options={
                       users.map((user) => {
-                        return { label: user.first_name + " " +  user?.last_name, value: user.id }
+                        return { label: user.first_name + " " + user?.last_name, value: user.id }
                       })
                     }
+                    closeMenuOnSelect={false}
+                    className="w-full"
+                    styles={{
+                      control: (state) => ({ ...state, backgroundColor: 'transparent' }) as any,
+                      // multiValue: (styles:any) => {
+                      //   return {
+                      //     ...styles,
+                      //     backgroundColor: "green",
+                      //   };
+                      // },
+                      multiValueLabel: (styles: any) => ({
+                        ...styles,
+                        color: "#4D4D4D",
+                        background: "#E6E6E6"
+                      }),
+                      option: (styles: any) => {
+                        return {
+                          ...styles,
+                          // backgroundColor:"blue",
+                          color: "black"
+                        }
+                      }
+                    }}
+                  // theme={(theme) => ({
+                  //   ...theme,
+                  //   borderRadius: 0,
+                  //   colors: {
+                  //     ...theme.colors,
+                  //     primary25: 'blue',
+                  //     primary: 'gray',
+                  //     neutral0: 'gray',
+                  //   },
+                  // })}
                   />
                   {errors.specific_person && (
                     <span className="error-text">
