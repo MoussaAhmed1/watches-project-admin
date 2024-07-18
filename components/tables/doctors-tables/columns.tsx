@@ -77,6 +77,10 @@ export const verificationRequestsColumns: ColumnDef<IDoctor>[] = [
     </div>
   },
   {
+    accessorKey: "phone",
+    header: "Phone",
+  },
+  {
     accessorKey: "specialization",
     header: "specialization",
     cell: ({ row }) => row?.original?.specialization?.name

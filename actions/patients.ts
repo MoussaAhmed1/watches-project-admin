@@ -11,6 +11,7 @@ import axiosInstance, {
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
 import { ClientAddtionalInfo } from "@/types/patients";
+import fi from "date-fns/esm/locale/fi/index";
 
 export const fetchUsers = async ({
   page = 1,
@@ -26,7 +27,7 @@ export const fetchUsers = async ({
         page,
         limit,
         filters: filters
-          ? [`name_en=${filters}`, `name_ar=${filters}`, `roles=${role}`]
+          ? [`roles=${role},phone=${filters}`,`roles=${role},username=${filters}`]
           : [`roles=${role}`],
         sortBy: "created_at=desc",
       },
@@ -140,17 +141,21 @@ export const updateUsersProfile = async (
   const lang = cookies().get("Language")?.value;
   try {
     const accessToken = cookies().get("access_token")?.value;
-   const res =  await axiosInstance.put(`${endpoints.doctors.updateProfile}`, formData, {
-      params: { id: id !=="" ? id : null },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Accept-Language": lang,
-        "Content-Type": "multipart/form-data",
+    const res = await axiosInstance.put(
+      `${endpoints.doctors.updateProfile}`,
+      formData,
+      {
+        params: { id: id !== "" ? id : null },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Accept-Language": lang,
+          "Content-Type": "multipart/form-data",
+        },
       },
-    });
+    );
 
     revalidatePath(revalidatequery);
-    return res?.data?.data
+    return res?.data?.data;
   } catch (error) {
     return {
       error: getErrorMessage(error),

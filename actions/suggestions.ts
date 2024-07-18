@@ -15,10 +15,10 @@ export const fetchSuggestions = async ({
   const accessToken = cookies().get("access_token")?.value;
   try {
     const res = await axiosInstance(endpoints.suggestions.fetch, {
-      params:{
+      params: {
         page,
         limit,
-        filters
+        filters: `user.phone=${filters}`,
       },
       headers: {
         Authorization: `Bearer ${accessToken}`,

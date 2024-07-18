@@ -113,56 +113,61 @@ export const ContactUsForm: React.FC<Prop> = ({
         onConfirm={onDelete}
         loading={loading}
       />}
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-        >
-          <div className="flex items-start gap-3">
-            <Avatar className="h-11 w-11 mt-[-3px] rounded-full">
-              <AvatarImage
-                src={socialLink.logo ?? ""}
-                alt={socialLink.title_en ?? ""}
-              />
-              <AvatarFallback>{socialLink.title_en[0]}</AvatarFallback>
-            </Avatar>
+      <div className="flex gap-2">
+        <Form {...form} >
+          <form className="flex-1"
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
+            <div className="flex items-start gap-3">
+              <Avatar className="h-11 w-11 mt-[-3px] rounded-full">
+                <AvatarImage
+                  src={socialLink.logo ?? ""}
+                  alt={socialLink.title_en ?? ""}
+                />
+                <AvatarFallback>{socialLink.title_en[0]}</AvatarFallback>
+              </Avatar>
 
-            <div className="grow relative top-[-3.72vh]">
-              <FormField
-                control={form.control}
-                name="url"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{socialLink?.title_en}</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder={`${socialLink?.title_en} link`}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="grow relative top-[-3.72vh]">
+                <FormField
+                  control={form.control}
+                  name="url"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{socialLink?.title_en}</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder={`${socialLink?.title_en} link`}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex gap-1">
+                <Button size="icon" disabled={!(form.getValues("url") !== defaultValues?.url) || loading} type="submit" variant="outline">
+                  <Save className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
-            <div className="flex gap-1">
-              <Button size="icon" disabled={!(form.getValues("url") !== defaultValues?.url) || loading} type="submit" variant="outline">
-                <Save className="h-4 w-4" />
-              </Button>
-              <NewSocialLink socialLink={socialLink} />
-              <Button
-                disabled={deleteLoading}
-                type="button"
-                variant="destructive"
-                size="icon"
-                onClick={() => setOpen(true)}
-              >
-                <Trash className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </form>
-      </Form>
+          </form>
+        </Form>
+        <div className="flex gap-2">
+          <NewSocialLink socialLink={socialLink} />
+          <Button
+            disabled={deleteLoading}
+            type="button"
+            variant="destructive"
+            size="icon"
+            onClick={() => setOpen(true)}
+          >
+            <Trash className="h-4 w-4" />
+          </Button>
+        </div>
+
+      </div>
     </>
   );
 };

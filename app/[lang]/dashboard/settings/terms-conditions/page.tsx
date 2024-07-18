@@ -26,8 +26,8 @@ export default async function page() {
       />
 
       <TermsConditionsForm
-        description_ar={TermsConditionsdata?.content_en}
-        description_en={TermsConditionsdata?.content_ar}
+        description_ar={TermsConditionsdata?.content_ar}
+        description_en={TermsConditionsdata?.content_en}
       />
     </div>
   );

@@ -29,7 +29,7 @@ export default async function page({ searchParams }: paramsProps) {
     page,
     limit,
     filters: search,
-    role: "ADMIN"
+    role: "admin"
   });
   const totalAdmins = res?.data?.meta?.total || 0; //1000
   const pageCount = Math.ceil(totalAdmins / limit);

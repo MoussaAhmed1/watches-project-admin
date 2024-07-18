@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -10,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../ui/use-toast";
@@ -26,7 +27,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { AddContactLink, changeContactLink } from "@/actions/contact-us";
+import { AddContactLink, editContactLink } from "@/actions/contact-us";
 import ImgUpload from "@/components/upload-img";
 import { getImageUrl } from "@/actions/storage-actions";
 interface IProps {
@@ -35,14 +36,13 @@ interface IProps {
 const formSchema = z.object({
   title_en: z
     .string()
-    .min(6, { message: "Social Link Name must be at least 6 characters" }),
+    .min(4, { message: "Social Link Name must be at least 4 characters" }),
   title_ar: z
     .string()
-    .min(6, { message: "Social Link Name must be at least 6 characters" }),
+    .min(4, { message: "Social Link Name must be at least 4 characters" }),
   url: z
     .string()
     .min(20, { message: "Social Link Name must be at least 20 characters" }),
-
 });
 export default function NewSocialLink({ socialLink }: IProps) {
   const title = socialLink ? "Edit Social Link" : "Create Social Link";
@@ -50,53 +50,76 @@ export default function NewSocialLink({ socialLink }: IProps) {
   const action = socialLink ? "Save changes" : "Create";
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | undefined>("");
+  const [updateLogo, setUpdateLogo] = useState<boolean>(false);
+  const closeRef = useRef<HTMLButtonElement | null>(null);
   const { toast } = useToast();
+
 
   const defaultValues = socialLink
     ? {
       title_en: socialLink?.title_en || "",
       title_ar: socialLink?.title_ar || "",
       url: socialLink?.url || "",
-      logo: socialLink?.logo || "",
     } : undefined;
 
   const form = useForm<ISocialLink>({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
+  // const { formState: { errors } } = form;
 
+
+  const handelchangeLogo = (val: string) => {
+    setSelectedFile(val);
+    setUpdateLogo(true);
+  }
+  
   useEffect(() => {
     if (socialLink) {
       setSelectedFile(socialLink?.logo);
+      setUpdateLogo(false);
     }
-  }, [socialLink])
+  }, [form, socialLink])
 
   const onSubmit = async (data: ISocialLink) => {
     setLoading(true);
-    let res;
+    let res: any;
+    let logo: any;
+    let _data: {
+      title_en: string,
+      title_ar: string,
+      url: string,
+      logo?: string
+    } = {
+      title_en: data.title_en,
+      title_ar: data.title_ar,
+      url: data.url,
+    }
+    if (selectedFile && updateLogo) {
+      const image = new FormData();
+      image.set('file', selectedFile);
+      logo = await getImageUrl({ image })
+      _data = {..._data,logo};
+    }
+
     if (socialLink) {
-      res = await changeContactLink(data.url, socialLink?.id ?? "");
+      res = await editContactLink(_data, socialLink?.id ?? "");
     }
+
     else {
-      if (selectedFile) {
-
-        const image = new FormData();
-        image.set('file', selectedFile);
-        const logo = await getImageUrl({ image })
-        res = await AddContactLink({
-          title_en: data.title_en,
-          title_ar: data.title_ar,
-          url: data.url, 
-          logo
-        });
-      }
-
+      res = await AddContactLink({
+        title_en: data.title_en,
+        title_ar: data.title_ar,
+        url: data.url,
+        logo
+      });
     }
+
     // router.refresh();
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: "Contact Us update failed",
+        title: "Action failed",
         description: res?.error,
       });
     }
@@ -106,7 +129,10 @@ export default function NewSocialLink({ socialLink }: IProps) {
         title: title,
         description: toastMessage,
       });
-      form.reset();
+      closeRef?.current?.click();
+      if(!selectedFile){
+        form.reset();
+      }
     }
 
     setLoading(false);
@@ -132,7 +158,8 @@ export default function NewSocialLink({ socialLink }: IProps) {
           </DialogDescription> */}
         </DialogHeader>
         <div>
-          <ImgUpload selectedFile={selectedFile} setSelectedFile={setSelectedFile} />
+          <ImgUpload selectedFile={selectedFile} setSelectedFile={handelchangeLogo} />
+          {/* {selectedFile && <p style={{ marginLeft: "5px" }}>{"You must Upload Logo"}</p>} */}
         </div>
         <Form {...form}>
           <form
@@ -193,11 +220,14 @@ export default function NewSocialLink({ socialLink }: IProps) {
               />
             </div>
             <DialogFooter>
-              <DialogTrigger asChild>
-                <Button disabled={loading} className="ml-auto" type="submit">
-                  {action}
+              <Button disabled={loading} className="ml-auto" type="submit">
+                {action}
+              </Button>
+              <DialogClose asChild >
+                <Button type="button" variant="secondary" ref={closeRef}>
+                  Close
                 </Button>
-              </DialogTrigger>
+              </DialogClose>
             </DialogFooter>
           </form>
         </Form>
