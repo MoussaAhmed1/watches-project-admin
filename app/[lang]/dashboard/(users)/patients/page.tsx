@@ -28,6 +28,7 @@ export default async function page({ searchParams }: paramsProps) {
     page,
     limit,
     filters: search,
+    role:"client"
   });
   const totalPatients = res?.data?.meta?.total || 0; //1000
   const pageCount = Math.ceil(totalPatients / limit);

@@ -30,12 +30,7 @@ export const fetchNurses = async ({
         page,
         limit,
         filters: filters
-          ? [
-              `name=${filters}`,
-              `name_en=${filters}`,
-              `name_ar=${filters}`,
-              spreadotherfilters,
-            ]
+          ? [`${spreadotherfilters},user.phone=${filters}`]
           : spreadotherfilters
           ? [spreadotherfilters]
           : null,

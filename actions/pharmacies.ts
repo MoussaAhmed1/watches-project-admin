@@ -27,7 +27,7 @@ export const fetchPharmacies = async ({
       params: {
         page,
         limit,
-        filters:  filters ? [`name_en=${filters}`, `name_ar=${filters}`,spreadotherfilters] : spreadotherfilters ? [spreadotherfilters]:null,
+        filters:  filters ? [`${spreadotherfilters},user.phone=${filters}`] : spreadotherfilters ? [spreadotherfilters]:null,
         sortBy: "created_at=desc",
       },
       headers: {
@@ -61,7 +61,6 @@ export const fetchSinglePharmacy = async (pharmacyId: string): Promise<any> => {
 };
 
 export const fetchPharmacyProducts = async ({
-
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,

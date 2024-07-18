@@ -28,7 +28,7 @@ export const fetchDoctors = async ({
       params: {
         page,
         limit,
-        filters: filters ? [`name=${filters}`,`name_en=${filters}`, `name_ar=${filters}`,spreadotherfilters] : spreadotherfilters ? [spreadotherfilters]:null,
+        filters: filters ? [`${spreadotherfilters},user.phone=${filters}`] : spreadotherfilters ? [spreadotherfilters]:null,
         sortBy: "created_at=desc",
       },
       headers: {
