@@ -181,36 +181,6 @@ export const PharmacyAddtionalInfoForm: React.FC<PharmacyFormProps> = ({
                 ismulti={false}
                 isremovable
               />
-              <FormItem
-                style={{
-                  margin: "-2px 0",
-                }}
-              >
-                <FormLabel className="max-w-30 mx-1">Logo Image <span className="text-red-800">*</span></FormLabel>
-                <div>
-                  <Controller
-                    name="logo_images"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        type="file"
-                        name="file"
-                        multiple={false}
-                        accept="image/*"
-                        onChange={async (e) => {
-                          field.onChange(e.target.files ? e.target.files[0] : null);
-                          if (e.target.files) {
-                            getUrls(e.target.files[0])
-                          }
-                          // handleAvatarChange(e);
-                        }}
-                      />
-                    )}
-                  />
-                </div>
-                {errors?.logo_images?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.logo_images?.message as any}</FormMessage>}
-              </FormItem>
-
 
             </div>
 
