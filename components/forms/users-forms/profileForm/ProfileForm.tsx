@@ -283,7 +283,9 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                 <label htmlFor="premessions" className="font-medium text-sm">
                   {("Permissions")} <span className="text-red-800">*</span>
                 </label>
-                <div className="flex-col w-full ">
+                <div className="flex-col w-full" style={{
+                  cursor:id===""?"not-allowed":"pointer"
+                }}>
                   <Select
                     id="premessions"
                     isSearchable={true}
