@@ -23,7 +23,7 @@ import InputDate from "@/components/shared/timepicker/InputDate";
 import { updateUsersProfile } from "@/actions/patients";
 import { useSession } from "next-auth/react";
 import { navItems } from "@/constants/data";
-import Select from "react-select";
+import Select, { StylesConfig } from "react-select";
 import { useRouter } from "next/navigation";
 import { reloadSession } from "@/lib/funcs";
 import { IUser } from "@/types/patients";
@@ -35,6 +35,7 @@ interface UserFormProps {
   id: string;
   revalidatequery: string;
 }
+
 
 export const UserProfileForm: React.FC<UserFormProps> = ({
   initialData,
@@ -93,7 +94,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
       formData.delete('phone');
     }
 
-    const newUser:{error:string} & IUser = await updateUsersProfile(formData, id, revalidatequery);
+    const newUser: { error: string } & IUser = await updateUsersProfile(formData, id, revalidatequery);
 
     if (newUser?.error) {
       toast({
@@ -109,15 +110,15 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
         description: initialData ? `Profile has been successfully updated.` : `Profile has been successfully added.`,
       });
       if (id === "") {
-      await update({
+        await update({
           ...session,
-          user:{
+          user: {
             ...newUser,
-            name:newUser?.first_name +" "+ newUser?.last_name,
-            first_name:newUser?.first_name,
+            name: newUser?.first_name + " " + newUser?.last_name,
+            first_name: newUser?.first_name,
             last_name: newUser?.last_name,
-            image:newUser?.avatar,
-            avatar:newUser?.avatar,
+            image: newUser?.avatar,
+            avatar: newUser?.avatar,
           }
         })
         reloadSession();
@@ -126,11 +127,33 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
     }
     setLoading(false);
   };
-  
+
   //premessions options 
   const PermissionsOptions = useMemo(() => navItems?.map((nav) => {
     return { label: (nav?.title) ?? "", value: nav.title }
   }), [])
+  interface Option {
+    value: string;
+    label: string;
+  }
+  const customStyles: StylesConfig<Option, false> = {
+    control: (base) => ({
+      ...base,
+      className: 'select-control',
+    }),
+    option: (base, state) => ({
+      ...base,
+      className: state.isSelected ? 'select-option select-option-selected' : 'select-option select-option-unselected',
+    }),
+    singleValue: (base) => ({
+      ...base,
+      className: 'select-single-value',
+    }),
+    placeholder: (base) => ({
+      ...base,
+      className: 'select-placeholder',
+    }),
+  };
   return (
     <>
       <Card className="p-10 mx-0 border-0 min-h-[63dvh]" style={{ boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >
@@ -279,8 +302,39 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                         values!.map((val: any) => val.value)
                       );
                     }}
-                    className="w-full"
                     options={PermissionsOptions}
+                    closeMenuOnSelect={false}
+                    className="w-full"
+                    styles={{
+                      control: (state) => ({ ...state, backgroundColor: 'transparent' }) as any,
+                      // multiValue: (styles:any) => {
+                      //   return {
+                      //     ...styles,
+                      //     backgroundColor: "green",
+                      //   };
+                      // },
+                      multiValueLabel: (styles:any) => ({
+                        ...styles,
+                        color: "#4D4D4D",
+                        background:"#E6E6E6"
+                      }),
+                      option: (styles:any) => {
+                        return {
+                          ...styles,
+                          // backgroundColor:"blue",
+                          color:"black"
+                        }
+                      }}}
+                    // theme={(theme) => ({
+                    //   ...theme,
+                    //   borderRadius: 0,
+                    //   colors: {
+                    //     ...theme.colors,
+                    //     primary25: 'blue',
+                    //     primary: 'gray',
+                    //     neutral0: 'gray',
+                    //   },
+                    // })}
                   />
                   {errors.premessions && (
                     <span className="error-text">
