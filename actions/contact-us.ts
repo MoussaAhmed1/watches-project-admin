@@ -25,7 +25,6 @@ export const fetchContactUs = async ({
       },
       params:{page:1,limit:100}
     });
-    console.log(res.data)
     return res.data;
   } catch (error: any) {
     return {
@@ -79,13 +78,13 @@ export const AddContactLink = async (body:ISocialLink): Promise<any> => {
     };
   }
 };
-export const editContactLink = async (body:ISocialLink): Promise<any> => {
+export const editContactLink = async (body:ISocialLink,id:string): Promise<any> => {
   const accessToken = cookies().get("access_token")?.value;
   const lang = cookies().get("Language")?.value;
 
   try {
-     await axiosInstance.post(
-      `${endpoints.generalSettings.ContactUs}`,
+     await axiosInstance.patch(
+      `${endpoints.generalSettings.ContactUs}/${id}`,
       body,
       {
         headers: {
