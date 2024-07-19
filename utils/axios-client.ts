@@ -82,6 +82,7 @@ export const endpoints = {
   },
   users: {
     fetch: "/user",
+    updateProfile:"/additional-info/client/info",
     register:"/auth/register/client"
     
   },

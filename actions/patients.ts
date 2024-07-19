@@ -11,7 +11,6 @@ import axiosInstance, {
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
 import { ClientAddtionalInfo } from "@/types/patients";
-import fi from "date-fns/esm/locale/fi/index";
 
 export const fetchUsers = async ({
   page = 1,
@@ -64,15 +63,17 @@ export const AddPatient = async (formData: FormData): Promise<any> => {
   }
 };
 
-export const updatePatients = async (
+export const updateClientAddtionalInfo = async (
   data: any,
   id: string | undefined,
 ): Promise<any> => {
   const lang = cookies().get("Language")?.value;
-  const body = { ...data, id };
   try {
     const accessToken = cookies().get("access_token")?.value;
-    await axiosInstance.put(endpoints.users.fetch, body, {
+    await axiosInstance.put(endpoints.users.updateProfile, data, {
+      params:{
+        id
+      },
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Accept-Language": lang,
@@ -127,7 +128,7 @@ export const fetchClientAddtionalInfo = async ({
         "Accept-Language": lang,
       },
     });
-    return res.data;
+    return res;
   } catch (error: any) {
     throw new Error(error);
   }

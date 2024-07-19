@@ -1,38 +1,38 @@
 import { fetchProfileInfo } from "@/actions/patients";
-import BreadCrumb from "@/components/breadcrumb";
 import { UserProfileForm } from "@/components/forms/users-forms/profileForm/ProfileForm";
-import { Heading } from "@/components/ui/heading";
+import { Separator } from "@/components/ui/separator";
 import { AccountProfile } from "@/types/patients";
-import React from "react";
 
-export default async function Page({ params }:{params: { id: string }}) {
-  const breadcrumbItems = [
-    { title: "Patients", link: "/dashboard/patients" },
-    { title: "Update", link: "/dashboard/patients/edit" },
-  ];
+export default async function SettingsProfilePage({ params, searchParams }: {
+  params: {  id: string }, searchParams: {
+    [key: string]: string | string[] | undefined;
+  }
+}) {
+
   //----------------------------------------------------------------
   const res = await fetchProfileInfo({ userId: params.id });
-  const user: AccountProfile = res?.data?.data;
+  const patient: AccountProfile = res?.data?.data;
   return (
-    <div className="flex-1 space-y-4 p-8">
-      <BreadCrumb items={breadcrumbItems}  />
-      
-      <Heading
-            title={`Update Patient`}
-            description={user.first_name + " " + user.last_name}
-          />
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-medium">Profile</h3>
+        <p className="text-sm text-muted-foreground">
+          This is how others see this profile on the application.
+        </p>
+      </div>
+      <Separator />
       <UserProfileForm
         id={params.id}
         initialData={{
-          first_name: user?.first_name,
-          last_name: user?.last_name,
-          birth_date: user?.birth_date,
-          gender: user?.gender,
-          phone: user?.phone,
-          avatarFile: user?.avatar,
+          first_name: patient?.first_name,
+          last_name: patient?.last_name,
+          birth_date: patient?.birth_date,
+          gender: patient?.gender,
+          phone: patient?.phone,
+          avatarFile: patient?.avatar,
         }}
         revalidatequery="/dashboard/patients"
       />
     </div>
-  );
+  )
 }
