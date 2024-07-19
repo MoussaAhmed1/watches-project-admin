@@ -11,6 +11,8 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { ImageRender } from "@/components/shared/imagesRender/imagesRender";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import nurseImage from "../../../../../../public/assets/doctor.avif";
+
 export const metadata: Metadata = {
   title: "Pharmacy Details | Dacatra Dashboard",
 };
@@ -52,7 +54,7 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
               <div className="flex items-center justify-start p-4 bg-[#3c50e0] text-white">
                 <ProfileImg
                   className="w-[100px] h-[100px]"
-                  src={pharmacy?.logo[0].image}
+                  src={pharmacy?.logo[0].image||nurseImage}
                   alt={pharmacy?.ph_name}
                 />
                 <div className="ml-4">
