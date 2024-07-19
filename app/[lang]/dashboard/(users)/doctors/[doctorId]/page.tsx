@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import BreadCrumb from "@/components/breadcrumb";
+import nurseImage from "../../../../../../public/assets/doctor.avif";
 import { AcceptDoctorRequest, fetchSingleDoctor } from "@/actions/doctors";
 import { ISingleDoctor } from "@/types/doctors";
 import { Edit, Home, Hotel, Info, MapPin, PhoneCall, Star, Video } from "lucide-react";
@@ -79,7 +80,7 @@ const page = async ({ params, searchParams }: {
             <div className="flex items-center justify-start p-4 bg-[#3c50e0] text-white">
               <ProfileImg
                 className="w-[100px] h-[100px]"
-                src={doctor?.avatar}
+                src={doctor?.avatar||nurseImage}
                 alt={doctor?.name}
               />
               <div className="ml-4">
