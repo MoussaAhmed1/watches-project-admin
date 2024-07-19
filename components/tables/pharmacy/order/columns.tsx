@@ -6,7 +6,8 @@ import { CheckCircle, CircleSlash} from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { PharmacyOrder } from "@/types/pharmacy-order";
-import {  formatCreatedAtDateAsDateTime } from "@/utils/helperFunctions";
+import {  formatCreatedAtDateAsDateTime, shortenText } from "@/utils/helperFunctions";
+import Link from "next/link";
 
 const columns: ColumnDef<PharmacyOrder>[] = [
   {
@@ -38,14 +39,20 @@ const columns: ColumnDef<PharmacyOrder>[] = [
     </div>
   },
   {
-    accessorKey: "has_replied",
-    header: "Has replied",
-    cell: ({ row }) => (
-      <p
-      >
-        {row?.original?.has_replied ? <CheckCircle stroke="#39a845" size={18} /> : <CircleSlash style={{ color: '#8C0101' }} size={18} />}
+    accessorKey: "address",
+    header: "Address",
+    cell: ({ row }) => <div className="flex items-center gap-3">
+      <p >
+        <Link
+          href={`https://www.google.com/maps/search/?api=1&query=${row?.original?.address?.latitude},${row?.original?.address?.longitude}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: '#3A72EC' }}
+        >
+          {shortenText(row?.original?.address?.address,75)}
+        </Link>
       </p>
-    ),
+    </div>
   },
   {
     accessorKey: "created_time",

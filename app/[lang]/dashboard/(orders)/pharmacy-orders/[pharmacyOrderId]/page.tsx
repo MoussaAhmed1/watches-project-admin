@@ -4,6 +4,7 @@ import { CheckCircle, CircleSlash, FileAudio, FileText } from "lucide-react";
 import { Heading } from "@/components/ui/heading";
 import {
   formatCreatedAtDateAsDateTime,
+  shortenText,
 } from "@/utils/helperFunctions";
 import { fetchSinglePharmacyOrder } from "@/actions/pharmacy-order";
 import { PharmacyOrder } from "@/types/pharmacy-order";
@@ -43,6 +44,16 @@ const page = async ({ params }: { params: { pharmacyOrderId: string } }) => {
       {
         data_key: "Has Replied",
         data_value: pharmacyOrder?.has_replied ? <CheckCircle stroke="#39a845" size={18} /> : <CircleSlash style={{ color: '#8C0101' }} size={18} />,
+      },
+      {
+        data_key: "Address",
+        data_value: (<Link
+          href={`https://www.google.com/maps/search/?api=1&query=${pharmacyOrder?.address?.latitude},${pharmacyOrder?.address?.longitude}`}
+          target="_blank"
+          style={{ color: '#3A72EC' }}
+        >
+          {shortenText(pharmacyOrder?.address?.address, 75)}
+        </Link>),
       },
       {
         data_key: "Notes",

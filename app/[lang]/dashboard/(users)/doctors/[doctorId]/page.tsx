@@ -53,7 +53,6 @@ const page = async ({ params, searchParams }: {
     { title: "Doctors", link: "/dashboard/doctors" },
     { title: `${doctor?.name}`, link: `/dashboard/doctors/${doctor?.name}` },
   ];
-  console.log(doctor)
   return (
     <>
       <div className="mx-auto w-full mt-8 bg-background">
@@ -98,7 +97,7 @@ const page = async ({ params, searchParams }: {
                       ),
                     )}
                     {Array.from(
-                      { length: Math.ceil(5 - doctor?.rating) },
+                      { length: Math.floor(5 - doctor?.rating) },
                       (ele, index) => (
                         <Star key={index} fill="#111" strokeWidth={0} />
                       ),
