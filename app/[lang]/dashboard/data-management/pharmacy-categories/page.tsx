@@ -1,12 +1,8 @@
 import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
 import BreadCrumb from "@/components/breadcrumb";
 import { SharedTable } from "@/components/tables/shared/Shared-table";
-import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
-import { Plus } from "lucide-react";
-import Link from "next/link";
 import columns from "@/components/tables/pharmacy/categories/columns";
 import { fetchPharmacyCategories } from "@/actions/pharmacy-categories";
 import { PharmacyCategories } from "@/types/pharmacy-categories";
@@ -51,6 +47,8 @@ export default async function page({ searchParams }: paramsProps) {
           totalitems={totalPharmacies}
           data={PharmacyCategories}
           pageCount={pageCount}
+          withPagination={false}
+          withSearch={false}
         />
       </div>
     </>

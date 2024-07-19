@@ -26,9 +26,11 @@ export default async function page({ searchParams }: paramsProps) {
     limit,
     filters: search,
   });
-  const totalFaqs = res?.data?.meta?.total || 0; //1000
-  const pageCount = Math.ceil(totalFaqs / limit);
   const faqs: IFaqs[] = res?.data?.data || [];
+  const totalFaqs = faqs?.length || 0; //1000
+  const pageCount = 1;
+  // const totalFaqs = res?.data?.meta?.total || 0; //1000
+  // const pageCount = Math.ceil(totalFaqs / limit);
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
@@ -49,6 +51,8 @@ export default async function page({ searchParams }: paramsProps) {
           totalitems={totalFaqs}
           data={faqs as unknown as IFaqs[]}
           pageCount={pageCount}
+          withPagination={false}
+          withSearch={false}
         />
       </div>
     </>

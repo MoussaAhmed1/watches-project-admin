@@ -49,6 +49,8 @@ interface DataTableProps<TData, TValue> {
     [key: string]: string | string[] | undefined;
   };
   children?: React.ReactNode;
+  withSearch?: boolean
+  withPagination?: boolean
 }
 const MaxCenteredColumn = 8;
 export function SharedTable<TData, TValue>({
@@ -59,7 +61,9 @@ export function SharedTable<TData, TValue>({
   totalitems,
   pageCount,
   pageSizeOptions = [10, 20, 30, 40, 50],
-  children
+  children,
+  withSearch=true,
+  withPagination=true
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
   const pathname = usePathname();
@@ -168,10 +172,10 @@ export function SharedTable<TData, TValue>({
 
   return (
     <>
-      <DataTableToolbar table={table} >
+      {withSearch && <DataTableToolbar table={table} >
         <SearchInput searchKey={searchKey} />
         {children}
-      </DataTableToolbar>
+      </DataTableToolbar>}
       <ScrollArea className="border h-[calc(71.8dvh)]  rounded-md">
         <Table className="relative p-1">
           <TableHeader className="bg-[#F1F5F9] dark:bg-[#1E293B]" style={{ fontWeight: "700 !important", lineHeight: '1.5rem !important', }}>
@@ -224,7 +228,7 @@ export function SharedTable<TData, TValue>({
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
 
-      <div className="flex flex-col gap-2 sm:flex-row items-center justify-end space-x-2 py-4">
+      {withPagination && <div className="flex flex-col gap-2 sm:flex-row items-center justify-end space-x-2 py-4">
         <div className="flex items-center justify-between w-full">
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8">
             <div className="flex items-center space-x-2">
@@ -297,7 +301,7 @@ export function SharedTable<TData, TValue>({
             </Button>
           </div>
         </div>
-      </div>
+      </div>}
     </>
   );
 }

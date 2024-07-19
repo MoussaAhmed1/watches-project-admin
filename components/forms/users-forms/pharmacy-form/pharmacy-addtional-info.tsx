@@ -181,9 +181,7 @@ export const PharmacyAddtionalInfoForm: React.FC<PharmacyFormProps> = ({
                 ismulti={false}
                 isremovable
               />
-
             </div>
-
             <div className="md:grid md:grid-cols-1 gap-8">
               {/* Year of Experience */}
               <FormField name="expierence" control={control} render={({ field }) => (

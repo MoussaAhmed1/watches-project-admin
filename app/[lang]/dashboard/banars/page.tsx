@@ -29,9 +29,11 @@ export default async function page({ searchParams }: paramsProps) {
     limit,
     filters: search,
   });
-  const totalBanars = res?.data?.meta?.total || 0; //1000
-  const pageCount = Math.ceil(totalBanars / limit);
   const banars: IBanner[] = res?.data?.data || [] ;
+  // const totalBanars = res?.data?.meta?.total || 0; //1000
+  // const pageCount = Math.ceil(totalBanars / limit);
+  const totalBanars = banars?.length || 0;
+  const pageCount = 1;
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
@@ -58,6 +60,8 @@ export default async function page({ searchParams }: paramsProps) {
           totalitems={totalBanars}
           data={banars as unknown as IBanner[] }
           pageCount={pageCount}
+          withPagination={false}
+          withSearch={false}
         />
       </div>
     </>
