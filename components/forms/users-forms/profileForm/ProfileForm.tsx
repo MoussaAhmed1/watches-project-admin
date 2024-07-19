@@ -85,7 +85,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
       toFormData({ ...data, premessions: data?.premessions.join() }, formData);
     }
     else {
-      toFormData({ data }, formData);
+      toFormData( data , formData);
     }
     formData.set('id', id);
     //phone changed 
@@ -132,28 +132,8 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
   const PermissionsOptions = useMemo(() => navItems?.map((nav) => {
     return { label: (nav?.title) ?? "", value: nav.title }
   }), [])
-  interface Option {
-    value: string;
-    label: string;
-  }
-  const customStyles: StylesConfig<Option, false> = {
-    control: (base) => ({
-      ...base,
-      className: 'select-control',
-    }),
-    option: (base, state) => ({
-      ...base,
-      className: state.isSelected ? 'select-option select-option-selected' : 'select-option select-option-unselected',
-    }),
-    singleValue: (base) => ({
-      ...base,
-      className: 'select-single-value',
-    }),
-    placeholder: (base) => ({
-      ...base,
-      className: 'select-placeholder',
-    }),
-  };
+
+
   return (
     <>
       <Card className="p-10 mx-0 border-0 min-h-[63dvh]" style={{ boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >

@@ -29,9 +29,11 @@ export default async function page({ searchParams }: paramsProps) {
     limit,
     filters: search,
   });
-  const totalPharmacies = res?.data?.meta?.total || 0; //1000
-  const pageCount = Math.ceil(totalPharmacies / limit);
   const PharmacyCategories: PharmacyCategories[] = res?.data?.data || [];
+  const totalPharmacies = PharmacyCategories?.length || 0; //1000
+  const pageCount = 1;
+  // const totalPharmacies = res?.data?.meta?.total || 0; //1000
+  // const pageCount = Math.ceil(totalPharmacies / limit);
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
@@ -56,6 +58,8 @@ export default async function page({ searchParams }: paramsProps) {
           totalitems={totalPharmacies}
           data={PharmacyCategories as unknown as PharmacyCategories[]}
           pageCount={pageCount}
+          withPagination={false}
+          withSearch={false}
         />
       </div>
     </>

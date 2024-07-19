@@ -105,7 +105,7 @@ const page = async ({ params }: { params: { id: string } }) => {
                 padding: 2
               }}
             >
-              {NurseOrder?.status}
+              {((NurseOrder?.status==="STARTED" && (new Date(NurseOrder?.date_to) < new Date()))) ? "COMPLETED" : NurseOrder?.status}
             </p>
           </div>
           {(NurseOrder?.status != "CANCELED") && <div className="px-3">

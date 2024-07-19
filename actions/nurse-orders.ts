@@ -10,7 +10,7 @@ import axiosInstance, {
   getErrorMessage,
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
-import { getDateSimpleFormat } from "@/utils/helperFunctions";
+import { getTodayDateSimpleFormat } from "@/utils/helperFunctions";
 
 
 export const fetchNurseOrder = async ({
@@ -27,7 +27,7 @@ export const fetchNurseOrder = async ({
   const nursePhone = filters?`nurse.user.phone=${filters}`:"";
 
   if(status==="COMPLETED"){
-    _status = `,status=STARTED,date_to<${getDateSimpleFormat(new Date())}`
+    _status = `,status=STARTED,date_to<${getTodayDateSimpleFormat(new Date())}`
   }
   try {
     const res = await axiosInstance(endpoints.nurse_orders.fetch, {

@@ -27,9 +27,11 @@ export default async function page({ searchParams , params}: paramsProps) {
     limit,
     filters: search,
   });
-  const totalSpecializations = res?.data?.meta?.total || 0; //1000
-  const pageCount = Math.ceil(totalSpecializations / limit);
   const specializations: ISpecializations[] = res?.data?.data || [];
+  // const totalSpecializations = res?.data?.meta?.total || 0; //1000
+  // const pageCount = Math.ceil(totalSpecializations / limit);
+  const totalSpecializations = specializations?.length || 0; //1000
+  const pageCount = 1;
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
@@ -49,6 +51,8 @@ export default async function page({ searchParams , params}: paramsProps) {
           totalitems={totalSpecializations}
           data={specializations as unknown as ISpecializations[]}
           pageCount={pageCount}
+          withPagination={false}
+          withSearch={false}
         />
       </div>
     </>
