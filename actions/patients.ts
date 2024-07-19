@@ -26,7 +26,10 @@ export const fetchUsers = async ({
         page,
         limit,
         filters: filters
-          ? [`roles=${role},phone=${filters}`,`roles=${role},username=${filters}`]
+          ? [
+              `roles=${role},phone=${filters}`,
+              `roles=${role},username=${filters}`,
+            ]
           : [`roles=${role}`],
         sortBy: "created_at=desc",
       },
@@ -71,8 +74,8 @@ export const updateClientAddtionalInfo = async (
   try {
     const accessToken = cookies().get("access_token")?.value;
     await axiosInstance.put(endpoints.users.updateProfile, data, {
-      params:{
-        id
+      params: {
+        id,
       },
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -146,7 +149,7 @@ export const updateUsersProfile = async (
       `${endpoints.doctors.updateProfile}`,
       formData,
       {
-        params: { id: id !== "" ? id : null },
+        params: { id:id ===""?null:id },
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Accept-Language": lang,
@@ -154,7 +157,6 @@ export const updateUsersProfile = async (
         },
       },
     );
-
     revalidatePath(revalidatequery);
     return res?.data?.data;
   } catch (error) {
