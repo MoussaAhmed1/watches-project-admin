@@ -54,7 +54,7 @@ export const fetchReservations = async ({
       `${_otherfilters}${"status=SCHEDULED"}`,
     ]
   }
-  console.log(filtersArray)
+  // console.log(filtersArray)
   try {
     const res = await axiosInstance(endpoints.reservations.fetch, {
       params: {
