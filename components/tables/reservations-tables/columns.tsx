@@ -2,10 +2,9 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
-import { formatCreatedAtDate, shortenText } from "@/utils/helperFunctions";
+import { formatCreatedAtDate, formatCreatedAtDateAsDateTime, shortenText } from "@/utils/helperFunctions";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
-import Link from "next/link";
 import { CircleSlash, CheckCircle, Minus } from "lucide-react";
 import { IReservation } from "@/types/reservations";
 
@@ -69,7 +68,7 @@ export const ReservationsColumns: ColumnDef<IReservation>[] = [
     header: "status",
     cell: ({ row }) => <div className="flex items-center justify-center">
       <p
-        className="text-center w-full"
+        className="w-full"
         style={{
           color: row?.original?.status === "STARTED"
             ? "#1976d2"
@@ -85,7 +84,7 @@ export const ReservationsColumns: ColumnDef<IReservation>[] = [
   {
     accessorKey: "is_urgent",
     header: "Is Urgent",
-    cell: ({ row }) => <div className="flex justify-center">
+    cell: ({ row }) => <div className="flex">
 
       {row?.original?.is_urgent ? <CheckCircle stroke="#39a845" size={18} /> : <CircleSlash style={{ color: '#8C0101' }} size={18} />}
 
@@ -94,9 +93,9 @@ export const ReservationsColumns: ColumnDef<IReservation>[] = [
   {
     accessorKey: "created_at",
     header: "Created At",
-    cell: ({ row }) => <div className="flex items-center gap-3">
-      <p className="text-center w-full">
-        {formatCreatedAtDate(row?.original?.created_at)}
+    cell: ({ row }) => <div className="flex gap-3">
+      <p className="w-full">
+        {formatCreatedAtDateAsDateTime(row?.original?.created_at)}
       </p>
     </div>
   },

@@ -14,6 +14,7 @@ import { fetchPharmacyCategories } from "@/actions/pharmacy-categories";
 import UserInfoCard from "@/components/details/pharmacy-order/UserInfo";
 import Noitems from "@/components/details/no-items/NoItems";
 import Link from "next/link";
+import { TooltipWrapper } from "@/components/shared/Tooltip";
 export const metadata: Metadata = {
   title: "Next.js Profile | TailAdmin - Next.js Dashboard Template",
   description:
@@ -24,7 +25,7 @@ const page = async ({ params }: { params: { pharmacyOrderId: string } }) => {
   const res = await fetchSinglePharmacyOrder(params.pharmacyOrderId);
   const categoriesRes = await fetchPharmacyCategories({
     page: 1,
-    limit: 10,
+    limit: 100,
 
   });
   const pharmacyOrder: PharmacyOrder = res?.data?.data;
@@ -116,9 +117,9 @@ const page = async ({ params }: { params: { pharmacyOrderId: string } }) => {
 
                       {
                         render_data_items?.map(({ data_key, data_value }, index) => (
-                          <div className="flex justify-between w-full pb-5" key={data_key} style={{ borderBottom: ((index < render_data_items?.length - 1)) ? "1px solid lightgray" : "unset" }} >
-                            <p className="text-base dark:text-white leading-4 text-gray-800">{data_key}</p>
-                            <p className="text-base dark:text-gray-300 leading-4 text-gray-600">{data_value ?? "-"}</p>
+                          <div className="flex justify-between w-full pb-5 flex-wrap gap-2" key={data_key} style={{ borderBottom: ((index < render_data_items?.length - 1)) ? "1px solid lightgray" : "unset" }} >
+                            <p className="text-base dark:text-white leading-4 text-gray-800 flex-wrap">{data_key}</p>
+                            <div className=" dark:text-gray-300 leading-4 text-gray-600 flex-wrap flex text-wrap h-auto"><p className="text-wrap">{data_value ?? "-"}</p></div>
                           </div>
                         ))
                       }
@@ -133,20 +134,22 @@ const page = async ({ params }: { params: { pharmacyOrderId: string } }) => {
                     {pharmacyOrder?.attachments?.length > 0 ? (
                       <div className="flex justify-between flex-wrap items-start w-full py-3 mt-2">
                         <div className="flex justify-center items-center space-x-4">
-                          <div className="flex flex-wrap justify-center items-center">
+                          <div className="flex flex-wrap space-x-2 justify-center items-center">
                             {pharmacyOrder?.attachments?.map(
-                              (attachment, index) => (
+                              (attachment) => (
                                 <div
-                                  className="flex justify-center items-center w-1/2 mb-8"
+                                  className="flex justify-center items-center mb-8"
                                   key={attachment?.id}
                                 >
                                   <p className="text-base dark:text-gray-300 leading-4 text-gray-600">
                                     <Link
-                                      href={attachment.file}
+                                      href={attachment?.file}
                                       target="_blank"
                                       rel="noopener noreferrer"
                                     >
-                                      <FileText />
+                                      <TooltipWrapper content={attachment?.file}>
+                                        <FileText />
+                                      </TooltipWrapper>
                                     </Link>
                                   </p>
                                 </div>
@@ -172,14 +175,14 @@ const page = async ({ params }: { params: { pharmacyOrderId: string } }) => {
                     </h3>
                     {pharmacyOrder?.voice_recording?.length > 0 ? (
                       <div className="flex justify-between flex-wrap items-start w-full py-3 mt-2">
-                        <div className="flex w-1/2 space-x-4">
+                        <div className="flex space-x-4">
                           <div className="flex flex-row flex-wrap w-full">
                             {pharmacyOrder?.voice_recording.map(
-                              (voice, index) => (
+                              (voice) => (
                                 <div
                                   className="flex flex-row w-full mb-8"
                                   key={voice?.id}
-                                  >
+                                >
                                   <p className="text-base dark:text-gray-300 leading-4 text-gray-600">
                                     <Link
                                       href={voice.file}

@@ -6,6 +6,8 @@ import { Separator } from "@/components/ui/separator";
 import { IReservation } from "@/types/reservations";
 import { ReservationsColumns } from "@/components/tables/reservations-tables/columns";
 import { fetchReservations } from "@/actions/reservations";
+import ReservationsFilters from "@/components/filters/orders/ReservationsFilters";
+import CancelReservationsFilters from "@/components/filters/cancel-order/ReservationsFilters";
 
 const breadcrumbItems = [{ title: "Reservation Cancel Requests", link: "/dashboard/reservations" }];
 
@@ -20,12 +22,14 @@ export default async function page({ searchParams }: paramsProps) {
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
   typeof searchParams?.search === "string" ? searchParams?.search : "";
+  const status =
+  typeof searchParams?.status === "string" ? searchParams?.status : "";
   const res = await fetchReservations({
     page,
     limit,
     filters: search,
-    status:"",
-    otherfilters:["cancel_request=1,status=CREATED","cancel_request=1,status=STARTED","cancel_request=1,status=SCHEDULED"]
+    status,
+    otherfilters:["cancel_request=1"]
   });
   const totalReservations = res?.data?.meta?.total ||0; //1000
   const pageCount = Math.ceil(totalReservations / limit);
@@ -51,7 +55,9 @@ export default async function page({ searchParams }: paramsProps) {
           totalitems={totalReservations}
           data={reservations as unknown as IReservation[] }
           pageCount={pageCount}
-        />
+          >
+          <CancelReservationsFilters/>
+        </SharedTable>
       </div>
     </>
   );

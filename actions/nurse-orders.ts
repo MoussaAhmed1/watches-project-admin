@@ -29,6 +29,9 @@ export const fetchNurseOrder = async ({
   if(status==="COMPLETED"){
     _status = `,status=STARTED,date_to<${getTodayDateSimpleFormat(new Date())}`
   }
+  if(status==="STARTED"){
+    _status = `,status=STARTED,date_to>${getTodayDateSimpleFormat(new Date())}`
+  }
   try {
     const res = await axiosInstance(endpoints.nurse_orders.fetch, {
       params: {
@@ -38,6 +41,10 @@ export const fetchNurseOrder = async ({
           ? [
               `${userPhone}${_status}`,
               `${nursePhone}${_status}`,
+              `user.first_name=${filters}${_status}`,
+              `user.last_name=${filters}${_status}`,
+              `nurse.user.first_name=${filters}${_status}`,
+              `nurse.user.last_name=${filters}${_status}`,
             ]
           : otherfilters ? otherfilters:null,
         sortBy: "created_at=desc",

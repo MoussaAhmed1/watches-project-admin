@@ -27,7 +27,12 @@ export const fetchPharmacies = async ({
       params: {
         page,
         limit,
-        filters:  filters ? [`${spreadotherfilters},user.phone=${filters}`] : spreadotherfilters ? [spreadotherfilters]:null,
+        filters:  filters ? [
+          `${spreadotherfilters},user.phone=${filters}`,
+          `${spreadotherfilters},user.first_name=${filters}`,
+          `${spreadotherfilters},user.last_name=${filters}`,
+          `${spreadotherfilters},ph_name=${filters}`,
+        ] : spreadotherfilters ? [spreadotherfilters]:null,
         sortBy: "created_at=desc",
       },
       headers: {
