@@ -31,7 +31,7 @@ export const fetchReservations = async ({
     `${_otherfilters}doctor.user.first_name=${filters}${_status}`,
     `${_otherfilters}doctor.user.last_name=${filters}${_status}`,
   ]
-  if(!status){
+  if(!status && filters && _otherfilters){
     filtersArray = [
       `${_otherfilters}user.phone=${filters}${",status=STARTED"}`,
       `${_otherfilters}doctor.user.phone=${filters}${",status=STARTED"}`,
@@ -48,13 +48,19 @@ export const fetchReservations = async ({
       `${_otherfilters}doctor.user.last_name=${filters}${",status=SCHEDULED"}`,
     ]
   }
+  else if (!status && !filters && _otherfilters){
+    filtersArray = [
+      `${_otherfilters}${"status=STARTED"}`,
+      `${_otherfilters}${"status=SCHEDULED"}`,
+    ]
+  }
   console.log(filtersArray)
   try {
     const res = await axiosInstance(endpoints.reservations.fetch, {
       params: {
         page,
         limit,
-        filters: filters || status
+        filters: filters || status || _otherfilters
           ? filtersArray
           : otherfilters ? otherfilters:null,
         sortBy: "created_at=desc",
