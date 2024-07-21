@@ -85,11 +85,12 @@ const page = async ({ params }: {
                 </div>
               </div>
               <div className="p-4 border-t border-gray-200">
-                <h2 className="text-xl font-bold">Additional Info</h2>
+                <h2 className="text-xl font-bold mb-2">Additional Info</h2>
                 <div className="flex-col space-y-3">
-                  <p className="flex"><Weight className="details_icon" />weight: {user_AddtionalInfo?.weight + " Kg" ?? "-"}</p>
-                  <p className="flex"><Ruler className="details_icon" />height: {user_AddtionalInfo?.height + " Cm" ?? "-"}</p>
-                  <p className="flex"><Info className="details_icon" />Allergic reactions: {user_AddtionalInfo?.allergic_reactions + "" ?? "-"}</p>
+                  <p className="flex"><Weight className="details_icon" />weight: {user_AddtionalInfo?.weight ? user_AddtionalInfo?.weight + " Kg" : "-"}</p>
+                  <p className="flex"><Ruler className="details_icon" />height: {user_AddtionalInfo?.height  ? user_AddtionalInfo?.height + " Cm" : "-"}</p>
+                  <p className="flex"><Info className="details_icon" />Allergic reactions: {user_AddtionalInfo?.allergic_reactions  ?? "-"}</p>
+                  <p className="flex"><Info className="details_icon" />Notes: {user_AddtionalInfo?.notes  ?? "-"}</p>
                 </div>
               </div>
 
