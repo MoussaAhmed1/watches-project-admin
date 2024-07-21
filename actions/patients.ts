@@ -29,6 +29,8 @@ export const fetchUsers = async ({
           ? [
               `roles=${role},phone=${filters}`,
               `roles=${role},username=${filters}`,
+              `roles=${role},first_name=${filters}`,
+              `roles=${role},last_name=${filters}`,
             ]
           : [`roles=${role}`],
         sortBy: "created_at=desc",

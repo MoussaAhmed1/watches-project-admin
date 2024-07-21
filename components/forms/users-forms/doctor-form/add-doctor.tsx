@@ -12,8 +12,8 @@ import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import {  useRouter } from "next/navigation";
-import {  useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
@@ -103,7 +103,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
 
 
   // store
-  const {getUrls} = UseImagesStore();
+  const { getUrls } = UseImagesStore();
 
 
   //map:
@@ -135,7 +135,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
     toFormData(data, formData);
 
     //Availability
-    const Availabilityarray = data.avaliablity.map((value) => value.is_active);
+    const Availabilityarray = data.avaliablity.filter((value) => value.is_active);
     if (Availabilityarray.length === 0) {
       setError("Availability shouldn't be empty")
       return;
@@ -168,13 +168,14 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
         description: `Doctor has been successfully added.`,
       });
       if (res?.data?.id) {
-        AcceptDoctorRequest(res?.data?.id);
+       await AcceptDoctorRequest(res?.data?.id);
       }
       router.push(`/dashboard/doctors`);
     }
 
     setLoading(false);
   };
+
   //show error messages
   // console.log(form.formState.errors);
 
@@ -202,6 +203,10 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
       window.removeEventListener('popstate', handlePopState);
     };
   }, []);
+
+  useEffect(() => {
+    console.log(form.getValues("avaliablity"))
+  }, [form])
 
   return (
     <>

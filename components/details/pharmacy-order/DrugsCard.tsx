@@ -13,11 +13,15 @@ function DrugsCard({ drugs, categories }: IProps) {
       <h6 className="text-xl dark:text-white font-semibold leading-5">Drugs</h6>
       <div className="flex flex-col md:flex-row xl:flex-col justify-start items-stretch h-full w-full md:space-x-6 lg:space-x-8 xl:space-x-0">
         <div className="flex flex-col justify-start items-start flex-shrink-0">
-          <div className="flex justify-center flex-col w-full md:justify-start items-center  pb-4 min-h-16">
+          <div className="flex justify-center flex-col w-full md:justify-start items-center  pb-4 min-h-16 max-h-96 overflow-auto">
             {drugs?.length>0 ? drugs?.map((drug, index) => (
               <div
-                className={`flex justify-between w-full pb-2 mt-10 border-b border-gray-200`}
+                className={`flex justify-between w-full pt-5 mt-10 border-t border-gray-200`}
                 key={drug?.name}
+                style={{
+                  border:index===0 ?"0 !important":"",
+                  padding:index===0 ?"0 !important":"",
+                }}
               >
                 <p className="text-base dark:text-white leading-4 text-gray-800">
                   {drug?.name}

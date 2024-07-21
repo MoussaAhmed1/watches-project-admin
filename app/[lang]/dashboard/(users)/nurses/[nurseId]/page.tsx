@@ -8,7 +8,7 @@ import Approve from "@/components/details/role-details/Approve";
 import { ISingleNurse } from "@/types/nurses";
 import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { fetchReviews } from "@/actions/reviews";
+import { fetchNurseReviews } from "@/actions/reviews";
 import { IReview } from "@/types/reviews";
 import Reviews from "@/components/details/doctor-details/reviews";
 import ProfileImg from "@/components/shared/imagesRender/profileImg";
@@ -35,7 +35,7 @@ const page = async ({ params, searchParams }: {
   const search =
     typeof searchParams?.search === "string" ? searchParams?.search : "";
 
-  const res_reviews = await fetchReviews({
+  const res_reviews = await fetchNurseReviews({
     page,
     limit,
     filters: search,
@@ -92,7 +92,7 @@ const page = async ({ params, searchParams }: {
                       ),
                     )}
                     {Array.from(
-                      { length: Math.ceil(5 - nurse?.rating) },
+                      { length: Math.floor(5 - nurse?.rating) },
                       (ele, index) => (
                         <Star key={index} fill="#111" strokeWidth={0} />
                       ),

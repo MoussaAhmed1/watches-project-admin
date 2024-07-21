@@ -42,4 +42,34 @@ export const fetchReviews = async ({
   }
 };
 
+export const fetchNurseReviews = async ({
+  page = 1,
+  limit = ITEMS_PER_PAGE,
+  filters,
+  otherfilters
+}: Params): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+  const spreadotherfilters:string = otherfilters? otherfilters.toString() : "";
+  try {
+    const res = await axiosInstance(endpoints.nurses.reviews, {
+      params: {
+        // page,
+        // limit,
+        filters: spreadotherfilters ? [spreadotherfilters]:null,
+        sortBy: "created_at=desc",
+      },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+    console.log("---------------res----------------",res)
+    return res;
+  } catch (error: any) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
 

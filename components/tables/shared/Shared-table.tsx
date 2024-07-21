@@ -183,7 +183,7 @@ export function SharedTable<TData, TValue>({
               <TableRow key={headerGroup.id} >
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="dark:text-white p-3" style={{ whiteSpace: "nowrap", textAlign: columns?.length < MaxCenteredColumn ? "start" : "center", margin: "0 5px" }} >
+                    <TableHead key={header.id} className="dark:text-white p-3" style={{ whiteSpace: "nowrap", textAlign: columns?.length < MaxCenteredColumn ? "start" : "start", margin: "0 5px" }} >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -204,7 +204,7 @@ export function SharedTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} style={{ whiteSpace: "nowrap", textAlign: columns?.length < MaxCenteredColumn ? "start" : "center", }}>
+                    <TableCell key={cell.id} style={{ whiteSpace: "nowrap", textAlign: columns?.length < MaxCenteredColumn ? "start" : "start", }}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),

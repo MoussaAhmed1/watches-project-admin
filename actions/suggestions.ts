@@ -18,7 +18,11 @@ export const fetchSuggestions = async ({
       params: {
         page,
         limit,
-        filters: `user.phone=${filters}`,
+        filters: [
+          `user.phone=${filters}`,
+          `user.first_name=${filters}`,
+          `user.last_name=${filters}`
+        ],
       },
       headers: {
         Authorization: `Bearer ${accessToken}`,

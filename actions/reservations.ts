@@ -21,18 +21,41 @@ export const fetchReservations = async ({
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
   const _status: string = status !== "" ? `,status=${status}` : "";
-  const userPhone = filters?`user.phone=${filters}`:"";
-  const doctorPhone = filters?`doctor.user.phone=${filters}`:"";
+  const _otherfilters: string = otherfilters?.length ? `${otherfilters.toString()},` : "";
+
+  let filtersArray = [
+    `${_otherfilters}user.phone=${filters}${_status}`,
+    `${_otherfilters}doctor.user.phone=${filters}${_status}`,
+    `${_otherfilters}user.first_name=${filters}${_status}`,
+    `${_otherfilters}user.last_name=${filters}${_status}`,
+    `${_otherfilters}doctor.user.first_name=${filters}${_status}`,
+    `${_otherfilters}doctor.user.last_name=${filters}${_status}`,
+  ]
+  if(!status){
+    filtersArray = [
+      `${_otherfilters}user.phone=${filters}${",status=STARTED"}`,
+      `${_otherfilters}doctor.user.phone=${filters}${",status=STARTED"}`,
+      `${_otherfilters}user.first_name=${filters}${",status=STARTED"}`,
+      `${_otherfilters}user.last_name=${filters}${",status=STARTED"}`,
+      `${_otherfilters}doctor.user.first_name=${filters}${",status=STARTED"}`,
+      `${_otherfilters}doctor.user.last_name=${filters}${",status=STARTED"}`,
+      
+      `${_otherfilters}user.phone=${filters}${",status=SCHEDULED"}`,
+      `${_otherfilters}doctor.user.phone=${filters}${",status=SCHEDULED"}`,
+      `${_otherfilters}user.first_name=${filters}${",status=SCHEDULED"}`,
+      `${_otherfilters}user.last_name=${filters}${",status=SCHEDULED"}`,
+      `${_otherfilters}doctor.user.first_name=${filters}${",status=SCHEDULED"}`,
+      `${_otherfilters}doctor.user.last_name=${filters}${",status=SCHEDULED"}`,
+    ]
+  }
+  console.log(filtersArray)
   try {
     const res = await axiosInstance(endpoints.reservations.fetch, {
       params: {
         page,
         limit,
         filters: filters || status
-          ? [
-              `${userPhone}${_status}`,
-              `${doctorPhone}${_status}`,
-            ]
+          ? filtersArray
           : otherfilters ? otherfilters:null,
         sortBy: "created_at=desc",
       },

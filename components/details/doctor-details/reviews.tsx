@@ -22,7 +22,7 @@ const Reviews = ({ reviews, pageCount, totalitems,pageNo }: IProps) => {
         />
     )
     return (
-        <div>
+        <div style={{minHeight:500,display:'flex',flexDirection:"column",justifyContent:"space-between"}}>
             <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', width: "97%", justifyContent: "start" }}>
                 {reviews.map(({ order_number, rating, Comment, user }) => (
                     <Card key={order_number} style={{ flex: '1 1', minWidth: '300px',maxWidth:"365px", flexWrap: "wrap" }}>

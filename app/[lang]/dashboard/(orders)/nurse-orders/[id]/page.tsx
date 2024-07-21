@@ -65,7 +65,7 @@ const page = async ({ params }: { params: { id: string } }) => {
           target="_blank"
           style={{ color: '#3A72EC' }}
         >
-          {shortenText(NurseOrder?.address?.address, 45)}
+          {shortenText(NurseOrder?.address?.address, 75)}
         </Link>),
       },
     ]

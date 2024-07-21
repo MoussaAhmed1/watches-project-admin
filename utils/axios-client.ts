@@ -119,7 +119,8 @@ export const endpoints = {
   nurses: {
     fetch: "/nurse",
     accept: "/nurse/accept",
-    register:"/auth/register/nurse"
+    register:"/auth/register/nurse",
+    reviews:"/nurse/reviews"
   },
   packages: {
     fetch: "/package",
