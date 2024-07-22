@@ -3,7 +3,7 @@ import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
 import { getToken } from 'next-auth/jwt'
 import { Locale, i18n } from '@/i18n.config'
 import { CustomMiddleware } from './chain'
-
+import { cookies } from "next/headers";
 const protectedPaths = ['/dashboard']
 
 function getProtectedRoutes(protectedPaths: string[], locales: Locale[]) {
@@ -41,7 +41,9 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
       ...i18n.locales
     ])
 
-    if (!token && (protectedPathsWithLocale.includes(pathname) || pathname.includes("/dashboard"))) {
+    const apiToken = cookies()?.get("access_token")?.value;
+    const NextsessionToken = cookies()?.get("next-auth.session-token")?.value;
+    if (!(NextsessionToken && apiToken && token)  && (protectedPathsWithLocale.includes(pathname) || pathname.includes("/dashboard"))) {
       const signInUrl = new URL('/api/auth/signin', request.url)
       signInUrl.searchParams.set('callbackUrl', pathname)
       return NextResponse.redirect(signInUrl)
