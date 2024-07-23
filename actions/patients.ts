@@ -68,6 +68,29 @@ export const AddPatient = async (formData: FormData): Promise<any> => {
   }
 };
 
+export const AddFamilyMember = async (formData: FormData,id:string): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  try {
+    const accessToken = cookies().get("access_token")?.value;
+    await axiosInstance.post(`/additional-info/client/family-members`, formData, {
+      params:{
+        id
+      },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    revalidatePath("/dashboard/patients");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
 export const updateClientAddtionalInfo = async (
   data: any,
   id: string | undefined,

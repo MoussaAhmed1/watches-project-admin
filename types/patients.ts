@@ -71,3 +71,18 @@ export interface FamilyMember {
   updated_at: string;
   deleted_at: string;
 }
+
+enum Kinship {
+  Parent = "Parent",
+  Child = "Child",
+  Sibling = "Sibling",
+  Spouse = "Spouse",
+  Grandparent = "Grandparent",
+  Grandchild = "Grandchild",
+  UncleAunt = "Uncle/Aunt",
+  NieceNephew = "Niece/Nephew",
+  Cousin = "Cousin",
+  Other = "Other"
+}
+
+export default Kinship;

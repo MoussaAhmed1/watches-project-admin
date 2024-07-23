@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Metadata } from "next";
-import nurseImage from "../../../../../../public/assets/doctor.avif";
+import userAvatar from "../../../../../../public/assets/userAvatar.png";
 import BreadCrumb from "@/components/breadcrumb";
 import { Heading } from "@/components/ui/heading";
 import { AccountProfile, ClientAddtionalInfo, FamilyMember } from "@/types/patients";
@@ -54,7 +54,7 @@ const page = async ({ params }: {
           <div className="bg-background shadow-md rounded-lg overflow-hidden border min-h-[77dvh] border-gray-400">
             <div className="flex items-center justify-start p-4 bg-[#3c50e0] text-white">
               <Image
-                src={user?.avatar || nurseImage}
+                src={user?.avatar || userAvatar}
                 alt={user?.first_name + " " + user?.last_name}
                 className="rounded-full"
                 width={65}
@@ -67,7 +67,7 @@ const page = async ({ params }: {
               </div>
             </div>
             <div className="tab1">
-              <div className="p-4 border-t border-gray-200">
+              <div className="p-4 border-t border-gray-300">
                 <h2 className="text-xl font-bold">Profile Info</h2>
                 <div className="grid grid-cols-1">
                   <div className="flex mt-3">
@@ -87,23 +87,23 @@ const page = async ({ params }: {
                   </div>
                 </div>
               </div>
-              <div className="p-4 border-t border-gray-200">
+              <div className="p-4 border-t border-gray-300">
                 <h2 className="text-xl font-bold mb-2">Additional Info</h2>
                 <div className="flex-col space-y-3">
                   <p className="flex"><Weight className="details_icon" />weight: {user_AddtionalInfo?.weight ? user_AddtionalInfo?.weight + " Kg" : "-"}</p>
                   <p className="flex"><Ruler className="details_icon" />height: {user_AddtionalInfo?.height ? user_AddtionalInfo?.height + " Cm" : "-"}</p>
-                  <p className="flex"><Info className="details_icon" />Allergic reactions: {user_AddtionalInfo?.allergic_reactions ?? "-"}</p>
-                  <p className="flex"><Info className="details_icon" />Notes: {user_AddtionalInfo?.notes ?? "-"}</p>
+                  <p className="flex"><Info className="details_icon" />Allergic reactions: {user_AddtionalInfo?.allergic_reactions || 'None'}</p>
+                  <p className="flex"><Info className="details_icon" />Notes: {user_AddtionalInfo?.notes || 'None'}</p>
                 </div>
               </div>
-              <div className="p-4 border-t border-gray-200">
+              <div className="p-4 border-t border-gray-300">
                 <h2 className="text-xl font-bold mb-2">Family Members</h2>
                 <div className="kinship-list flex gap-3 flex-wrap">
                   {familyMembers?.length > 0 && familyMembers?.map(person => (
-                    <div key={person.id} className="kinship-person border min-w-[300px] border-gray-200">
-                      <div className="flex items-center gap-2 border border-gray-200 p-2">
+                    <div key={person.id} className="kinship-person border md:w-[49%] w-full  border-gray-300">
+                      <div className="flex items-center gap-2 border-b border-gray-300 p-2">
                         <Image
-                          src={person.avatar || nurseImage}
+                          src={person.avatar || userAvatar}
                           alt={`${person.first_name} ${person.last_name}`}
                           className="avatar rounded-full "
                           width={45}
@@ -116,12 +116,12 @@ const page = async ({ params }: {
                       </div>
 
                       <div className="flex-col space-y-3 p-4">
-                        <p className="flex items-center"><Info size={16} className="details_icon" /> Gender: {person.gender}</p>
-                        <p className="flex items-center"><Calendar size={16} className="details_icon" /> Birth Date: {person.birth_date}</p>
-                        <p className="flex items-center"><Info size={16} className="details_icon" /> Height: {person.height} cm</p>
-                        <p className="flex items-center"><Info size={16} className="details_icon" /> Weight: {person.weight} kg</p>
-                        <p className="flex items-center"><AlertCircle size={16} className="details_icon" /> Allergic Reactions: {person.allergic_reactions || 'None'}</p>
-                        <p className="flex items-center"><CheckCircle size={16} className="details_icon" /> Notes: {person.notes}</p>
+                        <p className="flex items-start"><Info size={16} className="details_icon" /> Gender: {person.gender}</p>
+                        <p className="flex items-start"><Calendar size={16} className="details_icon" /> Birth Date: {person.birth_date}</p>
+                        <p className="flex items-start"><Info size={16} className="details_icon" /> Height: {person.height} cm</p>
+                        <p className="flex items-start"><Info size={16} className="details_icon" /> Weight: {person.weight} kg</p>
+                        <p className="flex items-start"><span><AlertCircle size={16} className="details_icon" /></span> Allergic Reactions: {person.allergic_reactions || 'None'}</p>
+                        <p className="flex items-start"><span><CheckCircle size={16} className="details_icon" /></span> Notes: {person.notes}</p>
                       </div>
                     </div>
                   ))}
