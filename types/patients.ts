@@ -34,22 +34,40 @@ export interface AccountProfile {
 }
 
 export interface ClientAddtionalInfo {
-  id: string
-  created_at: string
-  updated_at: string
-  deleted_at: any
-  user_id: string
-  height: string
-  weight: string
-  allergic_reactions: string
-  notes: string
+  id: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: any;
+  user_id: string;
+  height: string;
+  weight: string;
+  allergic_reactions: string;
+  notes: string;
 }
 
 export enum Role {
-  SUPERADMIN = 'SUPERADMIN',
-  ADMIN = 'ADMIN',
-  CLIENT = 'CLIENT',
-  DOCTOR = 'DOCTOR',
-  PHARMACY = 'PHARMACY',
-  NURSE = 'NURSE',
+  SUPERADMIN = "SUPERADMIN",
+  ADMIN = "ADMIN",
+  CLIENT = "CLIENT",
+  DOCTOR = "DOCTOR",
+  PHARMACY = "PHARMACY",
+  NURSE = "NURSE",
+}
+
+export interface FamilyMember {
+  id: string;
+  client_id: string;
+  first_name: string;
+  last_name: string;
+  avatar: string;
+  kinship: string;
+  birth_date: string;
+  gender: string;
+  height: string;
+  weight: string;
+  allergic_reactions: string;
+  notes: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
 }

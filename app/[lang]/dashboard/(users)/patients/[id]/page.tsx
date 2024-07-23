@@ -3,9 +3,9 @@ import { Metadata } from "next";
 import nurseImage from "../../../../../../public/assets/doctor.avif";
 import BreadCrumb from "@/components/breadcrumb";
 import { Heading } from "@/components/ui/heading";
-import { AccountProfile, ClientAddtionalInfo } from "@/types/patients";
-import { fetchClientAddtionalInfo, fetchProfileInfo } from "@/actions/patients";
-import { Calendar, Edit, Info, Languages, Ruler, Weight } from "lucide-react";
+import { AccountProfile, ClientAddtionalInfo, FamilyMember } from "@/types/patients";
+import { fetchClientAddtionalInfo, fetchClientFamilyMember, fetchProfileInfo } from "@/actions/patients";
+import { AlertCircle, Calendar, CheckCircle, Edit, Info, Languages, Ruler, User, Weight } from "lucide-react";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -25,9 +25,12 @@ const page = async ({ params }: {
   //----------------------------------------------------------------
   const res = await fetchProfileInfo({ userId: params.id });
   const user: AccountProfile = res?.data?.data;
+  const res_family: { data: { data: FamilyMember[] } } = await fetchClientFamilyMember({ userId: params.id });
+  const familyMembers: FamilyMember[] = res_family?.data?.data;
   //fetch Client Addtional Info
   const res_AddtionalInfo = await fetchClientAddtionalInfo({ userId: params.id });
   const user_AddtionalInfo: ClientAddtionalInfo = res_AddtionalInfo?.data?.data;
+
 
   return (
     <>
@@ -88,12 +91,42 @@ const page = async ({ params }: {
                 <h2 className="text-xl font-bold mb-2">Additional Info</h2>
                 <div className="flex-col space-y-3">
                   <p className="flex"><Weight className="details_icon" />weight: {user_AddtionalInfo?.weight ? user_AddtionalInfo?.weight + " Kg" : "-"}</p>
-                  <p className="flex"><Ruler className="details_icon" />height: {user_AddtionalInfo?.height  ? user_AddtionalInfo?.height + " Cm" : "-"}</p>
-                  <p className="flex"><Info className="details_icon" />Allergic reactions: {user_AddtionalInfo?.allergic_reactions  ?? "-"}</p>
-                  <p className="flex"><Info className="details_icon" />Notes: {user_AddtionalInfo?.notes  ?? "-"}</p>
+                  <p className="flex"><Ruler className="details_icon" />height: {user_AddtionalInfo?.height ? user_AddtionalInfo?.height + " Cm" : "-"}</p>
+                  <p className="flex"><Info className="details_icon" />Allergic reactions: {user_AddtionalInfo?.allergic_reactions ?? "-"}</p>
+                  <p className="flex"><Info className="details_icon" />Notes: {user_AddtionalInfo?.notes ?? "-"}</p>
                 </div>
               </div>
+              <div className="p-4 border-t border-gray-200">
+                <h2 className="text-xl font-bold mb-2">Family Members</h2>
+                <div className="kinship-list flex gap-3 flex-wrap">
+                  {familyMembers?.length > 0 && familyMembers?.map(person => (
+                    <div key={person.id} className="kinship-person border min-w-[300px] border-gray-200">
+                      <div className="flex items-center gap-2 border border-gray-200 p-2">
+                        <Image
+                          src={person.avatar || nurseImage}
+                          alt={`${person.first_name} ${person.last_name}`}
+                          className="avatar rounded-full "
+                          width={45}
+                          height={45}
+                        />
+                        <div className="flex flex-col">
+                          <h2 className="flex items-center">Name: {person.first_name} {person.last_name}</h2>
+                          <p className="flex items-center">Kinship: {person.kinship}</p>
+                        </div>
+                      </div>
 
+                      <div className="flex-col space-y-3 p-4">
+                        <p className="flex items-center"><Info size={16} className="details_icon" /> Gender: {person.gender}</p>
+                        <p className="flex items-center"><Calendar size={16} className="details_icon" /> Birth Date: {person.birth_date}</p>
+                        <p className="flex items-center"><Info size={16} className="details_icon" /> Height: {person.height} cm</p>
+                        <p className="flex items-center"><Info size={16} className="details_icon" /> Weight: {person.weight} kg</p>
+                        <p className="flex items-center"><AlertCircle size={16} className="details_icon" /> Allergic Reactions: {person.allergic_reactions || 'None'}</p>
+                        <p className="flex items-center"><CheckCircle size={16} className="details_icon" /> Notes: {person.notes}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
