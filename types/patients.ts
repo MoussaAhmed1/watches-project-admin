@@ -79,10 +79,11 @@ enum Kinship {
   Spouse = "Spouse",
   Grandparent = "Grandparent",
   Grandchild = "Grandchild",
-  UncleAunt = "Uncle/Aunt",
-  NieceNephew = "Niece/Nephew",
+  UncleAunt = "UncleAunt",
+  NieceNephew = "NieceNephew",
   Cousin = "Cousin",
   Other = "Other"
+  
 }
 
 export default Kinship;
