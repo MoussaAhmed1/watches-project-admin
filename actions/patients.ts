@@ -10,7 +10,7 @@ import axiosInstance, {
   getErrorMessage,
 } from "../utils/axios-client";
 import { ITEMS_PER_PAGE } from "./Global-variables";
-import { ClientAddtionalInfo } from "@/types/patients";
+import { ClientAddtionalInfo, FamilyMember } from "@/types/patients";
 
 export const fetchUsers = async ({
   page = 1,
@@ -53,6 +53,29 @@ export const AddPatient = async (formData: FormData): Promise<any> => {
   try {
     const accessToken = cookies().get("access_token")?.value;
     await axiosInstance.post(endpoints.users.register, formData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    revalidatePath("/dashboard/patients");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
+export const AddFamilyMember = async (formData: FormData,id:string): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  try {
+    const accessToken = cookies().get("access_token")?.value;
+    await axiosInstance.post(`/additional-info/client/family-members`, formData, {
+      params:{
+        id
+      },
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Accept-Language": lang,
@@ -125,6 +148,29 @@ export const fetchClientAddtionalInfo = async ({
   const accessToken = cookies().get("access_token")?.value;
   try {
     const res = await axiosInstance(`/additional-info/client/info`, {
+      params: {
+        id: userId,
+      },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+    return res;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
+
+export const fetchClientFamilyMember = async ({
+  userId,
+}: {
+  userId: string;
+}): Promise<{ data: { data: FamilyMember[] } }> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+  try {
+    const res = await axiosInstance(`/additional-info/client/family-members`, {
       params: {
         id: userId,
       },

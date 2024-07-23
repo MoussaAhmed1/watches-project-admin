@@ -37,6 +37,11 @@ export default async function updateLayout({ children, params }: updateLayoutPro
       href: `/${lang}/dashboard/patients/${params.id}/edit/additional-info`,
       clicked:"edit/additional-info"
     },
+    {
+      title: "Family members",
+      href: `/${lang}/dashboard/patients/${params.id}/edit/family-members`,
+      clicked:"edit/additional-info"
+    },
   ]
   return (
     <>
