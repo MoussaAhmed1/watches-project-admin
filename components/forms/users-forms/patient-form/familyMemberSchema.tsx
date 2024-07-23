@@ -27,7 +27,6 @@ const FamilymemberSchema = z.object({
       message: 'String must be a valid image URL (jpeg, png, gif)',
     })
   ]).optional(),
-  role: z.enum(["CLIENT"]),
   allergic_reactions:z.string().min(5,"at least 5 characters"),
   notes: z.string().min(5, "at least 5 characters"),
   weight: z.coerce.number().min(0, "Weight is required"),
