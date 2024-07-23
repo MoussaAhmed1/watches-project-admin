@@ -10,10 +10,7 @@ export default async function SettingsProfilePage({ params, searchParams }: {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium">Add family member</h3>
-        <p className="text-sm text-muted-foreground">
-          Add a new Family member.
-        </p>
+        <h3 className="text-lg font-medium">Add Family Member</h3>
       </div>
       <Separator />
       <FamilyMemberForm
