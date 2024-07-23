@@ -1,8 +1,5 @@
-import { fetchClientAddtionalInfo } from "@/actions/patients";
 import { FamilyMemberForm } from "@/components/forms/users-forms/patient-form/add-edit-family-member";
-import { PatientAddtionalInfoForm } from "@/components/forms/users-forms/patient-form/patient-addtional-info";
 import { Separator } from "@/components/ui/separator";
-import { ClientAddtionalInfo } from "@/types/patients";
 
 export default async function SettingsProfilePage({ params, searchParams }: {
   params: { id: string }, searchParams: {
@@ -10,13 +7,13 @@ export default async function SettingsProfilePage({ params, searchParams }: {
   }
 }) {
 
-  //----------------------------------------------------------------
-  const res = await fetchClientAddtionalInfo({ userId: params.id });
-  const user: ClientAddtionalInfo = res?.data?.data;
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium">Family Members</h3>
+        <h3 className="text-lg font-medium">Add family member</h3>
+        <p className="text-sm text-muted-foreground">
+          Add a new Family member.
+        </p>
       </div>
       <Separator />
       <FamilyMemberForm

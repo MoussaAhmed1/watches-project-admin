@@ -33,20 +33,15 @@ export type FamilyMemberFormValues = z.infer<typeof FamilymemberSchema>;
 interface FamilyMemberFormProps {
   initialData?: FamilyMemberFormValues;
   id: string;
-  _role?: "CLIENT";
 }
 
 export const FamilyMemberForm: React.FC<FamilyMemberFormProps> = ({
   initialData,
   id,
-  _role = "CLIENT"
 }) => {
-  const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [isOther, setIsOther] = useState(false);
-  const title = "Create patient";
-  const description = "Add a new patient.";
   const action = initialData ? "Save changes" : "Create";
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
 
@@ -62,10 +57,6 @@ export const FamilyMemberForm: React.FC<FamilyMemberFormProps> = ({
     // defaultValues: initialData ? defaultValues : undefined,
   });
   const { control, formState: { errors } } = form;
-
-  useEffect(() => {
-    form.setValue("role", _role)
-  }, [_role, form]);
 
 
   const onSubmit = async (data: FamilyMemberFormValues) => {
@@ -94,12 +85,8 @@ export const FamilyMemberForm: React.FC<FamilyMemberFormProps> = ({
       toast({
         variant: "default",
         title: initialData ? "Updated successfully" : "Added successfully",
-        description: _role === "CLIENT" ? `Patient has been successfully updated.` : `Admin has been successfully added.`,
+        description:  `Family Member as (${data?.kinship}) has been successfully Added.`,
       });
-      if (_role === "CLIENT") {
-        router.push(`/dashboard/patients`);
-
-      }
     }
 
     setLoading(false);
@@ -109,10 +96,6 @@ export const FamilyMemberForm: React.FC<FamilyMemberFormProps> = ({
 
   return (
     <>
-      <div className="flex items-center justify-between">
-        <Heading title={title} description={description} />
-      </div>
-
       <Card className="p-10 mx-0 border-0" style={{ boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >
         <Form {...form}>
           <form
