@@ -43,7 +43,7 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
 
     const apiToken = cookies()?.get("access_token")?.value;
     const NextsessionToken = cookies()?.get("next-auth.session-token")?.value;
-    if (!(NextsessionToken && apiToken && token)  && (protectedPathsWithLocale.includes(pathname) || pathname.includes("/dashboard"))) {
+    if (!(apiToken && token)  && (protectedPathsWithLocale.includes(pathname) || pathname.includes("/dashboard"))) {
       const signInUrl = new URL('/api/auth/signin', request.url)
       signInUrl.searchParams.set('callbackUrl', pathname)
       return NextResponse.redirect(signInUrl)
