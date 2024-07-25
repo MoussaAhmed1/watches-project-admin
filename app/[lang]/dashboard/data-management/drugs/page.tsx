@@ -1,11 +1,9 @@
 import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
 import BreadCrumb from "@/components/breadcrumb";
-import { SharedTable } from "@/components/tables/shared/Shared-table";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { Drug } from "@/types/pharmacy";
 import { fetchPharmacyProducts } from "@/actions/pharmacies";
-import DrugColumns from "@/components/tables/pharmacy/drugs/columns";
 import PharmacyDrugsForm from "@/components/forms/pharmacy-drugs/PharmacyDrugsForm";
 import { fetchPharmacyCategories } from "@/actions/pharmacy-categories";
 import DrugsView from "@/components/views/DrugsView";

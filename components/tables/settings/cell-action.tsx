@@ -10,6 +10,7 @@ import {
 import { SuggestionsComplaints } from "@/types/suggestions-complaints";
 import { MoreHorizontal, Eye, Reply } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Cookie from 'js-cookie';
 
 interface CellActionProps {
   data: SuggestionsComplaints;
@@ -17,7 +18,7 @@ interface CellActionProps {
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const router = useRouter();
-
+  const currentLang = Cookie.get("Language") ?? "en";
 
   return (
     <>
@@ -31,12 +32,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/settings/messages/${data.id}`)}
+            onClick={() => router.push(`/${currentLang}/dashboard/messages/${data.id}`)}
           >
             <Eye className="mr-2 h-4 w-4" /> View
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/doctors/${data.id}`)}
+            onClick={() => router.push(`/${currentLang}/dashboard/doctors/${data.id}`)}
           >
             <Reply  className="mr-2 h-4 w-4" /> Repley
           </DropdownMenuItem>

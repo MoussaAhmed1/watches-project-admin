@@ -57,6 +57,8 @@ export default async function page({ searchParams ,params}: paramsProps) {
           totalitems={totalPackages}
           data={packages as unknown as IClientPackage[] }
           pageCount={1}
+          withPagination={false}
+          withSearch={false}
         />
       </div>
     </>

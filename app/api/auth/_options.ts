@@ -71,6 +71,11 @@ export const authOptions = {
           path: "/",
           httpOnly: true,
         });
+
+        cookies().set("permissions", JSON.stringify(user.data?.premessions), {
+          path: "/",
+          httpOnly: true,
+        });
       }
       return token;
     },

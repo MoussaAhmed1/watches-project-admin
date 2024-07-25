@@ -145,7 +145,7 @@ export const UpdatePharmacyDrug = async (data: Drug,id:string|undefined): Promis
       },
     });
 
-    revalidatePath('/dashboard/pharmacy/drugs');
+    revalidatePath('/dashboard/data-management/drugs');
   } catch (error) {
     return {
       error: getErrorMessage(error),
@@ -169,7 +169,7 @@ export const deleteProduct = async (
         },
       }
     );
-    revalidatePath('/dashboard/pharmacy/drugs');
+    revalidatePath('/dashboard/data-management/drugs');
     return res.data.message;
   } catch (error) {
     return {

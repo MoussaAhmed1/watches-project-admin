@@ -241,47 +241,9 @@ export const navItems: NavItem[] = [
     label: "settings",
     subItems: false,
   },
-  // {
-  //   title: "Additional info ",
-  //   href: "/dashboard/user",
-  //   icon: "doctors",
-  //   label: "user",
-  //   subItems: true,
-
-  //   children: [
-  //     {
-  //       title: "Specializations",
-  //       href: "/dashboard/data-management/specializations",
-  //     },
-  //     {
-  //       title: "Doctor",
-  //       href: "/dashboard/additional-info/consulting",
-  //     },
-  //     {
-  //       title: "Client",
-  //       href: "/dashboard/additional-info/statistics",
-  //     },
-  //     {
-  //       title: "Profile",
-  //       href: "/dashboard/additional-info/profile",
-  //     },
-  //     {
-  //       title: "Nurse",
-  //       href: "/dashboard/additional-info/statistics",
-  //     },
-  //     {
-  //       title: "Pharmacy",
-  //       href: "/dashboard/additional-info/statistics",
-  //     },
-  //     {
-  //       title: "Doctor availability",
-  //       href: "/dashboard/additional-info/statistics",
-  //     },
-  //   ],
-  // },
   {
     title: "Messages",
-    href: "/dashboard/settings/messages",
+    href: "/dashboard/messages",
     icon: "messages",
     label: "kanban",
     subItems: false,
@@ -336,7 +298,7 @@ export const navItems: NavItem[] = [
       },
       {
         title: "Pharmacy Products",
-        href: "/dashboard/pharmacy/drugs",
+        href: "/dashboard/data-management/drugs",
       },
     ],
   },

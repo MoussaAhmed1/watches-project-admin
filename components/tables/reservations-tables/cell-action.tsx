@@ -12,7 +12,7 @@ import { IReservation } from "@/types/reservations";
 import { Edit, Eye, MoreHorizontal, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
+import Cookie from 'js-cookie';
 interface CellActionProps {
   data:  IReservation;
 }
@@ -21,7 +21,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
-
+  const currentLang = Cookie.get("Language") ?? "en";
   const onConfirm = async () => {};
 
   return (
@@ -42,12 +42,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/reservations/${data.id}`)}
+            onClick={() => router.push(`/${currentLang}/dashboard/reservations/${data.id}`)}
           >
             <Eye className="mr-2 h-4 w-4" /> View
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/user/${data.id}`)}
+            onClick={() => router.push(`/${currentLang}/dashboard/user/${data.id}`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>
