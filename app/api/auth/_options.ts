@@ -70,6 +70,15 @@ export const authOptions = {
         cookies().set("access_token", user.data?.access_token, {
           path: "/",
           httpOnly: true,
+          sameSite: "strict",
+          secure: true,
+        });
+
+        cookies().set("permissions", JSON.stringify(user.data?.premessions), {
+          path: "/",
+          httpOnly: true,
+          sameSite: "strict",
+          secure: true,
         });
       }
       return token;

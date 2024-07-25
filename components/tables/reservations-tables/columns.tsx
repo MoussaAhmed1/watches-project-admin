@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
-import { formatCreatedAtDate, formatCreatedAtDateAsDateTime, shortenText } from "@/utils/helperFunctions";
+import { formatCreatedAtDateAsDateTime } from "@/utils/helperFunctions";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { CircleSlash, CheckCircle, Minus } from "lucide-react";

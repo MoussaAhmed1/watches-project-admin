@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import BreadCrumb from "@/components/breadcrumb";
 import { Heading } from "@/components/ui/heading";
 import {  Info,MessageSquare,Reply } from "lucide-react";
-import Link from "next/link";
+import userAvatar from "../../../../../public/assets/userAvatar.png";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { fetchSingleSuggestion } from "@/actions/suggestions";
@@ -18,7 +18,7 @@ const page = async ({ params }: {
   params: { id: string }
 }) => {
   const breadcrumbItems = [
-    { title: "Messages", link: "/dashboard/patients" },
+    { title: "Messages", link: "/dashboard/messages" },
     { title: "Details", link: "/dashboard/patients/id" },
   ];
   //----------------------------------------------------------------
@@ -48,7 +48,7 @@ const page = async ({ params }: {
         <div className="bg-background shadow-md rounded-lg overflow-hidden border min-h-[77dvh] border-gray-400">
           <div className="flex items-center justify-start p-4 bg-[#3c50e0] text-white">
             <Image
-              src={msg?.user?.avatar}
+              src={msg?.user?.avatar||userAvatar}
               alt={msg?.user?.name }
               className="rounded-full"
               width={65}

@@ -18,9 +18,10 @@ type paramsProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
+  params:{lang:string}
 };
 
-export default async function page({ searchParams }: paramsProps) {
+export default async function page({ searchParams,params }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
@@ -52,7 +53,7 @@ export default async function page({ searchParams }: paramsProps) {
             title={`Pharmacies (${totalPharmacies})`}
           />
           <Link
-            href={"/dashboard/pharmacies/new"}
+            href={`/${params?.lang}/dashboard/pharmacies/new`}
             className={cn(buttonVariants({ variant: "default" }))}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New

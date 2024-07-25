@@ -217,7 +217,7 @@ export function SharedTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-[calc(60.75dvh)] text-center"
+                  className="h-[calc(66.3dvh)] text-center"
                 >
                   No results.
                 </TableCell>

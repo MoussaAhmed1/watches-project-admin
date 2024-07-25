@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth'
 import { authOptions } from '../_options'
 // Services
-const handler = NextAuth({
+export const handler= NextAuth({
   ...authOptions,
   session: {
     strategy: 'jwt'

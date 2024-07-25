@@ -1,8 +1,7 @@
-import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
 import {  fetchPharmacyPackages } from "@/actions/packages";
 import BreadCrumb from "@/components/breadcrumb";
 import { SharedTable } from "@/components/tables/shared/Shared-table";
-import { PackagesColumns, PackagesPharmacyColumns } from "@/components/tables/packages-table/columns";
+import {  PackagesPharmacyColumns } from "@/components/tables/packages-table/columns";
 import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
@@ -58,6 +57,8 @@ export default async function page({ searchParams }: paramsProps) {
           totalitems={totalPackages}
           data={packages as unknown as IPharmacyPackage[] }
           pageCount={1}
+          withPagination={false}
+          withSearch={false}
         />
       </div>
     </>
