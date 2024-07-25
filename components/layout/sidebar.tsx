@@ -13,7 +13,7 @@ export default function Sidebar() {
         <div className="px-.5 py-.5 side-nav">
           <div className="space-y-1 max-w-[30vw] max-h-[90vh] overflow-y-auto overflow-x-hidden side-nav">
             
-            <DashboardNav items={navItems} />
+            <DashboardNav _items={navItems} />
           </div>
         </div>
       </div>

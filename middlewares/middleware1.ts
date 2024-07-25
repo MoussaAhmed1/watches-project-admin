@@ -54,7 +54,6 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
     // permissions you can make a preAction
     const _permissions = cookies()?.get("permissions")?.value ?? "";
     if (_permissions) {
-      const permissions = JSON?.parse(_permissions);
       const ifUserHasPermission = (path: string) => {
         path =
           path?.startsWith("/en") || path?.startsWith("/ar")
@@ -63,7 +62,7 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
         if (path?.includes("profile") || path === undefined) {
           return true;
         }
-        console.log("path", path);
+        // console.log("p_itemsath", path);
         if (
           (path?.includes("admins") ||
             path?.includes("doctors") ||

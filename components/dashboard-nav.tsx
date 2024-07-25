@@ -12,16 +12,16 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "./ui/accordion";
-import Cookie from 'js-cookie';
+import Cookies from 'js-cookie';
 interface DashboardNavProps {
-  items: NavItem[];
+  _items: NavItem[];
   setOpen?: Dispatch<SetStateAction<boolean>>;
 }
 
-export function DashboardNav({ items, setOpen }: DashboardNavProps) {
+export function DashboardNav({ _items, setOpen }: DashboardNavProps) {
   let path = usePathname();
   const searchParams = useSearchParams();
-  const currentLang = Cookie.get("Language") ?? "en";
+  const currentLang = Cookies.get("Language") ?? "en";
   const currentLable = searchParams?.get("currentLable") ?? undefined;
   const removeLanguageCode = useCallback(
     (url: string): string => {
@@ -35,14 +35,22 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
     [],
   )
   path = removeLanguageCode(path);
-  const [selectedLable, setselectedLable] = useState<string|undefined>(currentLable)
+  const [selectedLable, setselectedLable] = useState<string | undefined>(currentLable)
+
+  const items = (useCallback(
+    (): NavItem[] => {
+      // return _items?.filter(item => (_permissions?.includes(item?.title)))
+      return _items?.filter(item => item)
+    },
+    [_items],
+  ))();
   if (!items?.length) {
     return null;
   }
 
   return (
     <nav className="grid items-start gap-2">
-      {items.map((link, index) => {
+      {items?.map((link, index) => {
         if (!link?.children) {
           const Icon = Icons[link.icon || "arrowRight"];
           return (
@@ -50,7 +58,7 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
               <Link
                 key={index}
                 href={link.disabled ? "/" : `/${currentLang}${link.href}?currentLable=undefined`}
-                onClick={()=>{
+                onClick={() => {
                   setselectedLable(undefined);
                   setOpen && setOpen(false);
                 }}
@@ -58,7 +66,7 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
                 <span
                   className={cn(
                     "hover:text-blue-700 hover:no-underline text-start items-center flex w-full h-12 px-3 mt-2  ",
-                    path===link.href ||(path?.includes(link.href) && link.href !=="/dashboard" )
+                    path === link.href || (path?.includes(link.href) && link.href !== "/dashboard")
                       ? "items-center w-full h-12 px-3 mt-2 bg-blue-100 rounded text-blue-700"
                       : "rounded hover:bg-blue-50"
                   )}
@@ -82,7 +90,7 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
               collapsible
               key={link.label}
               className="w-full"
-              defaultValue={selectedLable??undefined}
+              defaultValue={selectedLable ?? undefined}
             >
               <AccordionItem
                 value={link.label ?? ""}
@@ -102,12 +110,12 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
                 </AccordionTrigger>
                 <AccordionContent>
                   {link.children.map((child) => {
-                    const isActive = !!(path?.includes(child.href) );
+                    const isActive = !!(path?.includes(child.href));
                     return (
                       <Link
                         key={child.href}
                         href={`/${currentLang}${child.href}?currentLable=${link.label}`}
-                        onClick={()=>{
+                        onClick={() => {
                           setselectedLable(link.label);
                           setOpen && setOpen(false);
                         }}
