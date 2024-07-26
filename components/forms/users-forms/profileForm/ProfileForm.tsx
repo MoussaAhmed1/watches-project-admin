@@ -34,13 +34,15 @@ interface UserFormProps {
   initialData?: UserFormValues;
   id: string;
   revalidatequery: string;
+  isAllowToModifyPermissions?: boolean;
 }
 
 
 export const UserProfileForm: React.FC<UserFormProps> = ({
   initialData,
   id,
-  revalidatequery
+  revalidatequery,
+  isAllowToModifyPermissions
 }) => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
@@ -264,13 +266,13 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                   {("Permissions")} <span className="text-red-800">*</span>
                 </label>
                 <div className="flex-col w-full" style={{
-                  cursor:id===""?"not-allowed":"pointer"
+                  cursor:!isAllowToModifyPermissions?"not-allowed":"pointer"
                 }}>
                   <Select
                     id="premessions"
                     isSearchable={true}
-                    isClearable={true}
-                    isDisabled={id === ""}
+                    isClearable={false}
+                    isDisabled={!isAllowToModifyPermissions}
                     isMulti
                     defaultValue={initialData?.premessions?.map((permission) =>
                       PermissionsOptions.find(

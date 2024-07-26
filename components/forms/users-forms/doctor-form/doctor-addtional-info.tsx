@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
@@ -87,8 +87,15 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
   const [loading, setLoading] = useState(false);
   const action = "Save changes";
 
-  const defaultValues = initialData;
-
+  const defaultValues = {
+    ...initialData, clinic: {
+      latitude: initialData?.clinic?.latitude || undefined,
+      longitude: initialData?.clinic?.longitude || undefined,
+      address: initialData?.clinic?.address || undefined,
+      name: initialData?.clinic?.name || undefined,
+      is_active: initialData?.clinic?.is_active || undefined,
+    }
+  };
   const form = useForm<DoctorAddtionalInfoFormValues>({
     resolver: zodResolver(doctorAddtionalInfoSchema),
     defaultValues
@@ -97,12 +104,12 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
 
   // store
   const { getUrls } = UseImagesStore();
-  
-  const InitialClinicMapData = initialData?.clinic
-  ? {
-    coords: {
-      lat: initialData?.clinic?.latitude,
-      lng: initialData?.clinic?.longitude,
+
+  const InitialClinicMapData: MapData | null = initialData?.clinic
+    ? {
+      coords: {
+        lat: initialData?.clinic?.latitude ?? 0,
+        lng: initialData?.clinic?.longitude ?? 0,
       },
       address: {
         add_ar: initialData?.clinic?.address ?? "",
@@ -110,8 +117,8 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
       },
     }
     : null;
-    
-    const InitialMapData = initialData?.latitude
+
+  const InitialMapData = initialData?.latitude
     ? {
       coords: {
         lat: initialData?.latitude,
@@ -123,35 +130,36 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
       },
     }
     : null;
-    
-    //map:
-    const [mapData, setMapData] = useState<MapData | null>(InitialMapData);
-    const [ClinicMapData, setClinicMapData] = useState<MapData | null>(InitialClinicMapData);
-    useEffect(() => {
-      if (mapData) {
-        form.setValue("latitude", mapData?.coords?.lat)
-        form.setValue("longitude", mapData?.coords?.lng)
-        form.clearErrors(["longitude", "latitude"]);
-      }
-    }, [form, mapData]);
-    
-    useEffect(() => {
-      if (ClinicMapData) {
-        form.setValue("clinic.latitude", ClinicMapData?.coords?.lat)
+
+  //map:
+  const [mapData, setMapData] = useState<MapData | null>(InitialMapData);
+  const [ClinicMapData, setClinicMapData] = useState<MapData | null>(InitialClinicMapData);
+  useEffect(() => {
+    if (mapData) {
+      form.setValue("latitude", mapData?.coords?.lat)
+      form.setValue("longitude", mapData?.coords?.lng)
+      form.clearErrors(["longitude", "latitude"]);
+    }
+  }, [form, mapData]);
+
+  useEffect(() => {
+    if (ClinicMapData) {
+      form.setValue("clinic.latitude", ClinicMapData?.coords?.lat)
       form.setValue("clinic.longitude", ClinicMapData?.coords?.lng)
       form.setValue("clinic.address", currentLang === 'en' ? ClinicMapData?.address.add_en : ClinicMapData?.address.add_ar);
       form.clearErrors(["clinic.longitude", "clinic.latitude", "clinic.address"]);
     }
   }, [form, ClinicMapData, currentLang]);
-  
+
   const [error, setError] = useState("");
-  
+  const [ClinicError, setClinicError] = useState("");
+
   //new Images
   const [previewUrls, setPreviewUrls] = useState<string[] | []>([]);
   const [hasupload, setHasupload] = useState(false)
-  
-  
-  
+
+
+
   const onSubmit = async (data: any) => {
     // alert(JSON.stringify(data)); //testing
     setLoading(true);
@@ -159,7 +167,24 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
     const Availabilityarray = data.avaliablity.map((value: any) => value.is_active);
     if (Availabilityarray.length === 0) {
       setError("Availability shouldn't be empty")
+      setLoading(false);
       return;
+    } else {
+      setError("")
+    }
+
+    if (((data?.clinic_consultation_price !== 0) && data?.clinic?.name === undefined) ||
+      ((data?.clinic_consultation_price === 0) && data?.clinic?.name !== undefined)) {
+      setClinicError("Clinic Error")
+      setLoading(false);
+      return;
+    }
+    else {
+      setClinicError("")
+    }
+    data = {
+      ...data,
+      clinic: data?.clinic_consultation_price === 0 ? null : data?.clinic
     }
     //cover_image
     if (data?.cover_image) {
@@ -177,6 +202,7 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
     //lat & long
     data.latitude = data.latitude.toString();
     data.longitude = data.longitude.toString();
+
 
     const res = await updateDoctorAddtionalInfo({ data, userId: id });
     if (res?.error) {
@@ -200,7 +226,6 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
     setHasupload(false);
   };
   //show error messages
-  // console.log(form.formState.errors);
 
   return (
     <Card className="p-10 mx-0 border-0" style={{ boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >
@@ -563,6 +588,7 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
           <Button disabled={loading} className="ml-auto" type="submit">
             {action}
           </Button>
+          {ClinicError && <FormMessage>{"You should add Clinic Info"}</FormMessage>}
         </form>
       </Form>
     </Card>

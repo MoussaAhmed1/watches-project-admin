@@ -42,7 +42,6 @@ const doctorAddtionalInfoSchema = z.object({
   video_consultation_price: z.coerce.number().positive('Must be a positive number'),
   voice_consultation_price: z.coerce.number().positive('Must be a positive number'),
   home_consultation_price: z.coerce.number().positive('Must be a positive number'),
-  clinic_consultation_price: z.coerce.number().positive('Must be a positive number').optional(),
   specialization_id: z.string().min(1, "Specialization ID is required"),
   summery: z.string().min(15, "at least 15 characters"),
   year_of_experience: z.coerce.number().min(0, "Year of experience is required"),
@@ -56,21 +55,22 @@ const doctorAddtionalInfoSchema = z.object({
     required_error: "Please Pick A Location On The Map",
     invalid_type_error: "Must be a number"
   }).refine(value => value !== undefined, { message: "Please Pick A Location On The Map" }),
-  avaliablity:z.array(
+  avaliablity: z.array(
     z.object({
       day: z.number().optional(),
       start_at: z.string().optional(),
       end_at: z.string().optional(),
       is_active: z.boolean().optional()
     })
-  ).min(1,"at least one day must be specified"),
+  ).min(1, "at least one day must be specified"),
+  clinic_consultation_price: z.coerce.number().min(0,'Must be a positive number').optional(),
   clinic: z.object({
-    latitude: validationRules.latLng,
-    longitude: validationRules.latLng,
-    address: z.string().min(1, "Clinic address is required"),
-    name: z.string().min(1, "Clinic name is required"),
-    is_active: z.union([z.string(), z.boolean()]),
-  }).optional(),
-});
+    latitude: validationRules.latLng.optional(),
+    longitude: validationRules.latLng.optional(),
+    address: z.string().min(1, "Clinic address is required").optional(),
+    name: z.string().min(1, "Clinic name is required").optional(),
+    is_active: z.union([z.string(), z.boolean()]).optional(),
+  }).optional().nullable(),
+})
 
 export default doctorAddtionalInfoSchema;

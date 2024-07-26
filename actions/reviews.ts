@@ -64,7 +64,6 @@ export const fetchNurseReviews = async ({
         "Accept-Language": lang,
       },
     });
-    console.log("---------------res----------------",res)
     return res;
   } catch (error: any) {
     return {

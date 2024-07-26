@@ -4,9 +4,10 @@ import "@uploadthing/react/styles.css";
 import type { Metadata } from "next";
 import { Inter, Noto_Kufi_Arabic } from "next/font/google";
 import "./globals.css";
-import { getServerSession } from "next-auth";
+import { getServerSession, Session } from "next-auth";
 import { Locale, i18n } from '@/i18n.config'
 import { notFound } from "next/navigation";
+import { authOptions } from "../api/auth/_options";
 
 const inter = Inter({ subsets: ["latin"] });
 const noto = Noto_Kufi_Arabic({ subsets: ["arabic"] });
@@ -27,7 +28,7 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { lang: Locale }
 }) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   let messages;
   try {
     messages = (await import(`../../dictionaries/${params.lang}.json`)).default;

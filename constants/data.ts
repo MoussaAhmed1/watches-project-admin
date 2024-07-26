@@ -37,6 +37,8 @@ export const navItems: NavItem[] = [
     subItems: false,
   },
 
+
+
   {
     title: "Users",
     href: "/dashboard/nurses",
@@ -61,13 +63,15 @@ export const navItems: NavItem[] = [
         title: "Nurses",
         href: "/dashboard/nurses",
       },
-      {
-        title: "Admins",
-        href: "/dashboard/admins",
-      },
     ],
   },
-
+  {
+    title: "Admins",
+    href: "/dashboard/admins",
+    icon: "admin",
+    label: "Admins",
+    subItems: false,
+  },
   {
     title: "Verification Requests",
     icon: "patients",

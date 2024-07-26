@@ -44,12 +44,13 @@ import {
   HeartPulse,
   DollarSign,
   Activity,
-Radio,
-Inbox,
-Cross,
-Stethoscope,
-Mail,  
-ChevronUp
+  Radio,
+  Inbox,
+  Cross,
+  Stethoscope,
+  Mail,
+  ChevronUp,
+  Shield 
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -75,6 +76,7 @@ export const Icons = {
   add: Plus,
   warning: AlertTriangle,
   user: User,
+  admin: Shield,
   arrowRight: ArrowRight,
   help: HelpCircle,
   pizza: Pizza,
@@ -84,7 +86,7 @@ export const Icons = {
   notification: Bell,
   home: Home,
   ads: Table2,
-  introduction:Table,
+  introduction: Table,
   countries: Flag,
   cities: Flag,
   User2,
@@ -95,15 +97,15 @@ export const Icons = {
   labs: FlaskConical,
   contacts: Contact,
   admins: ShieldPlus,
-  healthcare:HeartPulse,
-  payment:DollarSign,
+  healthcare: HeartPulse,
+  payment: DollarSign,
   hospitals: Activity,
-  radiographer:Radio,
-  inbox:Inbox,
-  care:Cross,
-  stethoscope:Stethoscope ,
-  messages:Mail ,
-  arrowUp:ChevronUp  ,
+  radiographer: Radio,
+  inbox: Inbox,
+  care: Cross,
+  stethoscope: Stethoscope,
+  messages: Mail,
+  arrowUp: ChevronUp,
 
   gitHub: ({ ...props }: LucideProps) => (
     <svg

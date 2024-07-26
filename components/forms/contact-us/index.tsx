@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -15,16 +14,12 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../ui/use-toast";
-import { Card } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
-import useCostomSearchParams from "@/hooks/use-searchParams";
-
 import { changeContactLink, deleteContactLink } from "@/actions/contact-us";
 import { ISocialLink } from "@/types/social-links";
 import { Input } from "@/components/ui/input";
 import { AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Avatar } from "@radix-ui/react-avatar";
-import { Save, Trash, Trash2 } from "lucide-react";
+import { Save, Trash} from "lucide-react";
 import { AlertModal } from "@/components/modal/alert-modal";
 import NewSocialLink from "./add-edit-social-link-dialog";
 

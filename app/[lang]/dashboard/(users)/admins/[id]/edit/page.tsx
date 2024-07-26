@@ -13,7 +13,6 @@ export default async function Page({ params }:{params: { id: string }}) {
   //----------------------------------------------------------------
   const res = await fetchProfileInfo({ userId: params.id });
   const admin: AccountProfile = res?.data?.data;
-  console.log(admin)
   return (
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems}  />
