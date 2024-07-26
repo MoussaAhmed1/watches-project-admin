@@ -8,7 +8,7 @@ import { getServerSession, Session } from "next-auth";
 import { Locale, i18n } from '@/i18n.config'
 import { notFound } from "next/navigation";
 import { authOptions } from "../api/auth/_options";
-
+import { SpeedInsights } from '@vercel/speed-insights/next';
 const inter = Inter({ subsets: ["latin"] });
 const noto = Noto_Kufi_Arabic({ subsets: ["arabic"] });
 
@@ -42,6 +42,7 @@ export default async function RootLayout({
         <Providers session={session}>
           <Toaster />
           {children}
+          <SpeedInsights />
         </Providers>
       </body>
     </html>
