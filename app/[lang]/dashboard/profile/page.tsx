@@ -27,7 +27,7 @@ export default async function ProfilePage() {
           premessions: session.user?.premessions,
         } : undefined}
         revalidatequery="/dashboard/admins"
-
+        isAllowToModifyPermissions={session?.user?.premessions?.includes("Admins")||false}
       />
     </div>
   );

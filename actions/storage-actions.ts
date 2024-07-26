@@ -16,7 +16,6 @@ export const getImageUrl = async ({ image }: { image: FormData }): Promise<any> 
         'Accept-Language': lang,
       },
     });
-    console.log("url-------------------",res.data.data.url);
     return res.data.data.path;
   } catch (error) {
     return {

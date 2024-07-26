@@ -13,6 +13,8 @@ import {
   AccordionContent,
 } from "./ui/accordion";
 import Cookies from 'js-cookie';
+import { useSession } from "next-auth/react";
+import { IUser } from "@/types/patients";
 interface DashboardNavProps {
   _items: NavItem[];
   setOpen?: Dispatch<SetStateAction<boolean>>;
@@ -36,13 +38,14 @@ export function DashboardNav({ _items, setOpen }: DashboardNavProps) {
   )
   path = removeLanguageCode(path);
   const [selectedLable, setselectedLable] = useState<string | undefined>(currentLable)
-
+  const { data: session } = useSession();
+  const _session: { user: IUser } | null = session as { user: IUser } | null
   const items = (useCallback(
     (): NavItem[] => {
       // return _items?.filter(item => (_permissions?.includes(item?.title)))
-      return _items?.filter(item => item)
+      return _items?.filter(item => _session?.user?.premessions?.includes(item?.title))
     },
-    [_items],
+    [_items, _session?.user?.premessions],
   ))();
   if (!items?.length) {
     return null;

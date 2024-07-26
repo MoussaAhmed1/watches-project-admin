@@ -48,7 +48,6 @@ export const fetchSinglePharmacyOrder = async (id: string): Promise<any> => {
         "Accept-Language": lang,
       },
     });
-    console.log(res);
 
     return res;
   } catch (error: any) {

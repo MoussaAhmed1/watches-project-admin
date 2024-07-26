@@ -1,3 +1,5 @@
+import { IUser } from "@/types/patients";
+import { Session } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { cookies } from "next/headers";
 
@@ -31,7 +33,7 @@ export const authOptions = {
             }),
             headers: { "Content-Type": "application/json" },
           });
-          const user = await res.json();
+          const user:IUser = await res.json();
           if (res.ok) {
             return user;
           } else {

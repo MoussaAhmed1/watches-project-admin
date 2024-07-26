@@ -205,6 +205,11 @@ export const updateUsersProfile = async (
         },
       },
     );
+    console.log(res?.data?.data)
+    if(id===""){
+      cookies()?.set("permissions",res?.data?.data?.premessions);
+      cookies()?.set("name",res?.data?.data?.id);
+    }
     revalidatePath(revalidatequery);
     return res?.data?.data;
   } catch (error) {

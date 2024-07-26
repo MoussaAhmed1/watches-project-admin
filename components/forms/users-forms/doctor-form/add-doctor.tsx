@@ -127,6 +127,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
   }, [form, ClinicMapData, currentLang]);
 
   const [error, setError] = useState("");
+  const [ClinicError, setClinicError] = useState("");
 
   const onSubmit = async (data: DoctorFormValues) => {
     // alert(JSON.stringify(data)); //testing
@@ -135,10 +136,27 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
     toFormData(data, formData);
 
     //Availability
-    const Availabilityarray = data.avaliablity.filter((value) => value.is_active);
+    const Availabilityarray = data.avaliablity.map((value: any) => value.is_active);
     if (Availabilityarray.length === 0) {
       setError("Availability shouldn't be empty")
+      setLoading(false);
       return;
+    } else {
+      setError("")
+    }
+
+    if (((data?.clinic_consultation_price !== 0) && data?.clinic?.name === undefined) ||
+      ((data?.clinic_consultation_price === 0) && data?.clinic?.name !== undefined)) {
+      setClinicError("Clinic Error")
+      setLoading(false);
+      return;
+    }
+    else {
+      setClinicError("")
+    }
+    data = {
+      ...data,
+      clinic: data?.clinic_consultation_price === 0 ? null : data?.clinic
     }
     formData.delete('avaliablity');
     formData.set('avaliablity', Availabilityarray.join());
@@ -168,7 +186,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
         description: `Doctor has been successfully added.`,
       });
       if (res?.data?.id) {
-       await AcceptDoctorRequest(res?.data?.id);
+        await AcceptDoctorRequest(res?.data?.id);
       }
       router.push(`/dashboard/doctors`);
     }
@@ -675,6 +693,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
             <Button disabled={loading} className="ml-auto" type="submit">
               {action}
             </Button>
+            {ClinicError && <FormMessage>{"You should add Clinic Info"}</FormMessage>}
           </form>
         </Form>
       </Card>

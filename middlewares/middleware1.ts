@@ -64,13 +64,15 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
         }
         // console.log("p_itemsath", path);
         if (
-          (path?.includes("admins") ||
-            path?.includes("doctors") ||
+          (path?.includes("doctors") ||
             path?.includes("nurses") ||
             path?.includes("patients") ||
             path?.includes("pharmacies")) &&
           _permissions?.includes("Users")
         ) {
+          return true;
+        }
+        if (path?.includes("admins") && _permissions?.includes("Admins")) {
           return true;
         }
 
