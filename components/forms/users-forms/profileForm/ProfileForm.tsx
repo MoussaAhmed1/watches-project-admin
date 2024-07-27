@@ -121,6 +121,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
             last_name: newUser?.last_name,
             image: newUser?.avatar,
             avatar: newUser?.avatar,
+            premessions:data?.premessions
           }
         })
         reloadSession();

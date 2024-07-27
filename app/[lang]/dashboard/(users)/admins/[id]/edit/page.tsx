@@ -1,8 +1,10 @@
 import { fetchProfileInfo } from "@/actions/patients";
+import { authOptions } from "@/app/api/auth/_options";
 import BreadCrumb from "@/components/breadcrumb";
 import { UserProfileForm } from "@/components/forms/users-forms/profileForm/ProfileForm";
 import { Heading } from "@/components/ui/heading";
-import { AccountProfile } from "@/types/patients";
+import { AccountProfile, IUser } from "@/types/patients";
+import { getServerSession } from "next-auth";
 import React from "react";
 
 export default async function Page({ params }:{params: { id: string }}) {
@@ -13,6 +15,7 @@ export default async function Page({ params }:{params: { id: string }}) {
   //----------------------------------------------------------------
   const res = await fetchProfileInfo({ userId: params.id });
   const admin: AccountProfile = res?.data?.data;
+  const session: { user: IUser } | null = await getServerSession(authOptions) as any;
   return (
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems}  />
@@ -32,6 +35,7 @@ export default async function Page({ params }:{params: { id: string }}) {
           premessions:admin?.premessions
         }}
         revalidatequery="/dashboard/admins"
+        isAllowToModifyPermissions={session?.user?.premessions?.includes("Admins")||false}
       />
     </div>
   );
