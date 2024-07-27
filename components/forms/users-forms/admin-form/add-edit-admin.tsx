@@ -292,6 +292,19 @@ export const AdminForm: React.FC<AdminFormProps> = ({
                       );
                     }}
                     className="w-full"
+                    styles={{
+                      control: (state) => ({ ...state, backgroundColor: 'transparent' }) as any,
+                      multiValueLabel: (styles:any) => ({
+                        ...styles,
+                        color: "#4D4D4D",
+                        background:"#E6E6E6"
+                      }),
+                      option: (styles:any) => {
+                        return {
+                          ...styles,
+                          color:"black"
+                        }
+                      }}}
                     options={PermissionsOptions}
                   />
                   {errors.premessions && (
