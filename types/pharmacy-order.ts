@@ -31,3 +31,23 @@ interface VoiceRecording {
   type: string;
   ph_order_id: string;
 }
+
+export interface PharmacyData {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string | null;
+  pharmacy_id: string;
+  order_id: string;
+  note: string | null;
+  price: string;
+  address: string;
+  phone: string;
+  availability: string;
+  pharmacy: Pharmacy;
+}
+interface Pharmacy {
+  id: string;
+  name: string;
+  logo: string[];
+}

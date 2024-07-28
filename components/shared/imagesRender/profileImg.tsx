@@ -19,14 +19,12 @@ function ProfileImg({
     ...props
 }: IProps) {
     return (
-        <div className={cn("overflow-hidden w-[100px] h-[100px] flex justify-center relative rounded-full", className)} {...props}>
+        <div className={cn("overflow-hidden w-[100px] h-[100px] flex justify-center relative rounded-full ", className)} {...props}>
             <Image
                 src={src}
                 alt={alt}
                 fill
-                className={cn(
-                    "object-cover rounded-full",
-                )}
+                className={"object-cover rounded-full border-2"}
             />
         </div>
     )

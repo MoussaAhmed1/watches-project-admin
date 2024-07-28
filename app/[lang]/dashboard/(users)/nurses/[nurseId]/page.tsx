@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import BreadCrumb from "@/components/breadcrumb";
 import { AcceptNurseRequest, fetchSingleNurse } from "@/actions/nurses";
-import nurseImage from "../../../../../../public/assets/doctor.avif";
+import nurseImage from "../../../../../../public/assets/doctor.png";
 import { Edit, Star } from "lucide-react";
 import { Heading } from "@/components/ui/heading";
 import Approve from "@/components/details/role-details/Approve";

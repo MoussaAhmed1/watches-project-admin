@@ -1,10 +1,11 @@
 import Image from "next/image";
+import userAvatar from "../../../../../../public/assets/user-avatar.png";
 import { Metadata } from "next";
 import BreadCrumb from "@/components/breadcrumb";
 import { Heading } from "@/components/ui/heading";
 import { AccountProfile } from "@/types/patients";
 import { fetchProfileInfo } from "@/actions/patients";
-import { Calendar, Edit, Info, Languages,  ShieldCheck, } from "lucide-react";
+import { Calendar, Edit, Info, Languages, ShieldCheck, } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -45,7 +46,7 @@ const page = async ({ params }: {
           <div className="bg-background shadow-md rounded-lg overflow-hidden border min-h-[77dvh] border-gray-400">
             <div className="flex items-center justify-start p-4 bg-[#3c50e0] text-white">
               <Image
-                src={admin?.avatar}
+                src={admin?.avatar || userAvatar}
                 alt={admin?.first_name + " " + admin?.last_name}
                 className="rounded-full"
                 width={65}
@@ -83,7 +84,7 @@ const page = async ({ params }: {
                 <ul className="list-none">
                   {admin?.premessions?.map((permission) => (
                     <li className="flex mt-3" key={permission}>
-                      <ShieldCheck  className="details_icon" />
+                      <ShieldCheck className="details_icon" />
                       <p>{permission}</p>
                     </li>
                   ))}

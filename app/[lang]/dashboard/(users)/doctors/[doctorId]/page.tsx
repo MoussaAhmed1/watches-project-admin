@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import BreadCrumb from "@/components/breadcrumb";
-import nurseImage from "../../../../../../public/assets/doctor.avif";
+import nurseImage from "../../../../../../public/assets/doctor.png";
 import { AcceptDoctorRequest, fetchSingleDoctor } from "@/actions/doctors";
 import { ISingleDoctor } from "@/types/doctors";
 import { Edit, Home, Hotel, Info, MapPin, PhoneCall, Star, Video } from "lucide-react";
@@ -18,6 +18,8 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import ProfileImg from "@/components/shared/imagesRender/profileImg";
+import AvaliablityRendering from "@/components/details/doctor-details/AvaliablityRendering";
+import { shortenText } from "@/utils/helperFunctions";
 
 export const metadata: Metadata = {
   title: "Next.js Profile | TailAdmin - Next.js Dashboard Template",
@@ -53,6 +55,7 @@ const page = async ({ params, searchParams }: {
     { title: "Doctors", link: "/dashboard/doctors" },
     { title: `${doctor?.name}`, link: `/dashboard/doctors/${doctor?.name}` },
   ];
+  console.log(doctor)
   return (
     <>
       <div className="mx-auto w-full mt-8 bg-background">
@@ -79,7 +82,7 @@ const page = async ({ params, searchParams }: {
             <div className="flex items-center justify-start p-4 bg-[#3c50e0] text-white">
               <ProfileImg
                 className="w-[100px] h-[100px]"
-                src={doctor?.avatar||nurseImage}
+                src={doctor?.avatar || nurseImage}
                 alt={doctor?.name}
               />
               <div className="ml-4">
@@ -110,6 +113,7 @@ const page = async ({ params, searchParams }: {
               <TabsList>
                 <TabsTrigger value="details">Details</TabsTrigger>
                 <TabsTrigger value="review">Reviews</TabsTrigger>
+                <TabsTrigger value="availibilty">Avaliablity</TabsTrigger>
               </TabsList>
               <TabsContent value="details">
                 <div className="tab1">
@@ -152,7 +156,13 @@ const page = async ({ params, searchParams }: {
                     <div className="flex mt-3">
                       <MapPin className="details_icon" />
                       <p className="mr-1">Address:</p>
-                      <p>{doctor?.clinic?.address ?? "-"}</p>
+                      <Link
+                        href={`https://www.google.com/maps/search/?api=1&query=${doctor?.clinic?.latitude},${doctor?.clinic?.longitude}`}
+                        target="_blank"
+                        style={{ color: '#3A72EC' }}
+                      >
+                        {shortenText(doctor?.clinic?.address, 90)}
+                      </Link>
                     </div>
                   </div>
                   <Separator className="my-1" />
@@ -198,6 +208,10 @@ const page = async ({ params, searchParams }: {
               </TabsContent>
               <TabsContent value="review">
                 <Reviews reviews={reviews} pageCount={pageCount} totalitems={totalReivews} pageNo={page} />
+              </TabsContent>
+              <TabsContent value="availibilty">
+                <Separator className="my-4 w-[98%]" />
+                <AvaliablityRendering availibilty={doctor?.availibilty} />
               </TabsContent>
             </Tabs>
           </div>

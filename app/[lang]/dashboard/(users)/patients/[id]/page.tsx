@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Metadata } from "next";
-import userAvatar from "../../../../../../public/assets/userAvatar.png";
+import userAvatar from "../../../../../../public/assets/user-avatar.png";
 import BreadCrumb from "@/components/breadcrumb";
 import { Heading } from "@/components/ui/heading";
 import { AccountProfile, ClientAddtionalInfo, FamilyMember } from "@/types/patients";

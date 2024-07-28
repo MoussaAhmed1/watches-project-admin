@@ -31,6 +31,7 @@ export interface ISingleDoctor {
   clinic_consultation_price: string
   clinic: Clinic
   licenses: License[]
+  availibilty:Avaliablity[]
 }
 
 

@@ -22,16 +22,16 @@ import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   name_en: z
-    .string().regex(/^[a-zA-Z0-9\s]+$/, { message: 'Must be English characters only' })
+    .string().regex(/^[a-zA-Z0-9\s.,;:?!()\-\[\]{}@#$%^&*+=_~'"<>]+$/, { message: 'Must be English characters only' })
     .min(3, { message: "Package Name must be at least 3 characters" }),
   name_ar: z
-    .string().regex(/^[\u0600-\u06FF0-9\s]+$/, { message: 'Must be Arabic characters only' })
+    .string().regex(/^[\u0600-\u06FF0-9\s.,;:?!()\-\[\]{}@#$%^&*+=_~'"<>]+$/, { message: 'Must be Arabic characters only' })
     .min(3, { message: "Package Name must be at least 3 characters" }),
   description_ar: z
-    .string().regex(/^[\u0600-\u06FF0-9\s]+$/, { message: 'Must be Arabic characters only' })
+    .string().regex(/^[\u0600-\u06FF0-9\s.,;:?!()\-\[\]{}@#$%^&*+=_~'"<>]+$/, { message: 'Must be Arabic characters only' })
     .min(3, { message: "Package description must be at least 3 characters" }),
   description_en: z
-    .string().regex(/^[a-zA-Z0-9\s]+$/, { message: 'Must be English characters only' })
+    .string().regex(/^[a-zA-Z0-9\s.,;:?!()\-\[\]{}@#$%^&*+=_~'"<>]+$/, { message: 'Must be English characters only' })
     .min(3, { message: "Package description must be at least 3 characters" }),
   price: z.coerce.number().positive('Must be a positive number'),
   expiration_days: z.coerce.number().positive('Must be a positive number'),

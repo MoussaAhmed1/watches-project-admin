@@ -54,3 +54,19 @@ export const fetchSinglePharmacyOrder = async (id: string): Promise<any> => {
     throw new Error(error);
   }
 };
+
+export const fetchSinglePharmacyOrderReplies = async (id: string): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+  try {
+    const res = await axiosInstance(`/pharmacy/order/${id}/replies/`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+    return res;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
