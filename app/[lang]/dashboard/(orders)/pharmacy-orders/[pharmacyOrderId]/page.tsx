@@ -228,7 +228,7 @@ const page = async ({ params }: { params: { pharmacyOrderId: string } }) => {
             </div>
           </TabsContent>
           <TabsContent value="replies">
-          <PharmacyOrderRepliesList data={OrderRepliesRes?.data?.data}/>
+            <PharmacyOrderRepliesList data={OrderRepliesRes?.data?.data} />
           </TabsContent>
         </Tabs>
       </div>
