@@ -16,11 +16,11 @@ const validationRules = {
   // string
   string_en: z
     .string()
-    .regex(/^[a-zA-Z0-9\s]+$/, { message: "Must be English characters only" })
+    .regex(/^[a-zA-Z0-9\s.,;:?!()\-\[\]{}@#$%^&*+=_~'"<>]+$/, { message: "Must be English characters only" })
     .min(3, { message: "must be at least 3 characters" }),
   string_ar: z
     .string()
-    .regex(/^[\u0600-\u06FF0-9\s]+$/, {
+    .regex(/^[\u0600-\u06FF0-9\s.,;:?!()\-\[\]{}@#$%^&*+=_~'"<>]+$/, {
       message: "Must be Arabic characters only",
     })
     .min(3, { message: "must be at least 3 characters" }),

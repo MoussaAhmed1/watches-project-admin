@@ -11,7 +11,9 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { ImageRender } from "@/components/shared/imagesRender/imagesRender";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import nurseImage from "../../../../../../public/assets/doctor.avif";
+import nurseImage from "../../../../../../public/assets/doctor.png";
+import userAvatar from "../../../../../../public/assets/user-avatar.png";
+import { shortenText } from "@/utils/helperFunctions";
 
 export const metadata: Metadata = {
   title: "Pharmacy Details | Dacatra Dashboard",
@@ -37,9 +39,9 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
             title={`Pharmacy Details`}
           />
           <div className="flex gap-1 justify-end">
-          {(!pharmacy?.is_verified) && <div className="px-0 md:px-4">
-            <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptPharmacyRequest} id={pharmacy?.user_id} />
-          </div>}
+            {(!pharmacy?.is_verified) && <div className="px-0 md:px-4">
+              <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptPharmacyRequest} id={pharmacy?.user_id} />
+            </div>}
             <Link
               href={`/dashboard/pharmacies/${params?.pharmacyId}/${pharmacy?.user_id}/edit`}
               className={cn(buttonVariants({ variant: "default" }), "p-5")}
@@ -54,7 +56,7 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
               <div className="flex items-center justify-start p-4 bg-[#3c50e0] text-white">
                 <ProfileImg
                   className="w-[100px] h-[100px]"
-                  src={pharmacy?.logo[0].image||nurseImage}
+                  src={pharmacy?.logo[0].image || nurseImage}
                   alt={pharmacy?.ph_name}
                 />
                 <div className="ml-4">
@@ -80,7 +82,13 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
                 <div className="flex mt-3">
                   <MapPin className="details_icon" />
                   <p className="mr-1">Address:</p>
-                  <p>{pharmacy?.address}</p>
+                  <Link
+                    href={`https://www.google.com/maps/search/?api=1&query=${pharmacy?.latitude},${pharmacy?.longitude}`}
+                    target="_blank"
+                    style={{ color: '#3A72EC' }}
+                  >
+                    {shortenText(pharmacy?.address, 90)}
+                  </Link>
                 </div>
               </div>
               <div className="p-4 border-t border-gray-200">
@@ -122,10 +130,10 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
                   <p>{pharmacy?.user?.phone} </p>
                 </div>
                 <div className="flex mt-3 items-center">
-                  <ImageIcon className="details_icon"/>
+                  <ImageIcon className="details_icon" />
                   <p className="mr-1">Avatar:</p>
                   <ProfileImg
-                    src={pharmacy?.user?.avatar??""}
+                    src={pharmacy?.user?.avatar || userAvatar}
                     alt={pharmacy?.user?.avatar}
                     className="w-[50px] h-[50px]"
                   />

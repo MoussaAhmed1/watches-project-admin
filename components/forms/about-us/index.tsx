@@ -20,7 +20,7 @@ import { changeAboutUs } from "@/actions/about-us";
 
 const formSchema = z.object({
   description_ar: z
-    .string().regex(/^[\u0600-\u06FF0-9\s]+$/, { message: 'Must be Arabic characters only' })
+    .string().regex(/^[\u0600-\u06FF0-9\s.,;:?!()\-\[\]{}@#$%^&*+=_~'"<>]+$/, { message: 'Must be Arabic characters only' })
     .min(10, {
       message: "Description must be at least 10 characters.",
     })
@@ -28,7 +28,7 @@ const formSchema = z.object({
       message: "Description must not be longer than 160 characters.",
     }),
   description_en: z
-    .string().regex(/^[a-zA-Z0-9\s]+$/, { message: 'Must be English characters only' })
+    .string().regex(/^[a-zA-Z0-9\s.,;:?!()\-\[\]{}@#$%^&*+=_~'"<>]+$/, { message: 'Must be English characters only' })
     .min(10, {
       message: "Description must be at least 10 characters.",
     })

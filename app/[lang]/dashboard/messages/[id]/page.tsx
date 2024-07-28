@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import BreadCrumb from "@/components/breadcrumb";
 import { Heading } from "@/components/ui/heading";
 import {  Info,MessageSquare,Reply } from "lucide-react";
-import userAvatar from "../../../../../public/assets/userAvatar.png";
+import userAvatar from "../../../../../public/assets/user-avatar.png";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { fetchSingleSuggestion } from "@/actions/suggestions";

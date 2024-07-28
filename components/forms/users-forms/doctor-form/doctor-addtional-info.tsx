@@ -34,7 +34,7 @@ import UseImagesStore from "@/hooks/use-images-store";
 import ImagesUploadfield from "@/components/shared/fileUpload/imagesUpload";
 export type DoctorAddtionalInfoFormValues = z.infer<typeof doctorAddtionalInfoSchema>;
 
-const workingTimeCards: { id: string, name: string }[] = [
+export const workingTimeCards: { id: string, name: string }[] = [
   {
     id: "2",
     name: "Sunday",
