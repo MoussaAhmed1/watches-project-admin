@@ -74,7 +74,8 @@ export const NurseOrderColumns: ColumnDef<INurseOrder>[] = [
   {
     accessorKey: "status",
     header: "status",
-    cell: ({ row }) => <div className="flex items-center gap-3">
+    cell: ({ row }) => {
+      return(<div className="flex items-center gap-3">
       <p
         style={{
           color: row?.original?.status === "STARTED"
@@ -87,7 +88,7 @@ export const NurseOrderColumns: ColumnDef<INurseOrder>[] = [
         {((row?.original?.status==="STARTED" && (new Date(row?.original?.date_to) < new Date()))) ? "COMPLETED" : row?.original?.status}
         {/* {row?.original?.status} */}
       </p>
-    </div>
+    </div>)}
   },
   // {
   //   accessorKey: "sent_offer",
