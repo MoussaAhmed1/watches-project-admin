@@ -58,6 +58,7 @@ export default async function page({ searchParams,params}: paramsProps) {
           totalitems={totalNotifications}
           data={notifications as unknown as Notification[]}
           pageCount={pageCount}
+          withSearch={false}
         />
       </div>
     </>
