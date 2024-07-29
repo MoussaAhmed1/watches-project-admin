@@ -2,9 +2,8 @@
 import React from 'react';
 import { Avaliablity } from '@/types/doctors';
 import CustomTimePicker from "@/components/shared/timepicker/TimePicker";
-import { workingTimeCards } from "@/components/forms/users-forms/doctor-form/doctor-addtional-info";
 import { Calendar } from 'lucide-react';
-import { Separator } from '@radix-ui/react-select';
+import { workingTimeCards } from '@/components/forms/users-forms/doctor-form/add-doctor';
 
 interface IProps {
     availibilty: Avaliablity[];
