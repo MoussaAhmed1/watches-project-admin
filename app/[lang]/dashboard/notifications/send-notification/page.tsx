@@ -15,7 +15,7 @@ export default async function Page({ searchParams }: paramsProps) {
     { title: "Notifications", link: "/dashboard/notifications" },
   ];
   const role = typeof searchParams?.role === "string" ? searchParams?.role : "client";
-  const res = await fetchUsers({page:1,limit:10,filters:"",role });
+  const res = await fetchUsers({page:1,limit:100,filters:"",role });
   const totalClients = res?.data?.data;
   return (
     <div className="flex-1 space-y-4 p-8">

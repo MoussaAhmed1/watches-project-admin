@@ -49,7 +49,13 @@ const OrderRepliescolumns: ColumnDef<PharmacyData>[] = [
   },
   {
     accessorKey: "address",
-    header: "Address"
+    header: "Address",
+    cell: ({ row }) => (
+      <div className="stars flex">
+        {shortenText(row?.original?.address ?? undefined) || " - "}
+      </div>
+
+    )
   },
   {
     accessorKey: "note",

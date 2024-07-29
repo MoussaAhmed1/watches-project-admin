@@ -32,40 +32,9 @@ import { License } from "@/types/doctors";
 import Image from "next/image";
 import UseImagesStore from "@/hooks/use-images-store";
 import ImagesUploadfield from "@/components/shared/fileUpload/imagesUpload";
+import { workingTimeCards } from "./add-doctor";
 export type DoctorAddtionalInfoFormValues = z.infer<typeof doctorAddtionalInfoSchema>;
 
-export const workingTimeCards: { id: string, name: string }[] = [
-  {
-    id: "2",
-    name: "Sunday",
-  },
-  {
-    id: "3",
-    name: "Monday",
-  },
-  {
-    id: "4",
-    name: "Tuesday",
-
-  },
-  {
-    id: "5",
-    name: "Wednesday",
-
-  },
-  {
-    id: "6",
-    name: "Thursday",
-  },
-  {
-    id: "7",
-    name: "Friday",
-  },
-  {
-    id: "1",
-    name: "Saturday"
-  }
-];
 
 interface DoctorFormProps {
   specializations: ISpecializations[];
@@ -441,6 +410,7 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
                               const remainAvaliablity: any[] = form.getValues("avaliablity")
                               const day = remainAvaliablity[ind]
                               day.id = availbleday?.id;
+                              day.day = availbleday?.id;
                               remainAvaliablity[ind] = day;
                               form.setValue(
                                 "avaliablity",
@@ -448,7 +418,7 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
                               );
                             }} />
                           </FormControl>
-                          {errors.is_urgent && <FormMessage>{errors.is_urgent.message}</FormMessage>}
+                          {errors.avaliablity && <FormMessage>{errors.avaliablity.message}</FormMessage>}
                         </FormItem>
                       )} />
                     </div>
@@ -464,6 +434,7 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
                             const remainAvaliablity: any[] = form.getValues("avaliablity")
                             const day = remainAvaliablity[ind]
                             day.start_at = val;
+                            day.day = availbleday?.id;
                             remainAvaliablity[ind] = day;
                             form.setValue(
                               "avaliablity",
@@ -480,6 +451,7 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
                             const remainAvaliablity: any[] = form.getValues("avaliablity")
                             const day = remainAvaliablity[ind]
                             day.end_at = val;
+                            day.day = availbleday?.id;
                             remainAvaliablity[ind] = day;
                             form.setValue(
                               "avaliablity",

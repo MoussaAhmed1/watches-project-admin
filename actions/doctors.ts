@@ -100,7 +100,7 @@ export const AddDoctor = async (formData: FormData): Promise<any> => {
       },
     });
     if(res?.data?.data?.id){
-      await AcceptDoctorRequest(res?.data?.data?.id);
+      await AcceptDoctorRequest({id:res?.data?.data?.id});
      }
     revalidatePath("/dashboard/doctors");
   } catch (error) {

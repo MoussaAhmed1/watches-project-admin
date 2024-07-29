@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
-import { AcceptDoctorRequest, AddDoctor } from "@/actions/doctors";
+import {  AddDoctor } from "@/actions/doctors";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import doctorSchema from "./schema/doctorSchema";
@@ -35,7 +35,11 @@ import InputDate from "@/components/shared/timepicker/InputDate";
 import UseImagesStore from "@/hooks/use-images-store";
 export type DoctorFormValues = z.infer<typeof doctorSchema>;
 
-const workingTimeCards: { id: string, name: string }[] = [
+export const workingTimeCards: { id: string, name: string }[] = [
+   {
+    id: "1",
+    name: "Saturday"
+  },
   {
     id: "2",
     name: "Sunday",
@@ -62,10 +66,6 @@ const workingTimeCards: { id: string, name: string }[] = [
     id: "7",
     name: "Friday",
   },
-  {
-    id: "1",
-    name: "Saturday"
-  }
 ];
 interface DoctorFormProps {
   specializations: ISpecializations[];
@@ -136,7 +136,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
     toFormData(data, formData);
 
     //Availability
-    const Availabilityarray = data.avaliablity.map((value: any) => value.is_active);
+    const Availabilityarray = data.avaliablity.filter((value: any) => value.is_active);
     if (Availabilityarray.length === 0) {
       setError("Availability shouldn't be empty")
       setLoading(false);
@@ -158,8 +158,6 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
       ...data,
       clinic: data?.clinic_consultation_price === 0 ? null : data?.clinic
     }
-    formData.delete('avaliablity');
-    formData.set('avaliablity', Availabilityarray.join());
     if (data?.cover_image) {
       formData.delete('cover_image');
       const cover_image = await getUrls(data?.cover_image as unknown as File);
@@ -170,7 +168,20 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
       const license_images_array = await getUrls(data?.license_images as unknown as FileList);
       formData.set('license_images', license_images_array.join());
     }
-
+    const _Availabilityarray =  Availabilityarray.map((day:any)=>{
+      if(typeof day.end_at === "string"){
+        day.end_at = +day.end_at
+      }
+      if(typeof day.start_at === "string"){
+        day.start_at = +day.start_at
+      }
+      if(typeof day.day === "string"){
+        day.day = +day.day
+      }
+      return day;
+    })
+    formData.set('avaliablity', JSON.stringify(_Availabilityarray));
+    alert(JSON.stringify(_Availabilityarray))
     const res = await AddDoctor(formData);
     if (res?.error) {
       toast({
@@ -185,9 +196,6 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
         title: "Added successfully",
         description: `Doctor has been successfully added.`,
       });
-      if (res?.data?.id) {
-        await AcceptDoctorRequest(res?.data?.id);
-      }
       router.push(`/dashboard/doctors`);
     }
 
@@ -222,9 +230,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
     };
   }, []);
 
-  useEffect(() => {
-    console.log(form.getValues("avaliablity"))
-  }, [form])
+  console.log(form.formState.errors);
 
   return (
     <>
@@ -537,7 +543,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                 workingTimeCards.map((availbleday: { id: string, name: string }, ind: number) => {
                   return (
                     <div className="flex space-x-10 items-center " key={availbleday?.id}>
-                      <input value={availbleday?.id} name={`avaliablity.${ind}.id`} className="hidden" />
+                      <input value={availbleday?.id} name={`avaliablity.${ind}.day`} className="hidden" />
                       <div className="min-w-[10%]">
                         <FormField name={`avaliablity.${ind}.is_active`} control={control} render={({ field }) => (
                           <FormItem className="flex flex-col">
@@ -547,7 +553,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                                 field.onChange(e);
                                 const remainAvaliablity: any[] = form.getValues("avaliablity")
                                 const day = remainAvaliablity[ind]
-                                day.id = availbleday?.id;
+                                day.day = availbleday?.id;
                                 remainAvaliablity[ind] = day;
                                 form.setValue(
                                   "avaliablity",
@@ -555,7 +561,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                                 );
                               }} />
                             </FormControl>
-                            {errors.is_urgent && <FormMessage>{errors.is_urgent.message}</FormMessage>}
+                            {errors.avaliablity && <FormMessage>{errors.avaliablity.message}</FormMessage>}
                           </FormItem>
                         )} />
                       </div>
