@@ -209,8 +209,8 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value={Role.SUPERADMIN}>Superadmin</SelectItem>
-                      <SelectItem value={Role.ADMIN}>Admin</SelectItem>
+                      {/* <SelectItem value={Role.SUPERADMIN}>Superadmin</SelectItem> */}
+                      {/* <SelectItem value={Role.ADMIN}>Admin</SelectItem> */}
                       <SelectItem value={Role.CLIENT}>Client</SelectItem>
                       <SelectItem value={Role.DOCTOR}>Doctor</SelectItem>
                       <SelectItem value={Role.PHARMACY}>Pharmacy</SelectItem>
