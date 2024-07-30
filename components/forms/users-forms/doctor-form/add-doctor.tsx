@@ -211,11 +211,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
       }
       return day;
     })
-    // formData.delete("avaliablity") 
-    formData.append('avaliablity', mapListToString({mapList:_Availabilityarray}));
-    // alert((JSON.stringify(_Availabilityarray)))
-    // alert((mapListToString({mapList:_Availabilityarray})))
-    alert((formData.get("avaliablity")))
+    formData.delete("avaliablity") 
     const res = await AddDoctor(formData,data.avaliablity);
     if (res?.error) {
       toast({
