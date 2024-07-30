@@ -55,7 +55,7 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const action = "Save changes";
-
+  console.log(initialData?.avaliablity)
   const defaultValues = {
     ...initialData, clinic: {
       latitude: initialData?.clinic?.latitude || undefined,
@@ -410,7 +410,7 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
                               const remainAvaliablity: any[] = form.getValues("avaliablity")
                               const day = remainAvaliablity[ind]
                               day.id = availbleday?.id;
-                              day.day = availbleday?.id;
+                              day.day = +availbleday?.id;
                               remainAvaliablity[ind] = day;
                               form.setValue(
                                 "avaliablity",
@@ -434,7 +434,7 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
                             const remainAvaliablity: any[] = form.getValues("avaliablity")
                             const day = remainAvaliablity[ind]
                             day.start_at = val;
-                            day.day = availbleday?.id;
+                            day.day = +availbleday?.id;
                             remainAvaliablity[ind] = day;
                             form.setValue(
                               "avaliablity",
@@ -451,7 +451,7 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
                             const remainAvaliablity: any[] = form.getValues("avaliablity")
                             const day = remainAvaliablity[ind]
                             day.end_at = val;
-                            day.day = availbleday?.id;
+                            day.day = +availbleday?.id;
                             remainAvaliablity[ind] = day;
                             form.setValue(
                               "avaliablity",

@@ -4,9 +4,9 @@ import * as z from "zod";
 const doctorSchema = z.object({
   first_name: z.string().min(1, "First name is required"),
   last_name: z.string().min(1, "Last name is required"),
-  birth_date: validationRules.date,
+  birth_date: validationRules.date.optional(),
   gender: z.enum(["male", "female"]),
-  phone: validationRules.phone,
+  phone: z.string().min(1, "First name is required"),
   avatarFile: z.union([
     z.any().refine((file): file is File => file instanceof File, {
       message: 'File must be uploaded',
@@ -53,7 +53,7 @@ const doctorSchema = z.object({
   license_images: z.union([
     z.any().refine((file): file is FileList => file instanceof FileList, {
       message: 'license images is required',
-    }),
+    }).optional(),
     z.string().refine((url) => {
       try {
         const { pathname } = new URL(url);
