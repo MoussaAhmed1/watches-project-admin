@@ -3,7 +3,7 @@ import BreadCrumb from "@/components/breadcrumb";
 import { AcceptNurseOrderCancelRequest, fetchSingleNurseOrder } from "@/actions/nurse-orders";
 import { SingleNurseOrder } from "@/types/nurse-order";
 import { Heading } from "@/components/ui/heading";
-import { formatCreatedAtDateAsDateTime, getDateSimpleFormat, shortenText } from "@/utils/helperFunctions";
+import { formatCreatedAtDateAsDateTime, shortenText } from "@/utils/helperFunctions";
 import { Card } from "@/components/ui/card";
 import { CheckCircle, CircleSlash } from "lucide-react";
 import Approve from "@/components/details/role-details/Approve";
