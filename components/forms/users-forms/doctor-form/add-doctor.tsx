@@ -129,8 +129,38 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
   const [error, setError] = useState("");
   const [ClinicError, setClinicError] = useState("");
 
+  type Availability = {
+    day: number;
+    start_at: number;
+    end_at: number;
+    is_active: boolean;
+  };
+  
+  function formatAvailabilityArray(availabilityArray: Availability[]): string[] {
+    return availabilityArray.map(item => {
+      return `{"day":${item.day},"start_at":${item.start_at},"end_at":${item.end_at},"is_active":${item.is_active}}`;
+    });
+  }
+
+  function mapListToString({ mapList }: { mapList: Availability[] }): string {
+    const jsonString = mapList
+      .map((map) => {
+        const mapString = Object.entries(map)
+          .map(([key, value]) => {
+            const keyString = `"${key}"`;
+            const valueString = typeof value === "string" ? `"${value}"` : value.toString();
+            return `${keyString}: ${valueString}`;
+          })
+          .join(", ");
+  
+        return `{${mapString}}`;
+      })
+      .join(", ");
+  
+    return `[${jsonString}]`;
+  }
   const onSubmit = async (data: DoctorFormValues) => {
-    // alert(JSON.stringify(data)); //testing
+    alert(JSON.stringify(data)); //testing
     setLoading(true);
     const formData = new FormData();
     toFormData(data, formData);
@@ -180,8 +210,10 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
       }
       return day;
     })
-    formData.set('avaliablity', JSON.stringify(_Availabilityarray));
-    alert(JSON.stringify(_Availabilityarray))
+    formData.delete("avaliablity") 
+    formData.set('avaliablity', mapListToString({mapList:_Availabilityarray}));
+    alert((mapListToString({mapList:_Availabilityarray})))
+    alert((formData.get("avaliablity")))
     const res = await AddDoctor(formData);
     if (res?.error) {
       toast({
@@ -553,7 +585,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                                 field.onChange(e);
                                 const remainAvaliablity: any[] = form.getValues("avaliablity")
                                 const day = remainAvaliablity[ind]
-                                day.day = availbleday?.id;
+                                day.day = +availbleday?.id;
                                 remainAvaliablity[ind] = day;
                                 form.setValue(
                                   "avaliablity",

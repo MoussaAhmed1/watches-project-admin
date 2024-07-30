@@ -11,7 +11,7 @@ export default async function Page() {
   ];
   const res = await fetchAdditionalSpecializations({
     page:1,
-    limit:100,
+    limit:200,
 
   });
   const specializations: ISpecializations[] = res?.data?.data || [];
