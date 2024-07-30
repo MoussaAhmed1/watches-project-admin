@@ -44,6 +44,9 @@ export const fetchSingleSuggestion = async (id: string): Promise<any> => {
         Authorization: `Bearer ${accessToken}`,
         "Accept-Language": lang,
       },
+      params:{
+        isDeleted:true
+      }
     });
     return res;
   } catch (error: any) {

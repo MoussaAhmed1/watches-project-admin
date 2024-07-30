@@ -28,6 +28,7 @@ export const fetchReviews = async ({
         limit,
         filters: filters ? [`name=${filters}`,`name_en=${filters}`, `name_ar=${filters}`,spreadotherfilters] : spreadotherfilters ? [spreadotherfilters]:null,
         sortBy: "created_at=desc",
+        isDeleted:true
       },
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -58,6 +59,7 @@ export const fetchNurseReviews = async ({
         // limit,
         filters: spreadotherfilters ? [spreadotherfilters]:null,
         sortBy: "created_at=desc",
+        isDeleted:true
       },
       headers: {
         Authorization: `Bearer ${accessToken}`,
