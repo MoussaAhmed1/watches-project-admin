@@ -47,10 +47,6 @@ const page = async ({ params }: { params: { pharmacyOrderId: string } }) => {
         data_value: pharmacyOrder?.categories[0]?.name,
       },
       {
-        data_key: "Has Replied",
-        data_value: pharmacyOrder?.has_replied ? <CheckCircle stroke="#39a845" size={18} /> : <CircleSlash style={{ color: '#8C0101' }} size={18} />,
-      },
-      {
         data_key: "Address",
         data_value: (<Link
           href={`https://www.google.com/maps/search/?api=1&query=${pharmacyOrder?.address?.latitude},${pharmacyOrder?.address?.longitude}`}
@@ -78,35 +74,6 @@ const page = async ({ params }: { params: { pharmacyOrderId: string } }) => {
               )}
               customStyle="ml-4"
             />
-            <p
-              className="mt-[5px] mx-4"
-              style={{
-                color:
-                  pharmacyOrder?.status === "STARTED"
-                    ? "#1976d2"
-                    : pharmacyOrder?.status === "CANCELLED"
-                      ? "#8C0101"
-                      : pharmacyOrder?.status === "COMPLETED"
-                        ? "#28a745"
-                        : pharmacyOrder?.status === "PENDING"
-                          ? "#FFA500"
-                          : "unset",
-                background:
-                  pharmacyOrder?.status === "STARTED"
-                    ? "#ffe6e6"
-                    : pharmacyOrder?.status === "CANCELLED"
-                      ? "#fff5e6"
-                      : pharmacyOrder?.status === "COMPLETED"
-                        ? "#ecf8ef"
-                        : "unset",
-
-                fontWeight: 400,
-                borderRadius: "12px",
-                padding: 2,
-              }}
-            >
-              {pharmacyOrder?.status}
-            </p>
           </div>
         </div>
         <Tabs defaultValue="details" className="w-full m-3">

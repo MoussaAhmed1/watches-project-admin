@@ -45,7 +45,7 @@ export function getDateSimpleFormat(date: Date|string): string {
 }
 
 export function getTodayDateSimpleFormat(date: Date|string): string {
-  return moment(date).format('YYYY-MM-DD');
+  return moment(date).format('YYYY-MM-DD HH:mm:ss');
 }
 
 
