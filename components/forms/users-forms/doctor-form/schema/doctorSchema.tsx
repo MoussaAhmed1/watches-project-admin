@@ -94,8 +94,8 @@ const doctorSchema = z.object({
   clinic: z.object({
     latitude: validationRules.latLng.optional(),
     longitude: validationRules.latLng.optional(),
-    address: z.string().min(1, "Clinic address is required").optional(),
-    name: z.string().min(1, "Clinic name is required").optional(),
+    address: z.string().optional(),
+    name: z.string().optional(),
     is_active: z.union([z.string(), z.boolean()]).optional(),
   }).optional().nullable(),
 });
