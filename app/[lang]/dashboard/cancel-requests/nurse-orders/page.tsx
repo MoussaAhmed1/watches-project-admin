@@ -6,6 +6,7 @@ import { SharedTable } from "@/components/tables/shared/Shared-table";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { INurseOrder } from "@/types/nurse-order";
+import { getTodayDateSimpleFormat } from "@/utils/helperFunctions";
 
 const breadcrumbItems = [{ title: "Nurse Orders Cancel Requests", link: "/dashboard/cancel-requests/nurse-orders" }];
 
@@ -24,7 +25,7 @@ export default async function page({ searchParams }: paramsProps) {
     page,
     limit,
     filters: search,
-    otherfilters:["cancel_request=1,status!=CANCELED"]
+    otherfilters:[`cancel_request=1,status=STARTED,date_to>${getTodayDateSimpleFormat(new Date())}`]
   });
   const totalNurseOrder = res?.data?.meta?.total ||0; //1000
   const pageCount = Math.ceil(totalNurseOrder / limit);
