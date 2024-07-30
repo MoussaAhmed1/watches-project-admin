@@ -55,7 +55,6 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const action = "Save changes";
-  console.log(initialData?.avaliablity)
   const defaultValues = {
     ...initialData, clinic: {
       latitude: initialData?.clinic?.latitude || undefined,
@@ -64,6 +63,8 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
       name: initialData?.clinic?.name || undefined,
       is_active: initialData?.clinic?.is_active || undefined,
     }
+    ,
+    avaliablity:initialData?.avaliablity?.sort((a:any, b:any) => a.day - b.day)
   };
   const form = useForm<DoctorAddtionalInfoFormValues>({
     resolver: zodResolver(doctorAddtionalInfoSchema),
@@ -195,7 +196,7 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
     setHasupload(false);
   };
   //show error messages
-
+// console.log(form.formState.errors);
   return (
     <Card className="p-10 mx-0 border-0" style={{ boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >
       <Form {...form}>
@@ -396,7 +397,7 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
             {error && <h5 style={{ color: error ? "red" : "unset" }}>{error}</h5>}
             {  /* availablity */}
             {
-              workingTimeCards.map((availbleday: { id: string, name: string }, ind: number) => {
+              workingTimeCards.map((availbleday: { id: number, name: string }, ind: number) => {
                 return (
                   <div className="flex space-x-10 items-center " key={availbleday?.id}>
                     <input value={availbleday?.id} name={`avaliablity.${ind}.id`} className="hidden" />
@@ -410,7 +411,7 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
                               const remainAvaliablity: any[] = form.getValues("avaliablity")
                               const day = remainAvaliablity[ind]
                               day.id = availbleday?.id;
-                              day.day = +availbleday?.id;
+                              day.day = availbleday?.id;
                               remainAvaliablity[ind] = day;
                               form.setValue(
                                 "avaliablity",
@@ -434,7 +435,7 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
                             const remainAvaliablity: any[] = form.getValues("avaliablity")
                             const day = remainAvaliablity[ind]
                             day.start_at = val;
-                            day.day = +availbleday?.id;
+                            day.day = availbleday?.id;
                             remainAvaliablity[ind] = day;
                             form.setValue(
                               "avaliablity",
@@ -445,13 +446,13 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
                       <div>
                         <FormLabel className="max-w-30 mx-1">End Time <span className="text-red-800">*</span></FormLabel>
                         <CustomTimePicker
-                          val={form.getValues("avaliablity.0.end_at") ?? undefined}
+                          val={form.getValues(`avaliablity.${ind}.end_at`) ?? undefined}
                           setval={(val) => {
                             form.clearErrors(`avaliablity.${ind}.end_at`);
                             const remainAvaliablity: any[] = form.getValues("avaliablity")
                             const day = remainAvaliablity[ind]
                             day.end_at = val;
-                            day.day = +availbleday?.id;
+                            day.day = availbleday?.id;
                             remainAvaliablity[ind] = day;
                             form.setValue(
                               "avaliablity",

@@ -14,25 +14,30 @@ import { ITEMS_PER_PAGE } from "./Global-variables";
 import { DoctorAddtionalInfoFormValues } from "@/components/forms/users-forms/doctor-form/doctor-addtional-info";
 
 export const fetchDoctors = async ({
-
   page = 1,
   limit = ITEMS_PER_PAGE,
   filters,
-  otherfilters
+  otherfilters,
 }: Params): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
-  const spreadotherfilters:string = otherfilters? otherfilters.toString() : "";
+  const spreadotherfilters: string = otherfilters
+    ? otherfilters.toString()
+    : "";
   try {
     const res = await axiosInstance(endpoints.doctors.fetch, {
       params: {
         page,
         limit,
-        filters: filters ? [
-          `${spreadotherfilters},user.phone=${filters}`,
-          `${spreadotherfilters},user.first_name=${filters}`,
-          `${spreadotherfilters},user.last_name=${filters}`
-        ] : spreadotherfilters ? [spreadotherfilters]:null,
+        filters: filters
+          ? [
+              `${spreadotherfilters},user.phone=${filters}`,
+              `${spreadotherfilters},user.first_name=${filters}`,
+              `${spreadotherfilters},user.last_name=${filters}`,
+            ]
+          : spreadotherfilters
+          ? [spreadotherfilters]
+          : null,
         sortBy: "created_at=desc",
       },
       headers: {
@@ -48,7 +53,7 @@ export const fetchDoctors = async ({
   }
 };
 
-export const fetchSingleDoctor = async (doctorId : string): Promise<any> => {
+export const fetchSingleDoctor = async (doctorId: string): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
   try {
@@ -61,15 +66,18 @@ export const fetchSingleDoctor = async (doctorId : string): Promise<any> => {
     return res;
   } catch (error: any) {
     throw new Error(error);
-
   }
 };
 
-export const AcceptDoctorRequest = async ({id}:{id:string}): Promise<any> => {
+export const AcceptDoctorRequest = async ({
+  id,
+}: {
+  id: string;
+}): Promise<any> => {
   const accessToken = cookies().get("access_token")?.value;
   const lang = cookies().get("Language")?.value;
   try {
-     await axiosInstance.post(
+    await axiosInstance.post(
       `${endpoints.doctors.accept}/${id}`,
       {},
       {
@@ -87,21 +95,28 @@ export const AcceptDoctorRequest = async ({id}:{id:string}): Promise<any> => {
   }
 };
 
-
-export const AddDoctor = async (formData: FormData): Promise<any> => {
+export const AddDoctor = async (
+  formData: FormData,
+  avaliablity: any,
+): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   try {
     const accessToken = cookies().get("access_token")?.value;
-  const res =   await axiosInstance.post(endpoints.doctors.register, formData, {
+    const res = await axiosInstance.post(endpoints.doctors.register, formData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Accept-Language": lang,
         "Content-Type": "multipart/form-data",
       },
     });
-    if(res?.data?.data?.id){
-      await AcceptDoctorRequest({id:res?.data?.data?.id});
-     }
+    if (res?.data?.data?.id) {
+      await AcceptDoctorRequest({ id: res?.data?.data?.id });
+
+      await updateDoctorAddtionalInfo({
+        data: { avaliablity: avaliablity } as any,
+        userId: res?.data?.data?.id,
+      });
+    }
     revalidatePath("/dashboard/doctors");
   } catch (error) {
     return {
@@ -110,17 +125,17 @@ export const AddDoctor = async (formData: FormData): Promise<any> => {
   }
 };
 
-
-
-
-
-export const fetchDoctorAdditionalInfo = async ({userId}:{userId : string}): Promise<any> => {
+export const fetchDoctorAdditionalInfo = async ({
+  userId,
+}: {
+  userId: string;
+}): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
   try {
     const res = await axiosInstance(`/additional-info/doctor/info`, {
-      params:{
-        id: userId
+      params: {
+        id: userId,
       },
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -130,15 +145,18 @@ export const fetchDoctorAdditionalInfo = async ({userId}:{userId : string}): Pro
     return res;
   } catch (error: any) {
     throw new Error(error);
-
   }
 };
 
-export const removeDoctorLicence = async ({id}:{id : string}): Promise<any> => {
+export const removeDoctorLicence = async ({
+  id,
+}: {
+  id: string;
+}): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
   try {
-     await axiosInstance.delete(`/additional-info/doctor-license/${id}`, {
+    await axiosInstance.delete(`/additional-info/doctor-license/${id}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Accept-Language": lang,
@@ -151,13 +169,19 @@ export const removeDoctorLicence = async ({id}:{id : string}): Promise<any> => {
     };
   }
 };
-export const updateDoctorAddtionalInfo= async ({userId,data}:{userId : string,data:DoctorAddtionalInfoFormValues}): Promise<any> => {
+export const updateDoctorAddtionalInfo = async ({
+  userId,
+  data,
+}: {
+  userId: string;
+  data: DoctorAddtionalInfoFormValues;
+}): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   try {
     const accessToken = cookies().get("access_token")?.value;
     await axiosInstance.put(`/additional-info/doctor/info`, data, {
-      params:{
-        id: userId
+      params: {
+        id: userId,
       },
       headers: {
         Authorization: `Bearer ${accessToken}`,

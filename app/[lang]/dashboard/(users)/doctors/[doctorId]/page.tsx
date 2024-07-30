@@ -210,7 +210,7 @@ const page = async ({ params, searchParams }: {
               </TabsContent>
               <TabsContent value="availibilty">
                 <Separator className="my-4 w-[98%]" />
-                <AvaliablityRendering availibilty={doctor?.availibilty} />
+                <AvaliablityRendering availibilty={doctor?.availibilty?.sort((a:any, b:any) => a.day - b.day)} />
               </TabsContent>
             </Tabs>
           </div>

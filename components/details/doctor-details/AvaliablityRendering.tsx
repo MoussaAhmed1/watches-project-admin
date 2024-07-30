@@ -10,15 +10,16 @@ interface IProps {
 }
 
 const AvaliablityRendering = ({ availibilty }: IProps) => {
+    console.log(availibilty)
     return (
         <div style={{ minHeight: 500, display: 'flex', flexDirection: "column", justifyContent: "space-between" }} className='p-2'>
             <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', width: "97%", justifyContent: "start", flexDirection: "column" }}>
                 {
-                    workingTimeCards?.filter((day, ind) => {
+                    workingTimeCards?.sort((a:any, b:any) => a.id - b.id).filter((day, ind) => {
                         if (availibilty[ind]?.is_active) {
                             return day;
                         }
-                    }).map((availbleday: { id: string, name: string }, ind: number) => {
+                    }).map((availbleday: { id: number, name: string }, ind: number) => {
                         return (
                             <div className="flex space-x-10 items-center  pb-2" key={availbleday?.id}>
                                 {/* TimePicker */}
@@ -30,14 +31,14 @@ const AvaliablityRendering = ({ availibilty }: IProps) => {
                                     <div>
                                         <span className="max-w-30 mx-1">Start Time</span>
                                         <CustomTimePicker
-                                            val={availibilty[ind].start_at}
+                                            val={availibilty?.find((av:any)=>av.day === availbleday.id)?.start_at}
                                             _disabled
                                         />
                                     </div>
                                     <div>
                                         <span className="max-w-30 mx-1">End Time</span>
                                         <CustomTimePicker
-                                            val={availibilty[ind].end_at}
+                                            val={availibilty?.find((av:any)=>av.day === availbleday.id)?.end_at}
                                             _disabled
                                         />
                                     </div>

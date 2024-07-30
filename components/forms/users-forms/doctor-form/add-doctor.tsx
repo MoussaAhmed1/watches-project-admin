@@ -35,35 +35,35 @@ import InputDate from "@/components/shared/timepicker/InputDate";
 import UseImagesStore from "@/hooks/use-images-store";
 export type DoctorFormValues = z.infer<typeof doctorSchema>;
 
-export const workingTimeCards: { id: string, name: string }[] = [
+export const workingTimeCards: { id: number, name: string }[] = [
    {
-    id: "1",
+    id: 1,
     name: "Saturday"
   },
   {
-    id: "2",
+    id: 2,
     name: "Sunday",
   },
   {
-    id: "3",
+    id: 3,
     name: "Monday",
   },
   {
-    id: "4",
+    id: 4,
     name: "Tuesday",
 
   },
   {
-    id: "5",
+    id: 5,
     name: "Wednesday",
 
   },
   {
-    id: "6",
+    id: 6,
     name: "Thursday",
   },
   {
-    id: "7",
+    id: 7,
     name: "Friday",
   },
 ];
@@ -160,7 +160,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
     return `[${jsonString}]`;
   }
   const onSubmit = async (data: DoctorFormValues) => {
-    alert(JSON.stringify(data)); //testing
+    // alert(JSON.stringify(data)); //testing
     setLoading(true);
     const formData = new FormData();
     toFormData(data, formData);
@@ -198,6 +198,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
       const license_images_array = await getUrls(data?.license_images as unknown as FileList);
       formData.set('license_images', license_images_array.join());
     }
+    // [  {    "day": 1,    "start_at": 10,    "end_at": 12,    "is_active": true  }]
     const _Availabilityarray =  Availabilityarray.map((day:any)=>{
       if(typeof day.end_at === "string"){
         day.end_at = +day.end_at
@@ -210,11 +211,12 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
       }
       return day;
     })
-    formData.delete("avaliablity") 
-    formData.set('avaliablity', mapListToString({mapList:_Availabilityarray}));
-    alert((mapListToString({mapList:_Availabilityarray})))
+    // formData.delete("avaliablity") 
+    formData.append('avaliablity', mapListToString({mapList:_Availabilityarray}));
+    // alert((JSON.stringify(_Availabilityarray)))
+    // alert((mapListToString({mapList:_Availabilityarray})))
     alert((formData.get("avaliablity")))
-    const res = await AddDoctor(formData);
+    const res = await AddDoctor(formData,data.avaliablity);
     if (res?.error) {
       toast({
         variant: "destructive",
@@ -235,7 +237,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
   };
 
   //show error messages
-  // console.log(form.formState.errors);
+  console.log(form.formState.errors);
 
   useEffect(() => {
     const handleOnBeforeUnload = (event: BeforeUnloadEvent) => {
@@ -572,7 +574,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
               {error && <h5 style={{ color: error ? "red" : "unset" }}>{error}</h5>}
               {  /* availablity */}
               {
-                workingTimeCards.map((availbleday: { id: string, name: string }, ind: number) => {
+                workingTimeCards.map((availbleday: { id: number, name: string }, ind: number) => {
                   return (
                     <div className="flex space-x-10 items-center " key={availbleday?.id}>
                       <input value={availbleday?.id} name={`avaliablity.${ind}.day`} className="hidden" />
@@ -609,6 +611,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                               const remainAvaliablity: any[] = form.getValues("avaliablity")
                               const day = remainAvaliablity[ind]
                               day.start_at = val;
+                              day.day = +availbleday?.id;
                               remainAvaliablity[ind] = day;
                               form.setValue(
                                 "avaliablity",
@@ -625,6 +628,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                               const remainAvaliablity: any[] = form.getValues("avaliablity")
                               const day = remainAvaliablity[ind]
                               day.end_at = val;
+                              day.day = +availbleday?.id;
                               remainAvaliablity[ind] = day;
                               form.setValue(
                                 "avaliablity",
