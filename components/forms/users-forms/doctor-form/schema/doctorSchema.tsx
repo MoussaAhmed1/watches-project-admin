@@ -84,7 +84,7 @@ const doctorSchema = z.object({
   }).refine(value => value !== undefined, { message: "Please Pick A Location On The Map" }),
   avaliablity:z.array(
     z.object({
-      day: z.string().optional(),
+      day: z.number().optional(),
       start_at: z.string().optional(),
       end_at: z.string().optional(),
       is_active: z.boolean().optional()
