@@ -48,6 +48,7 @@ export const fetchNurseOrder = async ({
             ]
           : otherfilters ? otherfilters:null,
         sortBy: "created_at=desc",
+        isDeleted:true
       },
       headers: {
         Authorization: `Bearer ${accessToken}`,
