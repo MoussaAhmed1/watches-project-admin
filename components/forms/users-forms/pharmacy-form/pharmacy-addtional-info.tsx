@@ -108,6 +108,8 @@ export const PharmacyAddtionalInfoForm: React.FC<PharmacyFormProps> = ({
     if (data?.logo_images && hasuploadLogo) {
       const logo_images = await getUrls(data?.logo_images as unknown as File);
       data.logo_images = logo_images as unknown as string;
+    }else {
+      data.logo_images = null as unknown as any;
     }
     //license_images
     if (data?.license_images && hasuploadLicense) {
