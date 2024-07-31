@@ -129,54 +129,13 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
   const [error, setError] = useState("");
   const [ClinicError, setClinicError] = useState("");
 
-  type Availability = {
-    day: number;
-    start_at: number;
-    end_at: number;
-    is_active: boolean;
-  };
-  
-  function formatAvailabilityArray(availabilityArray: Availability[]): string[] {
-    return availabilityArray.map(item => {
-      return `{"day":${item.day},"start_at":${item.start_at},"end_at":${item.end_at},"is_active":${item.is_active}}`;
-    });
-  }
 
-  function mapListToString({ mapList }: { mapList: Availability[] }): string {
-    const jsonString = mapList
-      .map((map) => {
-        const mapString = Object.entries(map)
-          .map(([key, value]) => {
-            const keyString = `"${key}"`;
-            const valueString = typeof value === "string" ? `"${value}"` : value.toString();
-            return `${keyString}: ${valueString}`;
-          })
-          .join(", ");
-  
-        return `{${mapString}}`;
-      })
-      .join(", ");
-  
-    return `[${jsonString}]`;
-  }
+
   const onSubmit = async (data: DoctorFormValues) => {
-    // alert(JSON.stringify(data)); //testing
     setLoading(true);
     const formData = new FormData();
-    toFormData(data, formData);
-
-    //Availability
-    const Availabilityarray = data.avaliablity.filter((value: any) => value.is_active);
-    if (Availabilityarray.length === 0) {
-      setError("Availability shouldn't be empty")
-      setLoading(false);
-      return;
-    } else {
-      setError("")
-    }
-
-    if (((data?.clinic_consultation_price !== 0) && data?.clinic?.name === undefined) ||
-      ((data?.clinic_consultation_price === 0) && data?.clinic?.name !== undefined)) {
+    if (((data?.clinic_consultation_price) && !data?.clinic?.name) ||
+    ((!data?.clinic_consultation_price) && data?.clinic?.name)) {
       setClinicError("Clinic Error")
       setLoading(false);
       return;
@@ -186,8 +145,22 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
     }
     data = {
       ...data,
-      clinic: data?.clinic_consultation_price === 0 ? null : data?.clinic
+      clinic: data?.clinic_consultation_price === 0 ? null : data?.clinic,
+      clinic_consultation_price:data?.clinic_consultation_price === 0 ? null as any : data?.clinic_consultation_price
     }
+
+    toFormData(data, formData);
+    
+    //Availability
+    const Availabilityarray = data.avaliablity.filter((value: any) => value.is_active);
+    if (Availabilityarray.length === 0) {
+      setError("Availability shouldn't be empty")
+      setLoading(false);
+      return;
+    } else {
+      setError("")
+    }
+    
     if (data?.cover_image) {
       formData.delete('cover_image');
       const cover_image = await getUrls(data?.cover_image as unknown as File);
@@ -198,20 +171,8 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
       const license_images_array = await getUrls(data?.license_images as unknown as FileList);
       formData.set('license_images', license_images_array.join());
     }
-    // [  {    "day": 1,    "start_at": 10,    "end_at": 12,    "is_active": true  }]
-    const _Availabilityarray =  Availabilityarray.map((day:any)=>{
-      if(typeof day.end_at === "string"){
-        day.end_at = +day.end_at
-      }
-      if(typeof day.start_at === "string"){
-        day.start_at = +day.start_at
-      }
-      if(typeof day.day === "string"){
-        day.day = +day.day
-      }
-      return day;
-    })
     formData.delete("avaliablity") 
+    // alert(JSON.stringify(data)); //testing
     const res = await AddDoctor(formData,data.avaliablity);
     if (res?.error) {
       toast({
@@ -235,30 +196,30 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
   //show error messages
   console.log(form.formState.errors);
 
-  useEffect(() => {
-    const handleOnBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (typeof window !== 'undefined') {
-        event.preventDefault();
-        return (event.returnValue = '');
-      }
-    };
+  // useEffect(() => {
+  //   const handleOnBeforeUnload = (event: BeforeUnloadEvent) => {
+  //     if (typeof window !== 'undefined') {
+  //       event.preventDefault();
+  //       return (event.returnValue = '');
+  //     }
+  //   };
 
-    const handlePopState = (event: PopStateEvent) => {
-      const confirmationMessage = 'Are you sure you want to leave this page? Your changes may not be saved.';
-      if (!window.confirm(confirmationMessage)) {
-        event.preventDefault();
-        window.history.pushState(null, '', window.location.href);
-      }
-    };
+  //   const handlePopState = (event: PopStateEvent) => {
+  //     const confirmationMessage = 'Are you sure you want to leave this page? Your changes may not be saved.';
+  //     if (!window.confirm(confirmationMessage)) {
+  //       event.preventDefault();
+  //       window.history.pushState(null, '', window.location.href);
+  //     }
+  //   };
 
-    window.addEventListener('beforeunload', handleOnBeforeUnload);
-    window.addEventListener('popstate', handlePopState);
+  //   window.addEventListener('beforeunload', handleOnBeforeUnload);
+  //   window.addEventListener('popstate', handlePopState);
 
-    return () => {
-      window.removeEventListener('beforeunload', handleOnBeforeUnload);
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('beforeunload', handleOnBeforeUnload);
+  //     window.removeEventListener('popstate', handlePopState);
+  //   };
+  // }, []);
 
   console.log(form.formState.errors);
 
