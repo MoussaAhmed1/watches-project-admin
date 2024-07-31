@@ -143,8 +143,8 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
       setError("")
     }
 
-    if (((data?.clinic_consultation_price !== 0) && data?.clinic?.name === undefined) ||
-      ((data?.clinic_consultation_price === 0) && data?.clinic?.name !== undefined)) {
+    if (((data?.clinic_consultation_price) && !data?.clinic?.name) ||
+    ((!data?.clinic_consultation_price) && data?.clinic?.name)) {
       setClinicError("Clinic Error")
       setLoading(false);
       return;
@@ -154,8 +154,10 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
     }
     data = {
       ...data,
-      clinic: data?.clinic_consultation_price === 0 ? null : data?.clinic
+      clinic: data?.clinic_consultation_price === 0 ? null : data?.clinic,
+      clinic_consultation_price:data?.clinic_consultation_price === 0 ? null as any : data?.clinic_consultation_price
     }
+
     //cover_image
     if (data?.cover_image) {
       const cover_image = await getUrls(data?.cover_image as unknown as File);
