@@ -206,7 +206,7 @@ export const updateUsersProfile = async (
       },
     );
     if(id===""){
-      cookies()?.set("permissions",res?.data?.data?.premessions);
+      cookies()?.set("permissions",JSON.stringify(formData.get("premessions")));
       cookies()?.set("name",res?.data?.data?.id);
     }
     revalidatePath(revalidatequery);
