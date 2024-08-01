@@ -1,5 +1,5 @@
 import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
-import { fetchNurseOrder } from "@/actions/nurse-orders";
+import { fetchCanceledNurseOrder } from "@/actions/nurse-orders";
 import BreadCrumb from "@/components/breadcrumb";
 import { NurseOrderColumns } from "@/components/tables/nurse-orders-tables/columns";
 import { SharedTable } from "@/components/tables/shared/Shared-table";
@@ -21,7 +21,7 @@ export default async function page({ searchParams }: paramsProps) {
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
   typeof searchParams?.search === "string" ? searchParams?.search : "";
-  const res = await fetchNurseOrder({
+  const res = await fetchCanceledNurseOrder({
     page,
     limit,
     filters: search,

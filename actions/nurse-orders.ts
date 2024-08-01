@@ -32,14 +32,6 @@ export const fetchNurseOrder = async ({
   if(status==="STARTED"){
     _status = `,status=STARTED,date_to>${getTodayDateSimpleFormat(new Date())}`
   }
-  console.log([
-    `${userPhone}${_status}`,
-    `${nursePhone}${_status}`,
-    `user.first_name=${filters}${_status}`,
-    `user.last_name=${filters}${_status}`,
-    `nurse.user.first_name=${filters}${_status}`,
-    `nurse.user.last_name=${filters}${_status}`,
-  ])
   try {
     const res = await axiosInstance(endpoints.nurse_orders.fetch, {
       params: {
@@ -53,6 +45,49 @@ export const fetchNurseOrder = async ({
               `user.last_name=${filters}${_status}`,
               `nurse.user.first_name=${filters}${_status}`,
               `nurse.user.last_name=${filters}${_status}`,
+            ]
+          : otherfilters ? otherfilters:null,
+        sortBy: "created_at=desc",
+        isDeleted:true
+      },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+    return res;
+  } catch (error: any) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
+export const fetchCanceledNurseOrder = async ({
+  page = 1,
+  limit = ITEMS_PER_PAGE,
+  filters,
+  status,
+  otherfilters
+}: Params): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get('access_token')?.value;
+  const userPhone = filters?`user.phone=${filters}`:"";
+  const nursePhone = filters?`nurse.user.phone=${filters}`:"";
+
+  try {
+    const res = await axiosInstance(endpoints.nurse_orders.fetch, {
+      params: {
+        page,
+        limit,
+        filters: filters 
+          ? [
+              `${otherfilters},${userPhone}`,
+              `${otherfilters},${nursePhone}`,
+              `${otherfilters},user.first_name=${filters}`,
+              `${otherfilters},user.last_name=${filters}`,
+              `${otherfilters},nurse.user.first_name=${filters}`,
+              `${otherfilters},nurse.user.last_name=${filters}`,
             ]
           : otherfilters ? otherfilters:null,
         sortBy: "created_at=desc",
