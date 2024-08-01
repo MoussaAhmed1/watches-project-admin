@@ -55,7 +55,7 @@ export const AddPharmacy = async (formData: FormData): Promise<any> => {
       },
     });
     if(res?.data?.data?.id){
-      await AcceptPharmacyRequest(res?.data?.data?.id);
+      await AcceptPharmacyRequest({id:res?.data?.data?.id});
      }
     revalidatePath("/dashboard/pharmacies");
   } catch (error) {

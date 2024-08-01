@@ -108,7 +108,7 @@ export const AddNurse = async (formData: FormData): Promise<any> => {
 
     revalidatePath("/dashboard/nurses");
     if(res?.data?.data?.id){
-      await AcceptNurseRequest(res?.data?.data?.id);
+      await AcceptNurseRequest({id:res?.data?.data?.id});
      }
   } catch (error) {
     return {
