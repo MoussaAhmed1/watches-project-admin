@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "next/image"
+import Image, { StaticImageData } from "next/image"
 import { cn } from "@/lib/utils"
 import {
     Dialog,
@@ -12,7 +12,7 @@ import { Link } from "lucide-react";
 
 
 interface AlbumArtworkProps extends React.HTMLAttributes<HTMLDivElement> {
-    src: string
+    src: string|StaticImageData
     aspectRatio?: "portrait" | "square"
     width?: number
     height?: number
@@ -33,7 +33,7 @@ export function ImageRender({
                     <div className="overflow-hidden rounded-md">
                         <Image
                             src={src}
-                            alt={src}
+                            alt={`${src}`}
                             width={width}
                             height={height}
                             className={cn(
@@ -49,7 +49,7 @@ export function ImageRender({
                     <div className="overflow-hidden rounded-md  flex justify-center ">
                         <Image
                             src={src}
-                            alt={src}
+                            alt={`${src}`}
                             width={width}
                             height={height}
                             className={cn(
@@ -57,7 +57,7 @@ export function ImageRender({
                             )}
                         />
                     </div>
-                    <Button onClick={() => {window.open(src, "_blank")}} className="absolute right-[-22%] top-[-4%] z-10">
+                    <Button onClick={() => {window.open(`${src}`, "_blank")}} className="absolute right-[-22%] top-[-4%] z-10">
                         <Link/>
                     </Button>
             </div>

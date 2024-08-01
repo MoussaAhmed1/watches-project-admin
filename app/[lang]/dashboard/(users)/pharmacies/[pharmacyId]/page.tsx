@@ -148,7 +148,7 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
                       {pharmacy?.license.map((lic) => (
                         <ImageRender
                           key={lic.id}
-                          src={lic?.mage}
+                          src={lic?.mage || userAvatar}
                           className="w-[200px]"
                           aspectRatio="portrait"
                           width={250}
@@ -169,7 +169,7 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
                       {pharmacy?.logo.map((lo) => (
                         <ImageRender
                           key={lo.id}
-                          src={lo?.image}
+                          src={lo?.image || userAvatar}
                           className="w-[200px]"
                           aspectRatio="portrait"
                           width={250}
