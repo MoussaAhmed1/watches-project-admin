@@ -3,7 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 import { IPharmacy } from "@/types/pharmacy";
-import { formatCreatedAtDate, shortenText } from "@/utils/helperFunctions";
+import {  shortenText } from "@/utils/helperFunctions";
 import Link from "next/link";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
