@@ -15,10 +15,10 @@ const pharmacySchema = z.object({
   longitude: validationRules.latLng,
   close_time: z.string().min(1, "Close time is required"),
   open_time: z.string().min(1, "Open time is required"),
-  logo_images: validationRules?.image.optional(),
+  logo_images: validationRules?.image,
   summery: z.string().min(15, "at least 15 characters"),
   expierence: z.coerce.number().min(0, "Year of experience is required"),
-  license_images: validationRules.images.optional(),
+  license_images: validationRules.images,
   categories: z.array(z.string()).min(1, 'Must have at least one category'),
 });
 
