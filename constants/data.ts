@@ -36,9 +36,13 @@ export const navItems: NavItem[] = [
     label: "Dashboard",
     subItems: false,
   },
-
-
-
+  {
+    title: "Admins",
+    href: "/dashboard/admins",
+    icon: "admin",
+    label: "Admins",
+    subItems: false,
+  },
   {
     title: "Users",
     href: "/dashboard/nurses",
@@ -64,13 +68,6 @@ export const navItems: NavItem[] = [
         href: "/dashboard/nurses",
       },
     ],
-  },
-  {
-    title: "Admins",
-    href: "/dashboard/admins",
-    icon: "admin",
-    label: "Admins",
-    subItems: false,
   },
   {
     title: "Verification Requests",
@@ -152,8 +149,8 @@ export const navItems: NavItem[] = [
       {
         title: "Pharmacy Packages",
         href: "/dashboard/packages/pharmacy-packages",
-      }
-    ]
+      },
+    ],
   },
   {
     title: "Notifications",
@@ -195,7 +192,7 @@ export const navItems: NavItem[] = [
     ],
   },
   {
-    title: "Data Management", 
+    title: "Data Management",
     href: "/dashboard/settings",
     icon: "settings",
     label: "data_management",
@@ -223,5 +220,4 @@ export const navItems: NavItem[] = [
       },
     ],
   },
-  
 ];
