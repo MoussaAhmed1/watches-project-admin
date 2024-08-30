@@ -1,9 +1,71 @@
 {
   "navigation": {
-    "home": "Startseite",
-    "dashboard": "Dashboard"
+    "home": "الرئيسية",
+    "admins": "المديرون",
+    "users": "المستخدمون",
+    "patients": "المرضى",
+    "doctors": "الأطباء",
+    "pharmacies": "الصيدليات",
+    "nurses": "الممرضات",
+    "verification_requests": "طلبات التحقق",
+    "orders": "الطلبات",
+    "reservations": "الحجوزات",
+    "pharmacy_orders": "طلبات الصيدلية",
+    "nurse_orders": "طلبات الممرضات",
+    "cancel_requests": "طلبات الإلغاء",
+    "banners": "اللافتات",
+    "packages": "الحزم",
+    "client_packages": "حزم العملاء",
+    "pharmacy_packages": "حزم الصيدليات",
+    "notifications": "الإشعارات",
+    "messages": "الرسائل",
+    "general_settings": "الإعدادات العامة",
+    "contact_us": "اتصل بنا",
+    "about_us": "من نحن",
+    "faq": "الأسئلة الشائعة",
+    "terms_and_conditions": "الشروط والأحكام",
+    "data_management": "إدارة البيانات",
+    "commission": "العمولة",
+    "pharmacy_orders_limits": "حدود طلبات الصيدليات",
+    "doctor_specialiations": "تخصصات الأطباء",
+    "pharmacy_categories": "فئات الصيدليات",
+    "pharmacy_products": "منتجات الصيدليات"
   },
-  "page": {
+  "toast":{
+
+  },
+  "shared":{
+    "search": "البحث",
+    "are_you_sure": "هل أنت متأكد؟",
+    "action_cannot_be_undone": "لا يمكن التراجع عن هذا الإجراء.",
+    "cancel": "إلغاء",
+    "continue": "متابعة",
+     "add_new": "إضافة جديد",
+     "dashboard": "لوحة التحكم"
+  },
+  "tableActions":{
+    "view": "عرض",
+    "open_menu": "فتح القائمة",
+    "actions": "الإجراءات",
+    "update": "تحديث",
+    "user_deleted_successfully": "تم حذف المستخدم بنجاح",
+    "delete_user": "حذف المستخدم",
+    "delete": "حذف"
+  },
+  "tableColumns":{
+    "name": "الاسم",
+    "username": "اسم المستخدم",
+    "phone": "الهاتف",
+    "gender": "الجنس",
+    "birth_date": "تاريخ الميلاد",
+    "toggle_columns": "تبديل الأعمدة",
+    "view": "عرض",
+      "page": "صفحة",
+      "of": "من",
+      "rowsPerPage": "الصفوف لكل صفحة",
+      "noResults": "لا توجد نتائج"
+  },
+  "pages": {
     "home": {
       "title": "Willkommen bei NextJs i18n",
       "description": "Internationalisierung im NextJs 13 App-Router"
@@ -11,6 +73,9 @@
     "dashboard": {
       "title": "Dashboard-Seite",
       "description": "Dies ist die Benutzer-Dashboard-Seite."
+    },
+    "users":{
+      "Admins": "المديرون"
     }
   },
   "auth": {

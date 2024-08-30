@@ -3,10 +3,12 @@ import { useSearchParams } from "next/navigation";
 import { useState, useCallback, useEffect } from "react";
 import useCostomSearchParams from "@/hooks/use-searchParams";
 import { Input } from "@/components/ui/input";
+import { useTranslations } from "next-intl";
 
 
 function SearchInput({searchKey}:{searchKey:string}) {
   const searchParams = useSearchParams();
+  const t = useTranslations("shared");
   const { createQueryString, pathname, router } = useCostomSearchParams();
   const search =
     typeof searchParams?.get("search") === "string"
@@ -30,7 +32,7 @@ function SearchInput({searchKey}:{searchKey:string}) {
   );
   return (
     <Input
-    placeholder={`Search ${searchKey}...`}
+    placeholder={t("search")}
     value={query || ""}
     onChange={handleSearchByName}
     className="w-full md:max-w-sm"

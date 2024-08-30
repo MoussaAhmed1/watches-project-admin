@@ -4,11 +4,13 @@ import "@uploadthing/react/styles.css";
 import type { Metadata } from "next";
 import { Inter, Noto_Kufi_Arabic } from "next/font/google";
 import "./globals.css";
-import { getServerSession, Session } from "next-auth";
+import { getServerSession } from "next-auth";
+import { NextIntlClientProvider } from "next-intl";
 import { Locale, i18n } from '@/i18n.config'
 import { notFound } from "next/navigation";
 import { authOptions } from "../api/auth/_options";
 import { SpeedInsights } from '@vercel/speed-insights/next';
+
 const inter = Inter({ subsets: ["latin"] });
 const noto = Noto_Kufi_Arabic({ subsets: ["arabic"] });
 
@@ -41,7 +43,9 @@ export default async function RootLayout({
           className={params.lang === "ar" ? noto.className : inter.className}>
         <Providers session={session}>
           <Toaster />
-          {children}
+          <NextIntlClientProvider locale={params.lang} messages={messages}>
+            {children}
+          </NextIntlClientProvider>
           <SpeedInsights />
         </Providers>
       </body>

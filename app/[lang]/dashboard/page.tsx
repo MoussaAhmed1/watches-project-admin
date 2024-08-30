@@ -11,43 +11,45 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Statictic } from "@/types/statictic";
 import Link from "next/link";
-export default async function page({ params }: { params: { lang: string } }) {
+import { getDictionary } from "../dictionaries";
+export default async function page({ params }: { params: { lang: "ar"|"en" } }) {
   const res = await fetchStatictics({ lang: params?.lang });
   const statistics_res: Statictic = res?.data?.data;
+  const {navigation} = await getDictionary(params?.lang)
   const statistics = [
     {
-      title: "Patients",
+      title: navigation.patients,
       total: statistics_res?.clients_count,
       link: `/${params?.lang}/dashboard/patients`
     },
     {
-      title: "Doctors",
+      title: navigation.doctors,
       total: statistics_res?.doctors_count,
       link: `/${params?.lang}/dashboard/doctors`
     },
     {
-      title: "Nurses",
+      title: navigation.nurses,
       total: statistics_res?.nurses_count,
       link: `/${params?.lang}/dashboard/nurses`
     },
     {
-      title: "Pharmacies",
+      title: navigation.pharmacies,
       total: statistics_res?.pharmacy_count,
       link: `/${params?.lang}/dashboard/pharmacies`
     },
     {
-      title: "Pharmacy Orders",
+      title: navigation.pharmacy_orders,
       total: statistics_res?.pharamcy_order_count,
       link: `/${params?.lang}/dashboard/pharmacy-orders`
     },
     {
-      title: "Nurse Orders",
+      title: navigation.nurse_orders,
       total: statistics_res?.nurse_order_count,
       link: `/${params?.lang}/dashboard/nurse-orders`
     },
 
     {
-      title: "Reservations",
+      title: navigation.reservations,
       total: statistics_res?.reservations_count,
       link: `/${params?.lang}/dashboard/reservations`
     },
@@ -55,15 +57,10 @@ export default async function page({ params }: { params: { lang: string } }) {
 
   return (
     <ScrollArea className="h-full">
-      <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-        <div className="flex items-center justify-between space-y-2">
-          {/* <h2 className="text-3xl font-bold tracking-tight">
-            Hi, Welcome back 👋
-          </h2> */}
-        </div>
+      <div className="flex-1 space-y-4 p-4 md:p-8 pt-6 rtl">
         <Tabs defaultValue="overview" className="space-y-4">
           <TabsContent value="overview" className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4" dir={params.lang === "ar" ? "rtl" : "ltr"}>
 
               {statistics.map(statistic => (
 

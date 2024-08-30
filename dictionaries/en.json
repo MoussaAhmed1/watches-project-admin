@@ -1,9 +1,72 @@
 {
   "navigation": {
+    "dashboard": "Dashboard",
     "home": "Home",
+    "admins": "Admins",
+    "users": "Users",
+    "patients": "Patients",
+    "doctors": "Doctors",
+    "pharmacies": "Pharmacies",
+    "nurses": "Nurses",
+    "verification_requests": "Verification Requests",
+    "orders": "Orders",
+    "reservations": "Reservations",
+    "pharmacy_orders": "Pharmacy Orders",
+    "nurse_orders": "Nurse Orders",
+    "cancel_requests": "Cancel Requests",
+    "banners": "Banners",
+    "packages": "Packages",
+    "client_packages": "Client Packages",
+    "pharmacy_packages": "Pharmacy Packages",
+    "notifications": "Notifications",
+    "messages": "Messages",
+    "general_settings": "General Settings",
+    "contact_us": "Contact us",
+    "about_us": "About Us",
+    "faq": "FAQ",
+    "terms_and_conditions": "Terms and Conditions",
+    "data_management": "Data Management",
+    "commission": "Commission",
+    "pharmacy_orders_limits": "Pharmacy Orders Limits",
+    "doctor_specialiations": "Doctor Specialiations",
+    "pharmacy_categories": "Pharmacy Categories",
+    "pharmacy_products": "Pharmacy Products"
+  },
+  "toast":{
+
+  },
+  "shared":{
+    "search": "Search",
+    "are_you_sure": "Are you sure?",
+    "action_cannot_be_undone": "This action cannot be undone.",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "add_new": "Add New",
     "dashboard": "Dashboard"
   },
-  "page": {
+  "tableActions":{
+    "view": "View",
+    "open_menu": "Open menu",
+    "actions": "Actions",
+    "update": "Update",
+    "user_deleted_successfully": "User Deleted Successfully",
+    "delete_user": "Delete User",
+    "delete": "Delete"
+  },
+  "tableColumns":{
+      "name": "Name",
+      "username": "Username",
+      "phone": "Phone",
+      "gender": "Gender",
+      "birth_date": "Birthdate",
+      "toggle_columns": "Toggle columns",
+      "view": "View",
+      "page": "Page",
+      "of": "of",
+      "rowsPerPage": "Rows per page",
+       "noResults": "No results"
+  },
+  "pages": {
     "home": {
       "title": "Welcome to NextJs i18n",
       "description": "Internationalization in NextJs 13 App router"
@@ -11,6 +74,9 @@
     "dashboard": {
       "title": "Dashboard Page",
       "description": "This is the dashboard page"
+    },
+    "users":{
+      "Admins": "Admins"
     }
   },
   "auth": {
