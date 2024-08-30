@@ -107,7 +107,7 @@ export default function PharmacyCategoryForm({ category, id }: IProps) {
           <Button disabled={loading}
             type="button"
             size="lg" >
-            <Plus className="mr-2 h-5 w-5" />    {dialogTitle}
+            <Plus className="ltr:mr-2 rtl:ml-2 h-5 w-5" />    {dialogTitle}
 
           </Button>
         }

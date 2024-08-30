@@ -177,7 +177,7 @@ export function SharedTable<TData, TValue>({
         {children}
       </DataTableToolbar>}
       <ScrollArea className="border h-[calc(71.8dvh)]  rounded-md">
-        <Table className="relative p-1">
+        <Table className="relative p-1" style={{direction:pathname?.split("/")?.includes("ar")?"rtl":"ltr"}}>
           <TableHeader className="bg-[#F1F5F9] dark:bg-[#1E293B]" style={{ fontWeight: "700 !important", lineHeight: '1.5rem !important', }}>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} >

@@ -46,7 +46,7 @@ export default async function page({ searchParams,params}: paramsProps) {
             href={`/${params?.lang}/dashboard/notifications/send-notification`}
             className={cn(buttonVariants({ variant: "default" }))}
           >
-            <Plus className="mr-2 h-4 w-4" />Send New Notification
+            <Plus className="ltr:mr-2 rtl:ml-2 h-4 w-4" />Send New Notification
           </Link>
         </div>
         <Separator />

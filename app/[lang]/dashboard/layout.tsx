@@ -18,11 +18,11 @@ export default function DashboardLayout({
   return (
     <>
       <Header lang={params.lang} />
-      <div className="flex min-h-screen relative">
-        <div className="hidden xl:block xl:w-[17%] border-r fixed h-full w-0">
+      <div className="flex min-h-screen relative" >
+        <div className="hidden xl:block xl:w-[17%]  h-full w-0 border-r rtl:border-r-0 rtl:border-l fixed z-20 shadow-lg">
           <Sidebar />
         </div>
-        <main className="xl:w-[83%] w-full top-10 relative xl:ml-[17%] ml-0">
+        <main className="xl:w-[83%] w-full top-10 relative ltr:xl:ml-[17%] ml-0  rtl:xl:mr-[17%] rtl:mr-0" >
           {children}
         </main>
       </div>

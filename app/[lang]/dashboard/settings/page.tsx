@@ -46,7 +46,7 @@ export default async function page({ searchParams }: paramsProps) {
             href={"/dashboard/pharmacy/new"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
-            <Plus className="mr-2 h-4 w-4" /> Add New
+            <Plus className="ltr:mr-2 rtl:ml-2 h-4 w-4" /> Add New
           </Link>
         </div>
         <Separator />
