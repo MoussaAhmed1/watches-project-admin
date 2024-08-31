@@ -66,9 +66,9 @@ export function SharedTable<TData, TValue>({
   withPagination = true
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [currentLang, setCurrentLang] = useState(pathname?.includes("/ar") ? "ar" : "en");
+  const pathname = usePathname();
+  const [currentLang] = useState(pathname?.includes("/ar") ? "ar" : "en");
   //translations 
   const t = useTranslations("tableColumns");
   // Search params
@@ -174,10 +174,6 @@ export function SharedTable<TData, TValue>({
   }, [searchValue]);
 
 
-  React.useEffect(() => {
-    setCurrentLang(pathname?.includes("/ar") ? "ar" : "en")
-    console.log(currentLang)
-}, [pathname])
 return (
   <>
     {withSearch && <DataTableToolbar table={table} >

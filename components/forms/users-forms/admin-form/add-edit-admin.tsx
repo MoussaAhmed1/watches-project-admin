@@ -12,7 +12,7 @@ import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Select as ShadcnSelect, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
@@ -26,6 +26,7 @@ import InputDate from "@/components/shared/timepicker/InputDate";
 import { AddAdmin } from "@/actions/users/admin";
 import { navItems } from "@/constants/data";
 import Select from "react-select";
+import { useTranslations } from "next-intl";
 export type AdminFormValues = z.infer<typeof adminSchema>;
 
 interface AdminFormProps {
@@ -39,12 +40,16 @@ export const AdminForm: React.FC<AdminFormProps> = ({
   id,
   _role = "ADMIN"
 }) => {
+  const t = useTranslations("pages.users");
+  const tShared = useTranslations('shared');
   const router = useRouter();
+  const pathname = usePathname();
+  const [currentLang] = useState(pathname?.includes("/ar") ? "ar" : "en");
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const title = "Create admin";
-  const description = "Add a new admin";
-  const action = initialData ? "Save changes" : "Create";
+  const title = t("createAdmin");
+  const description =t("addNewAdmin");
+  const action = initialData ? tShared("saveChanges") : tShared("create");
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,15 +80,15 @@ export const AdminForm: React.FC<AdminFormProps> = ({
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: initialData ? "Update failed" : "Add failed",
+        title: initialData ? tShared("updateFailed") : tShared("addFailed"),
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: initialData ? "Updated successfully" : "Added successfully",
-        description: `Admin has been successfully added.`,
+        title: initialData ? tShared("updatedSuccessfully") : tShared("addedSuccessfully"),
+        description: t(`profileAddedSuccessfully`),
       });
       router.push(`/dashboard/admins`);
     }
@@ -118,11 +123,11 @@ export const AdminForm: React.FC<AdminFormProps> = ({
                 name="first_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>First Name <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t("firstName")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="First Name"
+                        placeholder={t("firstName")}
                         {...field}
                       />
                     </FormControl>
@@ -135,11 +140,11 @@ export const AdminForm: React.FC<AdminFormProps> = ({
                 name="last_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Last Name <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t("lastName")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Last Name"
+                        placeholder={t("lastName")}
                         {...field}
                       />
                     </FormControl>
@@ -149,7 +154,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({
               />
               <div className="flex w-full justify-end flex-col items-start gap-1">
                 <label htmlFor="date" className="font-medium text-sm">
-                  birth date <span className="text-red-800">*</span>
+                  {t("birthDate")} <span className="text-red-800">*</span>
                 </label>
                 <div className="flex-col w-full">
                   <InputDate
@@ -170,15 +175,15 @@ export const AdminForm: React.FC<AdminFormProps> = ({
               {/* Gender */}
               <FormField name="gender" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Gender <span className="text-red-800">*</span></FormLabel>
+                  <FormLabel>{t("gender")} <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
-                    <ShadcnSelect {...field} onValueChange={field.onChange}>
+                    <ShadcnSelect  {...field} onValueChange={field.onChange} dir={currentLang === "ar" ? "rtl" : "ltr"}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select Gender" />
+                        <SelectValue placeholder={t("selectGender")} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="male">Male</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
+                        <SelectItem value="male">{t("male")}</SelectItem>
+                        <SelectItem value="female">{t("female")}</SelectItem>
                       </SelectContent>
                     </ShadcnSelect>
                   </FormControl>
@@ -191,7 +196,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t("phone")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
                       <Input disabled={loading} {...field} />
                     </FormControl>
@@ -205,7 +210,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({
                   margin: "-2px 0",
                 }}
               >
-                <FormLabel className="max-w-30 mx-1">Avatar</FormLabel>
+                <FormLabel className="max-w-30 mx-1">{t("avatar")}</FormLabel>
                 <Controller
                   name="avatarFile"
                   control={control}
@@ -232,11 +237,11 @@ export const AdminForm: React.FC<AdminFormProps> = ({
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t("email")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="email"
+                        placeholder={t("email")}
                         {...field}
                         type="email"
                         required
@@ -253,11 +258,11 @@ export const AdminForm: React.FC<AdminFormProps> = ({
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>password <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t("password")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="password"
+                        placeholder={t("password")}
                         type="password"
                         required
                         {...field}
@@ -271,7 +276,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({
             <div className="md:grid md:grid-cols-1 gap-8">
             <div>
                 <label htmlFor="premessions" className="font-medium text-sm">
-                  {("Permissions")} <span className="text-red-800">*</span>
+                  {t("permissions")} <span className="text-red-800">*</span>
                 </label>
                 <div className="flex-col w-full ">
                   <Select

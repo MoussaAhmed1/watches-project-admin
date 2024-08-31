@@ -31,19 +31,25 @@
     "pharmacy_categories": "فئات الصيدليات",
     "pharmacy_products": "منتجات الصيدليات"
   },
-  "toast":{
-
-  },
-  "shared":{
+  "toast": {},
+  "shared": {
     "search": "البحث",
     "are_you_sure": "هل أنت متأكد؟",
     "action_cannot_be_undone": "لا يمكن التراجع عن هذا الإجراء.",
     "cancel": "إلغاء",
     "continue": "متابعة",
-     "add_new": "إضافة جديد",
-     "dashboard": "لوحة التحكم"
+    "add_new": "إضافة جديد",
+    "dashboard": "لوحة التحكم",
+    "create": "اضافة",
+    "details": "التفاصيل",
+    "update": "تحديث",
+    "saveChanges": "حفظ التغييرات",
+    "updateFailed": "فشل التحديث",
+    "addFailed": "فشل الإضافة",
+    "updatedSuccessfully": "تم التحديث بنجاح",
+    "addedSuccessfully": "تمت الإضافة بنجاح"
   },
-  "tableActions":{
+  "tableActions": {
     "view": "عرض",
     "open_menu": "فتح القائمة",
     "actions": "الإجراءات",
@@ -52,7 +58,7 @@
     "delete_user": "حذف المستخدم",
     "delete": "حذف"
   },
-  "tableColumns":{
+  "tableColumns": {
     "name": "الاسم",
     "username": "اسم المستخدم",
     "phone": "الهاتف",
@@ -60,10 +66,10 @@
     "birth_date": "تاريخ الميلاد",
     "toggle_columns": "تبديل الأعمدة",
     "view": "عرض",
-      "page": "صفحة",
-      "of": "من",
-      "rowsPerPage": "الصفوف لكل صفحة",
-      "noResults": "لا توجد نتائج"
+    "page": "صفحة",
+    "of": "من",
+    "rowsPerPage": "الصفوف لكل صفحة",
+    "noResults": "لا توجد نتائج"
   },
   "pages": {
     "home": {
@@ -74,8 +80,30 @@
       "title": "Dashboard-Seite",
       "description": "Dies ist die Benutzer-Dashboard-Seite."
     },
-    "users":{
-      "Admins": "المديرون"
+    "users": {
+      "Admins": "المديرون",
+      "admin_details": "تفاصيل المديرين",
+      "edit": "تعديل",
+      "name": "الاسم",
+      "phone": "الهاتف",
+      "email": "البريد الإلكتروني",
+      "profileInfo": "معلومات الملف الشخصي",
+      "birthDate": "تاريخ الميلاد",
+      "gender": "الجنس",
+      "language": "اللغة",
+      "permissions": "الصلاحيات",
+      "createAdmin": "إنشاء مشرف",
+      "addNewAdmin": "إضافة مشرف جديد",
+      "firstName": "الاسم الأول",
+      "lastName": "اسم العائلة",
+      "selectGender": "اختر الجنس",
+      "male": "ذكر",
+      "female": "أنثى",
+      "avatar": "صورة البروفايل",
+      "password": "كلمة المرور",
+      "updateAdmin": "تحديث المشرف",
+      "profileAddedSuccessfully": "تمت إضافة الملف الشخصي بنجاح.",
+       "profileUpdatedSuccessfully": "تم تحديث الملف الشخصي بنجاح."
     }
   },
   "auth": {
