@@ -63,7 +63,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuItem
             onClick={() => router.push(`/${currentLang}/dashboard/nurses/${data?.id}/${data?.user_id}/edit`)}
           >
-            <Edit className="mr-2 h-4 w-4" /> Update
+             <Edit className="mx-1 h-4 w-4" /> Update
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Approve successMessage="User Deleted Successfully" title="Delete User" method={removeUser} revalidateData="/dashboard/nurses" id={data?.user_id} >

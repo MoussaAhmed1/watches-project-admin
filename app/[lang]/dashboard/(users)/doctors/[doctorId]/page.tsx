@@ -72,7 +72,7 @@ const page = async ({ params, searchParams }: {
               className={cn(buttonVariants({ variant: "default" }), "p-5")}
 
             >
-              <Edit className="mr-2 h-5 w-5" /> Edit
+               <Edit className="mx-1 h-5 w-5" /> Edit
             </Link>
           </div>
         </div>

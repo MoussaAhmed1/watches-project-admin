@@ -45,7 +45,7 @@ const page = async ({ params }: {
             href={`/dashboard/patients/${params.id}/edit`}
             className={cn(buttonVariants({ variant: "default" }))}
           >
-            <Edit className="mr-2 h-4 w-4" /> Edit
+             <Edit className="mx-1 h-4 w-4" /> Edit
           </Link>
         </div>
         <div className="flex flex-col lg:flex-row gap-1 lg:items-center lg:justify-between justify-start items-start">
