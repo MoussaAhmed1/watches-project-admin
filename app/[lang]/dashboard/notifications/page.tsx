@@ -17,7 +17,7 @@ type paramsProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
-  params:{lang:string}
+  params:{lang:"ar"|"en"}
 };
 
 export default async function page({ searchParams,params}: paramsProps) {

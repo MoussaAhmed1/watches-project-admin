@@ -139,39 +139,37 @@ export function SharedTable<TData, TValue>({
     manualFiltering: true,
   });
 
-  const searchValue = table.getColumn(searchKey)?.getFilterValue() as string;
+  // const searchValue = table.getColumn(searchKey)?.getFilterValue() as string;
+  // React.useEffect(() => {
+  //   if (searchValue?.length > 0) {
+  //     router.push(
+  //       `${pathname}?${createQueryString({
+  //         page: null,
+  //         limit: null,
+  //         search: searchValue,
+  //       })}`,
+  //       {
+  //         scroll: false,
+  //       },
+  //     );
+  //   }
+  //   if (searchValue?.length === 0 || searchValue === undefined) {
+  //     router.push(
+  //       `${pathname}?${createQueryString({
+  //         page: null,
+  //         limit: null,
+  //         search: null,
+  //       })}`,
+  //       {
+  //         scroll: false,
+  //       },
+  //     );
+  //   }
 
+  //   setPagination((prev) => ({ ...prev, pageIndex: 0 }));
 
-  React.useEffect(() => {
-    if (searchValue?.length > 0) {
-      router.push(
-        `${pathname}?${createQueryString({
-          page: null,
-          limit: null,
-          search: searchValue,
-        })}`,
-        {
-          scroll: false,
-        },
-      );
-    }
-    if (searchValue?.length === 0 || searchValue === undefined) {
-      router.push(
-        `${pathname}?${createQueryString({
-          page: null,
-          limit: null,
-          search: null,
-        })}`,
-        {
-          scroll: false,
-        },
-      );
-    }
-
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchValue]);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [searchValue]);
 
 
 return (

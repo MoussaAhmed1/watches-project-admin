@@ -9,6 +9,9 @@
     "pharmacies": "Pharmacies",
     "nurses": "Nurses",
     "verification_requests": "Verification Requests",
+    "pharmaciesRequests": "Pharmacies Requests",
+    "nursesRequests": "Nurses Requests",
+    "doctorsRequests": "Doctors Requests",
     "orders": "Orders",
     "reservations": "Reservations",
     "pharmacy_orders": "Pharmacy Orders",
@@ -48,7 +51,11 @@
     "updateFailed": "Update failed",
     "addFailed": "Add failed",
     "updatedSuccessfully": "Updated successfully",
-    "addedSuccessfully": "Added successfully"
+    "addedSuccessfully": "Added successfully",
+    "category": "Category",
+    "all": "All",
+    "specialization": "Specialization"
+
   },
   "tableActions": {
     "view": "View",

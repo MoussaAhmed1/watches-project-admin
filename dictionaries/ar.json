@@ -8,6 +8,9 @@
     "pharmacies": "الصيدليات",
     "nurses": "الممرضات",
     "verification_requests": "طلبات التحقق",
+    "pharmaciesRequests": "طلبات الصيدليات",
+    "nursesRequests": "طلبات الممرضات",
+    "doctorsRequests": "طلبات الأطباء",
     "orders": "الطلبات",
     "reservations": "الحجوزات",
     "pharmacy_orders": "طلبات الصيدلية",
@@ -47,7 +50,11 @@
     "updateFailed": "فشل التحديث",
     "addFailed": "فشل الإضافة",
     "updatedSuccessfully": "تم التحديث بنجاح",
-    "addedSuccessfully": "تمت الإضافة بنجاح"
+    "addedSuccessfully": "تمت الإضافة بنجاح",
+    "category": "الفئة",
+    "all": "الكل",
+    "specialization": "التخصص"
+
   },
   "tableActions": {
     "view": "عرض",
@@ -103,7 +110,7 @@
       "password": "كلمة المرور",
       "updateAdmin": "تحديث المدير",
       "profileAddedSuccessfully": "تمت إضافة الملف الشخصي بنجاح.",
-       "profileUpdatedSuccessfully": "تم تحديث الملف الشخصي بنجاح."
+      "profileUpdatedSuccessfully": "تم تحديث الملف الشخصي بنجاح."
     }
   },
   "auth": {
