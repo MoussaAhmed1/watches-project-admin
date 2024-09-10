@@ -31,6 +31,7 @@ export const PatientsColumns: ColumnDef<IUser>[] = [
   {
     accessorKey: "phone",
     header: "phone",
+    cell: ({ row }) => <p className="rtl:text-right text-left" dir="ltr">{row?.original?.phone}</p>
   },
   {
     accessorKey: "gender",
@@ -74,6 +75,7 @@ export const AdminColumns: ColumnDef<IUser>[] = [
   {
     accessorKey: "phone",
     header: "phone",
+    cell: ({ row }) => <p className="rtl:text-right text-left" dir="ltr">{row?.original?.phone}</p>
   },
   {
     accessorKey: "gender",

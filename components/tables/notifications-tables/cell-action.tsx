@@ -11,6 +11,7 @@ import { Notification } from "@/types/notifications";
 import { Eye, MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Cookie from 'js-cookie';
+import { useTranslations } from "next-intl";
 interface CellActionProps {
   data:  Notification;
 }
@@ -18,22 +19,22 @@ interface CellActionProps {
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const router = useRouter();
   const currentLang = Cookie.get("Language") ?? "en";
-
+ const t = useTranslations("tableActions");
   return (
     <>
-      <DropdownMenu modal={false}>
+      <DropdownMenu modal={false} dir={currentLang === "ar" ? "rtl" : "ltr"}>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
-            <span className="sr-only">Open menu</span>
+            <span className="sr-only">{t("open_menu")}</span>
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
           <DropdownMenuItem
             onClick={() => router.push(`/${currentLang}/dashboard/notifications/${data.id}`)}
           >
-            <Eye className="mr-2 h-4 w-4" /> View
+            <Eye className="mx-1 h-4 w-4"/> {t("view")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

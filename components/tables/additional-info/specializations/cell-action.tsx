@@ -8,7 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { ISpecializations } from "@/types/additional-info-specializations";
 import { Trash, } from "lucide-react";
 import { useState } from "react";
-
+import { useTranslations } from "next-intl";
 interface CellActionProps {
   data: ISpecializations;
 }
@@ -38,7 +38,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     setOpen(false);
 
   };
-
+ const t = useTranslations("tableActions");
   return (
     <div className="flex flex-end grow" key={data.id}>
       <AlertModal

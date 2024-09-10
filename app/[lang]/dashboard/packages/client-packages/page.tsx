@@ -45,7 +45,7 @@ export default async function page({ searchParams ,params}: paramsProps) {
             href={"/dashboard/packages/client-packages/new"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
-            <Plus className="ltr:mr-2 rtl:ml-2 h-4 w-4" /> Add New
+            <Plus className="ltr:mx-1 rtl:ml-2 h-4 w-4" /> Add New
           </Link>
         </div>
         <Separator />

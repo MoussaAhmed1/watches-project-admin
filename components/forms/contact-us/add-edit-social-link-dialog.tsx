@@ -143,7 +143,7 @@ export default function NewSocialLink({ socialLink }: IProps) {
     <Dialog>
       <DialogTrigger asChild>
         {!socialLink ? <Button>
-          <Plus className="ltr:mr-2 rtl:ml-2 h-4 w-4" /> Add New
+          <Plus className="ltr:mx-1 rtl:ml-2 h-4 w-4" /> Add New
         </Button> :
           <Button size="icon"  >
             {<Pencil className="h-4 w-4" />}

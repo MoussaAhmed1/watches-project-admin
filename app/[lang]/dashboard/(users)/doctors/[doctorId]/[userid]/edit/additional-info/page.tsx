@@ -1,12 +1,13 @@
 import { fetchAdditionalSpecializations } from "@/actions/additional-info-specializations";
 import { fetchDoctorAdditionalInfo } from "@/actions/doctors";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 import { DoctorAddtionalInfoForm } from "@/components/forms/users-forms/doctor-form/doctor-addtional-info";
 import { Separator } from "@/components/ui/separator";
 import { ISpecializations } from "@/types/additional-info-specializations";
 import { DoctorAdditionalInfo } from "@/types/doctors";
 
 export default async function SettingsProfilePage({ params, searchParams }: {
-  params: { doctorId: string, userid: string }, searchParams: {
+  params: { lang: "ar" | "en",doctorId: string, userid: string }, searchParams: {
     [key: string]: string | string[] | undefined;
   }
 }) {
@@ -20,10 +21,12 @@ export default async function SettingsProfilePage({ params, searchParams }: {
 
   });
   const specializations: ISpecializations[] = res_specializations?.data?.data || [];
+  const { pages } = await getDictionary(params?.lang)
+
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium">Additional Information</h3>
+        <h3 className="text-lg font-medium">{pages.users.additionalInfo}</h3>
       </div>
       <Separator />
       <DoctorAddtionalInfoForm

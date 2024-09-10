@@ -3,19 +3,20 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 import { IPharmacy } from "@/types/pharmacy";
-import {  shortenText } from "@/utils/helperFunctions";
+import { shortenText } from "@/utils/helperFunctions";
 import Link from "next/link";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 
 export const PharmaciesColumns: ColumnDef<IPharmacy>[] = [
   {
-    accessorKey: "ph_name",
-    header: "Pharmacy Name"
+    accessorKey: "pharmacyName",
+    header: "pharmacyName",
+    cell: ({ row }) => row?.original?.ph_name
   },
   {
     accessorKey: "address",
-    header: "Address",
+    header: "address",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <p >
         <Link
@@ -30,8 +31,8 @@ export const PharmaciesColumns: ColumnDef<IPharmacy>[] = [
     </div>
   },
   {
-    accessorKey: "Open Time",
-    header: "Open Time",
+    accessorKey: "openTime",
+    header: "openTime",
     cell: ({ row }) => <div className="flex items-center">
       <p className="text-center w-[70%]">
         {row?.original?.open_time}
@@ -39,8 +40,8 @@ export const PharmaciesColumns: ColumnDef<IPharmacy>[] = [
     </div>
   },
   {
-    accessorKey: "Close Time",
-    header: "Close Time",
+    accessorKey: "closeTime",
+    header: "closeTime",
     cell: ({ row }) => <div className="flex items-center">
       <p className="text-center w-[70%]">
         {row?.original?.close_time}
@@ -48,8 +49,8 @@ export const PharmaciesColumns: ColumnDef<IPharmacy>[] = [
     </div>
   },
   {
-    accessorKey: "Owner Name",
-    header: "Owner Name",
+    accessorKey: "ownerName",
+    header: "ownerName",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <Avatar className="w-10 h-10">
         <AvatarImage
@@ -64,13 +65,9 @@ export const PharmaciesColumns: ColumnDef<IPharmacy>[] = [
     </div>
   },
   {
-    accessorKey: "Phone",
-    header: "Phone",
-    cell: ({ row }) => <div className="flex items-center">
-      <p className="text-center w-[50%]">
-        {row?.original?.user?.phone}
-      </p>
-    </div>
+    accessorKey: "phone",
+    header: "phone",
+    cell: ({ row }) => <p className="rtl:text-right text-left" dir="ltr">{row?.original?.user?.phone}</p>
   },
   {
     id: "actions",

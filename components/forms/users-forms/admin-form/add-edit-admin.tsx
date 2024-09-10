@@ -40,11 +40,11 @@ export const AdminForm: React.FC<AdminFormProps> = ({
   id,
   _role = "ADMIN"
 }) => {
+  const pathname = usePathname();
+  const [currentLang] = useState(pathname?.includes("/ar") ? "ar" : "en");
   const t = useTranslations("pages.users");
   const tShared = useTranslations('shared');
   const router = useRouter();
-  const pathname = usePathname();
-  const [currentLang] = useState(pathname?.includes("/ar") ? "ar" : "en");
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const title = t("createAdmin");
@@ -198,7 +198,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({
                   <FormItem>
                     <FormLabel>{t("phone")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
-                      <Input disabled={loading} {...field} />
+                      <Input dir={"ltr"} disabled={loading} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

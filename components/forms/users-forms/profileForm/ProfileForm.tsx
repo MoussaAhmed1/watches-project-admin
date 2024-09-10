@@ -232,7 +232,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                   <FormItem>
                     <FormLabel>{t("phone")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
-                      <Input type="text" disabled={loading} {...field} />
+                      <Input dir="ltr" type="text" disabled={loading} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

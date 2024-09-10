@@ -178,7 +178,7 @@ return (
       <SearchInput searchKey={searchKey} />
       {children}
     </DataTableToolbar>}
-    <ScrollArea className="border h-[calc(71.8dvh)]  rounded-md">
+    <ScrollArea className="border h-[calc(73.8dvh)]  rounded-md">
       <Table className="relative p-1" style={{ direction: pathname?.split("/")?.includes("ar") ? "rtl" : "ltr" }}>
         <TableHeader className="bg-[#F1F5F9] dark:bg-[#1E293B]" style={{ fontWeight: "700 !important", lineHeight: '1.5rem !important', }}>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -233,7 +233,7 @@ return (
       <ScrollBar orientation="horizontal" />
     </ScrollArea>
 
-    {withPagination && <div dir={currentLang === "ar" ? "rtl" : "ltr"} className="flex flex-row gap-2 sm:flex-row items-center justify-end space-x-2 py-4" style={{flex:currentLang === "ar" ? "row" : "row-reverse"}}>
+    {withPagination && <div dir={"ltr"} className="flex flex-row gap-2 sm:flex-row items-center justify-end space-x-2 py-4" style={{flex:currentLang === "ar" ? "row" : "row-reverse"}}>
       <div className="flex items-center justify-between w-full">
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8">
           <div className="flex items-center space-x-2 gap-2" dir={currentLang === "ar" ? "rtl" : "ltr"}>
@@ -267,7 +267,7 @@ return (
           {t("page")} {table.getState().pagination.pageIndex + 1} {t("of")}{" "}
           {table.getPageCount()}
         </div>
-        <div className="flex items-center rtl:flex-row-reverse space-x-2">
+        <div className="flex items-center space-x-2">
           <Button
             aria-label="Go to first page"
             variant="outline"

@@ -90,7 +90,7 @@ const page = async ({ params, searchParams }: {
                 <p>Experience: {doctor?.experience} years</p>
                 <p>Phone: {doctor?.phone}</p>
                 <div className="flex">
-                  <span className="mr-2">Rating:</span>
+                  <span className="mx-1">Rating:</span>
                   <div className="stars flex">
                     {Array.from(
                       { length: Math.ceil(doctor?.rating) },

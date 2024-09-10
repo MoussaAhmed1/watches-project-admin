@@ -1,11 +1,11 @@
 import { fetchClientAddtionalInfo } from "@/actions/patients";
-import { DoctorAddtionalInfoForm } from "@/components/forms/users-forms/doctor-form/doctor-addtional-info";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 import { PatientAddtionalInfoForm } from "@/components/forms/users-forms/patient-form/patient-addtional-info";
 import { Separator } from "@/components/ui/separator";
 import { ClientAddtionalInfo } from "@/types/patients";
 
 export default async function SettingsProfilePage({ params, searchParams }: {
-  params: { id: string }, searchParams: {
+  params: { id: string, lang: "ar" | "en" }, searchParams: {
     [key: string]: string | string[] | undefined;
   }
 }) {
@@ -13,10 +13,11 @@ export default async function SettingsProfilePage({ params, searchParams }: {
   //----------------------------------------------------------------
   const res = await fetchClientAddtionalInfo({ userId: params.id });
   const user: ClientAddtionalInfo = res?.data?.data;
+  const { pages } = await getDictionary(params?.lang)
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium">Additional Information</h3>
+        <h3 className="text-lg font-medium">{pages.users.additionalInfo}</h3>
       </div>
       <Separator />
       <PatientAddtionalInfoForm

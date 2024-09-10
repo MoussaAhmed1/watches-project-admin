@@ -1,4 +1,5 @@
 import { AcceptDoctorRequest, fetchSingleDoctor } from "@/actions/doctors"
+import { getDictionary } from "@/app/[lang]/dictionaries"
 import BreadCrumb from "@/components/breadcrumb"
 import Approve from "@/components/details/role-details/Approve"
 import { SidebarNav } from "@/components/sideBar/sidebar-nav"
@@ -16,25 +17,27 @@ export const metadata: Metadata = {
 
 interface updateLayoutProps {
   children: React.ReactNode,
-  params: { lang: Locale, doctorId: string, userid:string }
+  params: { lang: "ar"|"en", doctorId: string, userid:string }
 }
 
 export default async function updateLayout({ children, params }: updateLayoutProps) {
   const lang=params.lang;
   const res = await fetchSingleDoctor(params.doctorId);
   const doctor: ISingleDoctor = res?.data?.data;
+  const { navigation, shared, pages } = await getDictionary(params?.lang)
+
   const breadcrumbItems = [
-    { title: "Doctors", link: "/dashboard/doctors" },
-    { title: `update`, link: `/dashboard/doctors/${doctor?.name}` },
+    { title: navigation.doctors, link: "/dashboard/doctors" },
+    { title: shared.update, link: `/dashboard/doctors/${doctor?.name}` },
   ];
   const sidebarNavItems = [
     {
-      title: "Profile",
+      title: pages.users.profile,
       href: `/${lang}/dashboard/doctors/${params.doctorId}/${params.userid}/edit`,
       clicked:"edit"
     },
     {
-      title: "Additional Information",
+      title: pages.users.additionalInfo,
       href: `/${lang}/dashboard/doctors/${params.doctorId}/${params.userid}/edit/additional-info`,
       clicked:"edit/additional-info"
     },
@@ -44,9 +47,9 @@ export default async function updateLayout({ children, params }: updateLayoutPro
       <div className="space-y-4 p-5 pt-8 pb-16 md:block">
         <div className="space-y-0">
           <BreadCrumb items={breadcrumbItems}  />
-          <div className="flex flex-col md:flex-row gap-1 md:items-center md:justify-between  justify-start items-start">
+          <div className="flex flex-row gap-1 justify-start items-start">
             <Heading
-              title={`Update Doctor`}
+              title={pages.users.updateDoctor}
               description={doctor?.name}
             />
             {(!doctor?.is_verified) && <div className="px-0 md:px-4">
@@ -55,11 +58,11 @@ export default async function updateLayout({ children, params }: updateLayoutPro
           </div>
         </div>
         <Separator className="my-6" />
-        <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
+        <div className="flex sm:flex-col space-y-8 space-x-0  lg:flex-row lg:space-x-12 lg:space-y-0">
           <aside className="lg:w-1/5  w-full">
             <SidebarNav items={sidebarNavItems} />
           </aside>
-          <div className="flex-1 ">{children}</div>
+          <div className="flex-1 w-full">{children}</div>
         </div>
       </div>
     </>

@@ -15,7 +15,8 @@ import {  IUser } from "@/types/patients";
 import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
+import Cookie from 'js-cookie';
+import { useTranslations } from "next-intl";
 interface CellActionProps {
   data: Employee | IDoctor | IUser | IPharmacy;
 }
@@ -23,8 +24,9 @@ interface CellActionProps {
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+    const currentLang = Cookie.get("Language") ?? "en";
   const router = useRouter();
-
+ const t = useTranslations("tableActions");
   const onConfirm = async () => {};
 
   return (
@@ -35,27 +37,27 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         onConfirm={onConfirm}
         loading={loading}
       />
-      <DropdownMenu modal={false}>
+      <DropdownMenu modal={false} dir={currentLang === "ar" ? "rtl" : "ltr"}>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
-            <span className="sr-only">Open menu</span>
+            <span className="sr-only">{t("open_menu")}</span>
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
           <DropdownMenuItem
             onClick={() => router.push(`/dashboard/doctors/${data.id}`)}
           >
-            <Eye className="mr-2 h-4 w-4" /> View
+            <Eye className="mx-1 h-4 w-4"/> {t("view")}
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => router.push(`/dashboard/doctors/${data.id}`)}
           >
-             <Edit className="mx-1 h-4 w-4" /> Update
+             <Edit className="mx-1 h-4 w-4" /> {t("update")}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
-            <Trash className="mr-2 h-4 w-4" /> Delete
+            <Trash className="mx-1 h-4 w-4" /> {t("delete")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
