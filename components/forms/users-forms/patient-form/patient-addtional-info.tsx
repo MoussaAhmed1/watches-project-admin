@@ -19,6 +19,8 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 
 import patientAddtionalInfoSchema from "./patient-addtionalInfoSchema";
+import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 export type PatientAddtionalInfoFormValues = z.infer<typeof patientAddtionalInfoSchema>;
 
 interface PatientFormProps {
@@ -32,8 +34,11 @@ export const PatientAddtionalInfoForm: React.FC<PatientFormProps> = ({
 }) => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const action = "Save changes";
-
+  const pathname = usePathname();
+  const [currentLang] = useState(pathname?.includes("/ar") ? "ar" : "en");
+  const t = useTranslations("pages.users");
+  const tShared = useTranslations('shared');
+  const action = initialData ? tShared("saveChanges") : tShared("create");;
   const defaultValues = initialData;
 
   const form = useForm<PatientAddtionalInfoFormValues>({
@@ -52,15 +57,15 @@ export const PatientAddtionalInfoForm: React.FC<PatientFormProps> = ({
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: "Updat failed",
+        title: tShared("updateFailed"),
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: "Updated successfully",
-        description: `Patient has been successfully updated.`,
+        title: tShared("updatedSuccessfully"),
+        description: t(`profileUpdatedSuccessfully`),
       });
     }
 
@@ -81,7 +86,7 @@ export const PatientAddtionalInfoForm: React.FC<PatientFormProps> = ({
             {/* weight */}
             <FormField name="weight" control={control} render={({ field }) => (
               <FormItem>
-                <FormLabel>Weight </FormLabel>
+                <FormLabel>{t("weight")} </FormLabel>
                 <FormControl>
                   <Input type="number" {...field} />
                 </FormControl>
@@ -92,7 +97,7 @@ export const PatientAddtionalInfoForm: React.FC<PatientFormProps> = ({
             {/* height */}
             <FormField name="height" control={control} render={({ field }) => (
               <FormItem>
-                <FormLabel>Height </FormLabel>
+                <FormLabel>{t("height")} </FormLabel>
                 <FormControl>
                   <Input type="number" {...field} />
                 </FormControl>
@@ -107,11 +112,11 @@ export const PatientAddtionalInfoForm: React.FC<PatientFormProps> = ({
               name="allergic_reactions"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Allergic Reactions </FormLabel>
+                  <FormLabel>{t("allergicReactions")} </FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Allergic Reactions"
+                      placeholder={t("allergicReactions")}
                       {...field}
                     />
                   </FormControl>
@@ -122,7 +127,7 @@ export const PatientAddtionalInfoForm: React.FC<PatientFormProps> = ({
             {/* Notes */}
             <FormField name="notes" control={control} render={({ field }) => (
               <FormItem>
-                <FormLabel>Notes </FormLabel>
+                <FormLabel>{t("notes")} </FormLabel>
                 <FormControl>
                   <Textarea {...field} rows={4} />
                 </FormControl>

@@ -12,23 +12,23 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { fetchPharmacyCategories } from "@/actions/pharmacy-categories";
 import PharmaciesFilters from "@/components/filters/users/pharmaciesFilters";
-const breadcrumbItems = [{ title: "Pharmacies", link: "/dashboard/pharmacies" }];
+import { getDictionary } from "@/app/[lang]/messages";
 
 type paramsProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
-  params:{lang:string}
+  params:{lang:"ar"|"en"}
 };
 
 export default async function page({ searchParams,params }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
-    typeof searchParams?.search === "string" ? searchParams?.search : "";
+  typeof searchParams?.search === "string" ? searchParams?.search : "";
   const category_id =
-    typeof searchParams?.category_id === "string" ? searchParams?.category_id : "";
-
+  typeof searchParams?.category_id === "string" ? searchParams?.category_id : "";
+  
   const res = await fetchPharmacies({
     page,
     limit,
@@ -41,8 +41,10 @@ export default async function page({ searchParams,params }: paramsProps) {
   const categoriesRes = await fetchPharmacyCategories({
     page: 1,
     limit: 10,
-
+    
   });
+  const {navigation,shared} = await getDictionary(params?.lang)
+  const breadcrumbItems = [{ title: navigation.pharmacies, link: "/dashboard/pharmacies" }];
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
@@ -50,13 +52,13 @@ export default async function page({ searchParams,params }: paramsProps) {
 
         <div className="flex items-start justify-between">
           <Heading
-            title={`Pharmacies (${totalPharmacies})`}
+            title={`${navigation.pharmacies} (${totalPharmacies})`}
           />
           <Link
             href={`/${params?.lang}/dashboard/pharmacies/new`}
             className={cn(buttonVariants({ variant: "default" }))}
           >
-            <Plus className="mr-2 h-4 w-4" /> Add New
+            <Plus className="ltr:mx-1 rtl:ml-2 h-4 w-4" /> {shared.add_new}
           </Link>
         </div>
         <Separator />
@@ -69,7 +71,7 @@ export default async function page({ searchParams,params }: paramsProps) {
           data={pharmacies as unknown as IPharmacy[]}
           pageCount={pageCount}
           >
-          <PharmaciesFilters categories={categoriesRes?.data?.data} />
+          <PharmaciesFilters categories={categoriesRes?.data?.data} lang={params.lang} />
         </SharedTable>
       </div>
     </>

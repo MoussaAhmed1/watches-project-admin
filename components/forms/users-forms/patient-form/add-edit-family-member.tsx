@@ -8,12 +8,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import {  useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
@@ -26,6 +25,7 @@ import InputDate from "@/components/shared/timepicker/InputDate";
 import FamilymemberSchema from "./familyMemberSchema";
 import { Textarea } from "@/components/ui/textarea";
 import Kinship from "@/types/patients";
+import { useTranslations } from "next-intl";
 
 
 export type FamilyMemberFormValues = z.infer<typeof FamilymemberSchema>;
@@ -42,7 +42,11 @@ export const FamilyMemberForm: React.FC<FamilyMemberFormProps> = ({
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [isOther, setIsOther] = useState(false);
-  const action = initialData ? "Save changes" : "Create";
+  const pathname = usePathname();
+  const [currentLang] = useState(pathname?.includes("/ar") ? "ar" : "en");
+  const t = useTranslations("pages.users");
+  const tShared = useTranslations('shared');
+  const action = initialData ? tShared("saveChanges") : tShared("create");
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,14 +81,14 @@ export const FamilyMemberForm: React.FC<FamilyMemberFormProps> = ({
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: initialData ? "Update failed" : "Add failed",
+        title: initialData ? tShared("updateFailed") : tShared("addFailed"),
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: initialData ? "Updated successfully" : "Added successfully",
+        title: initialData ? tShared("updatedSuccessfully") : tShared("addedSuccessfully"),
         description:  `Family Member as (${data?.kinship}) has been successfully Added.`,
       });
     }
@@ -109,11 +113,11 @@ export const FamilyMemberForm: React.FC<FamilyMemberFormProps> = ({
                 name="first_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>First Name <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t("firstName")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="First Name"
+                        placeholder={t("firstName")}
                         {...field}
                       />
                     </FormControl>
@@ -126,11 +130,11 @@ export const FamilyMemberForm: React.FC<FamilyMemberFormProps> = ({
                 name="last_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Last Name <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t("lastName")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Last Name"
+                        placeholder={t("lastName")}
                         {...field}
                       />
                     </FormControl>
@@ -140,7 +144,7 @@ export const FamilyMemberForm: React.FC<FamilyMemberFormProps> = ({
               />
               <div className="flex w-full justify-end flex-col items-start gap-1">
                 <label htmlFor="date" className="font-medium text-sm">
-                  birth date <span className="text-red-800">*</span>
+                {t("birthDate")} <span className="text-red-800">*</span>
                 </label>
                 <div className="flex-col w-full">
                   <InputDate
@@ -161,15 +165,15 @@ export const FamilyMemberForm: React.FC<FamilyMemberFormProps> = ({
               {/* Gender */}
               <FormField name="gender" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Gender <span className="text-red-800">*</span></FormLabel>
+                  <FormLabel>{t("gender")} <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
-                    <Select {...field} onValueChange={field.onChange}>
+                    <Select dir={currentLang === "ar" ? "rtl" : "ltr"} {...field} onValueChange={field.onChange}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select Gender" />
+                        <SelectValue placeholder={t("selectGender")} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="male">Male</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
+                        <SelectItem value="male">{t("male")}</SelectItem>
+                        <SelectItem value="female">{t("female")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -184,7 +188,7 @@ export const FamilyMemberForm: React.FC<FamilyMemberFormProps> = ({
                   margin: "-2px 0",
                 }}
               >
-                <FormLabel className="max-w-30 mx-1">Avatar</FormLabel>
+                <FormLabel className="max-w-30 mx-1">{t("avatar")}</FormLabel>
                 <Controller
                   name="avatarFile"
                   control={control}
@@ -209,7 +213,7 @@ export const FamilyMemberForm: React.FC<FamilyMemberFormProps> = ({
                 name="kinship"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Kinship</FormLabel>
+                    <FormLabel>{t("kinship")}</FormLabel>
                     <Select required onValueChange={(e: any) => {
                       field.onChange(e);
                       if(e===Kinship.Other){
@@ -218,23 +222,25 @@ export const FamilyMemberForm: React.FC<FamilyMemberFormProps> = ({
                       else{
                         setIsOther(false);
                       }
-                    }} defaultValue={field.value || ""}>
+                    }} defaultValue={field.value || ""}
+                    dir={currentLang === "ar" ? "rtl" : "ltr"}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select a kinship" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value={Kinship.Parent}>Parent</SelectItem>
-                        <SelectItem value={Kinship.Child}>Child</SelectItem>
-                        <SelectItem value={Kinship.Sibling}>Sibling</SelectItem>
-                        <SelectItem value={Kinship.Spouse}>Spouse</SelectItem>
-                        <SelectItem value={Kinship.Grandparent}>Grandparent</SelectItem>
-                        <SelectItem value={Kinship.Grandchild}>Grandchild</SelectItem>
-                        <SelectItem value={Kinship.UncleAunt}>UncleAunt</SelectItem>
-                        <SelectItem value={Kinship.NieceNephew}>NieceNephew</SelectItem>
-                        <SelectItem value={Kinship.Cousin}>Cousin</SelectItem>
-                        <SelectItem value={Kinship.Other}>Other</SelectItem>
+                        <SelectItem value={Kinship.Parent}>{t("parent")}</SelectItem>
+                        <SelectItem value={Kinship.Child}>{t("child")}</SelectItem>
+                        <SelectItem value={Kinship.Sibling}>{t("sibling")}</SelectItem>
+                        <SelectItem value={Kinship.Spouse}>{t("spouse")}</SelectItem>
+                        <SelectItem value={Kinship.Grandparent}>{t("grandparent")}</SelectItem>
+                        <SelectItem value={Kinship.Grandchild}>{t("grandchild")}</SelectItem>
+                        <SelectItem value={Kinship.UncleAunt}>{t("uncleAunt")}</SelectItem>
+                        <SelectItem value={Kinship.NieceNephew}>{t("nieceNephew")}</SelectItem>
+                        <SelectItem value={Kinship.Cousin}>{t("cousin")}</SelectItem>
+                        <SelectItem value={Kinship.Other}>{t("other")}</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -246,7 +252,7 @@ export const FamilyMemberForm: React.FC<FamilyMemberFormProps> = ({
               {/* kinship */}
               <FormField  name="kinship_ifOther" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>kindship </FormLabel>
+                  <FormLabel>{t("kinship")} </FormLabel>
                   <FormControl>
                     <Input required={isOther} type="text" {...field} />
                   </FormControl>
@@ -259,7 +265,7 @@ export const FamilyMemberForm: React.FC<FamilyMemberFormProps> = ({
               {/* weight */}
               <FormField name="weight" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Weight </FormLabel>
+                  <FormLabel>{t("weight")} </FormLabel>
                   <FormControl>
                     <Input type="number" {...field} />
                   </FormControl>
@@ -270,7 +276,7 @@ export const FamilyMemberForm: React.FC<FamilyMemberFormProps> = ({
               {/* height */}
               <FormField name="height" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Height </FormLabel>
+                  <FormLabel>{t("height")} </FormLabel>
                   <FormControl>
                     <Input type="number" {...field} />
                   </FormControl>
@@ -285,7 +291,7 @@ export const FamilyMemberForm: React.FC<FamilyMemberFormProps> = ({
                 name="allergic_reactions"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Allergic Reactions </FormLabel>
+                    <FormLabel>{t("allergicReactions")} </FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
@@ -300,7 +306,7 @@ export const FamilyMemberForm: React.FC<FamilyMemberFormProps> = ({
               {/* Notes */}
               <FormField name="notes" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Notes </FormLabel>
+                  <FormLabel>{t("notes")} </FormLabel>
                   <FormControl>
                     <Textarea {...field} rows={4} />
                   </FormControl>

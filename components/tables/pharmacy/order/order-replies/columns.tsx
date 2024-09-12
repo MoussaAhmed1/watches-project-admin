@@ -35,9 +35,9 @@ const OrderRepliescolumns: ColumnDef<PharmacyData>[] = [
           }`}
       >
         {row?.original?.availability === 'AVAILIABLE' ? (
-          <CheckCircle className="mr-2" />
+          <CheckCircle className="mx-1" />
         ) : (
-          <XCircle className="mr-2" />
+          <XCircle className="mx-1" />
         )}
         {row?.original?.availability}
       </p>

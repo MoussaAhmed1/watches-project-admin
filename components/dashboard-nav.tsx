@@ -15,12 +15,14 @@ import {
 import Cookies from 'js-cookie';
 import { useSession } from "next-auth/react";
 import { IUser } from "@/types/patients";
+import { useTranslations } from "next-intl";
 interface DashboardNavProps {
   _items: NavItem[];
   setOpen?: Dispatch<SetStateAction<boolean>>;
 }
 
 export function DashboardNav({ _items, setOpen }: DashboardNavProps) {
+  const t = useTranslations("navigation");
   let path = usePathname();
   const searchParams = useSearchParams();
   const currentLang = Cookies.get("Language") ?? "en";
@@ -68,9 +70,9 @@ export function DashboardNav({ _items, setOpen }: DashboardNavProps) {
               >
                 <span
                   className={cn(
-                    "hover:text-blue-700 hover:no-underline text-start items-center flex w-full h-12 px-3 mt-2  ",
+                    "hover:text-blue-700 hover:no-underline text-start items-center flex w-full h-12 px-1 mt-2  ",
                     path === link.href || (path?.includes(link.href) && link.href !== "/dashboard")
-                      ? "items-center w-full h-12 px-3 mt-2 bg-blue-100 rounded text-blue-700"
+                      ? "items-center w-full h-12 px-1 mt-2 bg-blue-100 rounded text-blue-700"
                       : "rounded hover:bg-blue-50"
                   )}
                 // style={{
@@ -78,8 +80,8 @@ export function DashboardNav({ _items, setOpen }: DashboardNavProps) {
                 //   backgroundColor:path === `/${currentLang}${link.href}` ?"#DBEAFE":"unset",
                 // }}
                 >
-                  <Icon className="mr-2 h-4 w-4" />
-                  <span className="text-nowrap flex-grow text-xs font-semibold">{link.title}</span>
+                  <Icon className="mx-2 h-4 w-4" />
+                  <span className="text-nowrap flex-grow text-xs font-semibold">{t(link.label)}</span>
                 </span>
               </Link>
             )
@@ -107,7 +109,7 @@ export function DashboardNav({ _items, setOpen }: DashboardNavProps) {
                   >
                     <Icon className="w-5 h-5 " />
                     <span className=" text-xs font-semibold no-underline ">
-                      {link.title}
+                      {t(link.label)}
                     </span>
                   </div>
                 </AccordionTrigger>
@@ -130,8 +132,8 @@ export function DashboardNav({ _items, setOpen }: DashboardNavProps) {
                         )}
                       >
                         <Icon className="w-5 h-5 text-xs" />
-                        <span className="ms-1 text-xs font-semibold  ">
-                          {child.title}
+                        <span className="ms-1 text-xs font-semibold">
+                          {t(child.label)}
                         </span>
                       </Link>
                     );

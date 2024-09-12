@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
+import { useTranslations } from "next-intl";
 
 interface AlertModalProps {
   isOpen: boolean;
@@ -21,7 +22,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   defualt=false
 }) => {
   const [isMounted, setIsMounted] = useState(false);
-
+  const t = useTranslations("shared");
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -32,17 +33,17 @@ export const AlertModal: React.FC<AlertModalProps> = ({
 
   return (
     <Modal
-      title="Are you sure?"
-      description="This action cannot be undone."
+      title={t("are_you_sure")}
+      description={t("action_cannot_be_undone")}
       isOpen={isOpen}
       onClose={onClose}
     >
-      <div className="pt-6 space-x-2 flex items-center justify-end w-full">
+      <div className="pt-6 space-x-2 gap-2 flex items-center justify-end w-full">
         <Button disabled={loading} variant="outline" onClick={onClose}>
-          Cancel
+          {t("cancel")}
         </Button>
         <Button disabled={loading} variant={defualt?"default":"destructive"} onClick={onConfirm}>
-          Continue
+          {t("continue")}
         </Button>
       </div>
     </Modal>

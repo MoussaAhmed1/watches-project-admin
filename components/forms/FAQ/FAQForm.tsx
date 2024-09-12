@@ -111,7 +111,7 @@ export default function FAQForm({ faq, id }: IProps) {
           <Button disabled={loading}
             type="button"
             size="lg" >
-            <Plus className="mr-2 h-5 w-5" />    {dialogTitle}
+            <Plus className="ltr:mx-1 rtl:ml-2 h-5 w-5" />    {dialogTitle}
 
           </Button>
         }

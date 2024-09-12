@@ -39,7 +39,7 @@ const page = async ({ params }: {
             variant={"default"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
-            <Reply className="mr-2 h-4 w-4" /> Replay
+            <Reply className="mx-1 h-4 w-4" /> Replay
           </Button>
           </div>
         <div className="flex flex-col lg:flex-row gap-1 lg:items-center lg:justify-between justify-start items-start">

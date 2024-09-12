@@ -24,9 +24,10 @@ import { updateUsersProfile } from "@/actions/patients";
 import { useSession } from "next-auth/react";
 import { navItems } from "@/constants/data";
 import Select, { StylesConfig } from "react-select";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { reloadSession } from "@/lib/funcs";
 import { IUser } from "@/types/patients";
+import { useTranslations } from "next-intl";
 
 export type UserFormValues = z.infer<typeof ProfileSchema>;
 
@@ -45,10 +46,14 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
   isAllowToModifyPermissions
 }) => {
   const { toast } = useToast();
-  const [loading, setLoading] = useState(false);
-  const action = initialData ? "Save changes" : "Create";
-  const { update, data: session } = useSession();
+  const t = useTranslations("pages.users");
+  const tShared = useTranslations('shared');
   const router = useRouter();
+  const pathname = usePathname();
+  const [currentLang] = useState(pathname?.includes("/ar") ? "ar" : "en");
+  const [loading, setLoading] = useState(false);
+  const action = initialData ? tShared("saveChanges") : tShared("create");
+  const { update, data: session } = useSession();
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -101,15 +106,15 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
     if (newUser?.error) {
       toast({
         variant: "destructive",
-        title: initialData ? "Update failed" : "Add failed",
+        title: initialData ? tShared("updateFailed") : tShared("addFailed"),
         description: newUser?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: initialData ? "Updated successfully" : "Added successfully",
-        description: initialData ? `Profile has been successfully updated.` : `Profile has been successfully added.`,
+        title: initialData ? tShared("updatedSuccessfully") : tShared("addedSuccessfully"),
+        description: initialData ?  t(`profileUpdatedSuccessfully`) : t(`profileAddedSuccessfully`) ,
       });
       if (id === "") {
         await update({
@@ -152,11 +157,11 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                 name="first_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>First Name <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t("firstName")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="first name"
+                        placeholder={t("firstName")}
                         {...field}
                       />
                     </FormControl>
@@ -169,11 +174,11 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                 name="last_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Last Name <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t("lastName")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="last name"
+                        placeholder={t("lastName")}
                         {...field}
                       />
                     </FormControl>
@@ -183,7 +188,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
               />
               <div className="flex w-full justify-end flex-col items-start gap-1">
                 <label htmlFor="date" className="font-medium text-sm">
-                  Birth date <span className="text-red-800">*</span>
+                {t("birthDate")} <span className="text-red-800">*</span>
                 </label>
                 <div className="flex-col w-full">
                   <InputDate
@@ -204,15 +209,15 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
               {/* Gender */}
               <FormField name="gender" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Gender <span className="text-red-800">*</span></FormLabel>
+                  <FormLabel>{t("gender")} <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
-                    <ShadcnSelect {...field} onValueChange={field.onChange}>
+                    <ShadcnSelect {...field} onValueChange={field.onChange} dir={currentLang === "ar" ? "rtl" : "ltr"}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select Gender" />
+                        <SelectValue placeholder={t("selectGender")} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="male">Male</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
+                        <SelectItem value="male">{t("male")}</SelectItem>
+                        <SelectItem value="female">{t("female")}</SelectItem>
                       </SelectContent>
                     </ShadcnSelect>
                   </FormControl>
@@ -225,9 +230,9 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t("phone")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
-                      <Input type="text" disabled={loading} {...field} />
+                      <Input dir="ltr" type="text" disabled={loading} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -239,7 +244,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                   margin: "-2px 0",
                 }}
               >
-                <FormLabel className="max-w-30 mx-1">Avatar</FormLabel>
+                <FormLabel className="max-w-30 mx-1">{t("avatar")}</FormLabel>
                 <div>
                   <Controller
                     name="avatarFile"
@@ -248,7 +253,6 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                       <Input
                         type="file"
                         accept="image/*"
-                        placeholder="Edit your avatar"
                         multiple={false}
                         onChange={(e) => {
                           field.onChange(e.target.files ? e.target.files[0] : null);
@@ -264,7 +268,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
             {revalidatequery === "/dashboard/admins" && <div className="md:grid md:grid-cols-1 gap-8">
               <div>
                 <label htmlFor="premessions" className="font-medium text-sm">
-                  {("Permissions")} <span className="text-red-800">*</span>
+                {t("permissions")} <span className="text-red-800">*</span>
                 </label>
                 <div className="flex-col w-full" style={{
                   cursor:!isAllowToModifyPermissions?"not-allowed":"pointer"

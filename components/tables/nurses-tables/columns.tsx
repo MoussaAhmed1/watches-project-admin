@@ -10,7 +10,7 @@ import { INurse } from "@/types/nurses";
 export const NursesColumns: ColumnDef<INurse>[] = [
   {
     accessorKey: "name",
-    header: "Name",
+    header: "name",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <Avatar className="w-10 h-10">
         <AvatarImage
@@ -26,7 +26,7 @@ export const NursesColumns: ColumnDef<INurse>[] = [
   },
   {
     accessorKey: "rating",
-    header: "Rating",
+    header: "rating",
     cell: ({ row }) => <div className="stars flex">
       {Array.from({ length: Math.ceil(row?.original?.rating) }, (ele, index) => (
         <Star key={index} fill="#f7d722" strokeWidth={0} size={20} />
@@ -39,7 +39,8 @@ export const NursesColumns: ColumnDef<INurse>[] = [
   },
   {
     accessorKey: "phone",
-    header: "Phone",
+    header: "phone",
+    cell: ({ row }) => <p className="rtl:text-right text-left" dir="ltr">{row?.original?.phone}</p>
   },
   {
     id: "actions",
@@ -49,7 +50,7 @@ export const NursesColumns: ColumnDef<INurse>[] = [
 export const VerificationRequestsNursesColumns: ColumnDef<INurse>[] = [
   {
     accessorKey: "name",
-    header: "Name",
+    header: "name",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <Avatar className="w-10 h-10">
         <AvatarImage
@@ -65,7 +66,8 @@ export const VerificationRequestsNursesColumns: ColumnDef<INurse>[] = [
   },
   {
     accessorKey: "phone",
-    header: "Phone",
+    header: "phone",
+    cell: ({ row }) => <p className="rtl:text-right text-left" dir="ltr">{row?.original?.phone}</p>
   },
   {
     id: "actions",

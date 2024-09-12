@@ -8,7 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { IFaqs } from "@/types/faqs";
 import { Trash } from "lucide-react";
 import { useState } from "react";
-
+import { useTranslations } from "next-intl";
 interface CellActionProps {
   data: IFaqs;
 }
@@ -17,7 +17,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
-
+ const t = useTranslations("tableActions");
   const onConfirm = async () => {
     const res = await deleteFAQ(data.id);
     if (res?.error) {

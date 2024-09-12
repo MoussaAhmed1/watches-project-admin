@@ -8,7 +8,7 @@ export interface NavItem {
   icon?: keyof typeof Icons;
   label?: string;
   description?: string;
-  children? : {title: string; href: string;}[]
+  children? : {title: string; href: string;label?: string;}[]
   subItems : boolean
 }
 

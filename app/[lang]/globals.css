@@ -100,3 +100,7 @@
 .ar {
   font-family: "Noto Kufi Arabic", sans-serif;
 }
+
+.group .ml-20{
+  margin-left:10px !important
+}

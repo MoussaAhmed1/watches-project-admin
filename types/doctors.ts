@@ -4,6 +4,7 @@ export interface IDoctor {
   avatar: string;
   name: string;
   rating: number;
+  phone: number|string;
   specialization: Specialization;
 }
 

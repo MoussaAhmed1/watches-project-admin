@@ -33,60 +33,68 @@ export const navItems: NavItem[] = [
     title: "Home",
     href: "/dashboard",
     icon: "home",
-    label: "Dashboard",
+    label: "home",
     subItems: false,
   },
   {
     title: "Admins",
     href: "/dashboard/admins",
     icon: "admin",
-    label: "Admins",
+    label: "admins",
     subItems: false,
   },
   {
     title: "Users",
     href: "/dashboard/nurses",
     icon: "patients",
-    label: "user",
+    label: "users",
     subItems: true,
 
     children: [
       {
         title: "Patients",
         href: "/dashboard/patients",
+        label: "patients",
       },
       {
         title: "Doctors",
         href: "/dashboard/doctors",
+        label: "doctors",
       },
       {
         title: "Pharmacies",
         href: "/dashboard/pharmacies",
+        label: "pharmacies",
       },
       {
         title: "Nurses",
         href: "/dashboard/nurses",
+        label: "nurses",
       },
     ],
   },
   {
     title: "Verification Requests",
     icon: "patients",
-    label: "verification",
+    label: "verification_requests",
     subItems: true,
 
     children: [
       {
         title: "Doctors",
         href: "/dashboard/verification-requests/doctors",
+        label: "doctors",
+
       },
       {
         title: "Pharmacies",
         href: "/dashboard/verification-requests/pharmacies",
+        label: "pharmacies",
       },
       {
         title: "Nurses",
         href: "/dashboard/verification-requests/nurses",
+        label: "nurses",
       },
     ],
   },
@@ -101,31 +109,36 @@ export const navItems: NavItem[] = [
       {
         title: "Reservations",
         href: "/dashboard/reservations",
+        label: "reservations",
       },
       {
         title: "Pharmacy Orders",
         href: "/dashboard/pharmacy-orders",
+        label: "pharmacy_orders",
       },
       {
         title: "Nurse Orders",
         href: "/dashboard/nurse-orders",
+        label: "nurse_orders",
       },
     ],
   },
   {
     title: "Cancel Requests",
     icon: "reservations",
-    label: "cancel",
+    label: "cancel_requests",
     subItems: true,
-
+    
     children: [
       {
         title: "Reservations",
         href: "/dashboard/cancel-requests/reservations",
+        label: "reservations",
       },
       {
         title: "Nurse Orders",
         href: "/dashboard/cancel-requests/nurse-orders",
+        label: "nurse_orders",
       },
     ],
   },
@@ -133,6 +146,7 @@ export const navItems: NavItem[] = [
     title: "Banners",
     href: "/dashboard/banars",
     icon: "media",
+    label: "banners",
     subItems: false,
   },
   {
@@ -145,10 +159,12 @@ export const navItems: NavItem[] = [
       {
         title: "Client Packages",
         href: "/dashboard/packages/client-packages",
+        label: "client_packages",
       },
       {
         title: "Pharmacy Packages",
         href: "/dashboard/packages/pharmacy-packages",
+        label: "pharmacy_packages",
       },
     ],
   },
@@ -156,38 +172,42 @@ export const navItems: NavItem[] = [
     title: "Notifications",
     href: "/dashboard/notifications",
     icon: "notification",
-    label: "settings",
+    label: "notifications",
     subItems: false,
   },
   {
     title: "Messages",
     href: "/dashboard/messages",
     icon: "messages",
-    label: "kanban",
+    label: "messages",
     subItems: false,
   },
   {
     title: "General Settings",
     href: "/dashboard/settings",
     icon: "settings",
-    label: "settings",
+    label: "general_settings",
     subItems: true,
     children: [
       {
         title: "Contact us",
         href: "/dashboard/settings/contact-us",
+        label:"contact_us"
       },
       {
         title: "About Us",
         href: "/dashboard/settings/about-us",
+        label:"about_us"
       },
       {
         title: "FAQ",
         href: "/dashboard/settings/faq",
+        label:"faq"
       },
       {
         title: "Terms and Conditions",
         href: "/dashboard/settings/terms-conditions",
+        label:"terms_and_conditions"
       },
     ],
   },
@@ -201,22 +221,27 @@ export const navItems: NavItem[] = [
       {
         title: "Commission",
         href: "/dashboard/data-management/commission",
+        label: "commission",
       },
       {
         title: "Pharmacy Orders Limits",
         href: "/dashboard/data-management/pharmacy-order-number",
+        label: "pharmacy_orders_limits",
       },
       {
         title: "Doctor Specialiations",
         href: "/dashboard/data-management/specializations",
+        label: "doctor_specialiations",
       },
       {
         title: "Pharmacy Categories",
         href: "/dashboard/data-management/pharmacy-categories",
+        label: "pharmacy_categories",
       },
       {
         title: "Pharmacy Products",
         href: "/dashboard/data-management/drugs",
+        label: "pharmacy_products",
       },
     ],
   },

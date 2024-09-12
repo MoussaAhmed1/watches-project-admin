@@ -5,23 +5,21 @@ import BreadCrumb from "@/components/breadcrumb";
 import PharmaciesFilters from "@/components/filters/users/pharmaciesFilters";
 import { PharmaciesColumns } from "@/components/tables/pharmacies-tables/columns";
 import { SharedTable } from "@/components/tables/shared/Shared-table";
-import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
 import { IPharmacy } from "@/types/pharmacy";
-import { Plus } from "lucide-react";
-import Link from "next/link";
+import type { Locale } from "@/i18n.config";
+import { getDictionary } from "@/app/[lang]/messages";
 
-const breadcrumbItems = [{ title: "Pharmacies Requests", link: "/dashboard/pharmacies-requests" }];
 
 type paramsProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
+  params:{lang:Locale}
 };
 
-export default async function page({ searchParams }: paramsProps) {
+export default async function page({ searchParams,params }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
@@ -44,6 +42,9 @@ export default async function page({ searchParams }: paramsProps) {
     limit: 10,
 
   });
+  const {navigation} = await getDictionary(params?.lang)
+  const breadcrumbItems = [{ title: navigation.pharmaciesRequests, link: "/dashboard/doctors" }];
+  
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
@@ -51,7 +52,7 @@ export default async function page({ searchParams }: paramsProps) {
 
         <div className="flex items-start justify-between">
           <Heading
-            title={`Pharmacies Requests (${totalPharmacies})`}
+            title={`${navigation.pharmaciesRequests} (${totalPharmacies})`}
           />
         </div>
         <Separator />
@@ -64,7 +65,7 @@ export default async function page({ searchParams }: paramsProps) {
           data={pharmacies as unknown as IPharmacy[] }
           pageCount={pageCount}
           >
-          <PharmaciesFilters categories={categoriesRes?.data?.data} />
+          <PharmaciesFilters categories={categoriesRes?.data?.data} lang={params.lang} />
         </SharedTable>
       </div>
     </>

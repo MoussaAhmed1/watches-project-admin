@@ -4,7 +4,6 @@ import { getToken } from "next-auth/jwt";
 import { Locale, i18n } from "@/i18n.config";
 import { CustomMiddleware } from "./chain";
 import { cookies } from "next/headers";
-import { getSession } from "next-auth/react";
 const protectedPaths = ["/dashboard"];
 
 function getProtectedRoutes(protectedPaths: string[], locales: Locale[]) {

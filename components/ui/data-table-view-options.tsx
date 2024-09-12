@@ -12,7 +12,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-
+import { useTranslations } from "next-intl";
+import Cookies from 'js-cookie';
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
 }
@@ -20,6 +21,8 @@ interface DataTableViewOptionsProps<TData> {
 export function DataTableViewOptions<TData>({
   table,
 }: DataTableViewOptionsProps<TData>) {
+  const t = useTranslations("tableColumns");
+  const currentLang = Cookies.get("Language") ?? "en";
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -29,11 +32,11 @@ export function DataTableViewOptions<TData>({
           className="ms-auto hidden h-8 lg:flex"
         >
           <MixerHorizontalIcon className="me-2 h-4 w-4" />
-          {("view")}
+          {t("view")}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[150px]">
-        <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+        <DropdownMenuLabel  dir={currentLang === "ar" ? "rtl" : "ltr"}>{t("toggle_columns")}</DropdownMenuLabel >
         <DropdownMenuSeparator />
         {table
           .getAllColumns()
@@ -48,10 +51,11 @@ export function DataTableViewOptions<TData>({
                 className="capitalize"
                 checked={column.getIsVisible()}
                 onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                dir={currentLang === "ar" ? "rtl" : "ltr"}
               >
                 {(column.columnDef.meta as { header: string })
-                  ? (column.columnDef.meta as { header: string }).header
-                  : column.id}
+                  ? t((column.columnDef.meta as { header: string }).header)
+                  : t(column.id)}
               </DropdownMenuCheckboxItem>
             );
           })}

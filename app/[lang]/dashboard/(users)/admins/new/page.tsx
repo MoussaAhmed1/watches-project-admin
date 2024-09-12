@@ -1,11 +1,13 @@
+import { getDictionary } from "@/app/[lang]/messages";
 import BreadCrumb from "@/components/breadcrumb";
 import { AdminForm } from "@/components/forms/users-forms/admin-form/add-edit-admin";
 import React from "react";
 
-export default async function Page() {
+export default async function Page({ params }:{params: { id: string,lang:"ar"|"en" }}) {
+  const {pages,shared} = await getDictionary(params?.lang)
   const breadcrumbItems = [
-    { title: "Admins", link: "/dashboard/admins" },
-    { title: "Create", link: "/dashboard/admins/new" },
+    { title: pages.users.Admins, link: `dashboard/admins` },
+    { title: shared.create, link: `dashboard/admins/new` },
   ];
 
   return (

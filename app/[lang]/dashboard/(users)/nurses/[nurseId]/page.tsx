@@ -66,7 +66,7 @@ const page = async ({ params, searchParams }: {
               href={`/dashboard/nurses/${params?.nurseId}/${nurse?.user_id}/edit`}
               className={cn(buttonVariants({ variant: "default" }), "p-5")}
             >
-              <Edit className="mr-2 h-5 w-5" /> Edit
+               <Edit className="mx-1 h-5 w-5" /> Edit
             </Link>
           </div>
         </div>
@@ -83,7 +83,7 @@ const page = async ({ params, searchParams }: {
                 <p>Experience: {nurse?.experience} years</p>
                 <p>Phone: {nurse?.phone}</p>
                 <div className="flex">
-                  <span className="mr-2">Rating:</span>
+                  <span className="mx-1">Rating:</span>
                   <div className="stars flex">
                     {Array.from(
                       { length: Math.ceil(nurse?.rating) },
