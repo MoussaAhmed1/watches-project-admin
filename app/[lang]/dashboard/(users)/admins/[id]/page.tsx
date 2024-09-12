@@ -9,6 +9,7 @@ import { Calendar, Edit, Info, Languages, ShieldCheck, } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { getDictionary } from "@/app/[lang]/messages";
 export const metadata: Metadata = {
   title: "Admin Deatails",
   description:
@@ -16,11 +17,13 @@ export const metadata: Metadata = {
 };
 
 const page = async ({ params }: {
-  params: { id: string }
+  params: { id: string,lang:"ar"|"en" }
 }) => {
+
+  const {pages,shared} = await getDictionary(params?.lang)
   const breadcrumbItems = [
-    { title: "Admins", link: "/dashboard/admins" },
-    { title: "Details", link: "/dashboard/admins/id" },
+    { title: pages.users.Admins, link: "/dashboard/admins" },
+    { title: shared.details, link: "/dashboard/admins/id" },
   ];
   //----------------------------------------------------------------
   const res = await fetchProfileInfo({ userId: params.id });
@@ -31,13 +34,13 @@ const page = async ({ params }: {
         <BreadCrumb items={breadcrumbItems} customStyle="mx-5" />
         <div className="flex items-baseline justify-between mx-5">
           <Heading
-            title={`Admin Details`}
+            title={pages.users.admin_details}
             description={admin?.account}
           />
-          <Link href={`/dashboard/admins/${params.id}/edit`}
+          <Link href={`/${params?.lang}/dashboard/admins/${params.id}/edit`}
             className={cn(buttonVariants({ variant: "default" }))}
           >
-            <Edit className="mr-2 h-4 w-4" /> Edit
+            <Edit className="mx-1 h-4 w-4" /> {pages.users.edit}
           </Link>
         </div>
         <div className="flex flex-col lg:flex-row gap-1 lg:items-center lg:justify-between justify-start items-start">
@@ -53,34 +56,34 @@ const page = async ({ params }: {
                 height={65}
               />
               <div className="ml-4">
-                <h1 className="text-2xl font-bold">Name: {admin?.first_name + " " + admin?.last_name}</h1>
-                <h6>Phone: {admin?.phone}</h6>
-                {admin?.email && <h6>Email: {admin?.email}</h6>}
+                <h1 className="text-2xl font-bold">{pages.users.name}: {admin?.first_name + " " + admin?.last_name}</h1>
+                <h6>{pages.users.phone}: {admin?.phone}</h6>
+                {admin?.email && <h6>{pages.users.email}: {admin?.email}</h6>}
               </div>
             </div>
             <div className="tab1">
               <div className="p-4 border-t border-gray-200">
-                <h2 className="text-xl font-bold">Profile Info</h2>
+                <h2 className="text-xl font-bold">{pages.users.profileInfo}</h2>
                 <div className="grid grid-cols-1">
                   <div className="flex mt-3">
                     <Calendar className="details_icon" />
-                    <p className="mr-1">Birth Date:</p>
+                    <p className="mr-1">{pages.users.birthDate}:</p>
                     <p>{admin?.birth_date}</p>
                   </div>
                   <div className="flex mt-3">
                     <Info className="details_icon" />
-                    <p className="mr-1">Gender:</p>
+                    <p className="mr-1">{pages.users.gender}:</p>
                     <p>{admin?.gender}</p>
                   </div>
                   <div className="flex mt-3">
                     <Languages className="details_icon" />
-                    <p className="mr-1">Language:</p>
+                    <p className="mr-1">{pages.users.language}:</p>
                     <p>{admin?.language == "en" ? "English" : "Arabic"}</p>
                   </div>
                 </div>
               </div>
               <div className="p-4 border-t border-gray-200">
-                <h2 className="text-xl font-bold">Permissions</h2>
+                <h2 className="text-xl font-bold">{pages.users.permissions}</h2>
                 <ul className="list-none">
                   {admin?.premessions?.map((permission) => (
                     <li className="flex mt-3" key={permission}>

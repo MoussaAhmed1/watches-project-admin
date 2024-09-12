@@ -8,7 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Category, Drug, } from "@/types/pharmacy";
 import {  Trash, } from "lucide-react";
 import { useState } from "react";
-
+import { useTranslations } from "next-intl";
 interface CellActionProps {
   data: Drug;
   categories: Category[];
@@ -37,7 +37,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data, categories }) => {
 
     setLoading(false);
   };
-
+ const t = useTranslations("tableActions");
   return (
     <div className="flex flex-end grow w-5 md:w-1 xs:w-0" key={data.id}>
       <AlertModal

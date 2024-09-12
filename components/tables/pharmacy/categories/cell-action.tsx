@@ -5,10 +5,11 @@ import { AlertModal } from "@/components/modal/alert-modal";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { PharmacyCategories } from "@/types/pharmacy-categories";
-import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";
+import {  Trash  } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { useTranslations } from "next-intl";
 interface CellActionProps {
   data: PharmacyCategories;
 }
@@ -17,6 +18,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
+   const t = useTranslations("tableActions");
   const onConfirm = async () => {
     const res = await deleteCategory(data.id);
     if (res?.error) {

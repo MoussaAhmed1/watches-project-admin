@@ -48,7 +48,10 @@ export default function LocaleSwitcher({ lang }: { lang: Language }) {
             key={value}
             onClick={() => { Cookie.set("Language", value); }}
           >
-            <Link href={redirectedPathName(value)}>{label}</Link>
+            <Link 
+            href={redirectedPathName(value)}
+            onClick={() => { Cookie.set("Language", value); }}
+            >{label}</Link>
           </DropdownMenuItem>)
           )
         }

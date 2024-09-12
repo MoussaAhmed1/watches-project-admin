@@ -12,7 +12,7 @@ import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
@@ -28,43 +28,43 @@ import Map from "@/components/map/map";
 import { MapData } from "@/types/map";
 import AvatarPreview from "@/components/shared/AvatarPreview";
 import { Separator } from "@/components/ui/separator";
-import Cookie from 'js-cookie';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import CustomTimePicker from "@/components/shared/timepicker/TimePicker";
 import InputDate from "@/components/shared/timepicker/InputDate";
 import UseImagesStore from "@/hooks/use-images-store";
+import { useTranslations } from "next-intl";
 export type DoctorFormValues = z.infer<typeof doctorSchema>;
 
 export const workingTimeCards: { id: number, name: string }[] = [
    {
     id: 1,
-    name: "Saturday"
+    name: "saturday"
   },
   {
     id: 2,
-    name: "Sunday",
+    name: "sunday",
   },
   {
     id: 3,
-    name: "Monday",
+    name: "monday",
   },
   {
     id: 4,
-    name: "Tuesday",
+    name: "tuesday",
 
   },
   {
     id: 5,
-    name: "Wednesday",
+    name: "wednesday",
 
   },
   {
     id: 6,
-    name: "Thursday",
+    name: "thursday",
   },
   {
     id: 7,
-    name: "Friday",
+    name: "friday",
   },
 ];
 interface DoctorFormProps {
@@ -76,12 +76,15 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
   specializations
 }) => {
   const router = useRouter();
-  const currentLang = Cookie.get("Language");
   const { toast } = useToast();
+  const pathname = usePathname();
+  const [currentLang] = useState(pathname?.includes("/ar") ? "ar" : "en");
+  const t = useTranslations("pages.users");
+  const tShared = useTranslations('shared');
   const [loading, setLoading] = useState(false);
-  const title = "Create doctor";
-  const description = "Add a new doctor";
-  const action = "Create";
+  const title = t("createDoctor");
+  const description = t("addNewDoctor");
+  const action =  tShared("create");
 
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -177,15 +180,15 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: "Add failed",
+        title: tShared("addFailed"),
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: "Added successfully",
-        description: `Doctor has been successfully added.`,
+        title: tShared("addedSuccessfully"),
+        description: t(`profileAddedSuccessfully`),
       });
       router.push(`/dashboard/doctors`);
     }
@@ -194,7 +197,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
   };
 
   //show error messages
-  console.log(form.formState.errors);
+  // console.log(form.formState.errors);
 
   // useEffect(() => {
   //   const handleOnBeforeUnload = (event: BeforeUnloadEvent) => {
@@ -221,7 +224,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
   //   };
   // }, []);
 
-  console.log(form.formState.errors);
+  // console.log(form.formState.errors);
 
   return (
     <>
@@ -242,11 +245,11 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                 name="first_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>First Name <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t("firstName")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Doctor name"
+                        placeholder={t("firstName")}
                         {...field}
                       />
                     </FormControl>
@@ -259,11 +262,11 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                 name="last_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Last Name <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t("lastName")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Doctor name"
+                        placeholder={t("lastName")}
                         {...field}
                       />
                     </FormControl>
@@ -273,7 +276,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
               />
               <div className="flex w-full justify-end flex-col items-start gap-1">
                 <label htmlFor="date" className="font-medium text-sm">
-                  birth date <span className="text-red-800">*</span>
+                {t("birthDate")} <span className="text-red-800">*</span>
                 </label>
                 <div className="flex-col w-full">
                   <InputDate
@@ -294,15 +297,15 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
               {/* Gender */}
               <FormField name="gender" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Gender <span className="text-red-800">*</span></FormLabel>
+                  <FormLabel>{t("gender")} <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
-                    <Select {...field} onValueChange={field.onChange}>
+                    <Select {...field} onValueChange={field.onChange} dir={currentLang === "ar" ? "rtl" : "ltr"}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select Gender" />
+                        <SelectValue placeholder={t("selectGender")} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="male">Male</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
+                        <SelectItem value="male">{t("male")}</SelectItem>
+                        <SelectItem value="female">{t("female")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -315,7 +318,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t("phone")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
                       <Input disabled={loading} {...field} />
                     </FormControl>
@@ -329,7 +332,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                   margin: "-2px 0",
                 }}
               >
-                <FormLabel className="max-w-30 mx-1">Avatar</FormLabel>
+                <FormLabel className="max-w-30 mx-1">{t("avatar")}</FormLabel>
                 <div>
                   <Controller
                     name="avatarFile"
@@ -355,7 +358,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                   margin: "-2px 0",
                 }}
               >
-                <FormLabel className="max-w-30 mx-1">Cover Image</FormLabel>
+                <FormLabel className="max-w-30 mx-1">{t("coverImage")}</FormLabel>
                 <div>
                   <Controller
                     name="cover_image"
@@ -385,7 +388,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                   margin: "-2px 0",
                 }}
               >
-                <FormLabel className="max-w-30 mx-1">License Images <span className="text-red-800">*</span></FormLabel>
+                <FormLabel className="max-w-30 mx-1">{t('licenseImages')} <span className="text-red-800">*</span></FormLabel>
                 <div>
                   <Controller
                     name="license_images"
@@ -411,7 +414,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
               {/* Consultation Prices */}
               <FormField name="video_consultation_price" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Video Consultation Price <span className="text-red-800">*</span></FormLabel>
+                  <FormLabel>{t('videoConsultationPrice')} <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
                     <Input type="number" disabled={loading} {...field} />
                   </FormControl>
@@ -420,7 +423,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
               )} />
               <FormField name="voice_consultation_price" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Voice Consultation Price <span className="text-red-800">*</span></FormLabel>
+                  <FormLabel>{t('voiceConsultationPrice')} <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
                     <Input type="number" {...field} />
                   </FormControl>
@@ -429,7 +432,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
               )} />
               <FormField name="home_consultation_price" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Home Consultation Price <span className="text-red-800">*</span></FormLabel>
+                  <FormLabel>{t('homeConsultationPrice')} <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
                     <Input type="number" {...field} />
                   </FormControl>
@@ -439,7 +442,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
               {/* Specialization ID */}
               <FormField name="specialization_id" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Specialization <span className="text-red-800">*</span></FormLabel>
+                  <FormLabel>{t('specialization')} <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
                     <Select {...field} onValueChange={field.onChange}>
                       <SelectTrigger>
@@ -460,7 +463,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
               {/* Year of Experience */}
               <FormField name="year_of_experience" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Year of Experience <span className="text-red-800">*</span></FormLabel>
+                  <FormLabel>{t('yearOfExperience')} <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
                     <Input type="number" {...field} />
                   </FormControl>
@@ -473,7 +476,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
               {/* Summary */}
               <FormField name="summery" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Summary <span className="text-red-800">*</span></FormLabel>
+                  <FormLabel>{t('summary')} <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
                     <Textarea {...field} rows={4} />
                   </FormControl>
@@ -495,29 +498,31 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
               <FormField
                 control={form.control}
                 name="is_urgent"
+                
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel>Is Urgent</FormLabel>
+                    <FormLabel>{t('isUrgent')}</FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
                         defaultValue={field.value ? `${field.value}` : undefined}
+                        dir={currentLang === "ar" ? "rtl" : "ltr"}
                         className="flex flex-col space-y-1"
                       >
 
-                        <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormItem className="flex items-center space-x-3 space-y-0  gap-1">
                           <FormControl>
                             <RadioGroupItem value={"true"} />
                           </FormControl>
                           <FormLabel className="font-normal">
-                            Yes
+                            {t('yes')}
                           </FormLabel>
                         </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormItem className="flex items-center space-x-3 space-y-0 gap-1">
                           <FormControl>
                             <RadioGroupItem value={"false"} />
                           </FormControl>
-                          <FormLabel className="font-normal">No</FormLabel>
+                          <FormLabel className="font-normal">{t('no')}</FormLabel>
                         </FormItem>
                       </RadioGroup>
                     </FormControl>
@@ -527,7 +532,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
               />
 
               <Separator style={{ margin: "25px 0 10px 0" }} />
-              <h5 style={{ margin: "5px 0 0 0", color: error ? "red" : "unset" }} className="text-gray-500">Availablity:</h5>
+              <h5 style={{ margin: "5px 0 0 0", color: error ? "red" : "unset" }} className="text-gray-500">{t('availability')}:</h5>
               {error && <h5 style={{ color: error ? "red" : "unset" }}>{error}</h5>}
               {  /* availablity */}
               {
@@ -538,7 +543,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                       <div className="min-w-[10%]">
                         <FormField name={`avaliablity.${ind}.is_active`} control={control} render={({ field }) => (
                           <FormItem className="flex flex-col">
-                            <FormLabel>{availbleday?.name}</FormLabel>
+                            <FormLabel>{t(availbleday?.name)}</FormLabel>
                             <FormControl>
                               <Switch checked={field.value} onCheckedChange={(e) => {
                                 field.onChange(e);
@@ -560,7 +565,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                       {/* TimePicker */}
                       {<div className="flex space-x-5">
                         <div>
-                          <FormLabel className="max-w-30 mx-1">Start Time <span className="text-red-800">*</span></FormLabel>
+                          <FormLabel className="max-w-30 mx-1">{t('startTime')} <span className="text-red-800">*</span></FormLabel>
                           <CustomTimePicker
                             val={form.getValues(`avaliablity.${ind}.start_at`) ?? undefined}
                             setval={(val) => {
@@ -577,7 +582,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                             }} />
                         </div>
                         <div>
-                          <FormLabel className="max-w-30 mx-1">End Time <span className="text-red-800">*</span></FormLabel>
+                          <FormLabel className="max-w-30 mx-1">{t('endTime')} <span className="text-red-800">*</span></FormLabel>
                           <CustomTimePicker
                             val={form.getValues("avaliablity.0.end_at") ?? undefined}
                             setval={(val) => {
@@ -600,17 +605,17 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
               }
 
               <Separator style={{ margin: "25px 0 10px 0" }} />
-              <h5 style={{ margin: "5px 0 0 0" }} className="text-gray-500">Clinic Info<span className="text-gray-600">(optional)</span>:</h5>
+              <h5 style={{ margin: "5px 0 0 0" }} className="text-gray-500">{t('clinicInfo')}<span className="text-gray-600">({t('optional')})</span>:</h5>
               <FormField
                 control={form.control}
                 name="clinic.name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Clinic Name</FormLabel>
+                    <FormLabel>{t('clinicName')}</FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Clinic name"
+                        placeholder={t('clinicName')}
                         {...field}
                       />
                     </FormControl>
@@ -620,7 +625,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
               />
               <FormField name="clinic_consultation_price" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Clinic Consultation Price </FormLabel>
+                  <FormLabel>{t('clinicConsultationPrice')} </FormLabel>
                   <FormControl>
                     <Input type="number" {...field} />
                   </FormControl>
@@ -642,7 +647,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                 disabled
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Clinic address <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t('clinicAddress')} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
@@ -660,27 +665,30 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                 name="clinic.is_active"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel>Is Active</FormLabel>
+                    <FormLabel>{t('isActive')}</FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
                         defaultValue={field.value ? `${field.value}` : undefined}
                         className="flex flex-col space-y-1"
+                        dir={currentLang === "ar" ? "rtl" : "ltr"}
                       >
 
-                        <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormItem className="flex items-center space-x-3 space-y-0 gap-2"
+                        >
                           <FormControl>
                             <RadioGroupItem value={"true"} />
                           </FormControl>
                           <FormLabel className="font-normal">
-                            Active
+                            {t('active')}
                           </FormLabel>
                         </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormItem className="flex items-center space-x-3 space-y-0 gap-2"
+                        >
                           <FormControl>
                             <RadioGroupItem value={"false"} />
                           </FormControl>
-                          <FormLabel className="font-normal">Disabled</FormLabel>
+                          <FormLabel className="font-normal">{t('disabled')}</FormLabel>
                         </FormItem>
                       </RadioGroup>
                     </FormControl>

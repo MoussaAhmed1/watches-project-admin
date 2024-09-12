@@ -10,7 +10,7 @@ import { formatCreatedAtDate } from "@/utils/helperFunctions";
 export const PatientsColumns: ColumnDef<IUser>[] = [
   {
     accessorKey: "name",
-    header: "Name",
+    header: "name",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <Avatar className="w-10 h-10">
         <AvatarImage
@@ -26,25 +26,27 @@ export const PatientsColumns: ColumnDef<IUser>[] = [
   },
   {
     accessorKey: "username",
-    header: "Username",
+    header: "username",
   },
   {
     accessorKey: "phone",
-    header: "Phone",
+    header: "phone",
+    cell: ({ row }) => <p className="rtl:text-right text-left" dir="ltr">{row?.original?.phone}</p>
   },
   {
     accessorKey: "gender",
-    header: "Gender",
+    header: "gender",
   },
   {
     accessorKey: "birth_date",
-    header: "Birthdate",
+    header: "birth_date",
     cell: ({ row }) => (
       <div className="stars flex">{formatCreatedAtDate(row?.original?.birth_date)}</div>
     ),
   },
   {
     id: "actions",
+    header: "",
     cell: ({ row }) => <CellAction data={row.original} role={"patients"}  />,
   },
 ];
@@ -52,7 +54,7 @@ export const PatientsColumns: ColumnDef<IUser>[] = [
 export const AdminColumns: ColumnDef<IUser>[] = [
   {
     accessorKey: "name",
-    header: "Name",
+    header: "name",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <Avatar className="w-10 h-10">
         <AvatarImage
@@ -68,19 +70,20 @@ export const AdminColumns: ColumnDef<IUser>[] = [
   },
   {
     accessorKey: "username",
-    header: "Username",
+    header: "username",
   },
   {
     accessorKey: "phone",
-    header: "Phone",
+    header: "phone",
+    cell: ({ row }) => <p className="rtl:text-right text-left" dir="ltr">{row?.original?.phone}</p>
   },
   {
     accessorKey: "gender",
-    header: "Gender",
+    header: "gender",
   },
   {
     accessorKey: "birth_date",
-    header: "Birthdate",
+    header: "birth_date",
     cell: ({ row }) => (
       <div className="stars flex">{formatCreatedAtDate(row?.original?.birth_date)}</div>
     ),

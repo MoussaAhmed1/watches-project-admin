@@ -43,7 +43,7 @@ export default async function Page({ params, searchParams }: Props) {
                     href={`/dashboard/packages/pharmacy-packages/${params.id}/edit`}
                     className={cn(buttonVariants({ variant: "default" }))}
                 >
-                    <Edit className="mr-2 h-4 w-4" /> Edit
+                     <Edit className="mx-1 h-4 w-4" /> Edit
                 </Link>
             </div>
             <div style={{ display: 'flex', gap: 8, flexDirection: "column" }}>

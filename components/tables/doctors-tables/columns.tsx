@@ -6,14 +6,11 @@ import { IDoctor } from "@/types/doctors";
 import { Star } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
-import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
 
 export const columns: ColumnDef<IDoctor>[] = [
   {
     accessorKey: "name",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={("Name")} />
-    ),
+    header:"name",
     cell: ({ row }) => (<div className="flex items-center gap-3">
       <Avatar className="w-10 h-10">
         <AvatarImage
@@ -30,13 +27,12 @@ export const columns: ColumnDef<IDoctor>[] = [
   },
   {
     accessorKey: "phone",
-    header: "Phone",
+    header: "phone",
+    cell: ({ row }) => <p className="rtl:text-right text-left" dir="ltr">{row?.original?.phone}</p> 
   },
   {
     accessorKey: "rating",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={("Rating")} />
-    ),
+    header: "rating",
     cell: ({ row }) => <div className="stars flex">
       {Array.from({ length: Math.ceil(row?.original?.rating) }, (ele, index) => (
         <Star key={index} fill="#f7d722" strokeWidth={0} size={20} />
@@ -62,7 +58,7 @@ export const columns: ColumnDef<IDoctor>[] = [
 export const verificationRequestsColumns: ColumnDef<IDoctor>[] = [
   {
     accessorKey: "name",
-    header: "Name",
+    header: "name",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <Avatar className="w-10 h-10">
         <AvatarImage
@@ -78,7 +74,8 @@ export const verificationRequestsColumns: ColumnDef<IDoctor>[] = [
   },
   {
     accessorKey: "phone",
-    header: "Phone",
+    header: "phone",
+    cell: ({ row }) => <p className="rtl:text-right text-left" dir="ltr">{row?.original?.phone}</p>
   },
   {
     accessorKey: "specialization",

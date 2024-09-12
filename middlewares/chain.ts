@@ -1,6 +1,15 @@
 import { NextMiddlewareResult } from 'next/dist/server/web/types'
 import { NextResponse } from 'next/server'
 import type { NextFetchEvent, NextRequest } from 'next/server'
+import createMiddleware from 'next-intl/middleware';
+
+export default createMiddleware({
+    // A list of all locales that are supported
+    locales: ['ar', 'en'],
+
+    // Used when no locale matches
+    defaultLocale: 'ar'
+});
 
 export type CustomMiddleware = (
   request: NextRequest,

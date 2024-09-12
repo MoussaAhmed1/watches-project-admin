@@ -1,4 +1,5 @@
 import { fetchProfileInfo } from "@/actions/patients";
+import { getDictionary } from "@/app/[lang]/messages";
 import { authOptions } from "@/app/api/auth/_options";
 import BreadCrumb from "@/components/breadcrumb";
 import { UserProfileForm } from "@/components/forms/users-forms/profileForm/ProfileForm";
@@ -7,10 +8,11 @@ import { AccountProfile, IUser } from "@/types/patients";
 import { getServerSession } from "next-auth";
 import React from "react";
 
-export default async function Page({ params }:{params: { id: string }}) {
+export default async function Page({ params }:{params: { id: string,lang:"ar"|"en" }}) {
+  const {pages,shared} = await getDictionary(params?.lang)
   const breadcrumbItems = [
-    { title: "Admins", link: "/dashboard/admins" },
-    { title: "Update", link: "/dashboard/admins/edit" },
+    { title: pages.users.Admins, link: "/dashboard/admins" },
+    { title: shared.update, link: "/dashboard/admins/edit" },
   ];
   //----------------------------------------------------------------
   const res = await fetchProfileInfo({ userId: params.id });
@@ -20,7 +22,7 @@ export default async function Page({ params }:{params: { id: string }}) {
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems}  />
       <Heading
-            title={`Update Admin`}
+            title={pages.users.updateAdmin}
             description={admin.first_name + " " + admin.last_name}
           />
       <UserProfileForm
