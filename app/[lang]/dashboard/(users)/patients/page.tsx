@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { IUser } from "@/types/patients";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import { getDictionary } from "@/app/[lang]/dictionaries";
+import { getDictionary } from "@/app/[lang]/messages";
 
 
 type paramsProps = {

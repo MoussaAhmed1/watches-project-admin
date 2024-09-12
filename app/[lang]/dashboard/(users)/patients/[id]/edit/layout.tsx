@@ -1,5 +1,5 @@
 import { fetchProfileInfo } from "@/actions/patients"
-import { getDictionary } from "@/app/[lang]/dictionaries"
+import { getDictionary } from "@/app/[lang]/messages"
 import BreadCrumb from "@/components/breadcrumb"
 import { SidebarNav } from "@/components/sideBar/sidebar-nav"
 import { Heading } from "@/components/ui/heading"

@@ -1,6 +1,6 @@
 import { fetchAdditionalSpecializations } from "@/actions/additional-info-specializations";
 import { fetchDoctorAdditionalInfo } from "@/actions/doctors";
-import { getDictionary } from "@/app/[lang]/dictionaries";
+import { getDictionary } from "@/app/[lang]/messages";
 import { DoctorAddtionalInfoForm } from "@/components/forms/users-forms/doctor-form/doctor-addtional-info";
 import { Separator } from "@/components/ui/separator";
 import { ISpecializations } from "@/types/additional-info-specializations";

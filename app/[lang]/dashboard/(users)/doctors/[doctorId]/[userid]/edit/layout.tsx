@@ -1,5 +1,5 @@
 import { AcceptDoctorRequest, fetchSingleDoctor } from "@/actions/doctors"
-import { getDictionary } from "@/app/[lang]/dictionaries"
+import { getDictionary } from "@/app/[lang]/messages"
 import BreadCrumb from "@/components/breadcrumb"
 import Approve from "@/components/details/role-details/Approve"
 import { SidebarNav } from "@/components/sideBar/sidebar-nav"

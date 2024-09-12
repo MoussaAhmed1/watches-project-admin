@@ -9,7 +9,7 @@ import { Calendar, Edit, Info, Languages, ShieldCheck, } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { getDictionary } from "@/app/[lang]/dictionaries";
+import { getDictionary } from "@/app/[lang]/messages";
 export const metadata: Metadata = {
   title: "Admin Deatails",
   description:

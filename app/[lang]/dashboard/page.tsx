@@ -11,7 +11,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Statictic } from "@/types/statictic";
 import Link from "next/link";
-import { getDictionary } from "../dictionaries";
+import { getDictionary } from "../messages";
 export default async function page({ params }: { params: { lang: "ar"|"en" } }) {
   const res = await fetchStatictics({ lang: params?.lang });
   const statistics_res: Statictic = res?.data?.data;

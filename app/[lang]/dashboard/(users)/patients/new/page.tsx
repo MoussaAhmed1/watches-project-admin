@@ -1,7 +1,7 @@
 import BreadCrumb from "@/components/breadcrumb";
 import { UserForm } from "@/components/forms/users-forms/patient-form/add-edit-users";
 import React from "react";
-import { getDictionary } from "@/app/[lang]/dictionaries";
+import { getDictionary } from "@/app/[lang]/messages";
 import type { Locale } from "@/i18n.config";
 
 

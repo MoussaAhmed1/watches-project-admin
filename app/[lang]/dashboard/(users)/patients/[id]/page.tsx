@@ -9,7 +9,7 @@ import { AlertCircle, Calendar, CheckCircle, Edit, Info, Languages, Ruler, User,
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { getDictionary } from "@/app/[lang]/dictionaries";
+import { getDictionary } from "@/app/[lang]/messages";
 export const metadata: Metadata = {
   title: "Client Deatails",
   description:

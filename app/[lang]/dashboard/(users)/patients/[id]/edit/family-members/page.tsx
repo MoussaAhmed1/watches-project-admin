@@ -1,4 +1,4 @@
-import { getDictionary } from "@/app/[lang]/dictionaries";
+import { getDictionary } from "@/app/[lang]/messages";
 import { FamilyMemberForm } from "@/components/forms/users-forms/patient-form/add-edit-family-member";
 import { Separator } from "@/components/ui/separator";
 

@@ -1,5 +1,5 @@
 import { fetchClientAddtionalInfo } from "@/actions/patients";
-import { getDictionary } from "@/app/[lang]/dictionaries";
+import { getDictionary } from "@/app/[lang]/messages";
 import { PatientAddtionalInfoForm } from "@/components/forms/users-forms/patient-form/patient-addtional-info";
 import { Separator } from "@/components/ui/separator";
 import { ClientAddtionalInfo } from "@/types/patients";

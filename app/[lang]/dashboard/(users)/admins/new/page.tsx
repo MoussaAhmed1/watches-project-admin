@@ -1,4 +1,4 @@
-import { getDictionary } from "@/app/[lang]/dictionaries";
+import { getDictionary } from "@/app/[lang]/messages";
 import BreadCrumb from "@/components/breadcrumb";
 import { AdminForm } from "@/components/forms/users-forms/admin-form/add-edit-admin";
 import React from "react";

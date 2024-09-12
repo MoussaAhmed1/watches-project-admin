@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { fetchPharmacyCategories } from "@/actions/pharmacy-categories";
 import PharmaciesFilters from "@/components/filters/users/pharmaciesFilters";
-import { getDictionary } from "@/app/[lang]/dictionaries";
+import { getDictionary } from "@/app/[lang]/messages";
 
 type paramsProps = {
   searchParams: {

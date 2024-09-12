@@ -10,7 +10,7 @@ import { Plus } from "lucide-react";
 import Link from "next/link"; 
 import { fetchUsers } from "@/actions/patients";
 import { AdminColumns} from "@/components/tables/users-tables/columns";
-import { getDictionary } from "@/app/[lang]/dictionaries";
+import { getDictionary } from "@/app/[lang]/messages";
 import type { Locale } from "@/i18n.config";
 
 

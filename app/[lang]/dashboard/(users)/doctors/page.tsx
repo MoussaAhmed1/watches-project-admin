@@ -1,7 +1,7 @@
 import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
 import { fetchAdditionalSpecializations } from "@/actions/additional-info-specializations";
 import { fetchDoctors } from "@/actions/doctors";
-import { getDictionary } from "@/app/[lang]/dictionaries";
+import { getDictionary } from "@/app/[lang]/messages";
 import BreadCrumb from "@/components/breadcrumb";
 import DoctorsFilters from "@/components/filters/users/doctorsFilters";
 import { columns } from "@/components/tables/doctors-tables/columns";

@@ -1,6 +1,6 @@
 import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
 import { fetchNurses } from "@/actions/nurses";
-import { getDictionary } from "@/app/[lang]/dictionaries";
+import { getDictionary } from "@/app/[lang]/messages";
 import BreadCrumb from "@/components/breadcrumb";
 import { NursesColumns } from "@/components/tables/nurses-tables/columns";
 import { SharedTable } from "@/components/tables/shared/Shared-table";

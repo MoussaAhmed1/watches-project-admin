@@ -9,7 +9,7 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { IPharmacy } from "@/types/pharmacy";
 import type { Locale } from "@/i18n.config";
-import { getDictionary } from "@/app/[lang]/dictionaries";
+import { getDictionary } from "@/app/[lang]/messages";
 
 
 type paramsProps = {

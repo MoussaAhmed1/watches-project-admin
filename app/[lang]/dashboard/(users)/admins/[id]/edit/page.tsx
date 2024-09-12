@@ -1,5 +1,5 @@
 import { fetchProfileInfo } from "@/actions/patients";
-import { getDictionary } from "@/app/[lang]/dictionaries";
+import { getDictionary } from "@/app/[lang]/messages";
 import { authOptions } from "@/app/api/auth/_options";
 import BreadCrumb from "@/components/breadcrumb";
 import { UserProfileForm } from "@/components/forms/users-forms/profileForm/ProfileForm";

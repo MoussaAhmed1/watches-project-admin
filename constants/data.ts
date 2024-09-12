@@ -207,7 +207,7 @@ export const navItems: NavItem[] = [
       {
         title: "Terms and Conditions",
         href: "/dashboard/settings/terms-conditions",
-        label:"terms_conditions"
+        label:"terms_and_conditions"
       },
     ],
   },
@@ -226,22 +226,22 @@ export const navItems: NavItem[] = [
       {
         title: "Pharmacy Orders Limits",
         href: "/dashboard/data-management/pharmacy-order-number",
-        label: "pharmacy-order-number",
+        label: "pharmacy_orders_limits",
       },
       {
         title: "Doctor Specialiations",
         href: "/dashboard/data-management/specializations",
-        label: "specializations",
+        label: "doctor_specialiations",
       },
       {
         title: "Pharmacy Categories",
         href: "/dashboard/data-management/pharmacy-categories",
-        label: "pharmacy-categories",
+        label: "pharmacy_categories",
       },
       {
         title: "Pharmacy Products",
         href: "/dashboard/data-management/drugs",
-        label: "drugs",
+        label: "pharmacy_products",
       },
     ],
   },

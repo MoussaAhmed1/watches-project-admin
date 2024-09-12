@@ -33,7 +33,7 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
   let messages;
   try {
-    messages = (await import(`../../dictionaries/${params.lang}.json`)).default;
+    messages = (await import(`../../messages/${params.lang}.json`)).default;
   } catch (error) {
     notFound();
   }

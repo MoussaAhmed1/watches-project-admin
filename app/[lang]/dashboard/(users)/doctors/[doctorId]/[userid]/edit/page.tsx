@@ -1,5 +1,5 @@
 import { fetchProfileInfo } from "@/actions/patients";
-import { getDictionary } from "@/app/[lang]/dictionaries";
+import { getDictionary } from "@/app/[lang]/messages";
 import { UserProfileForm } from "@/components/forms/users-forms/profileForm/ProfileForm";
 import { Separator } from "@/components/ui/separator";
 import { AccountProfile } from "@/types/patients";
