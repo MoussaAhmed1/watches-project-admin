@@ -12,7 +12,7 @@ import {  IUser } from "@/types/patients";
  const columns: ColumnDef<IPharmacy>[] = [
   {
     accessorKey: "logo",
-    header: "Logo",
+    header: "logo",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <Avatar className="h-8 w-8">
         <AvatarImage
@@ -29,7 +29,7 @@ import {  IUser } from "@/types/patients";
 
   {
     accessorKey: "ph_name",
-    header: "Name",
+    header: "name",
     cell: ({ row }) => (
       <div className="stars flex">
        {row?.original?.ph_name}
@@ -39,7 +39,7 @@ import {  IUser } from "@/types/patients";
   },
   {
     accessorKey: "open_time",
-    header: "Open Time",
+    header: "openTime",
     cell: ({ row }) => (
       <div className="stars flex">
        {row?.original?.open_time}
@@ -50,7 +50,7 @@ import {  IUser } from "@/types/patients";
   
   {
     accessorKey: "close_time",
-    header: "Close Time",
+    header: "closeTime",
     cell: ({ row }) => (
       <div className="stars flex">
        {row?.original?.close_time}
@@ -60,7 +60,7 @@ import {  IUser } from "@/types/patients";
   },
   {
     accessorKey: "is_verified",
-    header: "Status",
+    header: "status",
     cell: ({ row }) => (
       <div className="stars flex">
        {row?.original?.is_verified ? "Verified" : "Not verified"}
@@ -70,7 +70,7 @@ import {  IUser } from "@/types/patients";
   },
   {
     accessorKey: "expierence",
-    header: "Expierence",
+    header: "expierence",
     cell: ({ row }) => (
       <div className="stars flex">
        {row?.original?.expierence}
@@ -80,7 +80,7 @@ import {  IUser } from "@/types/patients";
   },
   {
     accessorKey: "categories",
-    header: "Categories",
+    header: "categories",
     cell: ({ row }) => (
       <div className="stars flex flex-col">
        {row?.original?.categories?.map((category)=>(

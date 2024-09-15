@@ -12,7 +12,7 @@ import { PharmacyOrder } from "@/types/pharmacy-order";
 
   {
     accessorKey: "logo",
-    header: "Logo",
+    header: "logo",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <Avatar className="h-8 w-8">
         <AvatarImage
@@ -28,7 +28,7 @@ import { PharmacyOrder } from "@/types/pharmacy-order";
   },
   {
     accessorKey: "name",
-    header: "Name",
+    header: "name",
     cell: ({ row }) => (
       <div className="stars flex">
        {row?.original?.user?.name}
@@ -38,7 +38,7 @@ import { PharmacyOrder } from "@/types/pharmacy-order";
   },
   {
     accessorKey: "created_time",
-    header: "Created time",
+    header: "createdAt",
     cell: ({ row }) => (
       <div className="stars flex">
        {row?.original?.created_at}
@@ -49,7 +49,7 @@ import { PharmacyOrder } from "@/types/pharmacy-order";
   
   {
     accessorKey: "number",
-    header: "Number",
+    header: "number",
     cell: ({ row }) => (
       <div className="stars flex">
        {row?.original?.number}
@@ -59,7 +59,7 @@ import { PharmacyOrder } from "@/types/pharmacy-order";
   },
   {
     accessorKey: "has_replied",
-    header: "Has replied",
+    header: "hasReplied",
     cell: ({ row }) => (
       <div className="stars flex">
        {row?.original?.has_replied ? "Yes" : "No"}

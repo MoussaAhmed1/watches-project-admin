@@ -14,7 +14,7 @@ function DrugColumns({categories}:IProps) {
   const _DrugColumns: ColumnDef<Drug>[] = [
    {
      accessorKey: "name",
-     header: "Name",
+     header: "name",
    },
    {
      id: "actions",

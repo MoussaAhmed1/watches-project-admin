@@ -263,7 +263,7 @@ return (
         </div>
       </div>
       <div className="flex items-center justify-between sm:justify-end gap-2 w-full" >
-        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+        <div className="flex min-w-[100px] items-center justify-center text-sm font-medium">
           {t("page")} {table.getState().pagination.pageIndex + 1} {t("of")}{" "}
           {table.getPageCount()}
         </div>

@@ -11,20 +11,20 @@ import { IReservation } from "@/types/reservations";
 export const ReservationsColumns: ColumnDef<IReservation>[] = [
   {
     accessorKey: "number",
-    header: "Order Number",
+    header: "orderNumber",
   },
   {
     accessorKey: "reservationType",
-    header: "Reservation Type",
+    header: "reservationType",
   },
   {
     accessorKey: "specialization",
-    header: "Specialization",
+    header: "specialization",
     cell: ({ row }) => row?.original?.specialization?.name
   },
   {
-    accessorKey: "client_info",
-    header: "Client",
+    accessorKey: "client",
+    header: "client",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <Avatar className="w-10 h-10">
         <AvatarImage
@@ -40,8 +40,8 @@ export const ReservationsColumns: ColumnDef<IReservation>[] = [
     </div>
   },
   {
-    accessorKey: "Doctor",
-    header: "Doctor",
+    accessorKey: "doctor",
+    header: "doctor",
     cell: ({ row }) => {
       if (row?.original?.doctor) {
         return (<div className="flex items-center gap-3">
@@ -82,8 +82,8 @@ export const ReservationsColumns: ColumnDef<IReservation>[] = [
     </div>
   },
   {
-    accessorKey: "is_urgent",
-    header: "Is Urgent",
+    accessorKey: "isUrgent",
+    header: "isUrgent",
     cell: ({ row }) => <div className="flex">
 
       {row?.original?.is_urgent ? <CheckCircle stroke="#39a845" size={18} /> : <CircleSlash style={{ color: '#8C0101' }} size={18} />}
@@ -91,8 +91,8 @@ export const ReservationsColumns: ColumnDef<IReservation>[] = [
     </div>
   },
   {
-    accessorKey: "created_at",
-    header: "Created At",
+    accessorKey: "createdAt",
+    header: "createdAt",
     cell: ({ row }) => <div className="flex gap-3">
       <p className="w-full">
         {formatCreatedAtDateAsDateTime(row?.original?.created_at)}

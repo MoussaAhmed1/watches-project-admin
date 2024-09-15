@@ -64,7 +64,7 @@
     "user_deleted_successfully": "User Deleted Successfully",
     "delete_user": "Delete User",
     "delete": "Delete",
-     "approve": "Approve"
+    "approve": "Approve"
   },
   "tableColumns": {
     "name": "Name",
@@ -84,7 +84,31 @@
     "address": "Address",
     "openTime": "Open Time",
     "closeTime": "Close Time",
-    "ownerName": "Owner Name"
+    "ownerName": "Owner Name",
+    "banar": "Banner",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "status": "Status",
+    "title": "Title",
+    "description": "Description",
+    "arabicTitle": "Arabic Title",
+    "englishTitle": "English Title",
+    "arabicText": "Arabic Text",
+    "englishText": "English Text",
+    "role": "Role",
+    "createdAt": "Created At",
+    "orderNumber": "Order Number",
+    "user": "User",
+    "client": "Client",
+    "nurse": "Nurse",
+    "number": "Number",
+    "reservationType": "Reservation Type",
+    "doctor": "Doctor",
+    "isUrgent": "Is Urgent",
+    "numberOfPharmacyOrder": "Number of Pharmacy Order",
+    "expirationDays": "Expiration Days",
+      "email": "Email",
+    "price": "Price"
   },
   "pages": {
     "home": {

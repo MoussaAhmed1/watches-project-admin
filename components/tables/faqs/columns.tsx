@@ -9,7 +9,7 @@ export const FaqsColumns: ColumnDef<IFaqs>[] = [
 
   {
     accessorKey: "title",
-    header: "Title",
+    header: "title",
     cell: ({ row }) => (
       <div className="stars flex">
         {getCustomNameKeyLang(row?.original?.title_en, row?.original?.title_ar)}
@@ -18,8 +18,8 @@ export const FaqsColumns: ColumnDef<IFaqs>[] = [
     ),
   },
   {
-    accessorKey: "descrption",
-    header: "Descrption",
+    accessorKey: "description",
+    header: "description",
     cell: ({ row }) => (
       <div className="stars flex">
         {getCustomNameKeyLang(row?.original?.descrption_en, row?.original?.descrption_ar)}

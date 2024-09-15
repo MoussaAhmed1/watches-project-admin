@@ -9,7 +9,7 @@ export const intlMiddleware = createMiddleware({
   locales: locales,
 
   // Used when no locale matches
-  defaultLocale: "en",
+  defaultLocale: "ar",
   localeDetection: false,
 });
 

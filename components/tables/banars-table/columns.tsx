@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
-import { formatCreatedAtDate, shortenText } from "@/utils/helperFunctions";
+import { formatCreatedAtDate } from "@/utils/helperFunctions";
 import { IBanner } from "@/types/banars";
 import TabledTogglerView from "@/components/toggler/table-toggler";
 import { ToggleBanner } from "@/actions/banars";
@@ -12,7 +12,7 @@ import { ToggleBanner } from "@/actions/banars";
 export const BanarsColumns: ColumnDef<IBanner>[] = [
   {
     accessorKey: "banar",
-    header: "Banar",
+    header: "banar",
     cell: ({ row }) => <Avatar className="w-10 h-10">
       <AvatarImage
         src={row?.original?.banar ?? ""}
@@ -22,8 +22,8 @@ export const BanarsColumns: ColumnDef<IBanner>[] = [
     </Avatar>
   },
   {
-    accessorKey: "Start Date",
-    header: "Start Date",
+    accessorKey: "startDate",
+    header: "startDate",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <p >
         {formatCreatedAtDate(row?.original?.started_at)}
@@ -31,8 +31,8 @@ export const BanarsColumns: ColumnDef<IBanner>[] = [
     </div>
   },
   {
-    accessorKey: "End Date",
-    header: "End Date",
+    accessorKey: "endDate",
+    header: "endDate",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <p >
         {formatCreatedAtDate(row?.original?.ended_at)}
@@ -41,7 +41,7 @@ export const BanarsColumns: ColumnDef<IBanner>[] = [
   },
   {
     accessorKey: "status",
-    header: "Status",
+    header: "status",
     cell: ({ row }) => <div className="flex items-center gap-3" key={row?.original?.id}>
       {/* <p
       >

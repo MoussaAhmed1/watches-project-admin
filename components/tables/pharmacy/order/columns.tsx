@@ -11,7 +11,7 @@ import Link from "next/link";
 const columns: ColumnDef<PharmacyOrder>[] = [
   {
     accessorKey: "number",
-    header: "Number",
+    header: "number",
     cell: ({ row }) => (
       <div className="stars flex">
         {row?.original?.number}
@@ -22,7 +22,7 @@ const columns: ColumnDef<PharmacyOrder>[] = [
 
   {
     accessorKey: "client",
-    header: "Client",
+    header: "client",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <Avatar className="h-8 w-8">
         <AvatarImage
@@ -39,7 +39,7 @@ const columns: ColumnDef<PharmacyOrder>[] = [
   },
   {
     accessorKey: "address",
-    header: "Address",
+    header: "address",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <p >
         <Link
@@ -54,8 +54,8 @@ const columns: ColumnDef<PharmacyOrder>[] = [
     </div>
   },
   {
-    accessorKey: "created_time",
-    header: "Created time",
+    accessorKey: "createdAt",
+    header: "createdAt",
     cell: ({ row }) => (
       <div className="stars flex">
         {formatCreatedAtDateAsDateTime(row?.original?.created_at)}

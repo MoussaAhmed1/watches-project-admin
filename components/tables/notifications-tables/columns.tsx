@@ -9,25 +9,25 @@ import { formatCreatedAtDateAsDateTime, shortenText } from "@/utils/helperFuncti
 export const NotificationsColumns: ColumnDef<Notification>[] = [
   {
     accessorKey: "title_ar",
-    header: "Arabic Title",
+    header: "arabicTitle",
   },
   {
     accessorKey: "title_en",
-    header: "English Title",
+    header: "englishTitle",
   },
   {
     accessorKey: "text_ar",
-    header: "Arabic Text",
+    header: "arabicText",
     cell: ({ row }) => shortenText((row?.original?.text_ar),40)
   },
   {
     accessorKey: "text_en",
-    header: "English Text",
+    header: "englishText",
     cell: ({ row }) => shortenText((row?.original?.text_en),40)
   },
   {
     accessorKey: "role",
-    header: "Role",
+    header: "role",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <p>
         {row?.original?.role ?? " - "}
@@ -35,8 +35,8 @@ export const NotificationsColumns: ColumnDef<Notification>[] = [
     </div>
   },
   {
-    accessorKey: "created_at",
-    header: "Created At",
+    accessorKey: "createdAt",
+    header: "createdAt",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <p>
         {formatCreatedAtDateAsDateTime(row?.original?.created_at)}

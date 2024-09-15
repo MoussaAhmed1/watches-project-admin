@@ -23,7 +23,7 @@ import InputDate from "@/components/shared/timepicker/InputDate";
 import { updateUsersProfile } from "@/actions/patients";
 import { useSession } from "next-auth/react";
 import { navItems } from "@/constants/data";
-import Select, { StylesConfig } from "react-select";
+import Select from "react-select";
 import { usePathname, useRouter } from "next/navigation";
 import { reloadSession } from "@/lib/funcs";
 import { IUser } from "@/types/patients";

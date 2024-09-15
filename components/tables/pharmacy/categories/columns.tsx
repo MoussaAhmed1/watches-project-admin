@@ -9,7 +9,7 @@ import { getCustomNameKeyLang } from "@/utils/helperFunctions";
   
   {
     accessorKey: "name",
-    header: "Name",
+    header: "name",
     cell: ({ row }) => (
       <div className="stars flex">
        {getCustomNameKeyLang(row?.original?.name_en, row?.original?.name_ar)}

@@ -1,4 +1,3 @@
-import ThemeToggle from "@/components/layout/ThemeToggle/theme-toggle";
 import { cn } from "@/lib/utils";
 import { MobileSidebar } from "./mobile-sidebar";
 import { UserNav } from "./user-nav";
@@ -7,6 +6,7 @@ import Image from "next/image";
 import Logo from "../../public/assets/logo/logo-icon.svg"
 import LocaleSwitcher from "../shared/locale-switcher";
 import { Language } from "@/utils/changeLanguageHandler";
+import { ModeToggle } from "../ui/theme-toggler";
 // import LocaleSwitcher from "../locale-switcher";
 
 
@@ -38,7 +38,8 @@ export default function Header({ lang }: { lang: Language }) {
           {/*Lang toggle */}
           <UserNav lang={lang} />
           <LocaleSwitcher lang={lang} />
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
+          <ModeToggle />
         </div>
       </nav>
     </div>
