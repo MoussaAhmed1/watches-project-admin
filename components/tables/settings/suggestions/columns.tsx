@@ -8,7 +8,7 @@ import { PharmacyCategories } from "@/types/pharmacy-categories";
   
   {
     accessorKey: "name",
-    header: "Name",
+    header: "name",
     cell: ({ row }) => (
       <div className="stars flex">
        {row?.original?.name}

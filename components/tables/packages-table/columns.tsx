@@ -8,26 +8,26 @@ import { getCustomNameKeyLang, shortenText } from "@/utils/helperFunctions";
 export const PackagesColumns: ColumnDef<IClientPackage>[] = [
   {
     accessorKey: "name",
-    header: "Name",
+    header: "name",
     cell: ({ row }) => getCustomNameKeyLang(row?.original?.name_en, row?.original?.name_ar)
   },
   {
     accessorKey: "price",
-    header: "Price",
+    header: "price",
   },
   {
-    accessorKey: "expiration_days",
-    header: "Expiration Days",
+    accessorKey: "expirationDays",
+    header: "expirationDays",
     cell: ({ row }) => row?.original?.expiration_days + " days"
   },
   {
-    accessorKey: "number_of_pharmacy_order",
-    header: "Number Of Pharmacy Order",
+    accessorKey: "numberOfPharmacyOrder",
+    header: "numberOfPharmacyOrder",
     cell: ({ row }) => row?.original?.number_of_pharmacy_order + " Orders"
   },
   {
     accessorKey: "description",
-    header: "Description",
+    header: "description",
     cell: ({ row }) => shortenText(getCustomNameKeyLang(row?.original?.description_en, row?.original?.description_ar))
   },
   {
@@ -39,26 +39,26 @@ export const PackagesColumns: ColumnDef<IClientPackage>[] = [
 export const PackagesPharmacyColumns: ColumnDef<IPharmacyPackage>[] = [
   {
     accessorKey: "name",
-    header: "Name",
+    header: "name",
     cell: ({ row }) => <p className="text-start">{getCustomNameKeyLang(row?.original?.name_en, row?.original?.name_ar)}</p>
   },
   {
     accessorKey: "price",
-    header: "Price",
+    header: "price",
   },
   {
-    accessorKey: "expiration_days",
-    header: "Expiration Days",
+    accessorKey: "expirationDays",
+    header: "expirationDays",
     cell: ({ row }) => <p className="text-center w-[50%]">{row?.original?.expiration_days + " days"}</p>
   },
   {
-    accessorKey: "advantage_mins",
-    header: "Advantage minutes",
+    accessorKey: "advantageMinutes",
+    header: "advantageMinutes",
     cell: ({ row }) => <p className="text-center w-[50%]">{row?.original?.advantage_mins + " minutes"}</p>
   },
   {
     accessorKey: "description",
-    header: "Description",
+    header: "description",
     cell: ({ row }) => <p className="text-start">{shortenText(getCustomNameKeyLang(row?.original?.description_en, row?.original?.description_ar))}</p>
   },
   {

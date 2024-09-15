@@ -10,19 +10,19 @@ import { formatCreatedAtDateAsDateTime } from "@/utils/helperFunctions";
 const columns: ColumnDef<SuggestionsComplaints>[] = [
   {
     accessorKey: "title",
-    header: "Title",
+    header: "title",
     cell: ({ row }) => <div className="stars flex">{row?.original?.title}</div>,
   },
   {
     accessorKey: "description",
-    header: "Description",
+    header: "description",
     cell: ({ row }) => (
       <div className="stars flex">{row?.original?.description}</div>
     ),
   },
   {
     accessorKey: "name",
-    header: "Name",
+    header: "name",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <Avatar className="w-10 h-10">
         <AvatarImage
@@ -42,15 +42,15 @@ const columns: ColumnDef<SuggestionsComplaints>[] = [
     </div>
   },
   {
-    accessorKey: "Email",
-    header: "Email",
+    accessorKey: "email",
+    header: "email",
     cell: ({ row }) => (
       <div className="stars flex">{row?.original?.email ?? " - "}</div>
     ),
   },
   {
-    accessorKey: "created_at",
-    header: "Created At",
+    accessorKey: "createdAt",
+    header: "createdAt",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <p>
         {formatCreatedAtDateAsDateTime(row?.original?.created_at)}

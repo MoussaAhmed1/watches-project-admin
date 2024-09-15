@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Language } from "@/utils/changeLanguageHandler";
 import { Button } from "../ui/button";
-import { Globe } from "lucide-react";
+import { Languages as LanguagesIcon } from "lucide-react";
 import Cookie from 'js-cookie';
 const languages = [
   {
@@ -36,8 +36,8 @@ export default function LocaleSwitcher({ lang }: { lang: Language }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
-          <Globe className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100" />
+      <Button variant="outline" size="icon">
+          <LanguagesIcon className="h-[1.2rem] w-[1.2rem]" />
           <span className="sr-only">Toggle Language</span>
         </Button>
       </DropdownMenuTrigger>

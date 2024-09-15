@@ -9,7 +9,7 @@ import { CheckCircle, XCircle } from 'lucide-react';
 const OrderRepliescolumns: ColumnDef<PharmacyData>[] = [
   {
     accessorKey: "pharmacy",
-    header: "Pharmacy",
+    header: "pharmacy",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <Avatar className="h-8 w-8">
         <AvatarImage
@@ -26,7 +26,7 @@ const OrderRepliescolumns: ColumnDef<PharmacyData>[] = [
   },
   {
     accessorKey: "availability",
-    header: "Availability",
+    header: "availability",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <p
         className={`text-sm font-medium flex items-center lowercase ${row?.original?.availability === 'AVAILIABLE'
@@ -45,11 +45,11 @@ const OrderRepliescolumns: ColumnDef<PharmacyData>[] = [
   },
   {
     accessorKey: "price",
-    header: "Price"
+    header: "price"
   },
   {
     accessorKey: "address",
-    header: "Address",
+    header: "address",
     cell: ({ row }) => (
       <div className="stars flex">
         {shortenText(row?.original?.address ?? undefined) || " - "}
@@ -59,7 +59,7 @@ const OrderRepliescolumns: ColumnDef<PharmacyData>[] = [
   },
   {
     accessorKey: "note",
-    header: "Note",
+    header: "note",
     cell: ({ row }) => (
       <div className="stars flex">
         {shortenText(row?.original?.note ?? undefined) || " - "}
@@ -68,8 +68,8 @@ const OrderRepliescolumns: ColumnDef<PharmacyData>[] = [
     )
   },
   {
-    accessorKey: "created_time",
-    header: "Created time",
+    accessorKey: "createdAt",
+    header: "createdAt",
     cell: ({ row }) => (
       <div className="stars flex">
         {formatCreatedAtDateAsDateTime(row?.original?.created_at)}

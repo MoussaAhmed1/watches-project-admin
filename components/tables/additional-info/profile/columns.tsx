@@ -9,7 +9,7 @@ import { AdditionalInfoProfile } from "@/types/additional-info-profile";
 const columns: ColumnDef<AdditionalInfoProfile>[] = [
   {
     accessorKey: "logo",
-    header: "Logo",
+    header: "logo",
     cell: ({ row }) => (
       <div className="flex items-center gap-3">
         <Avatar className="h-8 w-8">
@@ -26,15 +26,15 @@ const columns: ColumnDef<AdditionalInfoProfile>[] = [
     ),
   },
   {
-    accessorKey: "first_name",
-    header: "First Name",
+    accessorKey: "firstName",
+    header: "firstName",
     cell: ({ row }) => (
       <div className="stars flex">{row?.original?.first_name}</div>
     ),
   },
   {
     accessorKey: "last_name",
-    header: "Last Name",
+    header: "lastName",
     cell: ({ row }) => (
       <div className="stars flex">{row?.original?.last_name}</div>
     ),
@@ -42,28 +42,28 @@ const columns: ColumnDef<AdditionalInfoProfile>[] = [
 
   {
     accessorKey: "account",
-    header: "Account",
+    header: "account",
     cell: ({ row }) => (
       <div className="stars flex">{row?.original?.account}</div>
     ),
   },
   {
     accessorKey: "birth_date",
-    header: "Birth date",
+    header: "birthDate",
     cell: ({ row }) => (
       <div className="stars flex">{row?.original?.birth_date}</div>
     ),
   },
   {
     accessorKey: "gender",
-    header: "Gender",
+    header: "gender",
     cell: ({ row }) => (
       <div className="stars flex">{row?.original?.gender}</div>
     ),
   },
   {
     accessorKey: "language",
-    header: "Language",
+    header: "language",
     cell: ({ row }) => (
       <div className="stars flex">{row?.original?.language}</div>
     ),
@@ -71,12 +71,12 @@ const columns: ColumnDef<AdditionalInfoProfile>[] = [
 
   {
     accessorKey: "phone",
-    header: "Phone",
+    header: "phone",
     cell: ({ row }) => <div className="stars flex">{row?.original?.phone}</div>,
   },
   {
     accessorKey: "phone_verified_at",
-    header: "Phone verified at",
+    header: "phone",
     cell: ({ row }) => (
       <div className="stars flex">{row?.original?.phone_verified_at}</div>
     ),

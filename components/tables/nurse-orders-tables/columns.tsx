@@ -12,11 +12,11 @@ import { Minus } from "lucide-react";
 export const NurseOrderColumns: ColumnDef<INurseOrder>[] = [
   {
     accessorKey: "number",
-    header: "Order Number",
+    header: "orderNumber",
   },
   {
-    accessorKey: "user",
-    header: "User",
+    accessorKey: "client",
+    header: "client",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <Avatar className="w-10 h-10">
         <AvatarImage
@@ -33,7 +33,7 @@ export const NurseOrderColumns: ColumnDef<INurseOrder>[] = [
   },
   {
     accessorKey: "nurse",
-    header: "Nurse",
+    header: "nurse",
     cell: ({ row }) => {
       if (row?.original?.nurse) {
         return (<div className="flex items-center gap-3">
@@ -57,7 +57,7 @@ export const NurseOrderColumns: ColumnDef<INurseOrder>[] = [
   },
   {
     accessorKey: "address",
-    header: "Address",
+    header: "address",
     cell: ({ row }) => <div className="flex items-center gap-3">
       <p >
         <Link
@@ -101,8 +101,8 @@ export const NurseOrderColumns: ColumnDef<INurseOrder>[] = [
   //   </div>
   // },
   {
-    accessorKey: "created_at",
-    header: "Created At",
+    accessorKey: "createdAt",
+    header: "createdAt",
     cell: ({ row }) => <div className="flex items-center gap-2">
       <p>
         {formatCreatedAtDateAsDateTime(row?.original?.created_at)}

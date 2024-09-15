@@ -32,11 +32,13 @@ export default function InputDate({
         }}
         disabled={disabled}
         disableFuture={disableFuture}
+        sx={{direction:"ltr"}}
         //decresed the padding of the date picker
         slotProps={{
           textField: {
             size: "small",
             sx: {
+              direction:"ltr",
               padding: "0px",
               maxWidth,
               width: "100%",
@@ -45,8 +47,12 @@ export default function InputDate({
               },
               '& input': {
                 color: 'gray',
+                direction:"ltr",
                 border: '1px solid #F0F3F7',
               },
+              "& .MuiPickersLayout-root ":{
+                direction:"ltr",
+              }
             },
           },
         }}
