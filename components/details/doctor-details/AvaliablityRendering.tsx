@@ -4,13 +4,13 @@ import { Avaliablity } from '@/types/doctors';
 import CustomTimePicker from "@/components/shared/timepicker/TimePicker";
 import { Calendar } from 'lucide-react';
 import { workingTimeCards } from '@/components/forms/users-forms/doctor-form/add-doctor';
-
+import { useTranslations } from "next-intl";
 interface IProps {
     availibilty: Avaliablity[];
 }
 
 const AvaliablityRendering = ({ availibilty }: IProps) => {
-    console.log(availibilty)
+      const t = useTranslations("pages.users");
     return (
         <div style={{ minHeight: 500, display: 'flex', flexDirection: "column", justifyContent: "space-between" }} className='p-2'>
             <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', width: "97%", justifyContent: "start", flexDirection: "column" }}>
@@ -25,18 +25,18 @@ const AvaliablityRendering = ({ availibilty }: IProps) => {
                                 {/* TimePicker */}
                                 <div className='flex min-w-[110px] mt-4 gap-1'>
                                     <Calendar />
-                                    <span className='font-medium'>{availbleday?.name}</span>
+                                    <span className='font-medium'>{t(availbleday?.name)}</span>
                                 </div>
-                                {<div className="flex space-x-5">
+                                {<div className="flex space-x-5 gap-2">
                                     <div>
-                                        <span className="max-w-30 mx-1">Start Time</span>
+                                        <span className="max-w-30 mx-1">{t("startTime")}</span>
                                         <CustomTimePicker
                                             val={availibilty?.find((av:any)=>av.day === availbleday.id)?.start_at}
                                             _disabled
                                         />
                                     </div>
                                     <div>
-                                        <span className="max-w-30 mx-1">End Time</span>
+                                        <span className="max-w-30 mx-1">{t("endTime")}</span>
                                         <CustomTimePicker
                                             val={availibilty?.find((av:any)=>av.day === availbleday.id)?.end_at}
                                             _disabled

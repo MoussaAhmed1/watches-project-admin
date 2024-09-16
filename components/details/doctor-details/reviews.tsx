@@ -1,4 +1,4 @@
-import { Card, CardFooter, CardHeader } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { IReview } from '@/types/reviews';
 import { PackageOpen, Star } from 'lucide-react';
 import React from 'react';

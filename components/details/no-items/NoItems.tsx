@@ -1,6 +1,8 @@
 
+import { useTranslations } from "next-intl";
 
 function Noitems({ title, icon, minHeight = 520 }: any) {
+      const t = useTranslations("shared");
     return (
         <div style={{
             display: "flex",
@@ -34,7 +36,7 @@ function Noitems({ title, icon, minHeight = 520 }: any) {
                     {icon}
                 </div>
                 <h6 style={{ opacity: 0.85 }}>
-                    {title}
+                    {t(title)}
                 </h6>
             </div>
         </div>

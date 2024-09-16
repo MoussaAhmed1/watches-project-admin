@@ -53,7 +53,7 @@ export default async function updateLayout({ children, params }: updateLayoutPro
               description={doctor?.name}
             />
             {(!doctor?.is_verified) && <div className="px-0 md:px-4">
-              <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptDoctorRequest} id={doctor?.user_id} />
+              <Approve successMessage={pages.users.requestApprovedSuccessfully} title={pages.users.approveRequest} defualt method={AcceptDoctorRequest} id={doctor?.user_id} />
             </div>}
           </div>
         </div>
