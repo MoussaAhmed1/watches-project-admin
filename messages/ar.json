@@ -207,7 +207,18 @@
       "tuesday": "الثلاثاء",
       "wednesday": "الأربعاء",
       "thursday": "الخميس",
-      "friday": "الجمعة"
+      "friday": "الجمعة",
+      "doctors": "الأطباء",
+      "doctor_details": "تفاصيل الطبيب",
+      "experience": "الخبرة",
+      "rating": "التقييم",
+      "details": "التفاصيل",
+      "reviews": "المراجعات",
+      "consultationPrice": "سعر الاستشارة",
+      "egp": "جنيه",
+      "years": "سنوات",
+      "requestApprovedSuccessfully": "تمت الموافقة على الطلب بنجاح",
+      "approveRequest": "الموافقة على الطلب"
     }
   },
   "auth": {

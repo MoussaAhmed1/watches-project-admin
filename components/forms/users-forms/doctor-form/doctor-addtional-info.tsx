@@ -425,7 +425,9 @@ export const DoctorAddtionalInfoForm: React.FC<DoctorFormProps> = ({
                                 "avaliablity",
                                 [...remainAvaliablity]
                               );
-                            }} />
+                            }}
+                            dir="ltr"
+                             />
                           </FormControl>
                           {errors.avaliablity && <FormMessage>{errors.avaliablity.message}</FormMessage>}
                         </FormItem>

@@ -107,7 +107,7 @@
     "isUrgent": "Is Urgent",
     "numberOfPharmacyOrder": "Number of Pharmacy Order",
     "expirationDays": "Expiration Days",
-      "email": "Email",
+    "email": "Email",
     "price": "Price"
   },
   "pages": {
@@ -208,7 +208,18 @@
       "tuesday": "Tuesday",
       "wednesday": "Wednesday",
       "thursday": "Thursday",
-      "friday": "Friday"
+      "friday": "Friday",
+      "doctors": "Doctors",
+      "doctor_details": "Doctor Details",
+      "experience": "Experience",
+      "rating": "Rating",
+      "details": "Details",
+      "reviews": "Reviews",
+      "consultationPrice": "Consultation Price",
+      "egp": "EGP",
+      "years": "Years",
+      "requestApprovedSuccessfully": "Request Approved Successfully",
+      "approveRequest": "Approve Request"
     }
   },
   "auth": {

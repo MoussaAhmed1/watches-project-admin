@@ -20,6 +20,8 @@ import Link from "next/link";
 import ProfileImg from "@/components/shared/imagesRender/profileImg";
 import AvaliablityRendering from "@/components/details/doctor-details/AvaliablityRendering";
 import { shortenText } from "@/utils/helperFunctions";
+import type { Locale } from "@/i18n.config";
+import { getDictionary } from "@/app/[lang]/messages";
 
 export const metadata: Metadata = {
   title: "Next.js Profile | TailAdmin - Next.js Dashboard Template",
@@ -28,7 +30,7 @@ export const metadata: Metadata = {
 };
 
 const page = async ({ params, searchParams }: {
-  params: { doctorId: string }, searchParams: {
+  params: { doctorId: string ,lang:Locale}, searchParams: {
     [key: string]: string | string[] | undefined;
   }
 }) => {
@@ -51,8 +53,10 @@ const page = async ({ params, searchParams }: {
   const reviews: IReview[] = res_reviews?.data?.data || [];
   //----------------------------------------------------------------
   const doctor: ISingleDoctor = res?.data?.data;
+  const {pages} = await getDictionary(params?.lang)
+
   const breadcrumbItems = [
-    { title: "Doctors", link: "/dashboard/doctors" },
+    { title: pages.users.doctors, link: "/dashboard/doctors" },
     { title: `${doctor?.name}`, link: `/dashboard/doctors/${doctor?.name}` },
   ];
   return (
@@ -61,18 +65,18 @@ const page = async ({ params, searchParams }: {
         <BreadCrumb items={breadcrumbItems} customStyle="mx-5" />
         <div className="flex items-baseline justify-between mx-5">
           <Heading
-            title={`Doctor Details`}
+            title={pages.users.doctor_details}
           />
           <div className="flex gap-1 justify-end">
             {(!doctor?.is_verified) && <div className="px-0 md:px-4">
-              <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptDoctorRequest} id={doctor?.user_id} />
+              <Approve successMessage={pages.users.requestApprovedSuccessfully} title={pages.users.approveRequest} defualt method={AcceptDoctorRequest} id={doctor?.user_id} />
             </div>}
             <Link
-              href={`/dashboard/doctors/${params?.doctorId}/${doctor?.user_id}/edit`}
+              href={`/${params.lang}/dashboard/doctors/${params?.doctorId}/${doctor?.user_id}/edit`}
               className={cn(buttonVariants({ variant: "default" }), "p-5")}
 
             >
-               <Edit className="mx-1 h-5 w-5" /> Edit
+               <Edit className="mx-1 h-5 w-5" /> {pages.users.edit}
             </Link>
           </div>
         </div>
@@ -85,12 +89,12 @@ const page = async ({ params, searchParams }: {
                 alt={doctor?.name}
               />
               <div className="ml-4">
-                <h1 className="text-2xl font-bold">Name: {doctor?.name}</h1>
-                <p>Specialization: {doctor?.specialization?.name}</p>
-                <p>Experience: {doctor?.experience} years</p>
-                <p>Phone: {doctor?.phone}</p>
+                <h1 className="text-2xl font-bold">{pages.users.name}: {doctor?.name}</h1>
+                <p>{pages.users.specialization}: {doctor?.specialization?.name}</p>
+                <p>{pages.users.experience}: {doctor?.experience} {pages.users.years}</p>
+                <p>{pages.users.phone}: <span dir="ltr">{doctor?.phone}</span></p>
                 <div className="flex">
-                  <span className="mx-1">Rating:</span>
+                  <span className="mx-1">{pages.users.rating}:</span>
                   <div className="stars flex">
                     {Array.from(
                       { length: Math.ceil(doctor?.rating) },
@@ -108,53 +112,53 @@ const page = async ({ params, searchParams }: {
                 </div>
               </div>
             </div>
-            <Tabs defaultValue="details" className="w-full m-3">
+            <Tabs defaultValue="details" className="w-full m-3" dir={params.lang === "ar" ? "rtl" : "ltr"}>
               <TabsList>
-                <TabsTrigger value="details">Details</TabsTrigger>
-                <TabsTrigger value="review">Reviews</TabsTrigger>
-                <TabsTrigger value="availibilty">Avaliablity</TabsTrigger>
+                <TabsTrigger value="details">{pages.users.details}</TabsTrigger>
+                <TabsTrigger value="review">{pages.users.reviews}</TabsTrigger>
+                <TabsTrigger value="availibilty">{pages.users.availability}</TabsTrigger>
               </TabsList>
               <TabsContent value="details">
                 <div className="tab1">
                   <div className="p-4">
-                    <h2 className="text-xl font-bold">Summary</h2>
+                    <h2 className="text-xl font-bold">{pages.users.summary}</h2>
                     <p>{doctor?.summery}</p>
                   </div>
                   <div className="p-4 border-t border-gray-200">
-                    <h2 className="text-xl font-bold">Consultation Prices</h2>
+                    <h2 className="text-xl font-bold">{pages.users.consultationPrice}</h2>
                     <div className="grid grid-cols-1 mt-2">
                       <div className="flex mt-3">
                         <Video className="details_icon" />
-                        <p className="mr-1">Video Consultation:</p>
-                        <p>{doctor?.video_consultation_price} EGP </p>
+                        <p className="mx-1">{pages.users.videoConsultationPrice}:</p>
+                        <p>{doctor?.video_consultation_price} {pages.users.egp} </p>
                       </div>
                       <div className="flex mt-3">
                         <PhoneCall className="details_icon" />
-                        <p className="mr-1">Voice Consultation:</p>
-                        <p>{doctor?.voice_consultation_price} EGP </p>
+                        <p className="mx-1">{pages.users.voiceConsultationPrice}:</p>
+                        <p>{doctor?.voice_consultation_price} {pages.users.egp} </p>
                       </div>
                       <div className="flex mt-3">
                         <Home className="details_icon" />
-                        <p className="mr-1"> Home Consultation:</p>
-                        <p>{doctor?.home_consultation_price} EGP </p>
+                        <p className="mx-1"> {pages.users.homeConsultationPrice}:</p>
+                        <p>{doctor?.home_consultation_price} {pages.users.egp} </p>
                       </div>
                       <div className="flex mt-3">
                         <Hotel className="details_icon" />
-                        <p className="mr-1">Clinic Consultation:</p>
-                        <p>{doctor?.clinic_consultation_price} EGP </p>
+                        <p className="mx-1">{pages.users.clinicConsultationPrice}:</p>
+                       {(doctor?.clinic?.name) ? <p>{doctor?.clinic_consultation_price} {pages.users.egp} </p> : <p>{"-"}</p>}
                       </div>
                     </div>
                   </div>
                   <div className="p-4 border-t border-gray-200">
-                    <h2 className="text-xl font-bold">Clinic Information</h2>
+                    <h2 className="text-xl font-bold">{pages.users.clinicInfo}</h2>
                     <div className="flex mt-3">
                       <Info className="details_icon" />
-                      <p className="mr-1">Name:</p>
+                      <p className="mx-1">{pages.users.name}:</p>
                       <p>{doctor?.clinic?.name ?? "-"} </p>
                     </div>
                     <div className="flex mt-3">
                       <MapPin className="details_icon" />
-                      <p className="mr-1">Address:</p>
+                      <p className="mx-1">{pages.users.clinicAddress}:</p>
                       <Link
                         href={`https://www.google.com/maps/search/?api=1&query=${doctor?.clinic?.latitude},${doctor?.clinic?.longitude}`}
                         target="_blank"
@@ -166,9 +170,9 @@ const page = async ({ params, searchParams }: {
                   </div>
                   <Separator className="my-1" />
                   <div className="relative p-2">
-                    <h2 className="text-xl font-bold">License Images</h2>
+                    <h2 className="text-xl font-bold">{pages.users.licenseImages}</h2>
                     <ScrollArea>
-                      <div className="flex space-x-4 py-4">
+                      <div className="flex space-x-4 py-4" dir={params.lang === "ar" ? "rtl" : "ltr"}>
                         {doctor?.licenses?.length && doctor?.licenses?.map((license) => (
                           <ImageRender
                             key={license?.id}
@@ -187,7 +191,7 @@ const page = async ({ params, searchParams }: {
                     <>
                       <Separator className="my-1" />
                       <div className="relative p-2">
-                        <h2 className="text-xl font-bold">Cover Images</h2>
+                        <h2 className="text-xl font-bold">{pages.users.coverImage}</h2>
                         <ScrollArea>
                           <div className="flex space-x-4 py-4">
                             <ImageRender

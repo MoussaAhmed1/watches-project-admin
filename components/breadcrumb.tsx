@@ -21,7 +21,7 @@ export default function BreadCrumb({ items, customStyle }: BreadCrumbPropsType) 
   const pathname = usePathname();
   const [currentLang] = useState(pathname?.includes("/ar") ? "ar" : "en");
   return (
-    <div className={`mb-[0px] mt-1 flex  items-center space-x-1 text-sm text-muted-foreground ${customStyle}`}>
+    <div className={`mb-[0px] mt-2 flex  items-center space-x-1 text-sm text-muted-foreground ${customStyle}`}>
       <Link
         href={`/${currentLang}/dashboard`}
         className="overflow-hidden text-ellipsis whitespace-nowrap"
