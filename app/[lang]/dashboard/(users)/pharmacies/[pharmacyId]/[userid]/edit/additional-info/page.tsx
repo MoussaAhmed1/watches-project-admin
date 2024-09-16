@@ -1,9 +1,7 @@
-import { fetchAdditionalSpecializations } from "@/actions/additional-info-specializations";
 import { fetchPharmacyAdditionalInfo } from "@/actions/pharmacy";
 import { fetchPharmacyCategories } from "@/actions/pharmacy-categories";
 import { PharmacyAddtionalInfoForm } from "@/components/forms/users-forms/pharmacy-form/pharmacy-addtional-info";
 import { Separator } from "@/components/ui/separator";
-import { ISpecializations } from "@/types/additional-info-specializations";
 import { PharmacyAddtionalInfo } from "@/types/pharmacy";
 
 export default async function SettingsProfilePage({ params, searchParams }: {
@@ -15,7 +13,6 @@ export default async function SettingsProfilePage({ params, searchParams }: {
   //----------------------------------------------------------------
   const res = await fetchPharmacyAdditionalInfo({ userId: params.userid });
   const pharmacy: PharmacyAddtionalInfo = res?.data?.data;
-  console.log(pharmacy)
   const categoriesRes = await fetchPharmacyCategories({
     page: 1,
     limit: 10,
