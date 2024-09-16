@@ -23,40 +23,48 @@ export default function InputDate({
   maxWidth = "250px"
 }: InputDateProps) {
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
-      <DatePicker
-        value={value ? dayjs(value) : undefined}
-        defaultValue={defaultValue ? dayjs(defaultValue) : undefined}
-        onChange={(newValue) => {
-          onChange(newValue!.format("YYYY-MM-DD"));
-        }}
-        disabled={disabled}
-        disableFuture={disableFuture}
-        sx={{direction:"ltr"}}
-        //decresed the padding of the date picker
-        slotProps={{
-          textField: {
-            size: "small",
-            sx: {
-              direction:"ltr",
-              padding: "0px",
-              maxWidth,
-              width: "100%",
-              '& svg': {
-                color: 'gray',
-              },
-              '& input': {
-                color: 'gray',
-                direction:"ltr",
-                border: '1px solid #F0F3F7',
-              },
-              "& .MuiPickersLayout-root ":{
-                direction:"ltr",
-              }
-            },
-          },
-        }}
-      />
-    </LocalizationProvider>
+   <div dir="ltr">
+     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
+       <DatePicker
+         value={value ? dayjs(value) : undefined}
+         defaultValue={defaultValue ? dayjs(defaultValue) : undefined}
+         onChange={(newValue) => {
+           onChange(newValue!.format("YYYY-MM-DD"));
+         }}
+         disabled={disabled}
+         disableFuture={disableFuture}
+         sx={{ "& .MuiInputBase-root": {
+                  height: 48,
+                  borderRadius: "0.5rem",
+                  border: "1px solid #E2E8F0",
+                }, }}
+         //decresed the padding of the date picker
+         slotProps={{
+          popper: { dir:"ltr"},
+           textField: {
+             size: "small",
+             sx: {
+               directon:"ltr",
+               padding: "0px",
+               maxWidth,
+               width: "100%",
+               '& svg': {
+                 color: 'gray',
+               },
+               '& input': {
+                 color: 'gray',
+                 direction:"ltr",
+               },
+               "& .MuiInputBase-root": {
+                  height: 48,
+                  borderRadius: "0.5rem",
+                  border: "1px solid #E2E8F0",
+                },
+             },
+           },
+         }}
+       />
+     </LocalizationProvider>
+   </div>
   );
 }

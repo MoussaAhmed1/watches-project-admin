@@ -2,7 +2,7 @@ import Providers from "@/components/layout/providers";
 import { Toaster } from "@/components/ui/toaster";
 import "@uploadthing/react/styles.css";
 import type { Metadata } from "next";
-import { Inter, Noto_Kufi_Arabic } from "next/font/google";
+import { Inter, Cairo } from "next/font/google";
 import "./globals.css";
 import { getServerSession } from "next-auth";
 import { NextIntlClientProvider } from "next-intl";
@@ -12,7 +12,7 @@ import { authOptions } from "../api/auth/_options";
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({ subsets: ["latin"] });
-const noto = Noto_Kufi_Arabic({ subsets: ["arabic"] });
+const noto = Cairo({ subsets: ["arabic"] });
 
 export const metadata: Metadata = {
   title: "Dacatra Dashboard",
