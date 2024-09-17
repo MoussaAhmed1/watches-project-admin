@@ -10,6 +10,7 @@ import { Plus } from "lucide-react";
 import Link from "next/link";
 import columns from "@/components/tables/pharmacy/columns";
 import { IPharmacy } from "@/types/pharmacy";
+import { getDictionary } from "@/app/[lang]/messages";
 
 const breadcrumbItems = [{ title: "Pharmacy", link: "/dashboard/pharmacy" }];
 
@@ -17,9 +18,10 @@ type paramsProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
+   params: { lang:"ar"|"en" }
 };
 
-export default async function page({ searchParams }: paramsProps) {
+export default async function page({ searchParams,params }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
@@ -32,6 +34,7 @@ export default async function page({ searchParams }: paramsProps) {
   const totalPharmacies = res?.data?.meta?.total || 0; //1000
   const pageCount = Math.ceil(totalPharmacies / limit);
   const Pharmacies: IPharmacy[] = res?.data?.data || [];
+  const {pages,shared} = await getDictionary(params?.lang)
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">

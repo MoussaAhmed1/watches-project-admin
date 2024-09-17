@@ -7,6 +7,7 @@ import columns from "@/components/tables/additional-info/specializations/columns
 import { fetchAdditionalSpecializations } from "@/actions/additional-info-specializations";
 import { ISpecializations } from "@/types/additional-info-specializations";
 import SpecializationForm from "@/components/forms/specialization/SpecializationForm";
+import { getDictionary } from "@/app/[lang]/messages";
 
 const breadcrumbItems = [{ title: "Specializations", link: "/dashboard/data-management/specializations" }];
 
@@ -14,7 +15,7 @@ type paramsProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
-  params:{lang: string}
+  params:{lang: "ar"|"en"}
 };
 
 export default async function page({ searchParams , params}: paramsProps) {
@@ -32,6 +33,7 @@ export default async function page({ searchParams , params}: paramsProps) {
   // const pageCount = Math.ceil(totalSpecializations / limit);
   const totalSpecializations = specializations?.length || 0; //1000
   const pageCount = 1;
+  const {pages,shared} = await getDictionary(params?.lang)
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">

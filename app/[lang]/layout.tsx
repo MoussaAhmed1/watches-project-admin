@@ -2,7 +2,7 @@ import Providers from "@/components/layout/providers";
 import { Toaster } from "@/components/ui/toaster";
 import "@uploadthing/react/styles.css";
 import type { Metadata } from "next";
-import { Inter, Cairo } from "next/font/google";
+import { Roboto, Cairo } from "next/font/google";
 import "./globals.css";
 import { getServerSession } from "next-auth";
 import { NextIntlClientProvider } from "next-intl";
@@ -11,7 +11,7 @@ import { notFound } from "next/navigation";
 import { authOptions } from "../api/auth/_options";
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Roboto({ subsets: ["latin"], weight: ["100","400","500", "700"] });
 const noto = Cairo({ subsets: ["arabic"] });
 
 export const metadata: Metadata = {

@@ -11,6 +11,7 @@ import { IReservation } from "@/types/reservations";
 import { ReservationsColumns } from "@/components/tables/reservations-tables/columns";
 import { fetchReservations } from "@/actions/reservations";
 import ReservationsFilters from "@/components/filters/orders/ReservationsFilters";
+import { getDictionary } from "@/app/[lang]/messages";
 
 const breadcrumbItems = [{ title: "Reservations", link: "/dashboard/reservations" }];
 
@@ -18,9 +19,10 @@ type paramsProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
+   params: { lang:"ar"|"en" }
 };
 
-export default async function page({ searchParams }: paramsProps) {
+export default async function page({ searchParams,params  }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
@@ -37,6 +39,7 @@ export default async function page({ searchParams }: paramsProps) {
   const totalReservations = res?.data?.meta?.total ||0; //1000
   const pageCount = Math.ceil(totalReservations / limit);
   const reservations: IReservation[] = res?.data?.data || [] ;
+  const {pages,shared} = await getDictionary(params?.lang)
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
