@@ -1,4 +1,5 @@
 import { fetchCommission, fetchTermsConditions } from "@/actions/terms-conditions";
+import { getDictionary } from "@/app/[lang]/messages";
 import BreadCrumb from "@/components/breadcrumb";
 import { CommissionForm } from "@/components/forms/commission";
 import { Heading } from "@/components/ui/heading";
@@ -9,14 +10,15 @@ export const metadata: Metadata = {
   description: "Commission page",
 };
 
-export default async function page() {
+export default async function page({params}:{params: { lang:"ar"|"en" }}) {
   const commission = await fetchCommission();
   const breadcrumbItems = [
     {
       title: "Commission",
       link: "/dashboard/data-management/commission",
     },
-  ];
+  ]; 
+    const {pages,shared} = await getDictionary(params?.lang)
   return (
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems} />

@@ -7,6 +7,7 @@ import columns from "@/components/tables/pharmacy/categories/columns";
 import { fetchPharmacyCategories } from "@/actions/pharmacy-categories";
 import { PharmacyCategories } from "@/types/pharmacy-categories";
 import PharmacyCategoryForm from "@/components/forms/pharmacy-category/PharmacyCategoryForm";
+import { getDictionary } from "@/app/[lang]/messages";
 
 const breadcrumbItems = [{ title: "Pharmacy Categories", link: "/dashboard/pharmacy-categories" }];
 
@@ -14,9 +15,10 @@ type paramsProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
+   params: { lang:"ar"|"en" }
 };
 
-export default async function page({ searchParams }: paramsProps) {
+export default async function page({ searchParams,params }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
@@ -31,6 +33,7 @@ export default async function page({ searchParams }: paramsProps) {
   const PharmacyCategories: PharmacyCategories[] = res?.data?.data || [];
   const totalPharmacies =PharmacyCategories?.length || 0; //1000
   const pageCount = 1;
+  const {pages,shared} = await getDictionary(params?.lang)
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">

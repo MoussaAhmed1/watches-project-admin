@@ -1,4 +1,5 @@
 import { fetchPharmacyOrder, fetchTermsConditions } from "@/actions/terms-conditions";
+import { getDictionary } from "@/app/[lang]/messages";
 import BreadCrumb from "@/components/breadcrumb";
 import { PharmacyOrderForm } from "@/components/forms/pharmacy-order-number";
 import { Heading } from "@/components/ui/heading";
@@ -9,8 +10,9 @@ export const metadata: Metadata = {
   description: "Pharmacy Order page",
 };
 
-export default async function page() {
+export default async function page({params}:{params:{lang:"ar"|"en"}}) {
   const PharmacyOrder = await fetchPharmacyOrder();
+  const {pages,shared} = await getDictionary(params?.lang)
   const breadcrumbItems = [
     {
       title: "Pharmacy Orders",
