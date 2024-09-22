@@ -1,23 +1,24 @@
 import { fetchProfileInfo } from "@/actions/patients";
+import { getDictionary } from "@/app/[lang]/messages";
 import { UserProfileForm } from "@/components/forms/users-forms/profileForm/ProfileForm";
 import { Separator } from "@/components/ui/separator";
 import { AccountProfile } from "@/types/patients";
 
 export default async function SettingsProfilePage({ params, searchParams }: {
-  params: { nurseId: string, userid: string }, searchParams: {
+  params: { nurseId: string, userid: string , lang: "ar" | "en"}, searchParams: {
     [key: string]: string | string[] | undefined;
   }
 }) {
-
+  const {  pages } = await getDictionary(params?.lang)
   //----------------------------------------------------------------
   const res = await fetchProfileInfo({ userId: params.userid });
   const doctor: AccountProfile = res?.data?.data;
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium">Profile</h3>
+      <h3 className="text-lg font-medium">{pages.users.profile}</h3>
         <p className="text-sm text-muted-foreground">
-          This is how others see this profile on the application.
+          {pages.users.profileViewDescription}
         </p>
       </div>
       <Separator />

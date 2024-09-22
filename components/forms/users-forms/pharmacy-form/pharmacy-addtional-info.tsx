@@ -28,6 +28,7 @@ import Cookie from 'js-cookie';
 import { Separator } from "@/components/ui/separator";
 import UseImagesStore from "@/hooks/use-images-store";
 import ImagesUploadfield from "@/components/shared/fileUpload/imagesUpload";
+import { useTranslations } from "next-intl";
 
 export type PharmacyFormValues = z.infer<typeof pharmacyAddtionalInfoSchema>;
 
@@ -49,9 +50,11 @@ export const PharmacyAddtionalInfoForm: React.FC<PharmacyFormProps> = ({
 }) => {
   const { toast } = useToast();
   const currentLang = Cookie.get("Language");
-  const [loading, setLoading] = useState(false);
-  const action = "Save changes";
+  const tShared = useTranslations('shared');
+  const t = useTranslations("pages.users");
 
+  const [loading, setLoading] = useState(false);
+  const action = initialData ? tShared("saveChanges") : tShared("create");
   const defaultValues = initialData;
   const form = useForm<PharmacyFormValues>({
     resolver: zodResolver(pharmacyAddtionalInfoSchema),
@@ -108,7 +111,7 @@ export const PharmacyAddtionalInfoForm: React.FC<PharmacyFormProps> = ({
     if (data?.logo_images && hasuploadLogo) {
       const logo_images = await getUrls(data?.logo_images as unknown as File);
       data.logo_images = logo_images as unknown as string;
-    }else {
+    } else {
       data.logo_images = null as unknown as any;
     }
     //license_images
@@ -124,15 +127,15 @@ export const PharmacyAddtionalInfoForm: React.FC<PharmacyFormProps> = ({
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: "Update failed",
+        title: tShared("updateFailed"),
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: "Updated successfully",
-        description: `Pharmacy has been successfully updated.`,
+        title: tShared("updatedSuccessfully"),
+        description: t(`profileUpdatedSuccessfully`),
       });
     }
     setLoading(false);
@@ -159,7 +162,7 @@ export const PharmacyAddtionalInfoForm: React.FC<PharmacyFormProps> = ({
                 control={control}
                 initialImages={initialLicensesImages.map(license => ({ id: license?.id, image: license?.mage }))}
                 license_images_errors={errors?.license_images?.message}
-                title={"License Images"}
+                title={t("licenseImages")}
                 name={"license_images"}
                 removeLicencefn={removePharmacyLicence}
                 setHasupload={setHasuploadLicense}
@@ -174,7 +177,7 @@ export const PharmacyAddtionalInfoForm: React.FC<PharmacyFormProps> = ({
                 control={control}
                 initialImages={LogoImage}
                 license_images_errors={errors?.logo_images?.message}
-                title={"Logo Images"}
+                title={t("logoImages")}
                 name={"logo_images"}
                 removeLicencefn={removePharmacyLogo}
                 setHasupload={setHasuploadLogo}
@@ -188,7 +191,7 @@ export const PharmacyAddtionalInfoForm: React.FC<PharmacyFormProps> = ({
               {/* Year of Experience */}
               <FormField name="expierence" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Years of Experience <span className="text-red-800">*</span></FormLabel>
+                  <FormLabel>{t("yearOfExperience")} <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
                     <Input type="number" {...field} />
                   </FormControl>
@@ -198,7 +201,7 @@ export const PharmacyAddtionalInfoForm: React.FC<PharmacyFormProps> = ({
               {/* Summary */}
               <FormField name="summery" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Summary <span className="text-red-800">*</span></FormLabel>
+                  <FormLabel>{t("summary")} <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
                     <Textarea {...field} rows={4} />
                   </FormControl>
@@ -207,18 +210,18 @@ export const PharmacyAddtionalInfoForm: React.FC<PharmacyFormProps> = ({
               )} />
             </div>
             <Separator style={{ margin: "25px 0" }} />
-            <h5 style={{ margin: "12px 0" }} className="text-gray-500">Pharmacy Info:</h5>
+            <h5 style={{ margin: "12px 0" }} className="text-gray-500">{t("pharmacyInfo")}:</h5>
             <div className="md:grid md:grid-cols-1 gap-8">
               <FormField
                 control={form.control}
                 name="ph_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Pharmacy name <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t("pharmacyName")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Pharmacy name"
+                        placeholder={t("pharmacyName")}
                         {...field}
                       />
                     </FormControl>
@@ -228,7 +231,7 @@ export const PharmacyAddtionalInfoForm: React.FC<PharmacyFormProps> = ({
               />
               <div>
                 <label htmlFor="categories" className="font-medium text-sm">
-                  {("Categories")} <span className="text-red-800">*</span>
+                  {t("categories")} <span className="text-red-800">*</span>
                 </label>
                 <div className="flex-col w-full ">
                   <Select
@@ -273,7 +276,7 @@ export const PharmacyAddtionalInfoForm: React.FC<PharmacyFormProps> = ({
                 disabled
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>address <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t("address")}<span className="text-red-800">*</span></FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
@@ -290,7 +293,7 @@ export const PharmacyAddtionalInfoForm: React.FC<PharmacyFormProps> = ({
             {/* TimePicker */}
             <div className="flex space-x-2">
               <div>
-                <FormLabel className="max-w-30 mx-1">Open Time <span className="text-red-800">*</span></FormLabel>
+                <FormLabel className="max-w-30 mx-1">{t("openTime")}<span className="text-red-800">*</span></FormLabel>
                 <CustomTimePicker
                   val={form.getValues("open_time") ?? undefined}
                   setval={(val) => {
@@ -302,7 +305,7 @@ export const PharmacyAddtionalInfoForm: React.FC<PharmacyFormProps> = ({
                   }} />
               </div>
               <div>
-                <FormLabel className="max-w-30 mx-1">Close Time <span className="text-red-800">*</span></FormLabel>
+                <FormLabel className="max-w-30 mx-1">{t("closeTime")}<span className="text-red-800">*</span></FormLabel>
                 <CustomTimePicker
                   val={form.getValues("close_time") ?? undefined}
                   setval={(val) => {

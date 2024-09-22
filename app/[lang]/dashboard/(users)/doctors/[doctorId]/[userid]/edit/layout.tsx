@@ -43,7 +43,6 @@ export default async function updateLayout({ children, params }: updateLayoutPro
     },
   ]
   return (
-    <>
       <div className="space-y-4 p-5 pt-8 pb-16 md:block">
         <div className="space-y-0">
           <BreadCrumb items={breadcrumbItems}  />
@@ -58,13 +57,12 @@ export default async function updateLayout({ children, params }: updateLayoutPro
           </div>
         </div>
         <Separator className="my-6" />
-        <div className="flex sm:flex-col space-y-8 space-x-0  lg:flex-row lg:space-x-12 lg:space-y-0">
+        <div className="flex sm:flex-col flex-wrap space-y-8 space-x-0  lg:flex-row lg:space-x-12 lg:space-y-0">
           <aside className="lg:w-1/5  w-full">
             <SidebarNav items={sidebarNavItems} />
           </aside>
-          <div className="flex-1 w-full">{children}</div>
+          <div className="flex-1 w-full px-3">{children}</div>
         </div>
       </div>
-    </>
   )
 }

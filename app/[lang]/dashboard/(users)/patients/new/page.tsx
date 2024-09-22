@@ -12,7 +12,7 @@ type paramsProps = {
   params:{lang:Locale}
 };
 
-export default async function page({ searchParams,params }: paramsProps) {
+export default async function page({ params }: paramsProps) {
   const {navigation,shared} = await getDictionary(params?.lang)
   const breadcrumbItems = [
     { title: navigation.patients, link: "/dashboard/patients" },

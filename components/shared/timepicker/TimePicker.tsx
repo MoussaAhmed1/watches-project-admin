@@ -27,7 +27,7 @@ function CustomTimePicker({ val, setval, _disabled = false }: IProps) {
     };
 
     return (
-        <div className="custom-time-picker">
+        <div className="custom-time-picker dir-ltr" dir='ltr'>
             <TimePicker
                 onChange={(e) => handleChange(e as string)}
                 value={value ? parseValue(value) : null}

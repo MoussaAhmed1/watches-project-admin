@@ -6,7 +6,7 @@ import {
     getPaginationRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import React from "react";
+import React, { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -23,6 +23,7 @@ import {
 } from "@radix-ui/react-icons";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 
 interface IProps {
@@ -38,6 +39,9 @@ function Pagination({ pageNo,
     pageSizeOptions = [10, 20, 30, 40, 50] }: IProps) {
     const router = useRouter();
     const pathname = usePathname();
+    const [currentLang] = useState(pathname?.includes("/ar") ? "ar" : "en");
+    //translations 
+    const t = useTranslations("tableColumns");
     const searchParams = useSearchParams();
     const page = searchParams?.get("page") ?? "1";
     const pageAsNumber = Number(page);
@@ -101,12 +105,12 @@ function Pagination({ pageNo,
     });
 
     return (
-        <div className="flex flex-col gap-2 sm:flex-row items-center justify-end space-x-2 py-4">
+        <div dir={"ltr"} className="flex flex-row gap-2 sm:flex-row items-center justify-end space-x-2 py-4" style={{ flex: currentLang === "ar" ? "row" : "row-reverse" }}>
             <div className="flex items-center justify-between w-full">
                 <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8">
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 gap-2" dir={currentLang === "ar" ? "rtl" : "ltr"}>
                         <p className="whitespace-nowrap text-sm font-medium">
-                            Rows per page
+                            {t("rowsPerPage")}
                         </p>
                         <Select
                             value={`${table.getState().pagination.pageSize}`}
@@ -130,10 +134,10 @@ function Pagination({ pageNo,
                     </div>
                 </div>
             </div>
-            <div className="flex items-center justify-between sm:justify-end gap-2 w-full">
-                <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-                    Page {table.getState().pagination.pageIndex + 1} of{" "}
-                    {pageCount}
+            <div className="flex items-center justify-between sm:justify-end gap-2 w-full" >
+                <div className="flex min-w-[100px] items-center justify-center text-sm font-medium">
+                    {t("page")} {table.getState().pagination.pageIndex + 1} {t("of")}{" "}
+                    {table.getPageCount()}
                 </div>
                 <div className="flex items-center space-x-2">
                     <Button

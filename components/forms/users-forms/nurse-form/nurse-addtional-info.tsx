@@ -24,6 +24,9 @@ import { X } from "lucide-react";
 import { AlertModal } from "@/components/modal/alert-modal";
 import nurseAddtionalInfoSchema from "./nurse-addtionalInfoSchema";
 import UseImagesStore from "@/hooks/use-images-store";
+import { useTranslations } from "next-intl";
+import Cookie from 'js-cookie';
+
 export type NurseAddtionalInfoFormValues = z.infer<typeof nurseAddtionalInfoSchema>;
 
 interface NurseFormProps {
@@ -39,7 +42,11 @@ export const NurseAddtionalInfoForm: React.FC<NurseFormProps> = ({
 }) => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const action = "Save changes";
+
+  const currentLang = Cookie.get("Language");
+  const tShared = useTranslations('shared');
+  const t = useTranslations("pages.users");
+  const action = initialData ? tShared("saveChanges") : tShared("create");
 
   const defaultValues = initialData;
 
@@ -112,15 +119,15 @@ export const NurseAddtionalInfoForm: React.FC<NurseFormProps> = ({
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: "Updat failed",
+        title: tShared("updateFailed"),
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: "Updated successfully",
-        description: `Nurse has been successfully updated.`,
+        title: tShared("updatedSuccessfully"),
+        description: t(`profileUpdatedSuccessfully`),
       });
     }
 
@@ -154,7 +161,7 @@ export const NurseAddtionalInfoForm: React.FC<NurseFormProps> = ({
                 padding: "0px",
               }}
             >
-              <FormLabel className="max-w-30 mx-1">License Images <span className="text-red-800">*</span></FormLabel>
+              <FormLabel className="max-w-30 mx-1">{t("licenseImages")} <span className="text-red-800">*</span></FormLabel>
               <div>
                 <Controller
                   name="license_images"
@@ -264,7 +271,7 @@ export const NurseAddtionalInfoForm: React.FC<NurseFormProps> = ({
             {/* Year of Experience */}
             <FormField name="experience" control={control} render={({ field }) => (
               <FormItem>
-                <FormLabel>Years of Experience <span className="text-red-800">*</span></FormLabel>
+                <FormLabel>{t("yearOfExperience")} <span className="text-red-800">*</span></FormLabel>
                 <FormControl>
                   <Input type="number" {...field} />
                 </FormControl>
@@ -277,7 +284,7 @@ export const NurseAddtionalInfoForm: React.FC<NurseFormProps> = ({
             {/* Summary */}
             <FormField name="summary" control={control} render={({ field }) => (
               <FormItem>
-                <FormLabel>Summary <span className="text-red-800">*</span></FormLabel>
+                <FormLabel>{t("summary")} <span className="text-red-800">*</span></FormLabel>
                 <FormControl>
                   <Textarea {...field} rows={4} />
                 </FormControl>

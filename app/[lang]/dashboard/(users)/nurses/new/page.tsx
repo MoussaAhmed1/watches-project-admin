@@ -1,11 +1,13 @@
+import { getDictionary } from "@/app/[lang]/messages";
 import BreadCrumb from "@/components/breadcrumb";
 import { NurseForm } from "@/components/forms/users-forms/nurse-form/add-edit-nurse";
 import React from "react";
 
-export default async function Page() {
+export default async function Page({params}:{params:{lang:"ar"|"en"}}) {
+  const {pages,shared} = await getDictionary(params?.lang)
   const breadcrumbItems = [
-    { title: "Nurses", link: "/dashboard/nurses" },
-    { title: "Create", link: "/dashboard/nurse/new" },
+    { title: pages.users.nurses, link: "/dashboard/nurses" },
+    { title: shared.create, link: "/dashboard/nurse/new" },
   ];
 
   return (
