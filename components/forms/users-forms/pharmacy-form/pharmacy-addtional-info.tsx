@@ -210,7 +210,7 @@ export const PharmacyAddtionalInfoForm: React.FC<PharmacyFormProps> = ({
               )} />
             </div>
             <Separator style={{ margin: "25px 0" }} />
-            <h5 style={{ margin: "12px 0" }} className="text-gray-500">{t("pharmacyInfo")}:</h5>
+            <h5 style={{ margin: "12px 0" }} className="text-gray-500">{t("pharmacyInfo")}: </h5>
             <div className="md:grid md:grid-cols-1 gap-8">
               <FormField
                 control={form.control}
@@ -276,7 +276,7 @@ export const PharmacyAddtionalInfoForm: React.FC<PharmacyFormProps> = ({
                 disabled
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("address")}<span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t("address")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}

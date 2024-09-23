@@ -150,6 +150,8 @@
       "addNewDoctor": "إضافة طبيب جديد",
       "createNurse": "إنشاء ممرض",
       "addNewNurse": "إضافة ممرض جديدة",
+      "createPharmacy": "إنشاء صيدلية",
+      "addNewPharmacy": "إضافة صيدلية جديدة",
       "weight": "الوزن",
       "height": "الطول",
       "allergicReactions": "ردود الفعل التحسسية",

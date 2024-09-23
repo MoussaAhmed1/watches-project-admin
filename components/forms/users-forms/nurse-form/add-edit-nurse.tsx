@@ -12,7 +12,7 @@ import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
@@ -26,6 +26,7 @@ import { toFormData } from "axios";
 import AvatarPreview from "@/components/shared/AvatarPreview";
 import InputDate from "@/components/shared/timepicker/InputDate";
 import UseImagesStore from "@/hooks/use-images-store";
+import { useTranslations } from "next-intl";
 
 export type NurseFormValues = z.infer<typeof nurseSchema>;
 
@@ -41,9 +42,13 @@ export const NurseForm: React.FC<NurseFormProps> = ({
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const title = initialData ? "Edit nurse" : "Create nurse";
-  const description = initialData ? "Edit a nurse." : "Add a new nurse";
-  const action = initialData ? "Save changes" : "Create";
+  const pathname = usePathname();
+  const [currentLang] = useState(pathname?.includes("/ar") ? "ar" : "en");
+  const t = useTranslations("pages.users");
+  const tShared = useTranslations('shared');
+  const title = t("createNurse");
+  const description = t("addNewNurse");
+  const action =  tShared("create");
 
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,15 +95,15 @@ export const NurseForm: React.FC<NurseFormProps> = ({
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: initialData ? "Update failed" : "Add failed",
+        title: tShared("addFailed"),
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: initialData ? "Updated successfully" : "Added successfully",
-        description: initialData ? `Nurse has been successfully updated.` : `Nurse has been successfully added.`,
+        title: tShared("addedSuccessfully"),
+        description: t(`profileAddedSuccessfully`),
       });
       router.push(`/dashboard/nurses`);
     }
@@ -127,11 +132,11 @@ export const NurseForm: React.FC<NurseFormProps> = ({
                 name="first_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>First Name <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t("firstName")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Nurse name"
+                        placeholder={t("firstName")}
                         {...field}
                       />
                     </FormControl>
@@ -144,11 +149,11 @@ export const NurseForm: React.FC<NurseFormProps> = ({
                 name="last_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Last Name <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t("lastName")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Nurse name"
+                        placeholder={t("lastName")}
                         {...field}
                       />
                     </FormControl>
@@ -158,7 +163,7 @@ export const NurseForm: React.FC<NurseFormProps> = ({
               />
               <div className="flex w-full justify-end flex-col items-start gap-1">
                 <label htmlFor="date" className="font-medium text-sm">
-                  birth date <span className="text-red-800">*</span>
+                {t("birthDate")} <span className="text-red-800">*</span>
                 </label>
                 <div className="flex-col w-full">
                   <InputDate
@@ -179,15 +184,15 @@ export const NurseForm: React.FC<NurseFormProps> = ({
               {/* Gender */}
               <FormField name="gender" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Gender <span className="text-red-800">*</span></FormLabel>
+                  <FormLabel>{t("gender")} <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
-                    <Select {...field} onValueChange={field.onChange}>
+                    <Select {...field} onValueChange={field.onChange} dir={currentLang === "ar" ? "rtl" : "ltr"}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select Gender" />
+                        <SelectValue placeholder={t("selectGender")} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="male">Male</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
+                        <SelectItem value="male">{t("male")}</SelectItem>
+                        <SelectItem value="female">{t("female")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -200,9 +205,9 @@ export const NurseForm: React.FC<NurseFormProps> = ({
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>{t("phone")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
-                      <Input  disabled={loading} {...field} />
+                      <Input dir="ltr" disabled={loading} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -214,7 +219,7 @@ export const NurseForm: React.FC<NurseFormProps> = ({
                   margin: "-2px 0",
                 }}
               >
-                <FormLabel className="max-w-30 mx-1">Avatar</FormLabel>
+                <FormLabel className="max-w-30 mx-1">{t("avatar")}</FormLabel>
                 <div>
                   <Controller
                     name="avatarFile"
@@ -240,7 +245,7 @@ export const NurseForm: React.FC<NurseFormProps> = ({
                   margin: "-2px 0",
                 }}
               >
-                <FormLabel className="max-w-30 mx-1">License Images <span className="text-red-800">*</span></FormLabel>
+                <FormLabel className="max-w-30 mx-1">{t("licenseImages")} <span className="text-red-800">*</span></FormLabel>
                 <div>
                   <Controller
                     name="license_images"
@@ -266,7 +271,7 @@ export const NurseForm: React.FC<NurseFormProps> = ({
               {/* Year of Experience */}
               <FormField name="experience" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Year of Experience <span className="text-red-800">*</span></FormLabel>
+                  <FormLabel>{t('yearOfExperience')} <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
                     <Input type="number" {...field} />
                   </FormControl>
@@ -278,7 +283,7 @@ export const NurseForm: React.FC<NurseFormProps> = ({
               {/* Summary */}
               <FormField name="summary" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Summary <span className="text-red-800">*</span></FormLabel>
+                  <FormLabel>{t('summary')} <span className="text-red-800">*</span></FormLabel>
                   <FormControl>
                     <Textarea {...field} rows={4} />
                   </FormControl>

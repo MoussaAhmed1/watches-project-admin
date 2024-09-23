@@ -151,6 +151,8 @@
       "addNewDoctor": "Add New Doctor",
       "createNurse": "Create Nurse",
       "addNewNurse": "Add New Nurse",
+      "createPharmacy": "Create Pharmacy",
+      "addNewPharmacy": "Add New Pharmacy",
       "weight": "Weight",
       "height": "Height",
       "allergicReactions": "Allergic reactions",
