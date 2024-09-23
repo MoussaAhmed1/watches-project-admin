@@ -151,6 +151,8 @@
       "addNewDoctor": "Add New Doctor",
       "createNurse": "Create Nurse",
       "addNewNurse": "Add New Nurse",
+      "createPharmacy": "Create Pharmacy",
+      "addNewPharmacy": "Add New Pharmacy",
       "weight": "Weight",
       "height": "Height",
       "allergicReactions": "Allergic reactions",
@@ -219,7 +221,21 @@
       "egp": "EGP",
       "years": "Years",
       "requestApprovedSuccessfully": "Request Approved Successfully",
-      "approveRequest": "Approve Request"
+      "approveRequest": "Approve Request",
+      "pharmacies": "Pharmacies",
+      "nurses": "Nurses",
+      "logoImages": "Logo Image",
+      "pharmacyInfo": "Pharmacy Info",
+      "pharmacyName": "Pharmacy Name",
+      "openTime": "Open Time",
+      "closeTime": "Close Time",
+      "address": "Address",
+      "categories": "Categories",
+      "nurse_details": "Nurse Details",
+      "pharmacy_details": "Pharmacy Details",
+      "isVerified": "Is Verified",
+      "appointments": "Appointments",
+      "ownerInfo": "Owner Info"
     }
   },
   "auth": {

@@ -35,7 +35,7 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
     // @ts-ignore
     request.nextauth.token = token;
     const pathname = request.nextUrl.pathname;
-
+    const lang = cookies().get("Language")?.value;
     const protectedPathsWithLocale = getProtectedRoutes(protectedPaths, [
       ...i18n.locales,
     ]);
@@ -132,7 +132,7 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
       // console.log("pathname",pathname)
       // console.log("pathname",pathname.split("/")[3])
       if (!ifUserHasPermission(pathname)) {
-        const NotAllowed = new URL("/en/dashboard/not-allowed", request.url);
+        const NotAllowed = new URL(`/${lang}/dashboard/not-allowed`, request.url);
         return NextResponse.rewrite(NotAllowed);
       }
     }

@@ -1,14 +1,16 @@
 import { fetchPharmacyAdditionalInfo } from "@/actions/pharmacy";
 import { fetchPharmacyCategories } from "@/actions/pharmacy-categories";
+import { getDictionary } from "@/app/[lang]/messages";
 import { PharmacyAddtionalInfoForm } from "@/components/forms/users-forms/pharmacy-form/pharmacy-addtional-info";
 import { Separator } from "@/components/ui/separator";
 import { PharmacyAddtionalInfo } from "@/types/pharmacy";
 
 export default async function SettingsProfilePage({ params, searchParams }: {
-  params: { pharmacyId: string, userid: string }, searchParams: {
+  params: { lang: "ar" | "en", pharmacyId: string, userid: string }, searchParams: {
     [key: string]: string | string[] | undefined;
   }
 }) {
+  const { pages } = await getDictionary(params?.lang)
 
   //----------------------------------------------------------------
   const res = await fetchPharmacyAdditionalInfo({ userId: params.userid });
@@ -21,7 +23,7 @@ export default async function SettingsProfilePage({ params, searchParams }: {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium">Additional Information</h3>
+      <h3 className="text-lg font-medium">{pages.users.additionalInfo}</h3>
       </div>
       <Separator />
       <PharmacyAddtionalInfoForm

@@ -320,7 +320,7 @@ export const DoctorForm: React.FC<DoctorFormProps> = ({
                   <FormItem>
                     <FormLabel>{t("phone")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl>
-                      <Input disabled={loading} {...field} />
+                      <Input dir="ltr" disabled={loading} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

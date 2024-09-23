@@ -14,16 +14,19 @@ import { cn } from "@/lib/utils";
 import nurseImage from "../../../../../../public/assets/doctor.png";
 import userAvatar from "../../../../../../public/assets/user-avatar.png";
 import { shortenText } from "@/utils/helperFunctions";
+import { getDictionary } from "@/app/[lang]/messages";
 
 export const metadata: Metadata = {
   title: "Pharmacy Details | Dacatra Dashboard",
 };
 
-const page = async ({ params }: { params: { pharmacyId: string } }) => {
+const page = async ({ params }: { params: { pharmacyId: string,lang:"ar"|"en" } }) => {
   const res = await fetchSinglePharmacy(params.pharmacyId);
   const pharmacy: IPharmacy = res?.data?.data;
+  const {pages} = await getDictionary(params?.lang)
+
   const breadcrumbItems = [
-    { title: "Pharmacies", link: "/dashboard/pharmacies" },
+    { title: pages.users.pharmacies, link: "/dashboard/pharmacies" },
     {
       title: `${pharmacy?.ph_name}`,
       link: `/dashboard/pharmacies/${pharmacy?.id}`,
@@ -32,21 +35,21 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
 
   return (
     <>
-      <div className="mx-auto w-full mt-4 bg-background">
-        <BreadCrumb items={breadcrumbItems} customStyle="ml-4" />
+      <div className="mx-auto w-full mt-8 bg-background">
+        <BreadCrumb items={breadcrumbItems} customStyle="mx-5" />
         <div className="flex items-baseline justify-between mx-5">
           <Heading
-            title={`Pharmacy Details`}
+            title={pages.users.pharmacy_details}
           />
           <div className="flex gap-1 justify-end">
             {(!pharmacy?.is_verified) && <div className="px-0 md:px-4">
-              <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptPharmacyRequest} id={pharmacy?.user_id} />
+              <Approve successMessage={pages.users.requestApprovedSuccessfully} title={pages.users.approveRequest} defualt method={AcceptPharmacyRequest} id={pharmacy?.user_id} />
             </div>}
             <Link
               href={`/dashboard/pharmacies/${params?.pharmacyId}/${pharmacy?.user_id}/edit`}
               className={cn(buttonVariants({ variant: "default" }), "p-5")}
             >
-               <Edit className="mx-1 h-5 w-5" /> Edit
+               <Edit className="mx-1 h-5 w-5" /> {pages.users.edit}
             </Link>
           </div>
         </div>
@@ -61,27 +64,27 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
                 />
                 <div className="ml-4">
                   <h1 className="text-2xl font-bold">
-                    Name: {pharmacy?.ph_name}
+                  {pages.users.name}: {pharmacy?.ph_name}
                   </h1>
-                  <p>Experience: {pharmacy?.expierence} years</p>
+                  <p>{pages.users.experience}: {pharmacy?.expierence} {pages.users.years}</p>
                 </div>
               </div>
               <div className="p-4">
-                <h2 className="text-xl font-bold">Summary</h2>
+                <h2 className="text-xl font-bold">{pages.users.summary}</h2>
                 <p>{pharmacy?.summery}</p>
               </div>
               <div className="p-4 border-t border-gray-200">
-                <h2 className="text-xl font-bold mb-2">Details</h2>
+                <h2 className="text-xl font-bold mb-2">{pages.users.details}</h2>
 
                 <div className="flex mt-3">
                   <BadgeCheck className="details_icon" />
-                  <p className="mr-1">Is verified:</p>
+                  <p className="mr-1">{pages.users.isVerified}:</p>
                   <p>{pharmacy?.is_verified ? <CheckCircle stroke="#39a845" className="ms-3" /> : <CircleSlash style={{ color: '#8C0101' }} />} </p>
                 </div>
 
                 <div className="flex mt-3">
                   <MapPin className="details_icon" />
-                  <p className="mr-1">Address:</p>
+                  <p className="mr-1">{pages.users.address}:</p>
                   <Link
                     href={`https://www.google.com/maps/search/?api=1&query=${pharmacy?.latitude},${pharmacy?.longitude}`}
                     target="_blank"
@@ -92,21 +95,21 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
                 </div>
               </div>
               <div className="p-4 border-t border-gray-200">
-                <h2 className="text-xl font-bold mb-2">Appointments</h2>
+                <h2 className="text-xl font-bold mb-2">{pages.users.appointments}</h2>
                 <div className="flex mt-3">
                   <Clock2 className="details_icon" />
-                  <p className="mr-1">Open at:</p>
+                  <p className="mr-1">{pages.users.openTime}:</p>
                   <p>{pharmacy?.open_time} </p>
                 </div>
                 <div className="flex mt-3">
                   <Clock2 className="details_icon" />
-                  <p className="mr-1">Close at:</p>
+                  <p className="mr-1">{pages.users.closeTime}:</p>
                   <p>{pharmacy?.close_time} </p>
                 </div>
               </div>
 
               <div className="p-4 border-t border-gray-200">
-                <h2 className="text-xl font-bold">Categories</h2>
+                <h2 className="text-xl font-bold">{pages.users.categories}</h2>
                 <ul className="list-none">
                   {pharmacy?.categories.map((category) => (
                     <li className="flex mt-3" key={category.id}>
@@ -118,20 +121,20 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
               </div>
 
               <div className="p-4 border-t border-gray-200">
-                <h2 className="text-xl font-bold">Owner Info</h2>
+                <h2 className="text-xl font-bold">{pages.users.ownerInfo}</h2>
                 <div className="flex mt-3">
                   <User className="details_icon" />
-                  <p className="mr-1">Name:</p>
+                  <p className="mr-1">{pages.users.name}:</p>
                   <p>{pharmacy?.user?.name} </p>
                 </div>
                 <div className="flex mt-3">
                   <Phone className="details_icon" />
-                  <p className="mr-1">Phone:</p>
+                  <p className="mr-1">{pages.users.phone}:</p>
                   <p>{pharmacy?.user?.phone} </p>
                 </div>
                 <div className="flex mt-3 items-center">
                   <ImageIcon className="details_icon" />
-                  <p className="mr-1">Avatar:</p>
+                  <p className="mr-1">{pages.users.avatar}:</p>
                   <ProfileImg
                     src={pharmacy?.user?.avatar || userAvatar}
                     alt={pharmacy?.user?.avatar}
@@ -141,7 +144,7 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
               </div>
 
               <div className="p-4 border-t border-gray-200">
-                <h2 className="text-xl font-bold">Licenses</h2>
+                <h2 className="text-xl font-bold">{pages.users.licenseImages}</h2>
                 <div className="flex items-center py-2">
                   <ScrollArea>
                     <div className="flex space-x-4 py-4">
@@ -162,7 +165,7 @@ const page = async ({ params }: { params: { pharmacyId: string } }) => {
               </div>
 
               <div className="p-4 border-t border-gray-200">
-                <h2 className="text-xl font-bold">Logo</h2>
+                <h2 className="text-xl font-bold">{pages.users.logoImages}</h2>
                 <div className="flex items-center py-2">
                   <ScrollArea>
                     <div className="flex space-x-4 py-4">

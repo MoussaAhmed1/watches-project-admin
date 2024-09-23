@@ -17,13 +17,14 @@ import { ImageRender } from "@/components/shared/imagesRender/imagesRender";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { getDictionary } from "@/app/[lang]/messages";
 
 export const metadata: Metadata = {
   title: "Nurse Details | Dacatra Dashboard",
 };
 
 const page = async ({ params, searchParams }: {
-  params: { nurseId: string }, searchParams: {
+  params: { nurseId: string,lang: "ar" | "en" }, searchParams: {
     [key: string]: string | string[] | undefined;
   }
 }) => {
@@ -45,28 +46,30 @@ const page = async ({ params, searchParams }: {
   const pageCount = Math.ceil(totalReivews / limit);
   const reviews: IReview[] = res_reviews?.data?.data || [];
   //----------------------------------------------------------------
+  const {  pages } = await getDictionary(params?.lang)
+
   const breadcrumbItems = [
-    { title: "Nurses", link: "/dashboard/nurses" },
+    { title: pages.users.nurses, link: "/dashboard/nurses" },
     { title: `${nurse?.name}`, link: `/dashboard/nurses/${nurse?.name}` },
   ];
 
   return (
     <>
       <div className="mx-auto w-full mt-8 bg-background">
-        <BreadCrumb items={breadcrumbItems} customStyle="ml-4" />
+        <BreadCrumb items={breadcrumbItems} customStyle="mx-5" />
         <div className="flex items-baseline justify-between mx-5">
           <Heading
-            title={`Nurse Details`}
+            title={pages.users.nurse_details}
           />
           <div className="flex gap-1 justify-end">
             {(!nurse?.is_verified) && <div className="px-0 md:px-4">
-              <Approve successMessage="Request Approved Successfully" title="Approve Request" defualt method={AcceptNurseRequest} id={nurse?.user_id} />
+              <Approve successMessage={pages.users.requestApprovedSuccessfully} title={pages.users.approveRequest} defualt method={AcceptNurseRequest} id={nurse?.user_id} />
             </div>}
             <Link
               href={`/dashboard/nurses/${params?.nurseId}/${nurse?.user_id}/edit`}
               className={cn(buttonVariants({ variant: "default" }), "p-5")}
             >
-               <Edit className="mx-1 h-5 w-5" /> Edit
+              <Edit className="mx-1 h-5 w-5" /> {pages.users.edit}
             </Link>
           </div>
         </div>
@@ -79,11 +82,11 @@ const page = async ({ params, searchParams }: {
                 alt={nurse?.name}
               />
               <div className="ml-4">
-                <h1 className="text-2xl font-bold">Name: {nurse?.name}</h1>
-                <p>Experience: {nurse?.experience} years</p>
-                <p>Phone: {nurse?.phone}</p>
+                <h1 className="text-2xl font-bold">{pages.users.name}: {nurse?.name}</h1>
+                <p>{pages.users.experience}: {nurse?.experience} {pages.users.years}</p>
+                <p>{pages.users.phone}: <span dir="ltr">{nurse?.phone}</span></p>
                 <div className="flex">
-                  <span className="mx-1">Rating:</span>
+                  <span className="mx-1">{pages.users.rating}:</span>
                   <div className="stars flex">
                     {Array.from(
                       { length: Math.ceil(nurse?.rating) },
@@ -101,20 +104,20 @@ const page = async ({ params, searchParams }: {
                 </div>
               </div>
             </div>
-            <Tabs defaultValue="details" className="w-full m-3">
+            <Tabs defaultValue="details" className="w-full m-3" dir={params.lang === "ar" ? "rtl" : "ltr"}>
               <TabsList>
-                <TabsTrigger value="details">Details</TabsTrigger>
-                <TabsTrigger value="review">Reviews</TabsTrigger>
+                <TabsTrigger value="details">{pages.users.details}</TabsTrigger>
+                <TabsTrigger value="review">{pages.users.reviews}</TabsTrigger>
               </TabsList>
               <TabsContent value="details">
                 <div className="details">
                   <div className="p-4">
-                    <h2 className="text-xl font-bold">Summary</h2>
+                    <h2 className="text-xl font-bold">{pages.users.summary}</h2>
                     <p>{nurse?.summery}</p>
                   </div>
 
                   <div className="p-4 border-t border-gray-200">
-                    <h2 className="text-xl font-bold">Licenses</h2>
+                    <h2 className="text-xl font-bold">{pages.users.licenseImages}</h2>
                     <div className="flex items-center py-2">
                       <ScrollArea>
                         <div className="flex space-x-4 py-4">
