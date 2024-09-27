@@ -42,6 +42,8 @@
     "action_cannot_be_undone": "This action cannot be undone.",
     "cancel": "Cancel",
     "continue": "Continue",
+    "close": "Close",
+    "reason_to_cancel":"Reason to cancel",
     "add_new": "Add New",
     "dashboard": "Dashboard",
     "create": "Create",
@@ -118,6 +120,17 @@
     "dashboard": {
       "title": "Dashboard Page",
       "description": "This is the dashboard page"
+    },
+    "orders": {
+      "reservations":"Reservations",
+      "STARTED":"STARTED",
+      "CANCELLED":"CANCELLED",
+      "COMPLETED":"COMPLETED",
+      "SCHEDULED":"SCHEDULED",
+      "requestApprovedSuccessfully": "Request Approved Successfully",
+      "approveRequest": "Approve Request",
+      "approveCancel": "Approve Cancel",
+      "requestCanceledSuccessfully": "Request Canceled Successfully"
     },
     "users": {
       "Admins": "Admins",

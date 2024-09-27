@@ -40,7 +40,10 @@
     "are_you_sure": "هل أنت متأكد؟",
     "action_cannot_be_undone": "لا يمكن التراجع عن هذا الإجراء.",
     "cancel": "إلغاء",
+    "close": "اغلاق",
     "continue": "متابعة",
+    "reason_to_cancel":"سبب الإلغاء",
+
     "add_new": "إضافة جديد",
     "dashboard": "لوحة التحكم",
     "create": "اضافة",
@@ -53,7 +56,11 @@
     "addedSuccessfully": "تمت الإضافة بنجاح",
     "category": "الفئة",
     "all": "الكل",
-    "specialization": "التخصص"
+    "specialization": "التخصص",
+    "requestApprovedSuccessfully": "تمت الموافقة على الطلب بنجاح",
+    "approveRequest": "الموافقة على الطلب",
+    "approveCancel": "تمت الموافقة على الطلب بنجاح",
+    "requestCanceledSuccessfully": "الموافقة على الطلب"
   },
   "tableActions": {
     "view": "عرض",
@@ -117,6 +124,17 @@
     "dashboard": {
       "title": "Dashboard-Seite",
       "description": "Dies ist die Benutzer-Dashboard-Seite."
+    },
+    "orders": {
+      "reservations":"الحجوزات",
+      "STARTED":"بدأت",
+      "CANCELLED":"ملغية",
+      "COMPLETED":"مكتملة",
+      "SCHEDULED":"مجدولة",
+      "requestApprovedSuccessfully": "تمت الموافقة على الطلب بنجاح",
+      "approveRequest": "الموافقة على الطلب",
+      "requestCanceledSuccessfully": "تمت الموافقة على الطلب بنجاح",
+      "approveCancel": "الموافقة على الالغاء"
     },
     "users": {
       "Admins": "المديرون",

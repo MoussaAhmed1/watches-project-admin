@@ -13,13 +13,12 @@ import { fetchReservations } from "@/actions/reservations";
 import ReservationsFilters from "@/components/filters/orders/ReservationsFilters";
 import { getDictionary } from "@/app/[lang]/messages";
 
-const breadcrumbItems = [{ title: "Reservations", link: "/dashboard/reservations" }];
 
 type paramsProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
-   params: { lang:"ar"|"en" }
+  params: { lang:"ar"|"en" }
 };
 
 export default async function page({ searchParams,params  }: paramsProps) {
@@ -39,7 +38,8 @@ export default async function page({ searchParams,params  }: paramsProps) {
   const totalReservations = res?.data?.meta?.total ||0; //1000
   const pageCount = Math.ceil(totalReservations / limit);
   const reservations: IReservation[] = res?.data?.data || [] ;
-  const {pages,shared} = await getDictionary(params?.lang)
+  const {pages} = await getDictionary(params?.lang)
+  const breadcrumbItems = [{ title: pages?.orders?.reservations, link: "/dashboard/reservations" }];
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
@@ -47,7 +47,7 @@ export default async function page({ searchParams,params  }: paramsProps) {
 
         <div className="flex items-start justify-between">
           <Heading
-            title={`Reservations (${totalReservations})`}
+            title={`${pages?.orders?.reservations} (${totalReservations})`}
           />
 
           {/* <Link
