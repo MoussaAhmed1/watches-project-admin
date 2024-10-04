@@ -8,6 +8,7 @@ import { getDateSimpleFormat } from "@/utils/helperFunctions";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { ImageRender } from "@/components/shared/imagesRender/imagesRender";
+import { getDictionary } from "@/app/[lang]/messages";
 
 export const metadata = {
   title: 'Banner details',
@@ -16,6 +17,7 @@ export const metadata = {
 type Props = {
   params: {
     banarId: string;
+    lang: "ar" | "en";
   };
   searchParams: {
     [key: string]: string | string[] | undefined;
@@ -29,68 +31,65 @@ export default async function Page({ params, searchParams }: Props) {
   const headers: Headers = {
     banarId: params.banarId,
   };
+  const { pages } = await getDictionary(params?.lang)
   const banner: IBanner = await fetchSingleBanar(headers);
   const breadcrumbItems = [
     {
-      title: "Banners",
+      title:pages.banners.banners,
       link: "/dashboard/banars",
     },
     {
-      title: "Banner details",
+      title: pages.banners.bannerDetails,
       link: "/dashboard/banars/view",
     },
   ];
 
   return (
-    <div className="flex-1 space-y-4 p-8">
+    <div className="flex-1 space-y-2 p-8">
       <BreadCrumb items={breadcrumbItems} />
       <Heading
-        title={`Banner details`}
+        title={pages.banners.bannerDetails}
         description={"["+getDateSimpleFormat(banner.started_at) +" - "+ getDateSimpleFormat(banner.ended_at)+"]"}
       />
       <div style={{ display: 'flex', gap: '2rem' }}>
         <Card style={{ flex: 1 }}>
           <CardHeader>
-            <CardTitle>Banner Details</CardTitle>
+            <CardTitle>{pages.banners.bannerDetails}</CardTitle>
           </CardHeader>
           <CardContent>
             <CardDescription>
               <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
-                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <Info style={{ marginRight: '0.5rem' }} />
-                  ID: {banner.id}
+                <li style={{ display: 'flex', alignItems: 'center' }}>
+                  <Calendar style={{ margin: '.5rem 0.5rem' }} />
+                  {pages.banners.startDate}: {getDateSimpleFormat(banner.started_at)}
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <Calendar style={{ marginRight: '0.5rem' }} />
-                  Started At: {getDateSimpleFormat(banner.started_at)}
+                  <Calendar style={{ margin: '.5rem 0.5rem' }} />
+                  {pages.banners.endDate}: {getDateSimpleFormat(banner.ended_at)}
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <Calendar style={{ marginRight: '0.5rem' }} />
-                  Ended At: {getDateSimpleFormat(banner.ended_at)}
+                  <CheckCircle style={{ margin: '.5rem 0.5rem' }} />
+                  {pages.banners.isActive}: {banner.is_active ? pages.banners.yes : pages.banners.no}
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <CheckCircle style={{ marginRight: '0.5rem' }} />
-                  Is Active: {banner.is_active ? 'Yes' : 'No'}
+                  <Calendar style={{ margin: '.5rem 0.5rem' }} />
+                  {pages.banners.createdAt}: {getDateSimpleFormat(banner.created_at)}
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <Calendar style={{ marginRight: '0.5rem' }} />
-                  Created At: {getDateSimpleFormat(banner.created_at)}
+                  <RefreshCcw style={{ margin: '.5rem 0.5rem' }} />
+                  {pages.banners.updatedAt}: {getDateSimpleFormat(banner.updated_at)}
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <RefreshCcw style={{ marginRight: '0.5rem' }} />
-                  Updated At: {getDateSimpleFormat(banner.updated_at)}
-                </li>
-                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <FileText style={{ marginRight: '0.5rem' }} />
-                  Description: {banner.description ? banner?.description : ' - '}
+                  <FileText style={{ margin: '.5rem 0.5rem' }} />
+                  {pages.banners.description}: {banner.description ? banner?.description : ' - '}
                 </li>
               </ul>
               <Separator className="my-1" />
             </CardDescription>
             <div className="relative p-2">
-              <CardTitle>Banner Image</CardTitle>
+              <CardTitle>{pages.banners.bannerImage}</CardTitle>
               <ScrollArea>
-                <div className="flex space-x-4 py-4">
+                <div className="flex space-x-4 py-4" dir={params.lang === "ar" ? "rtl" : "ltr"}>
                   <ImageRender
                     src={banner?.banar}
                     className="w-[200px]"

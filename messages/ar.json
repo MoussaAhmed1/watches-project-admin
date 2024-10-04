@@ -42,13 +42,15 @@
     "cancel": "إلغاء",
     "close": "اغلاق",
     "continue": "متابعة",
-    "reason_to_cancel":"سبب الإلغاء",
+    "reason_to_cancel": "سبب الإلغاء",
 
     "add_new": "إضافة جديد",
     "dashboard": "لوحة التحكم",
     "create": "اضافة",
     "details": "التفاصيل",
     "update": "تحديث",
+    "edit": "تعديل",
+
     "saveChanges": "حفظ التغييرات",
     "updateFailed": "فشل التحديث",
     "addFailed": "فشل الإضافة",
@@ -60,7 +62,14 @@
     "requestApprovedSuccessfully": "تمت الموافقة على الطلب بنجاح",
     "approveRequest": "الموافقة على الطلب",
     "approveCancel": "تمت الموافقة على الطلب بنجاح",
-    "requestCanceledSuccessfully": "الموافقة على الطلب"
+    "requestCanceledSuccessfully": "الموافقة على الطلب",
+
+    "actionUpdated": "تم تحديث الإجراء",
+    "updateSuccess": "تم التحديث بنجاح!",
+
+    "addedSuccess": "تمت الإضافة بنجاح!",
+    "actionFailed": "فشل الإجراء",
+    "actionSuccess": "تم الإجراء بنجاح"
   },
   "tableActions": {
     "view": "عرض",
@@ -114,7 +123,8 @@
     "numberOfPharmacyOrder": "عدد طلبات الصيدلية",
     "expirationDays": "أيام انتهاء الصلاحية",
     "email": "البريد الإلكتروني",
-    "price": "السعر"
+    "price": "السعر",
+    "advantageMinutes": "دقائق الفائدة"
   },
   "pages": {
     "home": {
@@ -126,15 +136,80 @@
       "description": "Dies ist die Benutzer-Dashboard-Seite."
     },
     "orders": {
-      "reservations":"الحجوزات",
-      "STARTED":"بدأت",
-      "CANCELLED":"ملغية",
-      "COMPLETED":"مكتملة",
-      "SCHEDULED":"مجدولة",
+      "reservations": "الحجوزات",
+      "STARTED": "بدأت",
+      "CANCELLED": "ملغية",
+      "COMPLETED": "مكتملة",
+      "SCHEDULED": "مجدولة",
       "requestApprovedSuccessfully": "تمت الموافقة على الطلب بنجاح",
       "approveRequest": "الموافقة على الطلب",
       "requestCanceledSuccessfully": "تمت الموافقة على الطلب بنجاح",
       "approveCancel": "الموافقة على الالغاء"
+    },
+    "banners": {
+      "banners": "البنرات",
+      "newBanner": "إضافة بنر جديد",
+      "editBanner": "تعديل البنر",
+      "CreateAndManageNewBanner": "إنشاء واجهة بنر جديدة",
+      "bannerStatus": "حالة البنر",
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "bannerDetails": "تفاصيل البنر",
+      "description": "الوصف",
+      "specificDoctor": "الدكتور المحدد",
+      "startDate": "تاريخ البدء",
+      "endDate": "تاريخ الانتهاء",
+      "bannerImage": "صورة البنر",
+      "bannerTitle": "عنوان البنر",
+      "bannerArabicTitle": "عنوان البنر بالعربية",
+      "bannerEnglishTitle": "عنوان البنر بالإنجليزية",
+      "bannerArabicText": "نص البنر بالعربية",
+      "bannerEnglishText": "نص البنر بالإنجليزية",
+      "disabled": "معطل",
+      "send": "ارسال",
+      "pickADate": "اختر تاريخًا",
+      "optional": "اختياري",
+      "isActive": "نشط",
+      "createdAt": "تاريخ الإنشاء",
+      "updatedAt": "تاريخ التحديث",
+      "yes": "نعم",
+      "no": "لا"
+    },
+    "packages": {
+      "clientPackages": "باقات العملاء",
+      "pharmacyPackages": "باقات الصيدليات",
+      "packageDetails": "تفاصيل الباقة",
+      "createClientPackage": "إنشاء حزمة عميل",
+      "addNewClientPackage": "إضافة حزمة عميل جديدة",
+      "nameInEnglish": "الاسم بالإنجليزية",
+      "packageName": "اسم الحزمة",
+      "nameInArabic": "الاسم بالعربية",
+      "packageNameArabic": "اسم الحزمة",
+      "descriptionInEnglish": "الوصف بالإنجليزية",
+      "descriptionInArabic": "الوصف بالعربية",
+      "price": "السعر",
+      "expirationDays": "أيام انتهاء الصلاحية",
+      "numberOfPharmacyOrder": "عدد طلبات الصيدلية",
+      "englishName": "الاسم بالإنجليزية",
+      "arabicName": "الاسم بالعربية",
+      "createdAt": "تاريخ الإنشاء",
+      "updatedAt": "تاريخ التحديث",
+      "days": "أيام",
+      "englishDescription": "الوصف بالإنجليزية",
+      "arabicDescription": "الوصف بالعربية",
+      "orders": "طلب",
+      "PackageHasBeenSuccessfullyAdded": "تم اضافة الحزمة بنجاح",
+      "PackageHasBeenSuccessfullyUpdated": "تم تعديل الحزمة بنجاح",
+      "editClientPackage": "تعديل حزمة العميل",
+      "editAClientPackage": "تعديل حزمة العميل",
+      "saveChanges": "حفظ التغييرات",
+      "create": "إنشاء",
+
+      "editPharmacyPackage": "تعديل حزمة الصيدلية",
+      "createPharmacyPackages": "إنشاء باقات الصيدليات",
+      "editAPharmacyPackages": "تعديل حزمة صيدلية",
+      "advantageMinutes": "دقائق الفائدة",
+      "min":"دقيقة"
     },
     "users": {
       "Admins": "المديرون",
@@ -252,7 +327,8 @@
       "pharmacy_details": "تفاصيل الصيدلية",
       "isVerified": "التحقق",
       "appointments": "المواعيد",
-      "ownerInfo": "معلومات المالك"
+      "ownerInfo": "معلومات المالك",
+      "logout": "تسجيل خروج"
     }
   },
   "auth": {

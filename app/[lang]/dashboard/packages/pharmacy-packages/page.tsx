@@ -9,19 +9,19 @@ import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { IClientPackage, IPharmacyPackage } from "@/types/packages";
+import { getDictionary } from "@/app/[lang]/messages";
 
-const breadcrumbItems = [{ title: "Pharmacy Packages", link: "/dashboard/packages" }];
 
 type paramsProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
   params:{
-    lang: string 
+    lang: "ar" | "en";
   }
 };
 
-export default async function page({ searchParams }: paramsProps) {
+export default async function page({ searchParams,params }: paramsProps) {
   const search =
   typeof searchParams?.search === "string" ? searchParams?.search : "";
   const res = await fetchPharmacyPackages({
@@ -29,6 +29,8 @@ export default async function page({ searchParams }: paramsProps) {
     limit:100,
     filters: search,
   });
+  const { pages, shared } = await getDictionary(params?.lang)
+const breadcrumbItems = [{ title: pages.packages.pharmacyPackages, link: "/dashboard/packages" }];
   const packages: IClientPackage[] = res?.data?.data || [] ;
   const totalPackages = packages?.length ; //1000
   return (
@@ -38,14 +40,14 @@ export default async function page({ searchParams }: paramsProps) {
 
         <div className="flex items-start justify-between">
           <Heading
-            title={`Pharmacy Packages (${totalPackages})`}
+            title={`${pages.packages.pharmacyPackages} (${totalPackages})`}
           />
 
           <Link
             href={"/dashboard/packages/pharmacy-packages/new"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
-            <Plus className="ltr:mx-1 rtl:ml-2 h-4 w-4" /> Add New
+            <Plus className="ltr:mx-1 rtl:ml-2 h-4 w-4" />{shared.add_new}
           </Link>
         </div>
         <Separator />

@@ -1,5 +1,6 @@
 import { fetchSingleBanar } from "@/actions/banars";
 import { fetchDoctors } from "@/actions/doctors";
+import { getDictionary } from "@/app/[lang]/messages";
 import BreadCrumb from "@/components/breadcrumb";
 import { BanarsForm } from "@/components/forms/banars-form";
 import { Heading } from "@/components/ui/heading";
@@ -13,6 +14,7 @@ export const metadata = {
 type Props = {
   params: {
     banarId: string;
+    lang:"ar"|"en"
   };
   searchParams: {
     [key: string]: string | string[] | undefined;
@@ -35,15 +37,15 @@ export default async function Page({ params, searchParams }: Props) {
     filters: search,
     otherfilters: ["is_verified=1"]
   });
-
+  const { pages } = await getDictionary(params?.lang)
   const doctors: IDoctor[] = res?.data?.data || [];
   const breadcrumbItems = [
     {
-      title:  "Banners",
+      title:  pages.banners.banners,
       link: "/dashboard/banars",
     },
     {
-      title: "Edit Banner",
+      title: pages.banners.editBanner,
       link: "/dashboard/banars/edit",
     },
   ];
@@ -52,8 +54,7 @@ export default async function Page({ params, searchParams }: Props) {
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems} />
       <Heading
-        title={`Edit Banner`}
-        description="(Update banner)"
+        title={pages.banners.editBanner}
       />
 
       <BanarsForm doctors={doctors} banar={data} />

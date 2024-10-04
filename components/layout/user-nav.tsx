@@ -12,13 +12,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Language } from "@/utils/changeLanguageHandler";
 import { signOut, useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 export function UserNav({lang}:{lang:Language}) {
   const { data: session } = useSession();
   const {push} = useRouter();
+  const t = useTranslations("pages.users");
   if (session) {
     return (
-      <DropdownMenu>
+      <DropdownMenu dir={lang === "ar" ? "rtl" : "ltr"}>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">
             <Avatar className="h-8 w-8">
@@ -44,12 +46,12 @@ export function UserNav({lang}:{lang:Language}) {
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem onClick={() => push(`/${lang}/dashboard/profile`)}>
-             Profile
+             {t("profile")}
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => signOut()}>
-            Log out
+            {t("logout")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
