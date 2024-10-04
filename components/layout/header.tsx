@@ -16,7 +16,7 @@ export default function Header({ lang }: { lang: Language }) {
       <nav className="h-14 flex items-center justify-between px-4">
         <div className="hidden xl:flex">
           <Link
-            href={"/"}
+            href={`/`}
             className="flex items-center gap-1"
           >
             <Image

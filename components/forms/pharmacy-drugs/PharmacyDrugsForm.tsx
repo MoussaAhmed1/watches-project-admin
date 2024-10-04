@@ -29,6 +29,7 @@ import {
 import { Category, Drug } from "@/types/pharmacy";
 import { AddPharmacyDrug, UpdatePharmacyDrug } from "@/actions/pharmacies";
 import { getCustomNameKeyLang } from "@/utils/helperFunctions";
+import { useTranslations } from "next-intl";
 interface IProps {
   categories: Category[],
   drug?: Drug
@@ -44,8 +45,10 @@ const formSchema = z.object({
   category_id: true
 });
 export default function PharmacyDrugsForm({ drug, id, categories }: IProps) {
-  const action = drug ? "Save" : "Create";
-  const dialogTitle = drug ? "Edit Product" : "Create Product";
+  const t = useTranslations("pages.general_settings");
+  const tShared = useTranslations("shared");
+  const action = drug ? t("save") : t("create");
+  const dialogTitle = drug ? t("editProduct") : t("createProduct");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const closeRef = useRef<HTMLButtonElement | null>(null);
@@ -84,15 +87,14 @@ export default function PharmacyDrugsForm({ drug, id, categories }: IProps) {
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: drug ? "Update failed" : "Add failed",
+        title: drug ? tShared("updateFailed") : tShared("addFailed"),
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: drug ? "Updated successfully" : "Added successfully",
-        description: drug ? `Product has been successfully updated.` : `Product has been successfully added.`,
+        title: drug ? tShared("updatedSuccessfully") : tShared("addedSuccessfully"),
       });
     }
 
@@ -138,11 +140,11 @@ export default function PharmacyDrugsForm({ drug, id, categories }: IProps) {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>{t("name")}</FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Product Name"
+                        placeholder={t("pharmacyProducts")}
                         {...field}
                       />
                     </FormControl>
@@ -150,12 +152,12 @@ export default function PharmacyDrugsForm({ drug, id, categories }: IProps) {
                   </FormItem>
                 )}
               />
-              <FormLabel className="my-1">Category</FormLabel>
-              <select defaultValue={getValues("category_id") || ""} name="category_id" id="Category" placeholder="Select a Category" onChange={(e: any) => {
+              <FormLabel className="my-1">{t("category")}</FormLabel>
+              <select defaultValue={getValues("category_id") || ""} name="category_id" id="Category" placeholder={t("selectCategory")} onChange={(e: any) => {
                 setValue("category_id", e?.target?.value);
                 setCategoryIdError("");
-              }} className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option value={""} disabled>Select a Category</option>
+              }} className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 px-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option value={""} disabled>{t("selectCategory")}</option>
                 {categories?.length && categories?.map((item: any) => {
                   return <option value={item?.id} key={item?.id}>{getCustomNameKeyLang(item?.name_en,item?.name_ar)}</option>
                 })
@@ -163,7 +165,7 @@ export default function PharmacyDrugsForm({ drug, id, categories }: IProps) {
               </select>
               {categoryIdError && <FormMessage>{categoryIdError}</FormMessage>}
             </div>
-            <DialogFooter>
+            <DialogFooter className="flex gap-2">
               <div>
                 <Button disabled={loading} className="ml-auto" type="submit">
                   {action}
@@ -171,7 +173,7 @@ export default function PharmacyDrugsForm({ drug, id, categories }: IProps) {
               </div>
               <DialogClose asChild >
                 <Button type="button" variant="secondary" ref={closeRef}>
-                  Close
+                {t("close")}
                 </Button>
               </DialogClose>
             </DialogFooter>

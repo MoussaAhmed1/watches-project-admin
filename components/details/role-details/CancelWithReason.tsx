@@ -24,6 +24,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { useTranslations } from "next-intl";
 interface IProps {
   CancelRequest?: { reason: string }
   id: string
@@ -37,10 +38,11 @@ const formSchema = z.object({
 
 });
 export default function CancelWithReason({ CancelRequest, id, dialogTitle, method }: IProps) {
-  const action = CancelRequest ? "Continue1" : "Continue";
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const closeRef = useRef<HTMLButtonElement | null>(null);
+  const t = useTranslations("shared");
+  const action = t("continue");
 
   const defaultValues = CancelRequest
     ? CancelRequest
@@ -114,7 +116,7 @@ export default function CancelWithReason({ CancelRequest, id, dialogTitle, metho
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Reason to cancel"
+                        placeholder={t("reason_to_cancel")}
                         {...field}
                       />
                     </FormControl>
@@ -123,15 +125,15 @@ export default function CancelWithReason({ CancelRequest, id, dialogTitle, metho
                 )}
               />
             </div>
-            <DialogFooter>
+            <DialogFooter className="flex gap-2">
               <div>
-                <Button disabled={loading} className="ml-auto" type="submit">
+                <Button disabled={loading} className="mx-auto" type="submit">
                   {action}
                 </Button>
               </div>
               <DialogClose asChild >
                 <Button type="button" variant="secondary" ref={closeRef}>
-                  Close
+                  {t('close')}
                 </Button>
               </DialogClose>
             </DialogFooter>

@@ -19,6 +19,7 @@ import { useToast } from "../../ui/use-toast";
 import { AddClientPackages, updateClientPackages } from "@/actions/packages";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { useTranslations } from "next-intl";
 
 const formSchema = z.object({
   name_en: z
@@ -51,10 +52,11 @@ export const PackageForm: React.FC<PackageFormProps> = ({
 }) => {
   const router = useRouter();
   const { toast } = useToast();
+  const t = useTranslations("pages.packages");
+  const tShared = useTranslations("shared");
   const [loading, setLoading] = useState(false);
-  const title = initialData ? "Edit client package" : "Create client package";
-  const description = initialData ? "Edit a client package." : "Add a new client package";
-  const action = initialData ? "Save changes" : "Create";
+  const title = initialData ? t("editClientPackage") : t("createClientPackage");
+  const action = initialData ? tShared("saveChanges") : tShared("create");
 
   const defaultValues = initialData
     ? initialData
@@ -86,15 +88,15 @@ export const PackageForm: React.FC<PackageFormProps> = ({
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: initialData ? "Update failed" : "Add failed",
+        title: initialData ? tShared("updatefailed") : tShared("addfailed"),
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: initialData ? "Updated successfully" : "Added successfully",
-        description: initialData ? `Package has been successfully updated.` : `Package has been successfully added.`,
+        title: initialData ? tShared("updatedSuccessfully") : tShared("addedSuccessfully"),
+        description: initialData ? t("PackageHasBeenSuccessfullyUpdated") : t("PackageHasBeenSuccessfullyAdded"),
       });
     }
 
@@ -108,7 +110,7 @@ export const PackageForm: React.FC<PackageFormProps> = ({
   return (
     <>
       <div className="flex items-center justify-between">
-        <Heading title={title} description={description} />
+        <Heading title={title}  />
       </div>
 
       <Card className="p-10 mx-0 border-0" style={{ boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >
@@ -123,11 +125,11 @@ export const PackageForm: React.FC<PackageFormProps> = ({
                 name="name_en"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name in English</FormLabel>
+                    <FormLabel>{t("englishName")}</FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Package name"
+                        placeholder={t("englishName")}
                         {...field}
                       />
                     </FormControl>
@@ -140,12 +142,12 @@ export const PackageForm: React.FC<PackageFormProps> = ({
                 name="name_ar"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name in Arabic</FormLabel>
+                    <FormLabel>{t("arabicName")}</FormLabel>
                     <FormControl>
                       <Input
                         style={{ direction: "rtl" }}
                         disabled={loading}
-                        placeholder="Package name"
+                        placeholder={t("arabicName")}
                         {...field}
                       />
                     </FormControl>
@@ -158,10 +160,10 @@ export const PackageForm: React.FC<PackageFormProps> = ({
                 name="description_en"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description in English</FormLabel>
+                    <FormLabel>{t("descriptionInEnglish")}</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Description in English"
+                        placeholder={t("descriptionInEnglish")}
                         className="resize-none"
                         {...field}
                         rows={6}
@@ -176,11 +178,11 @@ export const PackageForm: React.FC<PackageFormProps> = ({
                 name="description_ar"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description in Arabic</FormLabel>
+                    <FormLabel>{t("descriptionInArabic")}</FormLabel>
                     <FormControl>
                       <Textarea
                         style={{ direction: "rtl" }}
-                        placeholder="Description in Arabic"
+                        placeholder={t("descriptionInArabic")}
                         className="resize-none"
                         {...field}
                         rows={6}
@@ -195,7 +197,7 @@ export const PackageForm: React.FC<PackageFormProps> = ({
                 name="price"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Price</FormLabel>
+                    <FormLabel>{t("price")}</FormLabel>
                     <FormControl>
                       <Input type="number" disabled={loading} {...field} />
                     </FormControl>
@@ -208,7 +210,7 @@ export const PackageForm: React.FC<PackageFormProps> = ({
                 name="expiration_days"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Expiration days</FormLabel>
+                    <FormLabel>{t("expirationDays")}</FormLabel>
                     <FormControl>
                       <Input type="number" disabled={loading} {...field} />
                     </FormControl>
@@ -221,7 +223,7 @@ export const PackageForm: React.FC<PackageFormProps> = ({
                 name="number_of_pharmacy_order"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Number of pharmacy order</FormLabel>
+                    <FormLabel>{t("numberOfPharmacyOrder")}</FormLabel>
                     <FormControl>
                       <Input type="number" disabled={loading} {...field} />
                     </FormControl>

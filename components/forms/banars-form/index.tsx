@@ -21,7 +21,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { IDoctor } from "@/types/doctors";
 import { toFormData } from "axios";
 import { addBanar, editBanar } from "@/actions/banars";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -29,6 +29,7 @@ import { format } from "date-fns"
 import { cn } from "@/lib/utils"
 import { IBanner } from "@/types/banars";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useTranslations } from "next-intl";
 
 const formSchema: any = z.object({
   is_active: z.boolean(),
@@ -78,7 +79,11 @@ interface BanarFormProps {
 export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
   const { toast } = useToast();
   const [loading, setLoading] = React.useState(false);
-  const action = "Send";
+  const pathname = usePathname();
+  const [currentLang] = React.useState(pathname?.includes("/ar") ? "ar" : "en");
+  const t = useTranslations("pages.banners");
+  const tShared = useTranslations('shared');
+  const action = tShared("create");
   const router = useRouter();
   const form = useForm<BanarFormValues>({
     resolver: zodResolver(formSchema),
@@ -107,14 +112,14 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
       if (res?.error) {
         toast({
           variant: "destructive",
-          title: "Action failed",
+          title: tShared("actionFailed"),
           description: res?.error,
         });
       } else {
         toast({
           variant: "default",
-          title: "Action updated",
-          description: 'Update success!',
+          title: tShared("actionUpdated"),
+          description: tShared("updatedSuccessfully"),
         });
         router.back();
       }
@@ -123,14 +128,14 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
       if (res?.error) {
         toast({
           variant: "destructive",
-          title: "Action failed",
+          title: tShared("actionFailed"),
           description: res?.error,
         });
       } else {
         toast({
           variant: "default",
-          title: "Action updated",
-          description: `Added success!`,
+          title: tShared("actionSuccess"),
+          description: tShared("addedSuccessfully"),
         });
         router.back();
       }
@@ -138,9 +143,6 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
     setLoading(false);
   };
 
-  const handleChange = (isChecked: boolean) => {
-    form.setValue("is_active", isChecked);
-  };
 
   React.useEffect(() => {
     if (banar) {
@@ -178,7 +180,7 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
                 margin: "-2px 0",
               }}
             >
-              <FormLabel className="max-w-30 mx-1">Banner Image</FormLabel>
+              <FormLabel className="max-w-30 mx-1">{t("bannerImage")}</FormLabel>
               <div>
                 <Controller
                   name="banar"
@@ -224,109 +226,117 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
 
             </FormItem>
             <div className="md:grid md:grid-cols-2 gap-8">
-            {
-              //start date 
-            }
-            <FormField
-              control={form.control}
-              name="started_at"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Start date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) =>
-                          date < new Date("1900-01-01")
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {
-              //End date 
-            }
-            <FormField
-              control={form.control}
-              name="ended_at"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>End date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) =>
-                          date < new Date("1900-01-01")
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              {
+                //start date 
+              }
+              <FormField
+                control={form.control}
+                name="started_at"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>{t("startDate")}</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-full px-3  font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                            style={{ textAlign: currentLang === "ar" ? "right" : "left" }}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>{t("pickADate")}</span>
+                            )}
+                            <CalendarIcon className="h-4 w-4 opacity-50" style={{
+                              marginRight: currentLang === "ar" ? "auto" : "unset",
+                              marginLeft: currentLang === "ar" ? "unset" : "auto"
+                            }} />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) =>
+                            date < new Date("1900-01-01")
+                          }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {
+                //End date 
+              }
+              <FormField
+                control={form.control}
+                name="ended_at"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col" >
+                    <FormLabel>{t("endDate")}</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-full px-3  font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                            style={{ textAlign: currentLang === "ar" ? "right" : "left" }}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>{t("pickADate")}</span>
+                            )}
+                            <CalendarIcon className="h-4 w-4 opacity-50" style={{
+                              marginRight: currentLang === "ar" ? "auto" : "unset",
+                              marginLeft: currentLang === "ar" ? "unset" : "auto"
+                            }} />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) =>
+                            date < new Date("1900-01-01")
+                          }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
             <FormField
               control={form.control}
               name="doctor_id"
               render={({ field }) => (
                 <FormItem >
-                  <FormLabel>Specific Doctor (Optional)</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormLabel>{t("specificDoctor")} ({t("optional")})</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value} dir={currentLang === "ar" ? "rtl" : "ltr"}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a person" />
+                        <SelectValue placeholder={t("specificDoctor")} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem disabled value={""}>Select a person</SelectItem>
+                      <SelectItem disabled value={""}>{t("specificDoctor")}</SelectItem>
                       {doctors?.length && doctors?.map((item: IDoctor) => {
                         return <SelectItem value={item?.id} key={item?.id}>{(item?.name)}</SelectItem>
                       })
@@ -342,10 +352,10 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description(Optional)</FormLabel>
+                  <FormLabel>{t("description")}({t("optional")})</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Description in English"
+                      placeholder={t("description")}
                       className="resize-none"
                       {...field}
                       rows={4}
@@ -359,8 +369,8 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
               control={form.control}
               name="is_active"
               render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel>Banner status</FormLabel>
+                <FormItem className="space-y-3" dir={currentLang === "ar" ? "rtl" : "ltr"}>
+                  <FormLabel>{t("bannerStatus")}</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={(e: string) => {
@@ -370,19 +380,19 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
                       className="flex flex-col space-y-1"
                     >
 
-                      <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormItem className="flex items-center gap-2 space-y-0" dir={currentLang === "ar" ? "rtl" : "ltr"}>
                         <FormControl>
                           <RadioGroupItem value={"true"} />
                         </FormControl>
                         <FormLabel className="font-normal">
-                          Active
+                          {t("active")}
                         </FormLabel>
                       </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormItem className="flex items-center gap-2 space-y-0" dir={currentLang === "ar" ? "rtl" : "ltr"}>
                         <FormControl>
                           <RadioGroupItem value={"false"} />
                         </FormControl>
-                        <FormLabel className="font-normal">Disabled</FormLabel>
+                        <FormLabel className="font-normal">{t("inactive")}</FormLabel>
                       </FormItem>
                     </RadioGroup>
                   </FormControl>
@@ -392,7 +402,7 @@ export const BanarsForm: React.FC<BanarFormProps> = ({ banar, doctors }) => {
             />
           </div>
 
-          <Button disabled={loading} className="ml-auto " type="submit">
+          <Button disabled={loading} className="ml-auto" type="submit">
             {action}
           </Button>
         </form>

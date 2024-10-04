@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/form";
 import { AddEditPharmacyCategoriesBody, PharmacyCategories } from "@/types/pharmacy-categories";
 import { AddCategory, UpdateCategory } from "@/actions/pharmacy-categories";
+import { useTranslations } from "next-intl";
 interface IProps {
   category?: PharmacyCategories;
   id?: string;
@@ -44,12 +45,14 @@ const formSchema = z.object({
   name_en: true,
 });
 export default function PharmacyCategoryForm({ category, id }: IProps) {
-  const action = category ? "Save" : "Create";
-  const dialogTitle = category ? "Edit Category" : "Add Category";
+  const t = useTranslations("pages.general_settings");
+  const tShared = useTranslations("shared");
+  const action = category ? t("save") : t("create");
+  const dialogTitle = category ? t("editCategory") : t("addCategory");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const closeRef = useRef<HTMLButtonElement | null>(null);
-  const [categoryIdError, setCategoryIdError] = useState("");
+  // const [categoryIdError, setCategoryIdError] = useState("");
   const defaultValues = category
     ? {
       name_ar: category?.name_ar || "",
@@ -61,6 +64,7 @@ export default function PharmacyCategoryForm({ category, id }: IProps) {
     resolver: zodResolver(formSchema),
     defaultValues,
   });
+
 
 
 
@@ -77,15 +81,14 @@ export default function PharmacyCategoryForm({ category, id }: IProps) {
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: category ? "Update failed" : "Add failed",
+        title: category ? tShared("updateFailed") : tShared("addFailed"),
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: category ? "Updated successfully" : "Added successfully",
-        description: category ? `Category has been successfully updated.` : `Category has been successfully added.`,
+        title: category ? tShared("updatedSuccessfully") : tShared("addedSuccessfully"),
       });
     }
 
@@ -127,11 +130,10 @@ export default function PharmacyCategoryForm({ category, id }: IProps) {
                 name="name_en"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name In English</FormLabel>
+                    <FormLabel>{t("englishName")}</FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Category Name"
                         {...field}
                       />
                     </FormControl>
@@ -144,11 +146,10 @@ export default function PharmacyCategoryForm({ category, id }: IProps) {
                 name="name_ar"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name In Arabic</FormLabel>
+                    <FormLabel>{t("arabicName")}</FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Category Name"
                         {...field}
                       />
                     </FormControl>
@@ -157,7 +158,7 @@ export default function PharmacyCategoryForm({ category, id }: IProps) {
                 )}
               />
             </div>
-            <DialogFooter>
+            <DialogFooter className="flex gap-2">
               <div>
                 <Button disabled={loading} className="ml-auto" type="submit">
                   {action}
@@ -165,7 +166,7 @@ export default function PharmacyCategoryForm({ category, id }: IProps) {
               </div>
               <DialogClose asChild >
                 <Button type="button" variant="secondary" ref={closeRef}>
-                  Close
+                {t("close")}
                 </Button>
               </DialogClose>
             </DialogFooter>

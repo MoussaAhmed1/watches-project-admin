@@ -17,6 +17,7 @@ import { useToast } from "../../ui/use-toast";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { changeAboutUs } from "@/actions/about-us";
+import { useTranslations } from "next-intl";
 
 const formSchema = z.object({
   description_ar: z
@@ -50,7 +51,8 @@ export const AboutUsForm: React.FC<Prop> = ({
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const action = "Save";
+  const t = useTranslations("pages.general_settings")
+  const action = t("save");
 
   const defaultValues = {
     description_ar,
@@ -74,14 +76,14 @@ export const AboutUsForm: React.FC<Prop> = ({
       router.refresh();
       toast({
         variant: "default",
-        title: "About Us updated",
-        description: "About Us have been successfully updated.",
+        title: t("aboutUsUpdated"),
+        description: t("aboutUsSuccessfullyUpdated"),
       });
     } catch (error: any) {
       toast({
         variant: "destructive",
-        title: "About Us update failed",
-        description: "There was a problem with your request.",
+        title: t("aboutUsUpdateFailed"),
+        description:t("requestProblem"),
       });
     } finally {
       setLoading(false);
@@ -107,10 +109,9 @@ export const AboutUsForm: React.FC<Prop> = ({
               name="description_en"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description in English</FormLabel>
+                  <FormLabel>{t("descriptionInEnglish")}</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Description in English"
                       className="resize-none"
                       {...field}
                       rows={6}
@@ -126,11 +127,10 @@ export const AboutUsForm: React.FC<Prop> = ({
               name="description_ar"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description in Arabic</FormLabel>
+                  <FormLabel>{t("descriptionInArabic")}</FormLabel>
                   <FormControl>
                     <Textarea
                       style={{ direction: "rtl" }}
-                      placeholder="Description in Arabic"
                       className="resize-none"
                       {...field}
                       rows={6}

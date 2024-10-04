@@ -17,6 +17,7 @@ import { Card } from "@/components/ui/card";
 import { changePharmacyOrder } from "@/actions/terms-conditions";
 import validationRules from "@/utils/zodValidationRules";
 import { Input } from "@/components/ui/input";
+import { useTranslations } from "next-intl";
 
 const formSchema = z.object({
   pharmacy_order_number: validationRules?.number,
@@ -31,8 +32,9 @@ export const PharmacyOrderForm: React.FC<Prop> = ({
   pharmacy_order_number,
 }) => {
   const { toast } = useToast();
+  const t = useTranslations("pages.general_settings")
   const [loading, setLoading] = useState(false);
-  const action = "Save";
+  const action = t("save");
   const defaultValues = {
     pharmacy_order_number,
   };
@@ -51,14 +53,14 @@ export const PharmacyOrderForm: React.FC<Prop> = ({
       await changePharmacyOrder(body);
       toast({
         variant: "default",
-        title: "Pharmacy Order updated",
-        description: "Pharmacy Orders have been successfully updated.",
+        title: t("pharmacyOrderUpdated"),
+        description: t("pharmacyOrdersSuccessfullyUpdated"),
       });
     } catch (error: any) {
       toast({
         variant: "destructive",
-        title: "Pharmacy Orders update failed",
-        description: error,
+        title: t("pharmacyOrdersUpdateFailed"),
+        description:t("requestProblem"),
       });
     } finally {
       setLoading(false);
@@ -84,7 +86,7 @@ export const PharmacyOrderForm: React.FC<Prop> = ({
               name="pharmacy_order_number"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Maximum number of pharmacy orders </FormLabel>
+                  <FormLabel>{t("maximumPharmacyOrders")}</FormLabel>
                   <FormControl>
                   <Input type="number" disabled={loading} {...field} />
                   </FormControl>

@@ -17,27 +17,26 @@ interface CellActionProps {
 export const CellAction: React.FC<CellActionProps> = ({ data, categories }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const t = useTranslations("tableActions");
   const { toast } = useToast();
   const onConfirm = async () => {
     const res = await deleteProduct(data.id);
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: "Delete failed",
+        title:  t("deleteFailed"),
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: "Deleted successfully",
-        description: `Product has been successfully deleted.`,
+        title: t("deletedSuccessfully"),
       });
     }
 
     setLoading(false);
   };
- const t = useTranslations("tableActions");
   return (
     <div className="flex flex-end grow w-5 md:w-1 xs:w-0" key={data.id}>
       <AlertModal

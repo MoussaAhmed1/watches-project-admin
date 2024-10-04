@@ -12,16 +12,18 @@ import Approve from "@/components/details/role-details/Approve";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import CancelWithReason from "@/components/details/role-details/CancelWithReason";
+import { getDictionary } from "@/app/[lang]/messages";
 
 export const metadata: Metadata = {
   title: "Reservation Details | Dashboard",
 };
 
-const page = async ({ params }: { params: { id: string } }) => {
+const page = async ({ params }: { params: { id: string , lang:"ar"|"en" } }) => {
   const res = await fetchSingleReservation(params.id);
   const reservation: ISingleReservation = res?.data?.data;
+    const {pages} = await getDictionary(params?.lang)
   const breadcrumbItems = [
-    { title: "Reservations", link: "/dashboard/reservations" },
+    { title: pages.orders.reservations, link: "/dashboard/reservations" },
     { title: `${reservation?.number}`, link: `/dashboard/reservations/${reservation?.number}` },
   ];
   const render_data_items =
@@ -66,13 +68,13 @@ const page = async ({ params }: { params: { id: string } }) => {
   return (
     <>
       <div className="mx-auto w-full mt-8 bg-background">
-        <BreadCrumb items={breadcrumbItems} customStyle="ml-4" />
+        <BreadCrumb items={breadcrumbItems} customStyle="mx-4" />
         <div className="flex items-start justify-between">
           <div className="flex flex-col md:flex-row gap-1 items-start">
             <Heading
-              title={`Reservations #${reservation?.number}`}
+              title={`${pages.orders.reservations} #${reservation?.number}`}
               description={formatCreatedAtDateAsDateTime(reservation?.created_at)}
-              customStyle="ml-4"
+              customStyle="mx-4"
             />
             <p
               className="mt-[5px] mx-4"
@@ -99,7 +101,8 @@ const page = async ({ params }: { params: { id: string } }) => {
           <div className="px-5">
             {(reservation?.cancel_request && reservation?.status!=="CANCELED"  ) ?
               <Approve title="Approve Cancel" successMessage="Request canceled Successfully" defualt method={AcceptReservationCancelRequest} id={params?.id} /> :
-              (reservation?.status === "CREATED" || reservation?.status === "STARTED" || reservation?.status === "SCHEDULED") && <CancelWithReason dialogTitle="Cancel Reservation" id={reservation?.id} method={AcceptReservationCancelRequest} />
+              (reservation?.status === "CREATED" || reservation?.status === "STARTED" || reservation?.status === "SCHEDULED") && <CancelWithReason dialogTitle={pages.orders.approveCancel}
+               id={reservation?.id} method={AcceptReservationCancelRequest} />
             }
           </div>
 

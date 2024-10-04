@@ -18,6 +18,7 @@ import { Card } from "@/components/ui/card";
 import { changeCommission, changeTermsConditions } from "@/actions/terms-conditions";
 import validationRules from "@/utils/zodValidationRules";
 import { Input } from "@/components/ui/input";
+import { useTranslations } from "next-intl";
 
 const formSchema = z.object({
   commission: validationRules?.number,
@@ -31,10 +32,11 @@ interface Prop {
 export const CommissionForm: React.FC<Prop> = ({
   commission,
 }) => {
-  const router = useRouter();
   const { toast } = useToast();
+  const t = useTranslations("pages.general_settings")
+  const tShared = useTranslations("shared")
   const [loading, setLoading] = useState(false);
-  const action = "Save";
+  const action = t("save");
   const defaultValues = {
     commission,
   };
@@ -53,14 +55,14 @@ export const CommissionForm: React.FC<Prop> = ({
       await changeCommission(body);
       toast({
         variant: "default",
-        title: "Commission updated",
-        description: "Commission have been successfully updated.",
+        title: t("commissionUpdated"),
+        description: t("commissionSuccessfullyUpdated"),
       });
     } catch (error: any) {
       toast({
         variant: "destructive",
-        title: "Commission update failed",
-        description: error,
+        title: t("commissionUpdateFailed"),
+        description: t("requestProblem"),
       });
     } finally {
       setLoading(false);
@@ -86,7 +88,7 @@ export const CommissionForm: React.FC<Prop> = ({
               name="commission"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Commission</FormLabel>
+                  <FormLabel>{t("commission")}</FormLabel>
                   <FormControl>
                   <Input type="number" disabled={loading} {...field} />
                   </FormControl>

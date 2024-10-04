@@ -14,6 +14,7 @@ interface CellActionProps {
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
+  const t = useTranslations("tableActions");
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
@@ -22,15 +23,14 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: "Delete failed",
+        title: t("deleteFailed"),
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: "Deleted successfully",
-        description: `Specialization has been successfully deleted.`,
+        title: t("deletedSuccessfully"),
       });
     }
 
@@ -38,7 +38,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     setOpen(false);
 
   };
- const t = useTranslations("tableActions");
   return (
     <div className="flex flex-end grow" key={data.id}>
       <AlertModal

@@ -9,7 +9,6 @@ import { ISpecializations } from "@/types/additional-info-specializations";
 import SpecializationForm from "@/components/forms/specialization/SpecializationForm";
 import { getDictionary } from "@/app/[lang]/messages";
 
-const breadcrumbItems = [{ title: "Specializations", link: "/dashboard/data-management/specializations" }];
 
 type paramsProps = {
   searchParams: {
@@ -23,24 +22,25 @@ export default async function page({ searchParams , params}: paramsProps) {
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
     typeof searchParams?.search === "string" ? searchParams?.search : "";
-  const res = await fetchAdditionalSpecializations({
-    page,
-    limit,
-    filters: search,
-  });
-  const specializations: ISpecializations[] = res?.data?.data || [];
-  // const totalSpecializations = res?.data?.meta?.total || 0; //1000
+    const res = await fetchAdditionalSpecializations({
+      page,
+      limit,
+      filters: search,
+    });
+    const specializations: ISpecializations[] = res?.data?.data || [];
+    // const totalSpecializations = res?.data?.meta?.total || 0; //1000
   // const pageCount = Math.ceil(totalSpecializations / limit);
   const totalSpecializations = specializations?.length || 0; //1000
   const pageCount = 1;
-  const {pages,shared} = await getDictionary(params?.lang)
+  const {pages} = await getDictionary(params?.lang)
+  const breadcrumbItems = [{ title: pages.general_settings.doctorSpecializations, link: "/dashboard/data-management/specializations" }];
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
         <BreadCrumb items={breadcrumbItems} />
 
         <div className="flex items-start justify-between">
-          <Heading title={`Doctor Specialiations(${totalSpecializations})`} />
+          <Heading title={`${pages.general_settings.doctorSpecializations}(${totalSpecializations})`} />
 
           <SpecializationForm />
         </div>

@@ -34,7 +34,7 @@ export default function LocaleSwitcher({ lang }: { lang: Language }) {
   };
 
   return (
-    <DropdownMenu>
+    <DropdownMenu dir={lang === "ar" ? "rtl" : "ltr"}>
       <DropdownMenuTrigger asChild>
       <Button variant="outline" size="icon">
           <LanguagesIcon className="h-[1.2rem] w-[1.2rem]" />

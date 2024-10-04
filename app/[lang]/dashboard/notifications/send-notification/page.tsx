@@ -1,4 +1,5 @@
 import { fetchUsers } from "@/actions/patients";
+import { getDictionary } from "@/app/[lang]/messages";
 import BreadCrumb from "@/components/breadcrumb";
 import { NotificationForm } from "@/components/forms/send-notifications";
 import { Heading } from "@/components/ui/heading";
@@ -8,11 +9,14 @@ type paramsProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
+  params:{lang:"ar"|"en"}
 };
 
-export default async function Page({ searchParams }: paramsProps) {
+export default async function Page({ searchParams,params }: paramsProps) {
+  const { pages } = await getDictionary(params?.lang)
   const breadcrumbItems = [
-    { title: "Notifications", link: "/dashboard/notifications" },
+    { title: pages.notification.notifications, link: "/dashboard/notifications" },
+    { title: pages.notification.sendNewNotification, link: "/dashboard/notifications/sendNewNotification" },
   ];
   const role = typeof searchParams?.role === "string" ? searchParams?.role : "client";
   const res = await fetchUsers({page:1,limit:100,filters:"",role });
@@ -21,8 +25,8 @@ export default async function Page({ searchParams }: paramsProps) {
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems} />
       <Heading
-            title={`Notification`}
-            description="(Direct notifications to individuals or entire roles)"
+            title={pages.notification.notifications}
+            description={`(${pages.notification.directNotifications})`}
           />
       <NotificationForm users={totalClients}/>
     </div>
