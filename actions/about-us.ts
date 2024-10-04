@@ -35,7 +35,7 @@ export const changeAboutUs = async (body: {
   const lang = cookies().get("Language")?.value;
 
   try {
-    const res = await axiosInstance.patch(
+    await axiosInstance.patch(
       endpoints.generalSettings.root,
       body,
       {

@@ -12,19 +12,19 @@ export const metadata: Metadata = {
 
 export default async function page({params}:{params: { lang:"ar"|"en" }}) {
   const commission = await fetchCommission();
+  const {pages} = await getDictionary(params?.lang)
   const breadcrumbItems = [
     {
-      title: "Commission",
+      title: pages.general_settings.commission,
       link: "/dashboard/data-management/commission",
     },
   ]; 
-    const {pages,shared} = await getDictionary(params?.lang)
   return (
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems} />
       <Heading
-        title="Commission"
-        description="Here you can modify commission within the app."
+        title={pages.general_settings.commission}
+        description={pages.general_settings.commissionDescription}
       />
 
       <CommissionForm commission={commission}  />

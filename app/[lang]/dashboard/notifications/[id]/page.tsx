@@ -11,6 +11,7 @@ import ProfileImg from "@/components/shared/imagesRender/profileImg";
 import Link from "next/link";
 import { useCallback } from "react";
 import { Role } from "@/types/patients";
+import { getDictionary } from "@/app/[lang]/messages";
 
 
 export const metadata: Metadata = {
@@ -20,11 +21,12 @@ export const metadata: Metadata = {
 };
 
 const page = async ({ params }: {
-  params: { id: string }
+  params: { id: string,lang:"ar"|"en" }
 }) => {
+  const { pages } = await getDictionary(params?.lang)
   const breadcrumbItems = [
-    { title: "Notifications", link: "/dashboard/notifications" },
-    { title: "Details", link: "/dashboard/notifications/id" },
+    { title: pages.notification.notifications, link: "/dashboard/notifications" },
+    { title: pages.notification.notificationDetails, link: "/dashboard/notifications/sendNewNotification" },
   ];
   //----------------------------------------------------------------
   const res = await fetchSingleNotification(params.id);
@@ -46,53 +48,70 @@ const page = async ({ params }: {
       return "nurses"
     }
   }
+  const renderRoleAstext = ()=>{
+    if(notification?.role === Role.CLIENT ){
+      return pages.notification.patient
+    }
+    else if(notification?.role === Role.ADMIN ){
+      return pages.notification.admin
+    }
+    else if(notification?.role === Role.DOCTOR ){
+      return pages.notification.doctor
+    }
+    else if(notification?.role === Role.PHARMACY ){
+      return pages.notification.pharmacy
+    }
+    else if(notification?.role === Role.NURSE ){
+      return pages.notification.nurse
+    }
+  }
   return (
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems} />
       <div className="flex items-baseline justify-between">
         <Heading
-          title={`Notification details`}
+          title={pages.notification.notifications}
         />
       </div>
       <div style={{ display: 'flex', gap: 8, flexDirection: "column" }}>
         <Card style={{ flex: 1 }}>
           <CardHeader>
-            <CardTitle>Notification Details</CardTitle>
+            <CardTitle>{pages.notification.notifications}</CardTitle>
           </CardHeader>
           <CardContent>
             <CardDescription>
               <ul style={{ listStyle: 'none', paddingLeft: 0, display: "flex", flexDirection: "column", gap: 5, fontSize: 15 }} className="text-gray-600 dark:text-gray-200">
-                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <Info style={{ marginRight: '0.5rem' }} />
-                  English Title: {notification?.title_en ?? " - "}
+                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+                  <Info style={{ marginRight: '0.5rem',marginLeft:"0.5rem" }} />
+                  {pages.notification.englishTitle}: {notification?.title_en ?? " - "}
                 </li>
-                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <Info style={{ marginRight: '0.5rem' }} />
-                  Arabic Title: {notification?.title_ar ?? " - "}
+                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+                  <Info style={{ marginRight: '0.5rem',marginLeft:"0.5rem" }} />
+                  {pages.notification.arabicTitle}: {notification?.title_ar ?? " - "}
                 </li>
-                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <Info style={{ marginRight: '0.5rem' }} />
-                  English Text: {notification?.text_en ?? " - "}
+                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+                  <Info style={{ marginRight: '0.5rem',marginLeft:"0.5rem" }} />
+                  {pages.notification.englishText}: {notification?.text_en ?? " - "}
                 </li>
-                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <Info style={{ marginRight: '0.5rem' }} />
-                  Arabic Text: {notification?.text_ar ?? " - "}
+                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+                  <Info style={{ marginRight: '0.5rem',marginLeft:"0.5rem" }} />
+                  {pages.notification.arabicText}: {notification?.text_ar ?? " - "}
                 </li>
-                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <Users2 style={{ marginRight: '0.5rem' }} />
-                  Role: {notification?.role ?? " - "}
+                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+                  <Users2 style={{ marginRight: '0.5rem',marginLeft:"0.5rem" }} />
+                  {pages.notification.role}: {renderRoleAstext() ?? " - "}
                 </li>
-                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <CalendarClock style={{ marginRight: '0.5rem' }} />
-                  Expiration days: {notification?.text_ar} days
+                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+                  <CalendarClock style={{ marginRight: '0.5rem',marginLeft:"0.5rem" }} />
+                 {pages.notification.expirationDays}: {notification?.text_ar} {pages.notification.days}
                 </li>
-                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <CheckCircle style={{ marginRight: '0.5rem' }} />
-                  Is Read: {notification?.is_read ? "Yes" : "No"}
+                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+                  <CheckCircle style={{ marginRight: '0.5rem',marginLeft:"0.5rem" }} />
+                  {pages.notification.isRead}: {notification?.is_read ? pages.notification.yes : pages.notification.no}
                 </li>
-                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <Info style={{ marginRight: '0.5rem' }} />
-                  Created At: {formatCreatedAtDateAsDateTime(notification?.created_at)}
+                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+                  <Info style={{ marginRight: '0.5rem',marginLeft:"0.5rem" }} />
+                  {pages.notification.createdAt}: {formatCreatedAtDateAsDateTime(notification?.created_at)}
                 </li>
               </ul>
             </CardDescription>
@@ -101,7 +120,7 @@ const page = async ({ params }: {
         {notification?.users &&
           <Card className="flex gap-2 flex-row sm:flex-col flex-wrap ">
             <CardHeader>
-              <CardTitle style={{ display: 'flex', alignItems: 'center' }}><Users2 style={{ marginRight: '0.5rem' }} /> Users</CardTitle>
+              <CardTitle style={{ display: 'flex', alignItems: 'center' }}><Users2 style={{ marginRight: '0.5rem',marginLeft:"0.5rem" }} /> {pages.notification.users}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex items-center py-2 ">

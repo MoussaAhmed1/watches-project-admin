@@ -24,15 +24,14 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: "Delete failed",
+        title:  t("deleteFailed"),
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: "Deleted successfully",
-        description: `Pharmacy Category has been successfully deleted.`,
+        title: t("deletedSuccessfully"),
       });
     }
 

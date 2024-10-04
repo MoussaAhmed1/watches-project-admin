@@ -9,7 +9,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -22,6 +21,8 @@ import { Avatar } from "@radix-ui/react-avatar";
 import { Save, Trash} from "lucide-react";
 import { AlertModal } from "@/components/modal/alert-modal";
 import NewSocialLink from "./add-edit-social-link-dialog";
+import { useTranslations } from "next-intl";
+import { getCustomNameKeyLang } from "@/utils/helperFunctions";
 
 const formSchema = z.object({
   url: z.string().min(10, { message: "URL must be at least 10 characters" })
@@ -35,7 +36,7 @@ interface Prop {
 export const ContactUsForm: React.FC<Prop> = ({
   socialLink
 }) => {
-  const router = useRouter();
+  const t = useTranslations("pages.general_settings");
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -48,15 +49,15 @@ export const ContactUsForm: React.FC<Prop> = ({
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: "Contact Us update failed",
+        title: t("contactUsUpdateFailed"),
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: "Contact Us updated",
-        description: `Social link has been successfully updated.`,
+        title: t("contactUsUpdated"),
+        description: t(`socialLinkUpdatedSuccessfully`),
       });
     }
 
@@ -80,15 +81,15 @@ export const ContactUsForm: React.FC<Prop> = ({
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: "Contact Us update failed",
+        title: t("contactUsUpdateFailed"),
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: "Contact Us updated",
-        description: `Social link have been successfully updated.`,
+        title:t("contactUsUpdated"),
+        description:  t(`socialLinkUpdatedSuccessfully`),
       });
     }
 
@@ -128,7 +129,7 @@ export const ContactUsForm: React.FC<Prop> = ({
                   name="url"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{socialLink?.title_en}</FormLabel>
+                      <FormLabel>{getCustomNameKeyLang(socialLink?.title_en,socialLink?.title_ar)}</FormLabel>
                       <FormControl>
                         <Input
                           disabled={loading}

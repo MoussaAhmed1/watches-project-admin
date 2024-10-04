@@ -30,6 +30,7 @@ import {
 import { AddContactLink, editContactLink } from "@/actions/contact-us";
 import ImgUpload from "@/components/upload-img";
 import { getImageUrl } from "@/actions/storage-actions";
+import { useTranslations } from "next-intl";
 interface IProps {
   socialLink?: ISocialLink
 }
@@ -45,9 +46,10 @@ const formSchema = z.object({
     .min(20, { message: "Social Link Name must be at least 20 characters" }),
 });
 export default function NewSocialLink({ socialLink }: IProps) {
-  const title = socialLink ? "Edit Social Link" : "Create Social Link";
-  const toastMessage = socialLink ? "Social Link updated." : "Social Link created.";
-  const action = socialLink ? "Save changes" : "Create";
+  const t = useTranslations("pages.general_settings");
+  const title = socialLink ? t("editSocialLink") : t( "createSocialLink");
+  const toastMessage = socialLink ? t("socialLinkUpdated") : t( "socialLinkCreated");
+  const action = socialLink ? t("save") : t("create");
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | undefined>("");
   const [updateLogo, setUpdateLogo] = useState<boolean>(false);
@@ -119,7 +121,7 @@ export default function NewSocialLink({ socialLink }: IProps) {
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: "Action failed",
+        title: t("actionFailed"),
         description: res?.error,
       });
     }
@@ -143,7 +145,7 @@ export default function NewSocialLink({ socialLink }: IProps) {
     <Dialog>
       <DialogTrigger asChild>
         {!socialLink ? <Button>
-          <Plus className="ltr:mx-1 rtl:ml-2 h-4 w-4" /> Add New
+          <Plus className="ltr:mx-1 rtl:ml-2 h-4 w-4" /> {t("addNew")}
         </Button> :
           <Button size="icon"  >
             {<Pencil className="h-4 w-4" />}
@@ -152,7 +154,7 @@ export default function NewSocialLink({ socialLink }: IProps) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add New Social Link</DialogTitle>
+          <DialogTitle>{title}</DialogTitle>
           {/* <DialogDescription>
             What do you want to get done today?
           </DialogDescription> */}
@@ -172,11 +174,11 @@ export default function NewSocialLink({ socialLink }: IProps) {
                 name="title_en"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Title in English</FormLabel>
+                    <FormLabel>{t("titleInEnglish")}</FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Social Link title"
+                        placeholder={t("titleInEnglish")}
                         {...field}
                       />
                     </FormControl>
@@ -189,11 +191,11 @@ export default function NewSocialLink({ socialLink }: IProps) {
                 name="title_ar"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Title in Arabic</FormLabel>
+                    <FormLabel>{t("titleInArabic")}</FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Social Link title"
+                        placeholder={t("titleInArabic")}
                         {...field}
                       />
                     </FormControl>
@@ -206,11 +208,11 @@ export default function NewSocialLink({ socialLink }: IProps) {
                 name="url"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Social Link url</FormLabel>
+                    <FormLabel>{t("socialLinkUrl")}</FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Social Link url"
+                        placeholder={t("socialLinkUrl")}
                         {...field}
                       />
                     </FormControl>
@@ -219,13 +221,13 @@ export default function NewSocialLink({ socialLink }: IProps) {
                 )}
               />
             </div>
-            <DialogFooter>
+            <DialogFooter className="flex gap-2">
               <Button disabled={loading} className="ml-auto" type="submit">
                 {action}
               </Button>
               <DialogClose asChild >
                 <Button type="button" variant="secondary" ref={closeRef}>
-                  Close
+                  {t("close")}
                 </Button>
               </DialogClose>
             </DialogFooter>

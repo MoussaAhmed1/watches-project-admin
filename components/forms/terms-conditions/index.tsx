@@ -18,6 +18,7 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import useCostomSearchParams from "@/hooks/use-searchParams";
 import { changeTermsConditions } from "@/actions/terms-conditions";
+import { useTranslations } from "next-intl";
 
 const formSchema = z.object({
   description_ar: z
@@ -49,10 +50,10 @@ export const TermsConditionsForm: React.FC<Prop> = ({
   description_en,
 }) => {
   const router = useRouter();
+  const t = useTranslations("pages.general_settings")
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const action = "Save";
-  const { createQueryString, pathname, searchParams } = useCostomSearchParams();
+  const action = t("save");
 
   const defaultValues = {
     description_ar,
@@ -76,14 +77,14 @@ export const TermsConditionsForm: React.FC<Prop> = ({
       router.refresh();
       toast({
         variant: "default",
-        title: "Terms and Conditions updated",
-        description: "Terms and Conditions have been successfully updated.",
+        title: t("termsAndConditionsUpdated"),
+        description: t("termsAndConditionsSuccessfullyUpdated"),
       });
     } catch (error: any) {
       toast({
         variant: "destructive",
-        title: "Terms and Conditions update failed",
-        description: "There was a problem with your request.",
+        title: t("termsAndConditionsUpdateFailed"),
+        description: t("requestProblem")
       });
     } finally {
       setLoading(false);
@@ -109,10 +110,10 @@ export const TermsConditionsForm: React.FC<Prop> = ({
               name="description_en"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description in English</FormLabel>
+                  <FormLabel>{t("descriptionInEnglish")}</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Description in English"
+                      placeholder={t("descriptionInEnglish")}
                       className="resize-none"
                       {...field}
                       rows={6}
@@ -128,11 +129,11 @@ export const TermsConditionsForm: React.FC<Prop> = ({
               name="description_ar"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description in Arabic</FormLabel>
+                  <FormLabel>{t("descriptionInArabic")}</FormLabel>
                   <FormControl>
                     <Textarea
                       style={{ direction: "rtl" }}
-                      placeholder="Description in Arabic"
+                      placeholder={t("descriptionInArabic")}
                       className="resize-none"
                       {...field}
                       rows={6}

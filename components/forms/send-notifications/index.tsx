@@ -22,6 +22,7 @@ import useCostomSearchParams from "@/hooks/use-searchParams";
 import { IUser, Role } from "@/types/patients";
 import { sendNotifications } from "@/actions/notifications";
 import { SelectContent, SelectItem, SelectTrigger, SelectValue, Select as ShadcnSelect } from "@/components/ui/select";
+import { useTranslations } from "next-intl";
 
 
 
@@ -64,9 +65,12 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const action = "Send";
+  const t = useTranslations("pages.notification");
+  const tShared = useTranslations("pages.notification");
+  const action = tShared("send");
   const { createQueryString, pathname } = useCostomSearchParams();
-
+  const [currentLang] = useState(pathname?.includes("/ar") ? "ar" : "en");
+  
   // const { getValues } = useFormContext();
   const defaultValues = {
     title_en: "",
@@ -93,15 +97,15 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: "Uh oh! Something went wrong.",
+        title: t("somethingWentWrong"),
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: "Notification created",
-        description: "Message has been successfully sent",
+        title:t("notificationCreated"),
+        description: t("messageSent"),
       });
       reset();
     }
@@ -122,11 +126,10 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
               name="title_en"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title in English</FormLabel>
+                  <FormLabel>{t("titleInEnglish")}</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Notification Title"
                       {...field}
                     />
                   </FormControl>
@@ -139,10 +142,9 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
               name="message_en"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description in English</FormLabel>
+                  <FormLabel>{t("descriptionInEnglish")}</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Description in English"
                       className="resize-none"
                       {...field}
                       rows={6}
@@ -157,11 +159,10 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
               name="title_ar"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title in Arabic</FormLabel>
+                  <FormLabel>{t("titleInArabic")}</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Notification Title"
                       {...field}
                     />
                   </FormControl>
@@ -175,10 +176,9 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
               name="message_ar"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description in Arabic</FormLabel>
+                  <FormLabel>{t("descriptionInArabic")}</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Description in Arabic"
                       className="resize-none"
                       {...field}
                       rows={6}
@@ -197,8 +197,8 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
               name="role"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Role</FormLabel>
-                  <ShadcnSelect required onValueChange={(e: any) => {
+                  <FormLabel>{t("role")}</FormLabel>
+                  <ShadcnSelect dir={currentLang === "ar" ? "rtl" : "ltr"} required onValueChange={(e: any) => {
                     router.replace(`${pathname}?${createQueryString("role", e)}`, { scroll: false });
                     field.onChange(e);
                     setValue("specific_person", null, { shouldValidate: false })
@@ -211,10 +211,10 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
                     <SelectContent>
                       {/* <SelectItem value={Role.SUPERADMIN}>Superadmin</SelectItem> */}
                       {/* <SelectItem value={Role.ADMIN}>Admin</SelectItem> */}
-                      <SelectItem value={Role.CLIENT}>Client</SelectItem>
-                      <SelectItem value={Role.DOCTOR}>Doctor</SelectItem>
-                      <SelectItem value={Role.PHARMACY}>Pharmacy</SelectItem>
-                      <SelectItem value={Role.NURSE}>Nurse</SelectItem>
+                      <SelectItem value={Role.CLIENT}>{t("client")}</SelectItem>
+                      <SelectItem value={Role.DOCTOR}>{t("doctor")}</SelectItem>
+                      <SelectItem value={Role.PHARMACY}>{t("pharmacy")}</SelectItem>
+                      <SelectItem value={Role.NURSE}>{t("nurse")}</SelectItem>
                     </SelectContent>
                   </ShadcnSelect>
                   <FormMessage />
@@ -228,7 +228,7 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
             {(form.getValues("role")) &&
               <div className="">
                 <label htmlFor="specific_person" className="font-medium text-sm">
-                  {("Specific person")}
+                  {t("specificPerson")}
                 </label>
                 <div className="flex-col w-full ">
                   <Select

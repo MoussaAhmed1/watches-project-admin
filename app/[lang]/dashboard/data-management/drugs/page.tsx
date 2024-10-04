@@ -9,24 +9,23 @@ import { fetchPharmacyCategories } from "@/actions/pharmacy-categories";
 import DrugsView from "@/components/views/DrugsView";
 import { getDictionary } from "@/app/[lang]/messages";
 
-const breadcrumbItems = [{ title: "Pharmacy Products", link: "/dashboard/pharmacy/drugs" }];
 
 type paramsProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
-   params: { lang:"ar"|"en" }
+  params: { lang:"ar"|"en" }
 };
 
 export default async function page({ searchParams,params }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
-    typeof searchParams?.search === "string" ? searchParams?.search : "";
+  typeof searchParams?.search === "string" ? searchParams?.search : "";
   const categoriesRes = await fetchPharmacyCategories({
     page: 1,
     limit: 10,
-
+    
   });
   const res = await fetchPharmacyProducts({
     page,
@@ -36,14 +35,15 @@ export default async function page({ searchParams,params }: paramsProps) {
   const totalProducts = res?.data?.meta?.total || 0; //1000
   const pageCount = Math.ceil(totalProducts / limit);
   const Pharmacy_products: Drug[] = res?.data?.data || [];
-  const {pages,shared} = await getDictionary(params?.lang)
+  const {pages} = await getDictionary(params?.lang)
+  const breadcrumbItems = [{ title: pages.general_settings.pharmacyProducts, link: "/dashboard/pharmacy/drugs" }];
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
         <BreadCrumb items={breadcrumbItems} />
 
         <div className="flex items-start justify-between">
-          <Heading title={`Pharmacy Products (${totalProducts})`} />
+          <Heading title={`${pages.general_settings.pharmacyProducts} (${totalProducts})`} />
           <PharmacyDrugsForm categories={categoriesRes?.data?.data} />
         </div>
         <Separator />

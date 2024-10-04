@@ -1,4 +1,5 @@
 import { fetchContactUs } from "@/actions/contact-us";
+import { getDictionary } from "@/app/[lang]/messages";
 import BreadCrumb from "@/components/breadcrumb";
 import { ContactUsForm } from "@/components/forms/contact-us";
 import NewSocialLink from "@/components/forms/contact-us/add-edit-social-link-dialog";
@@ -12,17 +13,18 @@ export const metadata: Metadata = {
   description: "Contact Us page",
 };
 
-export default async function page({ params }: { params: { lang: string } }) {
+export default async function page({ params }: { params: { lang: "ar" | "en" } }) {
   const socialLinks: ISocialLink[] = await fetchContactUs({ lang: params?.lang });
+  const {pages} = await getDictionary(params?.lang);
   const breadcrumbItems = [
-    { title: "Contact Us", link: "/dashboard/settings/contact-us" },
+    { title: pages.general_settings.contactUs, link: "/dashboard/settings/contact-us" },
   ];
   return (
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems} />
       <div className="flex items-start justify-between">
         <Heading
-          title="Contact Us"
+          title={pages.general_settings.contactUs}
         />
         <NewSocialLink />
       </div>

@@ -29,6 +29,7 @@ import {
 import { AddEditFaqsBody, IFaqs } from "@/types/faqs";
 import { AddFAQ, UpdateFAQ } from "@/actions/faq";
 import { Textarea } from "@/components/ui/textarea";
+import { useTranslations } from "next-intl";
 interface IProps {
   faq?: IFaqs;
   id?: string;
@@ -48,8 +49,10 @@ const formSchema = z.object({
     .min(3, { message: "English descrption must be at least 3 characters" }),
 });
 export default function FAQForm({ faq, id }: IProps) {
-  const action = faq ? "Save" : "Create";
-  const dialogTitle = faq ? "Edit FAQ" : "Add FAQ";
+  const t = useTranslations("pages.general_settings")
+  const tShared = useTranslations("shared")
+  const action = faq ? t("save") : t("create");
+  const dialogTitle = faq ? t("editFAQ") : t("addFAQ");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const closeRef = useRef<HTMLButtonElement | null>(null);
@@ -81,15 +84,15 @@ export default function FAQForm({ faq, id }: IProps) {
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: faq ? "Update failed" : "Add failed",
+        title: faq ? tShared("updateFailed") : tShared("addFailed"),
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: faq ? "Updated successfully" : "Added successfully",
-        description: faq ? `FAQ has been successfully updated.` : `FAQ has been successfully added.`,
+        title: faq ? tShared("updatedSuccessfully") : tShared("addedSuccessfully"),
+        description: faq ? t(`faqSuccessfullyUpdated`) : t(`faqSuccessfullyAdded`),
       });
     }
 
@@ -131,11 +134,11 @@ export default function FAQForm({ faq, id }: IProps) {
                 name="title_en"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name In English</FormLabel>
+                    <FormLabel>{t("titleInEnglish")}</FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="FAQ Name"
+                        placeholder={t("titleInEnglish")}
                         {...field}
                       />
                     </FormControl>
@@ -148,11 +151,11 @@ export default function FAQForm({ faq, id }: IProps) {
                 name="title_ar"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name In Arabic</FormLabel>
+                    <FormLabel>{t("titleInArabic")}</FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="FAQ Name"
+                        placeholder={t("titleInArabic")}
                         {...field}
                       />
                     </FormControl>
@@ -165,10 +168,10 @@ export default function FAQForm({ faq, id }: IProps) {
                 name="descrption_en"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description in English</FormLabel>
+                    <FormLabel>{t("descriptionInEnglish")}</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Description in English"
+                        placeholder={t("descriptionInEnglish")}
                         className="resize-none"
                         {...field}
                         rows={6}
@@ -184,11 +187,11 @@ export default function FAQForm({ faq, id }: IProps) {
                 name="descrption_ar"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description in Arabic</FormLabel>
+                    <FormLabel>{t("descriptionInArabic")}</FormLabel>
                     <FormControl>
                       <Textarea
                         style={{ direction: "rtl" }}
-                        placeholder="Description in Arabic"
+                        placeholder={t("descriptionInArabic")}
                         className="resize-none"
                         {...field}
                         rows={6}
@@ -199,7 +202,7 @@ export default function FAQForm({ faq, id }: IProps) {
                 )}
               />
             </div>
-            <DialogFooter>
+            <DialogFooter className="flex gap-2">
               <div>
                 <Button disabled={loading} className="ml-auto" type="submit">
                   {action}
@@ -207,7 +210,7 @@ export default function FAQForm({ faq, id }: IProps) {
               </div>
               <DialogClose asChild >
                 <Button type="button" variant="secondary" ref={closeRef}>
-                  Close
+                  {tShared("close")}
                 </Button>
               </DialogClose>
             </DialogFooter>

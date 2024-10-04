@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/form";
 import { AddEditSpecializationBody, ISpecializations } from "@/types/additional-info-specializations";
 import { AddSpecialization, UpdateSpecialization } from "@/actions/additional-info-specializations";
+import { useTranslations } from "next-intl";
 interface IProps {
   specialization?: ISpecializations;
   id?: string;
@@ -44,12 +45,14 @@ const formSchema = z.object({
   name_en: true,
 });
 export default function SpecializationForm({ specialization, id }: IProps) {
-  const action = specialization ? "Save" : "Create";
-  const dialogTitle = specialization ? "Edit Specialization" : "Add Specialization";
+  const t = useTranslations("pages.general_settings");
+  const tShared = useTranslations("shared");
+  const action = specialization ? t("save") : t("create");
+  const dialogTitle = specialization ? t("editSpecialization") : t("addSpecialization");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const closeRef = useRef<HTMLButtonElement | null>(null);
-  const [categoryIdError, setCategoryIdError] = useState("");
+  // const [categoryIdError, setCategoryIdError] = useState("");
   const defaultValues = specialization
     ? specialization
     : {
@@ -77,15 +80,14 @@ export default function SpecializationForm({ specialization, id }: IProps) {
     if (res?.error) {
       toast({
         variant: "destructive",
-        title: specialization ? "Update failed" : "Add failed",
+        title: specialization ? tShared("updateFailed") : tShared("addFailed"),
         description: res?.error,
       });
     }
     else {
       toast({
         variant: "default",
-        title: specialization ? "Updated successfully" : "Added successfully",
-        description: specialization ? `Specialization has been successfully updated.` : `Specialization has been successfully added.`,
+        title: specialization ? tShared("updatedSuccessfully") : tShared("addedSuccessfully"),
       });
     }
 
@@ -127,11 +129,10 @@ export default function SpecializationForm({ specialization, id }: IProps) {
                 name="name_en"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name In English</FormLabel>
+                    <FormLabel>{t("englishName")}</FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Specialization Name"
                         {...field}
                       />
                     </FormControl>
@@ -144,11 +145,10 @@ export default function SpecializationForm({ specialization, id }: IProps) {
                 name="name_ar"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name In Arabic</FormLabel>
+                    <FormLabel>{t("arabicName")}</FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Specialization Name"
                         {...field}
                       />
                     </FormControl>
@@ -157,7 +157,7 @@ export default function SpecializationForm({ specialization, id }: IProps) {
                 )}
               />
             </div>
-            <DialogFooter>
+            <DialogFooter className="flex gap-2">
               <div>
                 <Button disabled={loading} className="ml-auto" type="submit">
                   {action}
@@ -165,7 +165,7 @@ export default function SpecializationForm({ specialization, id }: IProps) {
               </div>
               <DialogClose asChild >
                 <Button type="button" variant="secondary" ref={closeRef}>
-                  Close
+                  {t("close")}
                 </Button>
               </DialogClose>
             </DialogFooter>

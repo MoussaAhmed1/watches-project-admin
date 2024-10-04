@@ -12,19 +12,19 @@ export const metadata: Metadata = {
 
 export default async function page({params}:{params:{lang:"ar"|"en"}}) {
   const PharmacyOrder = await fetchPharmacyOrder();
-  const {pages,shared} = await getDictionary(params?.lang)
+  const {pages} = await getDictionary(params?.lang)
   const breadcrumbItems = [
     {
-      title: "Pharmacy Orders",
+      title: pages.general_settings.pharmacyOrders,
       link: "/dashboard/data-management/pharmacy-order-number",
     },
   ];
   return (
-    <div className="flex-1 space-y-4 p-8">
+    <div className="flex-1 space-y-2ش p-8">
       <BreadCrumb items={breadcrumbItems} />
       <Heading
-        title="Pharmacy Orders"
-        description="Here you can modify the maximum number of pharmacy orders within the app."
+        title={pages.general_settings.pharmacyOrders}
+        description={pages.general_settings.pharmacyOrdersDescription}
       />
 
       <PharmacyOrderForm pharmacy_order_number={PharmacyOrder}  />
