@@ -48,7 +48,7 @@ const page = async ({ params }: {
       </div>
       <div className="w-full mx-auto p-4 ">
         <div className="bg-background shadow-md rounded-lg overflow-hidden border min-h-[77dvh] border-gray-400">
-          <div className="flex items-center justify-start p-4 bg-[#3c50e0] text-white">
+          <div className="flex items-center justify-start p-4 bg-[#1abc9c] text-white">
             <Image
               src={msg?.user?.avatar||userAvatar}
               alt={msg?.user?.name }

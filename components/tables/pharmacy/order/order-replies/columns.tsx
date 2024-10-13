@@ -31,7 +31,7 @@ const OrderRepliescolumns: ColumnDef<PharmacyData>[] = [
       <p
         className={`text-sm font-medium flex items-center lowercase ${row?.original?.availability === 'AVAILIABLE'
           ? 'text-green-500'
-          : 'text-blue-500'
+          : 'text-green-500'
           }`}
       >
         {row?.original?.availability === 'AVAILIABLE' ? (
