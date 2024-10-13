@@ -56,7 +56,7 @@ const page = async ({ params }: { params: { pharmacyId: string,lang:"ar"|"en" } 
         <div className="mx-auto w-full mt-2 bg-background">
           <div className="w-full mx-auto p-4 ">
             <div className="bg-background shadow-md rounded-lg overflow-hidden border min-h-[77dvh] border-gray-400">
-              <div className="flex items-center justify-start p-4 bg-[#3c50e0] text-white">
+              <div className="flex items-center justify-start p-4 bg-[#1abc9c] text-white">
                 <ProfileImg
                   className="w-[100px] h-[100px]"
                   src={pharmacy?.logo[0]?.image || nurseImage}

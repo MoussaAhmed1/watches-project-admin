@@ -27,7 +27,7 @@ export default function Header({ lang }: { lang: Language }) {
               priority
               style={{ padding: 0, margin: "0px", }}
             />
-            <h2 className="text-2xl font-bold tracking-tight">Dacatra</h2>
+            <h2 className="text-2xl font-bold tracking-tight">{lang=="en"?"Dacatra": "دكاترة"}</h2>
           </Link>
         </div>
         <div className={cn("block xl:!hidden")}>

@@ -23,7 +23,7 @@ const languages = [
     value: "en",
   },
 ];
-export default function LocaleSwitcher({ lang }: { lang: Language }) {
+export default function LocaleSwitcher({ lang,variant="outline" }: { lang: Language,variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link" }) {
   const pathName = usePathname();
 
   const redirectedPathName = (locale: string) => {
@@ -36,7 +36,7 @@ export default function LocaleSwitcher({ lang }: { lang: Language }) {
   return (
     <DropdownMenu dir={lang === "ar" ? "rtl" : "ltr"}>
       <DropdownMenuTrigger asChild>
-      <Button variant="outline" size="icon">
+      <Button variant={variant} size="icon">
           <LanguagesIcon className="h-[1.2rem] w-[1.2rem]" />
           <span className="sr-only">Toggle Language</span>
         </Button>

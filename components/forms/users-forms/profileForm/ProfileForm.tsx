@@ -310,7 +310,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                       option: (styles:any) => {
                         return {
                           ...styles,
-                          // backgroundColor:"blue",
+                          // backgroundColor:"green",
                           color:"black"
                         }
                       }}}
@@ -319,7 +319,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                     //   borderRadius: 0,
                     //   colors: {
                     //     ...theme.colors,
-                    //     primary25: 'blue',
+                    //     primary25: 'green',
                     //     primary: 'gray',
                     //     neutral0: 'gray',
                     //   },
