@@ -4,7 +4,7 @@ import { Locale } from "@/i18n.config";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Dacatra Dashboard",
+  title: "TimeToGo Dashboard",
   description: "Basic dashboard with Next.js and Shadcn",
 };
 

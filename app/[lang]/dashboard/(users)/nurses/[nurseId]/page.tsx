@@ -20,7 +20,7 @@ import Link from "next/link";
 import { getDictionary } from "@/app/[lang]/messages";
 
 export const metadata: Metadata = {
-  title: "Nurse Details | Dacatra Dashboard",
+  title: "Nurse Details | TimeToGo Dashboard",
 };
 
 const page = async ({ params, searchParams }: {

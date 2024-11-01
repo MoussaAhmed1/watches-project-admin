@@ -13,7 +13,7 @@ import { getDictionary } from "@/app/[lang]/messages";
 export const metadata: Metadata = {
   title: "Client Deatails",
   description:
-    "Client Deatails - Dacatra Admin Dashboard",
+    "Client Deatails - TimeToGo Admin Dashboard",
 };
 
 const page = async ({ params }: {

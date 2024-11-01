@@ -17,7 +17,7 @@ import { shortenText } from "@/utils/helperFunctions";
 import { getDictionary } from "@/app/[lang]/messages";
 
 export const metadata: Metadata = {
-  title: "Pharmacy Details | Dacatra Dashboard",
+  title: "Pharmacy Details | TimeToGo Dashboard",
 };
 
 const page = async ({ params }: { params: { pharmacyId: string,lang:"ar"|"en" } }) => {

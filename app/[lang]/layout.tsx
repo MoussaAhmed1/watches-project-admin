@@ -15,7 +15,7 @@ const inter = Roboto({ subsets: ["latin"], weight: ["100","400","500", "700"] })
 const noto = Cairo({ subsets: ["arabic"] });
 
 export const metadata: Metadata = {
-  title: "Dacatra Dashboard",
+  title: "TimeToGo Dashboard",
   description: "Basic dashboard with Next.js and Shadcn",
 };
 
