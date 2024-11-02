@@ -17,16 +17,14 @@ import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
 import { Card } from "@/components/ui/card";
 import ProfileSchema from "./ProfileSchema";
-import { toFormData } from "axios";
+// import { toFormData } from "axios";
 import AvatarPreview from "@/components/shared/AvatarPreview";
 import InputDate from "@/components/shared/timepicker/InputDate";
-import { updateUsersProfile } from "@/actions/patients";
 import { useSession } from "next-auth/react";
 import { navItems } from "@/constants/data";
 import Select from "react-select";
 import { usePathname, useRouter } from "next/navigation";
 import { reloadSession } from "@/lib/funcs";
-import { IUser } from "@/types/patients";
 import { useTranslations } from "next-intl";
 
 export type UserFormValues = z.infer<typeof ProfileSchema>;
@@ -87,52 +85,52 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
   const onSubmit = async (data: UserFormValues) => {
     // alert(JSON.stringify(data)); //testing
     setLoading(true);
-    const formData = new FormData();
-    if (revalidatequery === "/dashboard/admins" && data?.premessions) {
-      toFormData({ ...data, premessions: data?.premessions.join() }, formData);
-    }
-    else {
-      toFormData( data , formData);
-    }
-    formData.set('id', id);
-    //phone changed 
-    const hasChanged = data.phone !== initialData?.phone;
-    if (!hasChanged) {
-      formData.delete('phone');
-    }
+    // const formData = new FormData();
+    // if (revalidatequery === "/dashboard/admins" && data?.premessions) {
+    //   toFormData({ ...data, premessions: data?.premessions.join() }, formData);
+    // }
+    // else {
+    //   toFormData( data , formData);
+    // }
+    // formData.set('id', id);
+    // //phone changed 
+    // const hasChanged = data.phone !== initialData?.phone;
+    // if (!hasChanged) {
+    //   formData.delete('phone');
+    // }
 
-    const newUser: { error: string } & IUser = await updateUsersProfile(formData, id, revalidatequery);
+    // const newUser: { error: string } & IUser = await updateUsersProfile(formData, id, revalidatequery);
 
-    if (newUser?.error) {
-      toast({
-        variant: "destructive",
-        title: initialData ? tShared("updateFailed") : tShared("addFailed"),
-        description: newUser?.error,
-      });
-    }
-    else {
-      toast({
-        variant: "default",
-        title: initialData ? tShared("updatedSuccessfully") : tShared("addedSuccessfully"),
-        description: initialData ?  t(`profileUpdatedSuccessfully`) : t(`profileAddedSuccessfully`) ,
-      });
-      if (id === "") {
-        await update({
-          ...session,
-          user: {
-            ...newUser,
-            name: newUser?.first_name + " " + newUser?.last_name,
-            first_name: newUser?.first_name,
-            last_name: newUser?.last_name,
-            image: newUser?.avatar,
-            avatar: newUser?.avatar,
-            premessions:data?.premessions
-          }
-        })
+    // if (newUser?.error) {
+    //   toast({
+    //     variant: "destructive",
+    //     title: initialData ? tShared("updateFailed") : tShared("addFailed"),
+    //     description: newUser?.error,
+    //   });
+    // }
+    // else {
+    //   toast({
+    //     variant: "default",
+    //     title: initialData ? tShared("updatedSuccessfully") : tShared("addedSuccessfully"),
+    //     description: initialData ?  t(`profileUpdatedSuccessfully`) : t(`profileAddedSuccessfully`) ,
+    //   });
+    //   if (id === "") {
+    //     await update({
+    //       ...session,
+    //       user: {
+    //         ...newUser,
+    //         name: newUser?.first_name + " " + newUser?.last_name,
+    //         first_name: newUser?.first_name,
+    //         last_name: newUser?.last_name,
+    //         image: newUser?.avatar,
+    //         avatar: newUser?.avatar,
+    //         premessions:data?.premessions
+    //       }
+    //     })
         reloadSession();
         router.refresh();
-      }
-    }
+      // }
+    // }
     setLoading(false);
   };
 

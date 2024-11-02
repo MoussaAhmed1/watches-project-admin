@@ -2,7 +2,7 @@ import BreadCrumb from "@/components/breadcrumb";
 import { Heading } from "@/components/ui/heading";
 import React from "react";
 import { UserProfileForm } from "@/components/forms/users-forms/profileForm/ProfileForm";
-import { IUser } from "@/types/patients";
+import { IUser } from "@/types/users";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/_options";
 import { getDictionary } from "../../messages";

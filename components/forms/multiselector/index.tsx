@@ -1,5 +1,5 @@
 import MultipleSelector, { Option } from '@/components/ui/multiple-selector';
-import { IUser } from '@/types/patients';
+import { IUser } from '@/types/users';
 
 
 const CustomMultipleSelector = ({ options, onCustomChange }: { options: IUser[], onCustomChange: (options: Option[]) => void }) => {

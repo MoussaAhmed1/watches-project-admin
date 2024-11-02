@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { useCallback, useState } from "react";
 import { Controller } from "react-hook-form";
 
-import { License } from "@/types/doctors";
 import Image from "next/image";
 import { X } from "lucide-react";
 import { AlertModal } from "@/components/modal/alert-modal";
@@ -133,7 +132,7 @@ function ImagesUploadfield({
                         flexShrink: "no-shrink",
                     }}
                 >
-                    {initialImages?.map((image: License, index: number) => (
+                    {initialImages?.map((image: { id: string; image: string }, index: number) => (
                         <div
                             key={image?.id}
                             style={{

@@ -1,4 +1,4 @@
-import { IUser } from "@/types/patients";
+import { IUser } from "@/types/users";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { cookies } from "next/headers";
 

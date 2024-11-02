@@ -14,7 +14,7 @@ import {
 } from "./ui/accordion";
 import Cookies from 'js-cookie';
 import { useSession } from "next-auth/react";
-import { IUser } from "@/types/patients";
+import { IUser } from "@/types/users";
 import { useTranslations } from "next-intl";
 interface DashboardNavProps {
   _items: NavItem[];

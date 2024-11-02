@@ -4,6 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import logo from "../../../public/assets/logo/logo-login.png";
+import loginImage from "../../../public/assets/login-image.jpg";
 import Image from "next/image";
 import { ModeToggle } from "@/components/ui/theme-toggler";
 import { Language } from "@/utils/changeLanguageHandler";
@@ -87,7 +88,7 @@ export default function LoginForm({ lang }: { lang: Language }) {
                         <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-black via-transparent to-transparent opacity-30"></div>
                         <div className="h-full w-full bg-cover bg-center "
                             style={{
-                                backgroundImage: "url('https://img.freepik.com/free-photo/doctor-talking-with-patient-close-up_23-2148285762.jpg?t=st=1728752530~exp=1728756130~hmac=2f057fbd510bc8eb376b4fd35663cb7e73de85f38d87d8964fef284e948e01da&w=1380')",
+                                backgroundImage: `url(${loginImage.src})`,
                             }}
                         >
                             <div className="absolute rtl:left-5  ltr:right-5 top-2 z-3">

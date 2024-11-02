@@ -1,44 +1,74 @@
-<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0 8.42105C0 3.77023 3.77023 0 8.42105 0H23.5789C28.2298 0 32 3.77023 32 8.42105V23.5789C32 28.2298 28.2298 32 23.5789 32H8.42105C3.77023 32 0 28.2298 0 23.5789V8.42105Z" fill="#1abc9c"/>
-<g filter="url(#filter0_d_521_14078)">
-<path d="M8.42139 8.42127C8.42139 7.49111 9.17543 6.73706 10.1056 6.73706V6.73706C11.0358 6.73706 11.7898 7.49111 11.7898 8.42127V23.5792C11.7898 24.5093 11.0358 25.2634 10.1056 25.2634V25.2634C9.17543 25.2634 8.42139 24.5093 8.42139 23.5792V8.42127Z" fill="white"/>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 500 418.67" style="enable-background:new 0 0 500 418.67;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:url(#SVGID_1_);}
+	.st1{fill:url(#SVGID_2_);}
+	.st2{fill:url(#SVGID_3_);}
+	.st3{fill:url(#SVGID_4_);}
+	.st4{fill:url(#SVGID_5_);}
+	.st5{fill:url(#SVGID_6_);}
+	.st6{fill:url(#SVGID_7_);}
+	.st7{fill:url(#SVGID_8_);}
+</style>
+<g id="Layer_2">
 </g>
-<g opacity="0.9" filter="url(#filter1_d_521_14078)">
-<path d="M14.7368 15.1576C14.7368 14.2274 15.4909 13.4734 16.421 13.4734V13.4734C17.3512 13.4734 18.1052 14.2274 18.1052 15.1576V23.5786C18.1052 24.5088 17.3512 25.2629 16.421 25.2629V25.2629C15.4909 25.2629 14.7368 24.5088 14.7368 23.5786V15.1576Z" fill="white"/>
+<g id="Layer_1">
+	<g>
+		<g>
+			<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="230.3133" y1="36.0174" x2="125.8069" y2="378.039">
+				<stop  offset="0" style="stop-color:#B79051"/>
+				<stop  offset="1" style="stop-color:#F7C779"/>
+			</linearGradient>
+			<path class="st0" d="M125.71,241.09c7.52-103.22,97.96-195.93,202-207.05c6.19-0.66,12.28-1,18.27-1.07
+				c-24.33-9.76-52.25-13.76-82.35-10.54c-104.04,11.13-194.47,103.83-202,207.05c-7.08,97.09,61.72,168.88,156.48,167.82
+				C158.35,373.34,120.36,314.45,125.71,241.09z"/>
+			<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="176.2601" y1="208.9391" x2="458.8244" y2="208.9391">
+				<stop  offset="0" style="stop-color:#F7C779"/>
+				<stop  offset="1" style="stop-color:#B79051"/>
+			</linearGradient>
+			<path class="st1" d="M263.62,22.43c-38.88,4.16-75.85,19.71-107.31,42.95c14.63-4.86,29.79-8.26,45.26-9.92
+				C305.61,44.34,384.15,114.83,377,212.93c-5.8,79.56-66.2,152.84-144.32,183.62c1.24-0.11,2.46-0.17,3.7-0.3
+				c104.04-11.13,194.47-103.83,202-207.05C445.9,85.96,367.66,11.3,263.62,22.43z"/>
+			<g>
+				<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="252.5513" y1="52.5184" x2="269.6041" y2="52.5184">
+					<stop  offset="0" style="stop-color:#282828"/>
+					<stop  offset="0.9572" style="stop-color:#3F3F3F"/>
+				</linearGradient>
+				<path class="st2" d="M252.55,40.08l6.62,27.35l10.43-28.99C264.87,36.88,257.48,37.54,252.55,40.08z"/>
+				<linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="81.6381" y1="230.1521" x2="111.703" y2="230.1521">
+					<stop  offset="0" style="stop-color:#282828"/>
+					<stop  offset="0.9572" style="stop-color:#3F3F3F"/>
+				</linearGradient>
+				<path class="st3" d="M82.6,238.63l29.11-11.6l-27.72-5.35C81.53,226.75,80.89,234.1,82.6,238.63z"/>
+				<linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="385.8511" y1="194.7527" x2="415.916" y2="194.7527">
+					<stop  offset="0" style="stop-color:#282828"/>
+					<stop  offset="0.9572" style="stop-color:#3F3F3F"/>
+				</linearGradient>
+				<path class="st4" d="M414.96,186.28l-29.11,11.6l27.72,5.35C416.02,198.16,416.67,190.81,414.96,186.28z"/>
+				<g>
+					<linearGradient id="SVGID_6_" gradientUnits="userSpaceOnUse" x1="240.3676" y1="267.2729" x2="265.1425" y2="267.2729">
+						<stop  offset="0" style="stop-color:#282828"/>
+						<stop  offset="0.9572" style="stop-color:#3F3F3F"/>
+					</linearGradient>
+					<polygon class="st5" points="248.71,209.03 240.37,327.27 265.14,207.27 					"/>
+					<linearGradient id="SVGID_7_" gradientUnits="userSpaceOnUse" x1="247.7591" y1="211.4851" x2="364.4522" y2="211.4851">
+						<stop  offset="0" style="stop-color:#282828"/>
+						<stop  offset="0.9572" style="stop-color:#3F3F3F"/>
+					</linearGradient>
+					<polyline class="st6" points="247.76,222.45 364.45,200.52 248.71,209.03 					"/>
+				</g>
+			</g>
+			
+				<linearGradient id="SVGID_8_" gradientUnits="userSpaceOnUse" x1="172.2336" y1="292.2682" x2="403.7038" y2="292.2682" gradientTransform="matrix(1.0079 -0.1078 -0.0729 1 6.6926 -41.0616)">
+				<stop  offset="0" style="stop-color:#282828"/>
+				<stop  offset="0.9572" style="stop-color:#3F3F3F"/>
+			</linearGradient>
+			<path class="st7" d="M249.44,394.35c-17.66-23.97-31.67-53.31-39.06-89c-16.73-80.86,29.14-146.84,96.31-157.48l2.89,26.19
+				l90.25-69.99l-99.77-58.4l2.1,28.21c-74.1,14.77-134.29,84.5-143.5,165.14c-6,52.54,11.82,111.45,48.85,158.11
+				c9.36,0.44,18.99,0.17,28.87-0.89C240.76,395.77,245.11,395.11,249.44,394.35z"/>
+		</g>
+	</g>
 </g>
-<g opacity="0.7" filter="url(#filter2_d_521_14078)">
-<path d="M21.0522 10.9469C21.0522 10.0167 21.8063 9.2627 22.7365 9.2627V9.2627C23.6666 9.2627 24.4207 10.0167 24.4207 10.9469V23.5785C24.4207 24.5086 23.6666 25.2627 22.7365 25.2627V25.2627C21.8063 25.2627 21.0522 24.5086 21.0522 23.5785V10.9469Z" fill="white"/>
-</g>
-<defs>
-<filter id="filter0_d_521_14078" x="7.42139" y="6.23706" width="5.36865" height="20.5264" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="0.5"/>
-<feGaussianBlur stdDeviation="0.5"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_521_14078"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_521_14078" result="shape"/>
-</filter>
-<filter id="filter1_d_521_14078" x="13.7368" y="12.9734" width="5.36865" height="13.7896" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="0.5"/>
-<feGaussianBlur stdDeviation="0.5"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_521_14078"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_521_14078" result="shape"/>
-</filter>
-<filter id="filter2_d_521_14078" x="20.0522" y="8.7627" width="5.36865" height="18" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="0.5"/>
-<feGaussianBlur stdDeviation="0.5"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_521_14078"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_521_14078" result="shape"/>
-</filter>
-</defs>
 </svg>
