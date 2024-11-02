@@ -13,8 +13,6 @@ import {
   AccordionContent,
 } from "./ui/accordion";
 import Cookies from 'js-cookie';
-import { useSession } from "next-auth/react";
-import { IUser } from "@/types/users";
 import { useTranslations } from "next-intl";
 interface DashboardNavProps {
   _items: NavItem[];
@@ -40,18 +38,7 @@ export function DashboardNav({ _items, setOpen }: DashboardNavProps) {
   )
   path = removeLanguageCode(path);
   const [selectedLable, setselectedLable] = useState<string | undefined>(currentLable)
-  const { data: session } = useSession();
-  const _session: { user: IUser } | null = session as { user: IUser } | null
-  const items = (useCallback(
-    (): NavItem[] => {
-      // return _items?.filter(item => (_permissions?.includes(item?.title)))
-      return _items?.filter(item => _session?.user?.premessions?.includes(item?.title))
-    },
-    [_items, _session?.user?.premessions],
-  ))();
-  if (!items?.length) {
-    return null;
-  }
+  const items = _items
 
   return (
     <nav className="grid items-start gap-2">
