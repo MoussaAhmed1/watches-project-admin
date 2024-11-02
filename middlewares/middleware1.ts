@@ -24,16 +24,28 @@ function getProtectedRoutes(protectedPaths: string[], locales: Locale[]) {
 export function withAuthMiddleware(middleware: CustomMiddleware) {
   return async (request: NextRequest, event: NextFetchEvent) => {
     // Create a response object to pass down the chain
-    const response = NextResponse.next();
+    const response = NextResponse.next()
 
     const token = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET,
-    });
+    })
     // @ts-ignore
-    request.nextauth = request.nextauth || {};
+    request.nextauth = request.nextauth || {}
     // @ts-ignore
-    request.nextauth.token = token;
-    return middleware(request, event, response);
-  };
+    request.nextauth.token = token
+    const pathname = request.nextUrl.pathname
+
+    const protectedPathsWithLocale = getProtectedRoutes(protectedPaths, [
+      ...i18n.locales
+    ])
+
+    if (!token && (protectedPathsWithLocale.includes(pathname) || pathname.includes("/dashboard"))) {
+      const signInUrl = new URL('/api/auth/signin', request.url)
+      signInUrl.searchParams.set('callbackUrl', pathname)
+      return NextResponse.redirect(signInUrl)
+    }
+
+    return middleware(request, event, response)
+  }
 }
