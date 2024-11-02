@@ -24,7 +24,7 @@ export const authOptions = {
         // (i.e., the request IP address)
         // console.log('credentials',credentials?.username)
         try {
-          const res = await fetch("https://dcatrah.com/v1/auth/signin", {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API}auth/signin`, {
             method: "POST",
             body: JSON.stringify({
               username: credentials?.username,
