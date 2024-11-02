@@ -55,16 +55,13 @@ export const authOptions = {
       }
       if (user) {
         token.username = user.data?.username;
-        token.name = user.data?.first_name + " " + user.data?.last_name;
-        token.first_name = user.data?.first_name;
-        token.last_name = user.data?.last_name;
+        token.name = user.data?.username;
         token.email = user.data?.email;
         token.phone = user.data?.phone;
         token.gender = user.data?.gender;
         token.avatar = user.data?.avatar;
         token.image = user.data?.avatar;
         token.birth_date = user.data?.birth_date;
-        token.premessions = user.data?.premessions;
         token.id = user.data?.id;
         token.accessToken = user.data?.access_token;
 
@@ -75,12 +72,6 @@ export const authOptions = {
           secure: true,
         });
 
-        cookies().set("permissions", JSON.stringify(user.data?.premessions), {
-          path: "/",
-          httpOnly: true,
-          sameSite: "strict",
-          secure: true,
-        });
       }
       return token;
     },
@@ -89,14 +80,11 @@ export const authOptions = {
       session.user = { ...token };
       if (newSession) {
         session.user.name =
-          newSession.data?.first_name + " " + newSession.data?.last_name;
-        session.user.first_name = newSession.first_name;
-        session.user.last_name = newSession.last_name;
+          newSession.data?.username;
         session.user.email = newSession.email;
         session.user.image = newSession.avatar;
         session.user.phone = newSession.phone;
         session.user.gender = newSession.gender;
-        session.user.premessions = newSession.premessions;
       }
       return session;
     },
