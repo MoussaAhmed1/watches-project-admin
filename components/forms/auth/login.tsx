@@ -89,6 +89,7 @@ export default function LoginForm({ lang }: { lang: Language }) {
                         <div className="h-full w-full bg-cover bg-center "
                             style={{
                                 backgroundImage: `url(${loginImage.src})`,
+                                height: "100vh",
                             }}
                         >
                             <div className="absolute rtl:left-5  ltr:right-5 top-2 z-3">
