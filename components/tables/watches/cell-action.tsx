@@ -7,7 +7,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { IUser } from "@/types/users";
+import { IWatch } from "@/types/watches";
 import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Cookie from 'js-cookie';
@@ -16,7 +16,7 @@ import { useTranslations } from "next-intl";
 import Approve from "@/components/shared/table/Approve";
 
 interface CellActionProps {
-  data: IUser;
+  data: IWatch;
   toBeVerified?: boolean;
 }
 

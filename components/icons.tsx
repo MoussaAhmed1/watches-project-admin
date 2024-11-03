@@ -50,7 +50,8 @@ import {
   Stethoscope,
   Mail,
   ChevronUp,
-  Shield 
+  Shield,
+  Watch
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -106,7 +107,8 @@ export const Icons = {
   stethoscope: Stethoscope,
   messages: Mail,
   arrowUp: ChevronUp,
-
+ watches: Watch
+,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

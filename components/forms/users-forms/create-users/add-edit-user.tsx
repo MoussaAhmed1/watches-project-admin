@@ -22,7 +22,7 @@ import UserSchema from "./userSchema";
 
 import { toFormData } from "axios";
 import AvatarPreview from "@/components/shared/AvatarPreview";
-import { AddUser } from "@/actions/users/users";
+import { AddUser } from "@/actions/users/users-actions";
 import Select from "react-select";
 import { useTranslations } from "next-intl";
 import { Role } from "@/types/users";

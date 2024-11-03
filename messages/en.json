@@ -6,7 +6,9 @@
     "parents": "Parents",
     "drivers": "Drivers",
     "schools": "Schools",
-    "security": "Security"
+    "security": "Security",
+    "watches": "Watches"
+
   },
   "toast": {},
   "shared": {

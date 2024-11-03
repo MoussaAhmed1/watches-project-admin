@@ -55,4 +55,11 @@ export const navItems: NavItem[] = [
       },
     ],
   },
+  {
+    title: "Watches",
+    href: "/dashboard/watches",
+    icon: "watches",
+    label: "watches",
+    subItems: false,
+  },
 ];

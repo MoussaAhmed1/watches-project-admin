@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import { watch } from "fs";
 
 export interface Params {
   page: number;
@@ -78,6 +79,9 @@ export const endpoints = {
   users: {
     fetch: "/user",
     register:"/auth/register",
+  },
+  watches:{
+    fetch:"/watch/get-all-IMEI",
   },
   admins: {
     fetch: "user",
