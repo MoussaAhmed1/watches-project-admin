@@ -101,7 +101,9 @@
     "expirationDays": "أيام انتهاء الصلاحية",
     "email": "البريد الإلكتروني",
     "price": "السعر",
-    "advantageMinutes": "دقائق الفائدة"
+    "advantageMinutes": "دقائق الفائدة",
+    "IMEI": "IMEI",
+    "id": " الرقم التعريفي"
   },
   "pages": {
     "home": {
@@ -307,6 +309,7 @@
     },
     "users": {
       "Admins": "المديرون",
+      "profile": "الملف الشخصي",
       "admin_details": "تفاصيل المديرين",
       "patients_details": "تفاصيل المريض",
       "edit": "تعديل",

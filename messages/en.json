@@ -96,7 +96,9 @@
     "expirationDays": "Expiration Days",
     "email": "Email",
     "price": "Price",
-    "advantageMinutes": "Advantage Minutes"
+    "advantageMinutes": "Advantage Minutes",
+    "IMEI": "IMEI",
+    "id": "ID"
   },
   "pages": {
     "home": {
