@@ -77,7 +77,7 @@ export const getErrorMessage = (error: unknown): string => {
 export const endpoints = {
   users: {
     fetch: "/user",
-    register:"/auth/register/doctor",
+    register:"/auth/register",
   },
   admins: {
     fetch: "user",

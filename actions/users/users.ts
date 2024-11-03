@@ -41,11 +41,11 @@ export const fetchUsers = async ({
   }
 };
 
-export const AddUser = async (formData: FormData): Promise<any> => {
+export const AddUser = async (formData: FormData,role:"parents" | "drivers" | "schools" |"security"): Promise<any> => {
     const lang = cookies().get("Language")?.value;
     try {
       const accessToken = cookies().get("access_token")?.value;
-      await axiosInstance.post(endpoints.admins.register, formData, {
+      await axiosInstance.post(endpoints.users.register, formData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Accept-Language": lang,
@@ -53,13 +53,14 @@ export const AddUser = async (formData: FormData): Promise<any> => {
         },
       });
   
-      revalidatePath("/dashboard/admins");
+      revalidatePath(`/dashboard/${role}`);
     } catch (error) {
       return {
         error: getErrorMessage(error),
       };
     }
   };
+
 export const removeUser = async ({id,revalidateData}:{id:string,revalidateData?:string}): Promise<any> => {
     const lang = cookies().get("Language")?.value;
     try {

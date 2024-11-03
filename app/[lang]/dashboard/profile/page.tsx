@@ -20,16 +20,12 @@ export default async function ProfilePage({params}:{params:{lang:"ar"|"en"}}) {
       <UserProfileForm
         id={""}
         initialData={session?.user ? {
-          first_name: session?.user?.first_name,
-          last_name: session?.user?.last_name,
           birth_date: session?.user?.birth_date,
           gender: session?.user?.gender as "male" | "female",
           phone: session?.user?.phone,
           avatarFile: session.user?.avatar,
-          premessions: session.user?.premessions,
         } : undefined}
         revalidatequery="/dashboard/admins"
-        isAllowToModifyPermissions={session?.user?.premessions?.includes("Admins")||false}
       />
     </div>
   );

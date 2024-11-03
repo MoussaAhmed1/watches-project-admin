@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Select as ShadcnSelect, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
@@ -21,8 +21,6 @@ import ProfileSchema from "./ProfileSchema";
 import AvatarPreview from "@/components/shared/AvatarPreview";
 import InputDate from "@/components/shared/timepicker/InputDate";
 import { useSession } from "next-auth/react";
-import { navItems } from "@/constants/data";
-import Select from "react-select";
 import { usePathname, useRouter } from "next/navigation";
 import { reloadSession } from "@/lib/funcs";
 import { useTranslations } from "next-intl";
@@ -43,7 +41,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
   revalidatequery,
   isAllowToModifyPermissions
 }) => {
-  const { toast } = useToast();
+  // const { toast } = useToast();
   const t = useTranslations("pages.users");
   const tShared = useTranslations('shared');
   const router = useRouter();
@@ -51,7 +49,7 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
   const [currentLang] = useState(pathname?.includes("/ar") ? "ar" : "en");
   const [loading, setLoading] = useState(false);
   const action = initialData ? tShared("saveChanges") : tShared("create");
-  const { update, data: session } = useSession();
+  // const { update, data: session } = useSession();
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -61,12 +59,9 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
     }
   };
   const defaultValues = {
-    first_name: initialData?.first_name,
-    last_name: initialData?.last_name,
     birth_date: initialData?.birth_date,
     gender: initialData?.gender,
     phone: initialData?.phone,
-    premessions: initialData?.premessions,
   };
 
   const form = useForm<UserFormValues>({
@@ -134,11 +129,6 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
     setLoading(false);
   };
 
-  //premessions options 
-  const PermissionsOptions = useMemo(() => navItems?.map((nav) => {
-    return { label: (nav?.title) ?? "", value: nav.title }
-  }), [])
-
 
   return (
     <>
@@ -150,40 +140,6 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
           >
             <AvatarPreview selectedAvatar={selectedAvatar} />
             <div className="md:grid md:grid-cols-2 gap-8">
-              <FormField
-                control={form.control}
-                name="first_name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("firstName")} <span className="text-red-800">*</span></FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder={t("firstName")}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="last_name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("lastName")} <span className="text-red-800">*</span></FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder={t("lastName")}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <div className="flex w-full justify-end flex-col items-start gap-1">
                 <label htmlFor="date" className="font-medium text-sm">
                 {t("birthDate")} <span className="text-red-800">*</span>
@@ -263,74 +219,6 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                 {errors?.avatarFile?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.avatarFile?.message as any}</FormMessage>}
               </FormItem>
             </div>
-            {revalidatequery === "/dashboard/admins" && <div className="md:grid md:grid-cols-1 gap-8">
-              <div>
-                <label htmlFor="premessions" className="font-medium text-sm">
-                {t("permissions")} <span className="text-red-800">*</span>
-                </label>
-                <div className="flex-col w-full" style={{
-                  cursor:!isAllowToModifyPermissions?"not-allowed":"pointer"
-                }}>
-                  <Select
-                    id="premessions"
-                    isSearchable={true}
-                    isClearable={false}
-                    isDisabled={!isAllowToModifyPermissions}
-                    isMulti
-                    defaultValue={initialData?.premessions?.map((permission) =>
-                      PermissionsOptions.find(
-                        (option) => option.value === permission
-                      )
-                    )}
-                    onChange={(values: any) => {
-                      form.clearErrors("premessions");
-                      form.setValue(
-                        "premessions",
-                        values!.map((val: any) => val.value)
-                      );
-                    }}
-                    options={PermissionsOptions}
-                    closeMenuOnSelect={false}
-                    className="w-full"
-                    styles={{
-                      control: (state) => ({ ...state, backgroundColor: 'transparent' }) as any,
-                      // multiValue: (styles:any) => {
-                      //   return {
-                      //     ...styles,
-                      //     backgroundColor: "green",
-                      //   };
-                      // },
-                      multiValueLabel: (styles:any) => ({
-                        ...styles,
-                        color: "#4D4D4D",
-                        background:"#E6E6E6"
-                      }),
-                      option: (styles:any) => {
-                        return {
-                          ...styles,
-                          // backgroundColor:"green",
-                          color:"black"
-                        }
-                      }}}
-                    // theme={(theme) => ({
-                    //   ...theme,
-                    //   borderRadius: 0,
-                    //   colors: {
-                    //     ...theme.colors,
-                    //     primary25: 'green',
-                    //     primary: 'gray',
-                    //     neutral0: 'gray',
-                    //   },
-                    // })}
-                  />
-                  {errors.premessions && (
-                    <span className="error-text">
-                      {errors.premessions.message}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>}
             <Button disabled={loading} className="ml-auto" type="submit">
               {action}
             </Button>

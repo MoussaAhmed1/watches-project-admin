@@ -59,10 +59,10 @@ export interface ClientAddtionalInfo {
 }
 
 export enum Role {
-  "Parent"="PARENT",
-  "Driver"="DRIVER",
-  "School"="SCHOOL",
-  "Security"="SECURITY",
+  "parents"="PARENT",
+  "drivers"="DRIVER",
+  "schools"="SCHOOL",
+  "security"="SECURITY",
 }
 
 export interface FamilyMember {
