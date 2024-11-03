@@ -1,4 +1,4 @@
-import { IUser } from "@/types/users";
+import { ILogedUser } from "@/types/users";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { cookies } from "next/headers";
 
@@ -32,7 +32,7 @@ export const authOptions = {
             }),
             headers: { "Content-Type": "application/json" },
           });
-          const user:IUser = await res.json();
+          const user:ILogedUser = await res.json();
           if (res.ok) {
             return user;
           } else {

@@ -4,6 +4,7 @@ export interface Params {
   page: number;
   limit: number;
   status?: string;
+  role?: string;
   filters?: string;
   otherfilters?: string[];
   created_at?: string;
@@ -74,20 +75,12 @@ export const getErrorMessage = (error: unknown): string => {
 };
 
 export const endpoints = {
-  doctors: {
-    fetch: "/doctor",
-    accept: "/doctor/accept",
-    register:"/auth/register/doctor",
-    updateProfile:"/additional-info/update-profile",
-  },
   users: {
     fetch: "/user",
-    updateProfile:"/additional-info/client/info",
-    register:"/auth/register/client"
-    
+    register:"/auth/register/doctor",
   },
   admins: {
-    fetch: "/user",
+    fetch: "user",
     register:"/auth/register/admin"
     
   },

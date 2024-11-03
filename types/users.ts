@@ -1,19 +1,32 @@
+export interface ILogedUser {
+  id: string
+  account: string
+  avatar: string
+  username: string
+  email: string
+  email_verified_at: any
+  phone: string
+  phone_verified_at: any
+  birth_date: string
+  gender: string
+  language: string
+  fcm_token: any
+  access_token: string
+}
+
 export interface IUser {
-  id: string;
-  account: string;
-  first_name: string;
-  last_name: string;
-  avatar: string;
-  username: string;
-  email: any;
-  email_verified_at: any;
-  phone: string;
-  phone_verified_at: string;
-  birth_date: string;
-  gender: string;
-  language: string;
-  fcm_token: string;
-  premessions: string[];
+  id: string
+  name: string
+  email: string
+  avatar?: string
+  created_at: string
+  school?: School
+}
+
+export interface School {
+  id: string
+  name: string
+  avatar: string
 }
 
 export interface AccountProfile {
@@ -46,12 +59,10 @@ export interface ClientAddtionalInfo {
 }
 
 export enum Role {
-  SUPERADMIN = "SUPERADMIN",
-  ADMIN = "ADMIN",
-  CLIENT = "CLIENT",
-  DOCTOR = "DOCTOR",
-  PHARMACY = "PHARMACY",
-  NURSE = "NURSE",
+  "Parent"="PARENT",
+  "Driver"="DRIVER",
+  "School"="SCHOOL",
+  "Security"="SECURITY",
 }
 
 export interface FamilyMember {

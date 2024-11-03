@@ -2,13 +2,13 @@ import BreadCrumb from "@/components/breadcrumb";
 import { Heading } from "@/components/ui/heading";
 import React from "react";
 import { UserProfileForm } from "@/components/forms/users-forms/profileForm/ProfileForm";
-import { IUser } from "@/types/users";
+import { ILogedUser } from "@/types/users";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/_options";
 import { getDictionary } from "../../messages";
 
 export default async function ProfilePage({params}:{params:{lang:"ar"|"en"}}) {
-  const session: { user: IUser } | null = await getServerSession(authOptions) as any;
+  const session: { user: ILogedUser } | null = await getServerSession(authOptions) as any;
   const {pages} = await getDictionary(params?.lang)
   const breadcrumbItems = [{ title: pages.users.profile, link: "/dashboard/profile" }];
   return (

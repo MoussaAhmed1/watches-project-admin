@@ -18,40 +18,24 @@ export default async function page({ params }: { params: { lang: "ar"|"en" } }) 
   const {navigation} = await getDictionary(params?.lang)
   const statistics = [
     {
-      title: navigation.patients,
-      total: statistics_res?.clients_count,
-      link: `/${params?.lang}/dashboard/patients`
+      title: navigation.parents,
+      total: statistics_res?.clients_count||0,
+      link: `/${params?.lang}/dashboard/parents`
     },
     {
-      title: navigation.doctors,
-      total: statistics_res?.doctors_count,
-      link: `/${params?.lang}/dashboard/doctors`
+      title: navigation.drivers,
+      total: statistics_res?.doctors_count||0,
+      link: `/${params?.lang}/dashboard/drivers`
     },
     {
-      title: navigation.nurses,
-      total: statistics_res?.nurses_count,
-      link: `/${params?.lang}/dashboard/nurses`
+      title: navigation.schools,
+      total: statistics_res?.nurses_count||0,
+      link: `/${params?.lang}/dashboard/schools`
     },
     {
-      title: navigation.pharmacies,
-      total: statistics_res?.pharmacy_count,
-      link: `/${params?.lang}/dashboard/pharmacies`
-    },
-    {
-      title: navigation.pharmacy_orders,
-      total: statistics_res?.pharamcy_order_count,
-      link: `/${params?.lang}/dashboard/pharmacy-orders`
-    },
-    {
-      title: navigation.nurse_orders,
-      total: statistics_res?.nurse_order_count,
-      link: `/${params?.lang}/dashboard/nurse-orders`
-    },
-
-    {
-      title: navigation.reservations,
-      total: statistics_res?.reservations_count,
-      link: `/${params?.lang}/dashboard/reservations`
+      title: navigation.security,
+      total: statistics_res?.pharmacy_count||0,
+      link: `/${params?.lang}/dashboard/security`
     },
   ]
 
