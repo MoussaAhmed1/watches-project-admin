@@ -8,7 +8,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import {  IUser } from "@/types/users";
+import {  IUser, Role } from "@/types/users";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
@@ -17,9 +17,16 @@ type paramsProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
-  params:{lang:"ar"|"en"}
+  params:{ role: "parents" | "drivers" | "schools" |"security"| "admins",lang:"ar"|"en"}
 };
 
+export function generateStaticParams() {
+  const roles = ["parents", "drivers", "schools", "security", "admins"];
+ 
+  return roles.map((role) => ({
+    role,
+  }))
+}
 export default async function page({ searchParams,params }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
@@ -28,14 +35,14 @@ export default async function page({ searchParams,params }: paramsProps) {
   const res = await fetchUsers({
     page,
     limit,
-    role: "PARENT",
+    role: Role[params.role],
     filters: search,
   });
-  const totalParents = res?.data?.meta?.total || 0; //1000
-  const pageCount = Math.ceil(totalParents / limit);
+  const totalUsers = res?.data?.meta?.total || 0; //1000
+  const pageCount = Math.ceil(totalUsers / limit);
   const parents: IUser[] = res?.data?.data || [];
   const {navigation,shared} = await getDictionary(params?.lang)
-  const breadcrumbItems = [{ title: navigation.parents, link: "/dashboard/parents" }];
+  const breadcrumbItems = [{ title: navigation[params.role], link: `/dashboard/${params.role}` }];
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6 ">
@@ -43,10 +50,10 @@ export default async function page({ searchParams,params }: paramsProps) {
 
         <div className="flex items-start justify-between">
           <Heading
-            title={`${navigation.parents} (${totalParents})`}
+            title={`${navigation[params.role]} (${totalUsers})`}
           />
           <Link
-            href={`/${params?.lang}/dashboard/create-user/parents`}
+            href={`/${params?.lang}/dashboard/${params.role}/create-user`}
             className={cn(buttonVariants({ variant: "default" }))}
           >
             <Plus className="ltr:mx-1 rtl:ml-2 h-4 w-4" />{shared.add_new}
@@ -55,10 +62,10 @@ export default async function page({ searchParams,params }: paramsProps) {
         <Separator />
 
         <SharedTable
-          searchKey="parents"
+          searchKey={params.role}
           pageNo={page}
           columns={columns}
-          totalitems={totalParents}
+          totalitems={totalUsers}
           data={parents as unknown as IUser[]}
           pageCount={pageCount}
         >

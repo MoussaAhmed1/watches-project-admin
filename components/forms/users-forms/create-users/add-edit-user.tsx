@@ -91,7 +91,7 @@ export const UserForm: React.FC<UserFormProps> = ({
 
 
   const onSubmit = async (data: UserFormValues) => {
-    alert(JSON.stringify(data)); //testing
+    // alert(JSON.stringify(data)); //testing
     setLoading(true);
     const formData = new FormData();
     toFormData(data, formData);
@@ -117,7 +117,7 @@ export const UserForm: React.FC<UserFormProps> = ({
     setLoading(false);
   };
   // show error messages
-  console.log(form.formState.errors);
+  // console.log(form.formState.errors);
 
   return (
     <>
@@ -188,7 +188,7 @@ export const UserForm: React.FC<UserFormProps> = ({
                   margin: "-2px 0",
                 }}
               >
-                <FormLabel className="max-w-30 mx-1">{t("avatar")}</FormLabel>
+                <FormLabel className="max-w-30 mx-1">{t("avatar")} <span className="text-red-800">*</span></FormLabel>
                 <Controller
                   name="avatarFile"
                   control={control}

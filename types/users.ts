@@ -63,6 +63,7 @@ export enum Role {
   "drivers"="DRIVER",
   "schools"="SCHOOL",
   "security"="SECURITY",
+  "admins"="ADMIN"
 }
 
 export interface FamilyMember {
