@@ -2,6 +2,7 @@ import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
 import { fetchWatches } from "@/actions/watches/watches-actions";
 import { getDictionary } from "@/app/[lang]/messages";
 import BreadCrumb from "@/components/breadcrumb";
+import WatchForm from "@/components/forms/watches-forms/watchesForm";
 import { SharedTable } from "@/components/shared/table/Shared-table";
 import { columns } from "@/components/tables/watches/columns";
 import { buttonVariants } from "@/components/ui/button";
@@ -45,12 +46,7 @@ export default async function page({ searchParams,params }: paramsProps) {
           <Heading
             title={`${navigation.watches} (${totalWatches})`}
           />
-          <Link
-            href={`/${params?.lang}/dashboard/watches/new`}
-            className={cn(buttonVariants({ variant: "default" }))}
-          >
-            <Plus className="ltr:mx-1 rtl:ml-2 h-4 w-4" />{shared.add_new}
-          </Link>
+          <WatchForm/>
         </div>
         <Separator />
 

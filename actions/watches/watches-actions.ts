@@ -3,13 +3,14 @@
 /* eslint-disable consistent-return */
 
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import axiosInstance, {
   endpoints,
   getErrorMessage,
   Params,
 } from "../../utils/axios-client";
 import { ITEMS_PER_PAGE } from "../Global-variables";
+import { AddEditWatchBody } from "@/types/watches";
 
 export const fetchWatches = async ({
   page = 1,
@@ -24,7 +25,7 @@ export const fetchWatches = async ({
         page,
         limit,
         filters,
-        sortBy: "created_at=desc",
+        // sortBy: "created_at=desc",
       },
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -39,25 +40,53 @@ export const fetchWatches = async ({
   }
 };
 
-export const AddUser = async (formData: FormData,role:"parents" | "drivers" | "schools" |"security"): Promise<any> => {
-    const lang = cookies().get("Language")?.value;
-    try {
-      const accessToken = cookies().get("access_token")?.value;
-      await axiosInstance.post(endpoints.users.register, formData, {
+export const AddWatch = async (
+  data: AddEditWatchBody,
+): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+
+  try {
+    await axiosInstance.post(endpoints.watches.create + "/" + data.IMEI, data, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+
+    revalidateTag("/watches");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
+export const UpdateWatch = async (
+  data: AddEditWatchBody,id:string|undefined
+): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+
+  try {
+    await axiosInstance.put(
+      `${endpoints.pharmacy.categories}/${id}`,
+      data,
+      {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Accept-Language": lang,
-          "Content-Type": "multipart/form-data",
         },
-      });
-  
-      revalidatePath(`/dashboard/${role}`);
-    } catch (error) {
-      return {
-        error: getErrorMessage(error),
-      };
-    }
-  };
+      },
+    );
+
+    revalidateTag("/pharmacy-categories");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
 
 export const removeUser = async ({id,revalidateData}:{id:string,revalidateData?:string}): Promise<any> => {
     const lang = cookies().get("Language")?.value;
