@@ -39,8 +39,12 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
     const protectedPathsWithLocale = getProtectedRoutes(protectedPaths, [
       ...i18n.locales
     ])
-
-    if (!token && (protectedPathsWithLocale.includes(pathname) || pathname.includes("/dashboard"))) {
+    const apiToken = cookies()?.get("access_token")?.value;
+    if (
+      !(apiToken && token) &&
+      (protectedPathsWithLocale.includes(pathname) ||
+        pathname.includes("dashboard"))
+    ) {
       const signInUrl = new URL('/api/auth/signin', request.url)
       signInUrl.searchParams.set('callbackUrl', pathname)
       return NextResponse.redirect(signInUrl)
