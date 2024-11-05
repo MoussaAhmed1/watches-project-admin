@@ -222,7 +222,7 @@ export const UserForm: React.FC<UserFormProps> = ({
                         </SelectTrigger>
                         <SelectContent>
                           {schools?.map((school) => (
-                            <SelectItem value={school?.id} key={school?.id}>{school?.name}</SelectItem>
+                            <SelectItem value={school?.school?.id || ""} key={school?.id}>{school?.name}</SelectItem>
                           ))}
                         </SelectContent>
                       </ShadcnSelect>
