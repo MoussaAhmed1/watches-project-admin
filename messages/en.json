@@ -7,7 +7,9 @@
     "drivers": "Drivers",
     "schools": "Schools",
     "security": "Security",
-    "watches": "Watches"
+    "watches": "Watches",
+    "historyOfRequests": "History of Requests"
+
 
   },
   "toast": {},
@@ -100,7 +102,10 @@
     "advantageMinutes": "Advantage Minutes",
     "IMEI": "IMEI",
     "id": "ID",
-    "connectedUser": "Connected User"
+    "connectedUser": "Connected User",
+    "code": "Code",
+    "student": "Student",
+    "school":"School"
   },
   "pages": {
     "home": {

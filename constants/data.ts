@@ -62,4 +62,11 @@ export const navItems: NavItem[] = [
     label: "watches",
     subItems: false,
   },
+  {
+    title: "historyOfRequests",
+    href: "/dashboard/history-of-requests",
+    icon: "trello",
+    label: "historyOfRequests",
+    subItems: false,
+  },
 ];

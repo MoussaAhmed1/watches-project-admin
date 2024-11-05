@@ -82,7 +82,8 @@ export const endpoints = {
   },
   watches:{
     fetch:"/watch/get-all-IMEI",
-    create:"/watch/insert"
+    create:"/watch/insert",
+    history_request:"/watch/get-admin-requests",
   },
   admins: {
     fetch: "user",

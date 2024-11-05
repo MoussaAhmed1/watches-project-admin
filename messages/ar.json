@@ -7,7 +7,8 @@
     "drivers": "السائقين",
     "schools": "المدارس",
     "security": "الامن",
-    "watches": "الساعات"
+    "watches": "الساعات",
+    "historyOfRequests": "سجل الطلبات"
   },
   "toast": {},
   "shared": {
@@ -104,7 +105,10 @@
     "advantageMinutes": "دقائق الفائدة",
     "IMEI": "IMEI",
     "id": " الرقم التعريفي",
-    "connectedUser": "المستخدم المتصل"
+    "connectedUser": "المستخدم المتصل",
+    "code": "الكود",
+    "student": "الطالب",
+    "school":"المدرسة"
 
   },
   "pages": {
