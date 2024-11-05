@@ -103,7 +103,9 @@
     "price": "السعر",
     "advantageMinutes": "دقائق الفائدة",
     "IMEI": "IMEI",
-    "id": " الرقم التعريفي"
+    "id": " الرقم التعريفي",
+    "connectedUser": "المستخدم المتصل"
+
   },
   "pages": {
     "home": {

@@ -99,7 +99,8 @@
     "price": "Price",
     "advantageMinutes": "Advantage Minutes",
     "IMEI": "IMEI",
-    "id": "ID"
+    "id": "ID",
+    "connectedUser": "Connected User"
   },
   "pages": {
     "home": {

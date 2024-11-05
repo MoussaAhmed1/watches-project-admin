@@ -223,7 +223,7 @@ export const UserForm: React.FC<UserFormProps> = ({
                         {...field}
                         type="email"
                         required
-                        autoComplete={"false"}
+                        autoComplete="new-password"
                       />
                     </FormControl>
                     <FormMessage />
@@ -244,7 +244,7 @@ export const UserForm: React.FC<UserFormProps> = ({
                         type="password"
                         required
                         {...field}
-                        autoComplete={"false"}
+                        autoComplete="new-password"
                       />
                     </FormControl>
                     <FormMessage />
