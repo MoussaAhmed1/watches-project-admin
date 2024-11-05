@@ -40,7 +40,7 @@ export default async function page({ searchParams,params }: paramsProps) {
   });
   const totalUsers = res?.data?.meta?.total || 0; //1000
   const pageCount = Math.ceil(totalUsers / limit);
-  const parents: IUser[] = res?.data?.data || [];
+  const users: IUser[] = res?.data?.data || [];
   const {navigation,shared} = await getDictionary(params?.lang)
   const breadcrumbItems = [{ title: navigation[params.role], link: `/dashboard/${params.role}` }];
   return (
@@ -66,7 +66,7 @@ export default async function page({ searchParams,params }: paramsProps) {
           pageNo={page}
           columns={columns}
           totalitems={totalUsers}
-          data={parents as unknown as IUser[]}
+          data={users as unknown as IUser[]}
           pageCount={pageCount}
         >
         </SharedTable>

@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Select as ShadcnSelect, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useToast } from "../../../ui/use-toast";
@@ -23,20 +23,21 @@ import UserSchema from "./userSchema";
 import { toFormData } from "axios";
 import AvatarPreview from "@/components/shared/AvatarPreview";
 import { AddUser } from "@/actions/users/users-actions";
-import Select from "react-select";
 import { useTranslations } from "next-intl";
-import { Role } from "@/types/users";
+import { IUser, Role } from "@/types/users";
 export type UserFormValues = z.infer<typeof UserSchema>;
 
 interface UserFormProps {
   initialData?: UserFormValues;
   id?: string;
+  schools?: IUser[];
   _role?: "parents" | "drivers" | "schools" | "security";
 }
 
 export const UserForm: React.FC<UserFormProps> = ({
   initialData,
   id,
+  schools,
   _role = "parents",
 
 }) => {
@@ -66,8 +67,7 @@ export const UserForm: React.FC<UserFormProps> = ({
     },
     [_role, t],
   )
-  
-  
+
 
   const action = initialData ? tShared("saveChanges") : tShared("create");
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
@@ -153,7 +153,7 @@ export const UserForm: React.FC<UserFormProps> = ({
               {/* Gender */}
               <FormField name="gender" control={control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("gender")} <span className="text-red-800">*</span></FormLabel>
+                  <FormLabel>{t("gender")}</FormLabel>
                   <FormControl>
                     <ShadcnSelect  {...field} onValueChange={field.onChange} dir={currentLang === "ar" ? "rtl" : "ltr"}>
                       <SelectTrigger>
@@ -209,6 +209,28 @@ export const UserForm: React.FC<UserFormProps> = ({
               </FormItem>
             </div>
 
+            {_role === "security" &&
+              <div className="md:grid md:grid-cols-1 gap-8">
+                {/* School */}
+                <FormField name="school_id" control={control} render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("school")} <span className="text-red-800">*</span></FormLabel>
+                    <FormControl>
+                      <ShadcnSelect required {...field} onValueChange={field.onChange} dir={currentLang === "ar" ? "rtl" : "ltr"}>
+                        <SelectTrigger>
+                          <SelectValue placeholder={t("selectSchool")} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {schools?.map((school) => (
+                            <SelectItem value={school?.id} key={school?.id}>{school?.name}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </ShadcnSelect>
+                    </FormControl>
+                  </FormItem>
+                )} />
+              </div>
+            }
             <div className="md:grid md:grid-cols-2 gap-8">
               <FormField
                 control={form.control}

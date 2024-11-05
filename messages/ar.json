@@ -287,7 +287,9 @@
       "isVerified": "التحقق",
       "appointments": "المواعيد",
       "ownerInfo": "معلومات المالك",
-      "logout": "تسجيل خروج"
+      "logout": "تسجيل خروج",
+      "school": "المدرسة",
+      "selectSchool": "حدد المدرسة"
     }
   },
   "auth": {

@@ -312,7 +312,9 @@
       "isVerified": "Is Verified",
       "appointments": "Appointments",
       "ownerInfo": "Owner Info",
-      "logout": "Logout"
+      "logout": "Logout",
+      "school": "School",
+      "selectSchool": "Select School"
     }
   },
   "auth": {
