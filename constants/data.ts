@@ -69,4 +69,33 @@ export const navItems: NavItem[] = [
     label: "historyOfRequests",
     subItems: false,
   },
+  {
+    title: "General Settings",
+    href: "/dashboard/settings",
+    icon: "settings",
+    label: "general_settings",
+    subItems: true,
+    children: [
+      {
+        title: "Contact us",
+        href: "/dashboard/settings/contact-us",
+        label:"contact_us"
+      },
+      {
+        title: "About Us",
+        href: "/dashboard/settings/about-us",
+        label:"about_us"
+      },
+      {
+        title: "FAQ",
+        href: "/dashboard/settings/faq",
+        label:"faq"
+      },
+      {
+        title: "Terms and Conditions",
+        href: "/dashboard/settings/terms-conditions",
+        label:"terms_and_conditions"
+      },
+    ],
+  },
 ];
