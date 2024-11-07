@@ -70,6 +70,20 @@ export const navItems: NavItem[] = [
     subItems: false,
   },
   {
+    title: "Notifications",
+    href: "/dashboard/notifications",
+    icon: "notification",
+    label: "notifications",
+    subItems: false,
+  },
+  {
+    title: "Messages",
+    href: "/dashboard/messages",
+    icon: "messages",
+    label: "messages",
+    subItems: false,
+  },
+  {
     title: "General Settings",
     href: "/dashboard/settings",
     icon: "settings",

@@ -132,8 +132,8 @@ export const endpoints = {
     fetch: "/pharmacy",
   },
   notification: {
-    send: "/notification/send-to-all",
-    fetch: "/notification",
+    send: "/notification/send-to-users",
+    fetch: "/notification/admin",
   },
   generalSettings: {
     root: "/static-page",
