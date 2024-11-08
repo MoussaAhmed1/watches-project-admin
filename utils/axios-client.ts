@@ -133,7 +133,7 @@ export const endpoints = {
   },
   notification: {
     send: "/notification/send-to-users",
-    fetch: "/notification/admin",
+    fetch: "/notification",
   },
   generalSettings: {
     root: "/static-page",
