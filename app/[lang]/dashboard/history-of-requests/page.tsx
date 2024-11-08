@@ -46,12 +46,6 @@ export default async function page({ searchParams,params }: paramsProps) {
           <Heading
             title={`${navigation.historyOfRequests} (${totalRequests})`}
           />
-          <Link
-            href={`/${params?.lang}/dashboard/history-of-requests/new`}
-            className={cn(buttonVariants({ variant: "default" }))}
-          >
-            <Plus className="ltr:mx-1 rtl:ml-2 h-4 w-4" />{shared.add_new}
-          </Link>
         </div>
         <Separator />
 
