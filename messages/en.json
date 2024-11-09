@@ -15,8 +15,8 @@
     "contact_us": "Contact us",
     "about_us": "About Us",
     "faq": "FAQ",
-    "terms_and_conditions": "Terms and Conditions"
-
+    "terms_and_conditions": "Terms and Conditions",
+    "privacyPolicy": "Privacy Policy"
 
   },
   "toast": {},
@@ -112,7 +112,7 @@
     "connectedUser": "Connected User",
     "code": "Code",
     "student": "Student",
-    "school":"School"
+    "school": "School"
   },
   "pages": {
     "home": {
@@ -242,7 +242,7 @@
       "category": "Category",
       "name": "Name",
       "editProduct": "Edit Product",
-       "selectCategory": "Select a Category",
+      "selectCategory": "Select a Category",
       "pharmacyProducts": "Pharmacy Products",
       "createProduct": "Create Product",
       "contactUs": "Contact Us",
@@ -257,11 +257,18 @@
       "createSocialLink": "Create Social Link",
       "socialLinkUpdated": "Social Link updated.",
       "socialLinkCreated": "Social Link created.",
-      "editWatch":"Edit Watch",
-      "addWatch":"Add Watch",
-      "watch":"Watch",
-    "IMEI": "IMEI"
-
+      "editWatch": "Edit Watch",
+      "addWatch": "Add Watch",
+      "watch": "Watch",
+      "IMEI": "IMEI",
+      "editSecurity": "Edit Security",
+      "editParent": "Edit Parent",
+      "editDriver": "Edit Driver",
+      "editSchool": "Edit School",
+      "viewSecurity": "View Security",
+      "viewParent": "View Parent",
+      "viewDriver": "View Driver",
+      "viewSchool": "View School"
     },
     "general_settings": {
       "general_settings": "General Settings",
@@ -276,7 +283,10 @@
       "aboutUsUpdateFailed": "About Us update failed",
       "save": "Save",
       "requestProblem": "There was a problem with your request.",
-
+      "privacyPolicyUpdated": "Privacy policy updated",
+      "privacyPolicySuccessfullyUpdated": "Privacy policy have been successfully updated.",
+      "privacyPolicyUpdateFailed": "Privacy policy update failed",
+      
       "faqs": "FAQs",
       "addFAQ": "Add FAQ",
       "editFAQ": "Edit FAQ",
@@ -317,7 +327,7 @@
       "category": "Category",
       "name": "Name",
       "editProduct": "Edit Product",
-       "selectCategory": "Select a Category",
+      "selectCategory": "Select a Category",
       "pharmacyProducts": "Pharmacy Products",
       "createProduct": "Create Product",
       "contactUs": "Contact Us",
@@ -331,7 +341,11 @@
       "editSocialLink": "Edit Social Link",
       "createSocialLink": "Create Social Link",
       "socialLinkUpdated": "Social Link updated.",
-      "socialLinkCreated": "Social Link created."
+      "socialLinkCreated": "Social Link created.",
+      "editUser": "Edit User",
+      "viewUser": "View User",
+      "privacyPolicy": "Privacy Policy"
+
     },
     "users": {
       "Admins": "Admins",
@@ -359,10 +373,10 @@
       "updateAdmin": "Update Admin",
       "profileAddedSuccessfully": "Profile has been successfully added.",
       "profileUpdatedSuccessfully": "Profile has been successfully updated.",
-      "addSecurity":"Add Security",
-      "addParent":"Add Parent",
-      "addDriver":"Add Driver",
-      "addSchool":"Add School",
+      "addSecurity": "Add Security",
+      "addParent": "Add Parent",
+      "addDriver": "Add Driver",
+      "addSchool": "Add School",
       "weight": "Weight",
       "height": "Height",
       "allergicReactions": "Allergic reactions",
@@ -448,7 +462,16 @@
       "ownerInfo": "Owner Info",
       "logout": "Logout",
       "school": "School",
-      "selectSchool": "Select School"
+      "selectSchool": "Select School",
+      "editSecurity": "Edit Security",
+      "editParent": "Edit Parent",
+      "editDriver": "Edit Driver",
+      "editSchool": "Edit School",
+      "editUser": "Edit User",
+      "viewSecurity": "View Security",
+      "viewParent": "View Parent",
+      "viewDriver": "View Driver",
+      "viewSchool": "View School"
     }
   },
   "auth": {

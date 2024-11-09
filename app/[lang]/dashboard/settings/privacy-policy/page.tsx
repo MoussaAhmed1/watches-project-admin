@@ -1,30 +1,30 @@
 import { fetchStaticPages } from "@/actions/settings/static-pages";
 import { getDictionary } from "@/app/[lang]/messages";
 import BreadCrumb from "@/components/breadcrumb";
-import { AboutUsForm } from "@/components/forms/settings/about-us";
+import { PrivacyPolicyForm } from "@/components/forms/settings/privacy-policy";
 import { Heading } from "@/components/ui/heading";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Us",
-  description: "About Us page",
+  title: "Privacy Policy",
+  description: "Privacy Policy page",
 };
 
 export default async function page({params}:{params:{lang:"ar"|"en"}}) {
-  const aboutUsData = await fetchStaticPages("ABOUT_US");
+  const privacyPolicyData = await fetchStaticPages("PRIVACY_POLICY");
   const { pages } = await getDictionary(params?.lang)
 
   const breadcrumbItems = [
-    { title: pages.general_settings.aboutUs, link: "/dashboard/settings/about-us" },
+    { title: pages.general_settings.privacyPolicy, link: "/dashboard/settings/privacy-policy" },
   ];
   return (
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems} />
       <Heading
-        title={pages.general_settings.aboutUs}
+        title={pages.general_settings.privacyPolicy}
       />
 
-      <AboutUsForm description_ar={aboutUsData?.content_ar} description_en={aboutUsData?.content_en} />
+      <PrivacyPolicyForm description_ar={privacyPolicyData?.content_ar} description_en={privacyPolicyData?.content_en} />
     </div>
   );
 }

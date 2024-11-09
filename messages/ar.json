@@ -16,7 +16,9 @@
     "about_us": "من نحن",
     "faq": "الأسئلة الشائعة",
     "terms_and_conditions": "الشروط والأحكام",
-    "data_management": "إدارة البيانات"
+    "data_management": "إدارة البيانات",
+    "privacyPolicy": "سياسة الخصوصية"
+
   },
   "toast": {},
   "shared": {
@@ -210,7 +212,15 @@
       "editWatch": " تعديل ساعة",
       "addWatch": " اضافة ساعة",
       "watch": "ساعة",
-      "IMEI": "IMEI"
+      "IMEI": "IMEI",
+      "editSecurity": "تعديل مسئول الامن",
+      "editParent": "تعديل الوالد",
+      "editDriver": "تعديل السائق",
+      "editSchool": "تعديل المدرسة",
+      "viewSecurity": "عرض مسئول الامن",
+      "viewParent": "عرض الوالد",
+      "viewDriver": "عرض السائق",
+      "viewSchool": "عرض المدرسة"
     },
     "notification": {
       "notifications": "الاشعارات",
@@ -276,6 +286,10 @@
       "aboutUsUpdated": "تم تحديث من نحن",
       "aboutUsSuccessfullyUpdated": "تم تحديث معلومات عنا بنجاح.",
       "aboutUsUpdateFailed": "فشل تحديث من نحن",
+      "privacyPolicyUpdated": "تم تحديث سياسة الخصوصية",
+      "privacyPolicySuccessfullyUpdated": "تم تحديث سياسة الخصوصية",
+      "privacyPolicyUpdateFailed": "فشل تحديث سياسة الخصوصية",
+
       "requestProblem": "كانت هناك مشكلة في طلبك.",
       "faqs": "الأسئلة الشائعة",
       "addFAQ": "إضافة سؤال متكرر",
@@ -332,7 +346,12 @@
       "editSocialLink": "تعديل الرابط الاجتماعي",
       "createSocialLink": "إنشاء رابط اجتماعي",
       "socialLinkUpdated": "تم تحديث الرابط الاجتماعي.",
-      "socialLinkCreated": "تم إنشاء الرابط الاجتماعي."
+      "socialLinkCreated": "تم إنشاء الرابط الاجتماعي.",
+      "editUser": "تعديل المستخدم",
+       "viewUser": "عرض المستخدم",
+       "privacyPolicy": "سياسة الخصوصية"
+
+
     },
     "users": {
       "Admins": "المديرون",
@@ -421,7 +440,15 @@
       "ownerInfo": "معلومات المالك",
       "logout": "تسجيل خروج",
       "school": "المدرسة",
-      "selectSchool": "حدد المدرسة"
+      "selectSchool": "حدد المدرسة",
+      "editSecurity": "تعديل مسئول الامن",
+      "editParent": "تعديل الوالد",
+      "editDriver": "تعديل السائق",
+      "editSchool": "تعديل المدرسة",
+      "viewSecurity": "عرض مسئول الامن",
+      "viewParent": "عرض الوالد",
+      "viewDriver": "عرض السائق",
+      "viewSchool": "عرض المدرسة"
     }
   },
   "auth": {

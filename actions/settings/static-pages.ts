@@ -6,12 +6,11 @@ import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import axiosInstance, { endpoints, getErrorMessage } from "@/utils/axios-client";
 
-
-export const fetchAboutUs = async (): Promise<any> => {
+export const fetchStaticPages = async (page:"PRIVACY_POLICY" | "TERMS_AND_CONDITIONS"|"ABOUT_US"): Promise<any> => {
   const accessToken = cookies().get("access_token")?.value;
 
   try {
-    const res = await axiosInstance(endpoints.generalSettings.aboutUs, {
+    const res = await axiosInstance(endpoints.generalSettings.root + "/" + page, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -24,7 +23,8 @@ export const fetchAboutUs = async (): Promise<any> => {
   }
 };
 
-export const changeAboutUs = async (body: {
+
+export const changeStaticPagess = async (body: {
   static_page_type: string;
   content_ar: string;
   content_en: string;

@@ -32,7 +32,7 @@ export const changeTermsConditions = async (body: {
   const lang = cookies().get("Language")?.value;
   
   try {
-    const res = await axiosInstance.patch(
+    await axiosInstance.patch(
       endpoints.generalSettings.root,
       body,
       {
@@ -52,96 +52,3 @@ export const changeTermsConditions = async (body: {
 };
 
 
-export const fetchCommission = async (): Promise<any> => {
-  const accessToken = cookies().get("access_token")?.value;
-
-  try {
-    const res = await axiosInstance(endpoints.generalSettings.Commission, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    return res?.data?.data?.value;
-  } catch (error: any) {
-    return {
-      error: getErrorMessage(error),
-    };
-  }
-};
-
-
-export const changeCommission = async (body: {
-  commission: number;
-}): Promise<any> => {
-  const accessToken = cookies().get("access_token")?.value;
-  const lang = cookies().get("Language")?.value;
-
-  try {
-    await axiosInstance.put(
-      endpoints.generalSettings.Commission,
-      {
-        type:"COMMISSION",
-        value:body?.commission
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Accept-Language": lang,
-        },
-      },
-    );
-    revalidatePath('/dashboard/data-management/commission');
-
-  } catch (error: any) {
-    return {
-      error: getErrorMessage(error),
-    };
-  }
-};
-
-export const fetchPharmacyOrder = async (): Promise<any> => {
-  const accessToken = cookies().get("access_token")?.value;
-
-  try {
-    const res = await axiosInstance(endpoints.generalSettings.PharmacyOrder, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    return res?.data?.data?.value;
-  } catch (error: any) {
-    return {
-      error: getErrorMessage(error),
-    };
-  }
-};
-
-//settings 
-export const changePharmacyOrder = async (body: {
-  pharmacy_order_number: number;
-}): Promise<any> => {
-  const accessToken = cookies().get("access_token")?.value;
-  const lang = cookies().get("Language")?.value;
-
-  try {
-    await axiosInstance.put(
-      endpoints.generalSettings.PharmacyOrder,
-      {
-        type:"PHARMACY_ORDER_NUMBER",
-        value:body?.pharmacy_order_number
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Accept-Language": lang,
-        },
-      },
-    );
-    revalidatePath('/dashboard/data-management/pharmacy-order-number');
-
-  } catch (error: any) {
-    return {
-      error: getErrorMessage(error),
-    };
-  }
-};

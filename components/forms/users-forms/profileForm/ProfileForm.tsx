@@ -24,6 +24,9 @@ import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { reloadSession } from "@/lib/funcs";
 import { useTranslations } from "next-intl";
+import { toFormData } from "axios";
+import { ILogedUser } from "@/types/users";
+import { UpdateAdminProfile } from "@/actions/users/users-actions";
 
 export type UserFormValues = z.infer<typeof ProfileSchema>;
 
@@ -37,19 +40,17 @@ interface UserFormProps {
 
 export const UserProfileForm: React.FC<UserFormProps> = ({
   initialData,
-  id,
-  revalidatequery,
-  isAllowToModifyPermissions
 }) => {
   // const { toast } = useToast();
   const t = useTranslations("pages.users");
   const tShared = useTranslations('shared');
   const router = useRouter();
+  const {toast} = useToast();
   const pathname = usePathname();
   const [currentLang] = useState(pathname?.includes("/ar") ? "ar" : "en");
   const [loading, setLoading] = useState(false);
   const action = initialData ? tShared("saveChanges") : tShared("create");
-  // const { update, data: session } = useSession();
+  const { update, data: session } = useSession();
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -62,6 +63,8 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
     birth_date: initialData?.birth_date,
     gender: initialData?.gender,
     phone: initialData?.phone,
+    email: initialData?.email,
+    name: initialData?.name
   };
 
   const form = useForm<UserFormValues>({
@@ -80,52 +83,59 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
   const onSubmit = async (data: UserFormValues) => {
     // alert(JSON.stringify(data)); //testing
     setLoading(true);
-    // const formData = new FormData();
-    // if (revalidatequery === "/dashboard/admins" && data?.premessions) {
-    //   toFormData({ ...data, premessions: data?.premessions.join() }, formData);
+    const formData = new FormData();
+    // if (initialData) {
+    //   Object.entries(data).forEach(([key, value]: any) => {
+    //     if (initialData[key as keyof IUser] !== value) {
+    //       formData.append(key, value);
+    //     }
+    //   })
     // }
     // else {
     //   toFormData( data , formData);
     // }
-    // formData.set('id', id);
-    // //phone changed 
-    // const hasChanged = data.phone !== initialData?.phone;
-    // if (!hasChanged) {
-    //   formData.delete('phone');
-    // }
+    toFormData( data , formData);
+    //phone changed 
+    const hasPhoneChanged = data.phone !== initialData?.phone;
+    const hasMailChanged = data.email !== initialData?.email;
+    if (!hasPhoneChanged) {
+      formData.delete('phone');
+    }
+    if (!hasMailChanged) {
+      formData.delete('email');
+    }
 
-    // const newUser: { error: string } & IUser = await updateUsersProfile(formData, id, revalidatequery);
+    const newUser: { error: string } & ILogedUser = await UpdateAdminProfile(formData);
 
-    // if (newUser?.error) {
-    //   toast({
-    //     variant: "destructive",
-    //     title: initialData ? tShared("updateFailed") : tShared("addFailed"),
-    //     description: newUser?.error,
-    //   });
-    // }
-    // else {
-    //   toast({
-    //     variant: "default",
-    //     title: initialData ? tShared("updatedSuccessfully") : tShared("addedSuccessfully"),
-    //     description: initialData ?  t(`profileUpdatedSuccessfully`) : t(`profileAddedSuccessfully`) ,
-    //   });
-    //   if (id === "") {
-    //     await update({
-    //       ...session,
-    //       user: {
-    //         ...newUser,
-    //         name: newUser?.first_name + " " + newUser?.last_name,
-    //         first_name: newUser?.first_name,
-    //         last_name: newUser?.last_name,
-    //         image: newUser?.avatar,
-    //         avatar: newUser?.avatar,
-    //         premessions:data?.premessions
-    //       }
-    //     })
+    if (newUser?.error) {
+      toast({
+        variant: "destructive",
+        title: initialData ? tShared("updateFailed") : tShared("addFailed"),
+        description: newUser?.error,
+      });
+    }
+    else {
+      toast({
+        variant: "default",
+        title: initialData ? tShared("updatedSuccessfully") : tShared("addedSuccessfully"),
+        description: initialData ?  t(`profileUpdatedSuccessfully`) : t(`profileAddedSuccessfully`) ,
+      });
+      console.log(newUser);
+        await update({
+          ...session,
+          user: {
+            ...newUser,
+            name: newUser?.name,
+            image: newUser?.avatar,
+            avatar: newUser?.avatar,
+            phone: newUser?.phone,
+            email: newUser?.email,
+            birth_date: newUser?.birth_date
+          }
+        })
         reloadSession();
         router.refresh();
-      // }
-    // }
+    }
     setLoading(false);
   };
 
@@ -140,6 +150,23 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
           >
             <AvatarPreview selectedAvatar={selectedAvatar} />
             <div className="md:grid md:grid-cols-2 gap-8">
+            <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("fullName")} <span className="text-red-800">*</span></FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder={t("fullName")}
+                          {...field}
+                        />
+                      </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <div className="flex w-full justify-end flex-col items-start gap-1">
                 <label htmlFor="date" className="font-medium text-sm">
                 {t("birthDate")} <span className="text-red-800">*</span>
@@ -218,6 +245,49 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                 </div>
                 {errors?.avatarFile?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.avatarFile?.message as any}</FormMessage>}
               </FormItem>
+
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("email")} <span className="text-red-800">*</span></FormLabel>
+                    <FormControl>
+                        <FormControl>
+                          <Input
+                            disabled={loading}
+                            placeholder={t("email")}
+                            {...field}
+                            type="email"
+                            required={!initialData}
+                            autoComplete="new-password"
+                          />
+                        </FormControl>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("password")} <span className="text-red-800">*</span></FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        placeholder={t("password")}
+                        type="password"
+                        {...field}
+                        autoComplete="new-password"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
             <Button disabled={loading} className="ml-auto" type="submit">
               {action}

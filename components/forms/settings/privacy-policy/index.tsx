@@ -38,13 +38,13 @@ const formSchema = z.object({
     }),
 });
 
-export type AboutUsFormValues = z.infer<typeof formSchema>;
+export type PrivacyPolicyFormValues = z.infer<typeof formSchema>;
 interface Prop {
   description_ar: string;
   description_en: string;
 }
 
-export const AboutUsForm: React.FC<Prop> = ({
+export const PrivacyPolicyForm: React.FC<Prop> = ({
   description_ar,
   description_en,
 }) => {
@@ -59,14 +59,14 @@ export const AboutUsForm: React.FC<Prop> = ({
     description_en,
   };
 
-  const form = useForm<AboutUsFormValues>({
+  const form = useForm<PrivacyPolicyFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
 
-  const onSubmit = async (data: AboutUsFormValues) => {
+  const onSubmit = async (data: PrivacyPolicyFormValues) => {
     const body = {
-      static_page_type: "ABOUT_US",
+      static_page_type: "PRIVACY_POLICY",
       content_ar: data.description_ar,
       content_en: data.description_en,
     };
@@ -76,13 +76,13 @@ export const AboutUsForm: React.FC<Prop> = ({
       router.refresh();
       toast({
         variant: "default",
-        title: t("aboutUsUpdated"),
-        description: t("aboutUsSuccessfullyUpdated"),
+        title: t("privacyPolicyUpdated"),
+        description: t("privacyPolicySuccessfullyUpdated"),
       });
     } catch (error: any) {
       toast({
         variant: "destructive",
-        title: t("aboutUsUpdateFailed"),
+        title: t("privacyPolicyUpdateFailed"),
         description:t("requestProblem"),
       });
     } finally {

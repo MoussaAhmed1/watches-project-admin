@@ -34,7 +34,7 @@ const UserSchema = z.object({
     .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
     .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
     .regex(/[0-9]/, { message: "Password must contain at least one number" })
-    .regex(/[@$!%*?&]/, { message: "Password must contain at least one special character" }),
+    .regex(/[@$!%*?&]/, { message: "Password must contain at least one special character" }).optional(),
 });
 
 export default UserSchema;

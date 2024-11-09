@@ -24,6 +24,8 @@ export default async function ProfilePage({params}:{params:{lang:"ar"|"en"}}) {
           gender: session?.user?.gender as "male" | "female",
           phone: session?.user?.phone,
           avatarFile: session.user?.avatar,
+          email: session?.user?.email,
+          name: session?.user?.name
         } : undefined}
         revalidatequery="/dashboard/admins"
       />

@@ -1,5 +1,6 @@
 export interface ILogedUser {
   id: string
+  name: string
   account: string
   avatar: string
   username: string
@@ -19,6 +20,8 @@ export interface IUser {
   name: string
   email: string
   avatar?: string
+  gender: "male" | "female"
+  phone: string
   created_at: string
   school?: School
 }

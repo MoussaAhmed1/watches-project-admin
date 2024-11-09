@@ -91,14 +91,14 @@ export const navItems: NavItem[] = [
     subItems: true,
     children: [
       {
-        title: "Contact us",
-        href: "/dashboard/settings/contact-us",
-        label:"contact_us"
-      },
-      {
         title: "About Us",
         href: "/dashboard/settings/about-us",
         label:"about_us"
+      },
+      {
+        title: "Contact us",
+        href: "/dashboard/settings/contact-us",
+        label:"contact_us"
       },
       {
         title: "FAQ",
@@ -109,6 +109,11 @@ export const navItems: NavItem[] = [
         title: "Terms and Conditions",
         href: "/dashboard/settings/terms-conditions",
         label:"terms_and_conditions"
+      },
+      {
+        title: "privacyPolicy",
+        href: "/dashboard/settings/privacy-policy",
+        label:"privacyPolicy"
       },
     ],
   },

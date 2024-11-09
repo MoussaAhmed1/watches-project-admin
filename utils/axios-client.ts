@@ -78,7 +78,9 @@ export const getErrorMessage = (error: unknown): string => {
 export const endpoints = {
   users: {
     fetch: "/user",
+    delete: "/user/delete",
     register:"/auth/register",
+    update:"/user/update-profile",
   },
   watches:{
     fetch:"/watch/get-all-IMEI",
