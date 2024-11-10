@@ -57,7 +57,7 @@ export default async function page({ searchParams,params }: paramsProps) {
             title={`${navigation[params.role]} (${totalUsers})`}
           />
           <Link
-            href={`/${params?.lang}/dashboard/${params.role}/create-user`}
+            href={`/${params?.lang}/dashboard/users/${params.role}/create-user`}
             className={cn(buttonVariants({ variant: "default" }))}
           >
             <Plus className="ltr:mx-1 rtl:ml-2 h-4 w-4" />{shared.add_new}
