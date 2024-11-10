@@ -25,7 +25,6 @@ const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) =
       link: `/dashboard/history-of-requests/${request?.id}`,
     },
   ];
-  console.log(request?.is_parent)
   return (
     <>
       <div className="mx-auto w-full mt-8 bg-background">
@@ -167,6 +166,7 @@ const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) =
 
                 </div>
                 :
+                request?.driver? 
                 <div className="p-4 border-t border-gray-200">
                   <h2 className="text-xl font-bold">{pages.requestDetails.driverDetails}</h2>
                   <div className="flex mt-3">
@@ -196,7 +196,7 @@ const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) =
                   </div>
 
                 </div>
-              }
+              :"-"}
             </div>
           </div>
         </div>

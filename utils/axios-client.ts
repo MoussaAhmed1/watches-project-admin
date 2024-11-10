@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-import { watch } from "fs";
 
 export interface Params {
   page: number;
@@ -93,23 +92,6 @@ export const endpoints = {
     register:"/auth/register/admin"
     
   },
-  nurse_orders: {
-    fetch: "/nurse/order",
-    cancleRequest: "/nurse/admin/cancel/order",
-  },
-  reservations: {
-    fetch: "/reservation",
-    acceptCancleRequest: "/reservation",
-    cancleRequest: "/reservation/admin-cancel",
-  },
-  pharmacy: {
-    fetch: "/pharmacy",
-    order: "/pharmacy/order",
-    categories: "/pharmacy/categories",
-    drugs: "/pharmacy/drugs",
-    accept: "/pharmacy/accept",
-    register:"/auth/register/pharmacy"
-  },
   suggestions: {
     fetch: "/suggestions-complaints",
   },
@@ -118,24 +100,8 @@ export const endpoints = {
     profile: "/additional-info/profile",
     statictics: "/additional-info/statictics",
   },
-  nurses: {
-    fetch: "/nurse",
-    accept: "/nurse/accept",
-    register:"/auth/register/nurse",
-    reviews:"/nurse/reviews"
-  },
-  packages: {
-    fetch: "/package",
-    pharmacy:"/package/pharmacy"
-  },
-  banar: {
-    fetch: "/banar",
-  },
-  pharmacies: {
-    fetch: "/pharmacy",
-  },
   notification: {
-    send: "/notification/send-to-users",
+    send: "/notification/send-to-all",
     fetch: "/notification",
   },
   generalSettings: {
