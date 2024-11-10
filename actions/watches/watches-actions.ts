@@ -70,7 +70,7 @@ export const UpdateWatch = async (
 
   try {
     await axiosInstance.put(
-      `${endpoints.pharmacy.categories}/${id}`,
+      `${""}/${id}`,
       data,
       {
         headers: {
