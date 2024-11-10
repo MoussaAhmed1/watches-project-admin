@@ -245,7 +245,7 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
                       );
                     }}
                     options={
-                      users.map((user) => {
+                      users?.map((user) => {
                         return { label: user.name, value: user.id }
                       })
                     }
