@@ -21,7 +21,7 @@ export const navItems: NavItem[] = [
   },
   {
     title: "Admins",
-    href: "/dashboard/admins",
+    href: "/dashboard/users//admins",
     icon: "admin",
     label: "admins",
     subItems: false,
@@ -35,22 +35,22 @@ export const navItems: NavItem[] = [
     children: [
       {
         title: "Parents",
-        href: "/dashboard/parents",
+        href: "/dashboard/users/parents",
         label: "parents",
       },
       {
         title: "Drivers",
-        href: "/dashboard/drivers",
+        href: "/dashboard/users/drivers",
         label: "drivers",
       },
       {
         title: "Schools",
-        href: "/dashboard/schools",
+        href: "/dashboard/users/schools",
         label: "schools",
       },
       {
         title: "Security",
-        href: "/dashboard/security",
+        href: "/dashboard/users/security",
         label: "security",
       },
     ],
