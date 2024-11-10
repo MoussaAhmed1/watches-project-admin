@@ -131,3 +131,19 @@ export const removeUser = async ({id,revalidateData}:{id:string,revalidateData?:
       };
     }
   };
+
+  export const fetchSingleUser = async (id: string): Promise<any> => {
+    const lang = cookies().get("Language")?.value;
+    const accessToken = cookies().get("access_token")?.value;
+    try {
+      const res = await axiosInstance(`${endpoints.users.fetch}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Accept-Language": lang,
+        },
+      });
+      return res;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  };

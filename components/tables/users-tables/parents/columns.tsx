@@ -25,6 +25,14 @@ export const columns: ColumnDef<IUser>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: "phone",
+    header: "phone",
+    cell: ({ row }) => row?.original?.phone ?
+    <p className="rtl:text-right text-left" dir="ltr">{row?.original?.phone}</p>
+:
+    <p className="rtl:text-right text-left" dir="ltr">-</p>
+  },
+  {
     accessorKey: "email",
     header: "email",
   },

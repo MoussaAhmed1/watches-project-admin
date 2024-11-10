@@ -175,7 +175,7 @@ export const UserForm: React.FC<UserFormProps> = ({
       toast({
         variant: "default",
         title: initialData ? tShared("updatedSuccessfully") : tShared("addedSuccessfully"),
-        description: t(`profileAddedSuccessfully`),
+        description: initialData ? t(`profileUpdatedSuccessfully`): t(`profileAddedSuccessfully`),  
       });
       //TODO: redirect to dashboard
       if (!initialData) {

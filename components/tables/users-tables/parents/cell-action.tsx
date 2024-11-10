@@ -9,7 +9,15 @@ import UserFormAction from "@/components/forms/users-forms/editUser";
 import { AlertModal } from "@/components/modal/alert-modal";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
-
+import Cookie from 'js-cookie';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import Approve from "@/components/shared/table/Approve";
 interface CellActionProps {
   data: IUser;
   toBeVerified?: boolean;
@@ -17,6 +25,8 @@ interface CellActionProps {
 
 export const CellAction: React.FC<CellActionProps> = ({ data, toBeVerified = false }) => {
   const router = useRouter();
+  const currentLang = Cookie.get("Language") ?? "en";
+
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
@@ -45,28 +55,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data, toBeVerified = fal
   };
   return (
     <>
-        <div className="flex flex-end grow" key={data.id}>
-      <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onConfirm}
-        loading={loading}
-      />
-      <div className="flex-end grow flex gap-1 justify-center items-center ">
-        <UserFormAction user={data} id={data.id} readOnly={true}/>
-        <Button
-          disabled={loading}
-          type="button"
-          variant="destructive"
-          size="icon"
-          onClick={() => setOpen(true)}
-        >
-          <Trash className="h-4 w-4" />
-        </Button>
-        <UserFormAction user={data} id={data.id} />
-      </div>
-    </div>
-      {/* <DropdownMenu modal={false} dir={currentLang === "ar" ? "rtl" : "ltr"}>
+    <DropdownMenu modal={false} dir={currentLang === "ar" ? "rtl" : "ltr"}>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
             <span className="sr-only">{t("open_menu")}</span>
@@ -75,16 +64,26 @@ export const CellAction: React.FC<CellActionProps> = ({ data, toBeVerified = fal
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
+          
           <DropdownMenuItem
-            onClick={() => router.push(`/${currentLang}/dashboard/doctors/${data.id}`)}
+            onClick={() => router.push(`/${currentLang}/dashboard/${role}/${data.id}`)}
           >
             <Eye className="mx-1 h-4 w-4"/> {t("view")}
           </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => router.push(`/${currentLang}/dashboard/${role}/${data?.id}/edit`)}
+          >
+             <Edit className="mx-1 h-4 w-4" /> {t("update")}
+          </DropdownMenuItem>
           <DropdownMenuItem>
-            <UserFormAction id={data.id} />
+          <Approve successMessage="Deleted Successfully" title="Delete User"  method={removeUser} revalidateData={`/dashboard/${role}`} id={data?.id} >
+              <div className="flex">
+                <Trash className="mx-1 h-4 w-4" /> {t("delete")}
+              </div>
+            </Approve>
           </DropdownMenuItem>
         </DropdownMenuContent>
-      </DropdownMenu> */}
+      </DropdownMenu>
     </>
   );
 };
