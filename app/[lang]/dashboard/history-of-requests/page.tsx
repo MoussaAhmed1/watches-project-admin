@@ -4,13 +4,9 @@ import { getDictionary } from "@/app/[lang]/messages";
 import BreadCrumb from "@/components/breadcrumb";
 import { SharedTable } from "@/components/shared/table/Shared-table";
 import { columns } from "@/components/tables/history-request/columns";
-import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
 import {  HistoryOfRequests } from "@/types/watches/requests";
-import { Plus } from "lucide-react";
-import Link from "next/link";
 
 
 type paramsProps = {

@@ -68,23 +68,6 @@ export const columns: ColumnDef<HistoryOfRequests>[] = [
     </div>),
     enableHiding: true,
   },
-  // {
-  //   accessorKey: "parent",
-  //   header:"parent",
-  //   cell: ({ row }) => (<div className="flex items-center gap-3">
-  //     <Avatar className="w-10 h-10">
-  //       <AvatarImage
-  //         src={row?.original?.parent?.avatar ?? ""}
-  //         alt={row?.original?.parent?.name ?? ""}
-  //       />
-  //       <AvatarFallback>{row?.original?.parent?.name[0]}</AvatarFallback>
-  //     </Avatar>
-  //     <p >
-  //       {row?.original?.parent?.name}
-  //     </p>
-  //   </div>),
-  //   enableHiding: true,
-  // },
   {
     accessorKey: "status",
     header:"status",
