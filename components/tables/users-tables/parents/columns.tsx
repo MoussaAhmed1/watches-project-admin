@@ -36,9 +36,9 @@ export const columns: ColumnDef<IUser>[] = [
     accessorKey: "email",
     header: "email",
   },
-  {
-    id: "actions",
-    cell: ({ row }) => <CellAction data={row.original} />,
-  },
+  // {
+  //   id: "actions",
+  //   cell: ({ row }) => <CellAction data={row.original} />,
+  // },
 ];
 
