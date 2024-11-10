@@ -36,14 +36,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data, toBeVerified = fal
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() => router.push(`/${currentLang}/dashboard/doctors/${data.id}`)}
+            onClick={() => router.push(`/${currentLang}/dashboard/history-of-requests/${data.id}`)}
           >
             <Eye className="mx-1 h-4 w-4"/> {t("view")}
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => router.push(`/${currentLang}/dashboard/doctors/${data?.id}/${data?.id}/edit`)}
-          >
-             <Edit className="mx-1 h-4 w-4" /> {t("update")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

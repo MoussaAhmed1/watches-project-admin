@@ -449,7 +449,26 @@
       "viewParent": "عرض الوالد",
       "viewDriver": "عرض السائق",
       "viewSchool": "عرض المدرسة"
+    },
+    "requestDetails": {
+      "title": "تفاصيل الطلب ",
+      "status": "الحالة",
+      "code": "رمز الطلب",
+      "school": "المدرسة",
+      "createdAt": "تاريخ الإنشاء",
+      "updatedAt": "تاريخ التحديث",
+      "parentDetails": "تفاصيل الولي",
+      "userDetails": "تفاصيل المستخدم",
+      "watchUserDetails": "تفاصيل مراقب الطلب",
+      "driverDetails": "تفاصيل  السائق"
+    },
+    "request": {
+      "status": {
+        "COMPLETED": "مكتمل",
+        "PENDING": "قيد الانتظار"
+      }
     }
+
   },
   "auth": {
     "signin": "Anmeldung",

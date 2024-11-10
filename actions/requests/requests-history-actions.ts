@@ -3,7 +3,6 @@
 /* eslint-disable consistent-return */
 
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
 import axiosInstance, {
   endpoints,
   getErrorMessage,
@@ -35,5 +34,20 @@ export const fetchRequests = async ({
     return {
       error: getErrorMessage(error),
     };
+  }
+};
+export const fetchSingleRequest = async (id: string): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+  try {
+    const res = await axiosInstance(`${endpoints.watches.get_single}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+    return res;
+  } catch (error: any) {
+    throw new Error(error);
   }
 };
