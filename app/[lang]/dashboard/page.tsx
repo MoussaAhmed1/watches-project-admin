@@ -20,22 +20,22 @@ export default async function page({ params }: { params: { lang: "ar"|"en" } }) 
     {
       title: navigation.parents,
       total: statistics_res?.clients_count||0,
-      link: `/${params?.lang}/dashboard/parents`
+      link: `/${params?.lang}/dashboard/users/parents`
     },
     {
       title: navigation.drivers,
       total: statistics_res?.doctors_count||0,
-      link: `/${params?.lang}/dashboard/drivers`
+      link: `/${params?.lang}/dashboard/users/drivers`
     },
     {
       title: navigation.schools,
       total: statistics_res?.nurses_count||0,
-      link: `/${params?.lang}/dashboard/schools`
+      link: `/${params?.lang}/dashboard/users/schools`
     },
     {
       title: navigation.security,
       total: statistics_res?.pharmacy_count||0,
-      link: `/${params?.lang}/dashboard/security`
+      link: `/${params?.lang}/dashboard/users/security`
     },
   ]
 

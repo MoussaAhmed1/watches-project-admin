@@ -18,14 +18,14 @@ export default async function SettingsProfilePage({ params, searchParams }: {
 
   const { navigation, shared } = await getDictionary(params?.lang)
   const breadcrumbItems = [
-    { title: navigation.parents, link: `dashboard/users/parents` },
-    { title: shared.details, link: `dashboard/users/parents/${params.id}` },
+    { title: navigation.drivers, link: `dashboard/users/drivers` },
+    { title: shared.details, link: `dashboard/users/drivers/${params.id}` },
   ];
 
   return (
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems} />
-      <UserForm _role={"parents"} initialData={{
+      <UserForm _role={"drivers"} initialData={{
           ...user,
           avatarFile: user?.avatar
         } as any} id={params.id} readOnly={true}  />

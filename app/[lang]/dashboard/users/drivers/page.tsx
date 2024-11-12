@@ -27,14 +27,14 @@ export default async function page({ searchParams,params }: paramsProps) {
   const res = await fetchUsers({
     page,
     limit,
-    role: Role["parents"],
+    role: Role["drivers"],
     filters: search,
   });
   const totalUsers = res?.data?.meta?.total || 0; //1000
   const pageCount = Math.ceil(totalUsers / limit);
   const users: IUser[] = res?.data?.data || [];
   const {navigation,shared} = await getDictionary(params?.lang)
-  const breadcrumbItems = [{ title: navigation["parents"], link: `/dashboard/users/parents` }];
+  const breadcrumbItems = [{ title: navigation["drivers"], link: `/dashboard/users/drivers` }];
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6 ">
@@ -42,10 +42,10 @@ export default async function page({ searchParams,params }: paramsProps) {
 
         <div className="flex items-start justify-between">
           <Heading
-            title={`${navigation["parents"]} (${totalUsers})`}
+            title={`${navigation["drivers"]} (${totalUsers})`}
           />
           <Link
-            href={`/${params?.lang}/dashboard/users/parents/create-user`}
+            href={`/${params?.lang}/dashboard/users/drivers/create-user`}
             className={cn(buttonVariants({ variant: "default" }))}
           >
             <Plus className="ltr:mx-1 rtl:ml-2 h-4 w-4" />{shared.add_new}
@@ -54,7 +54,7 @@ export default async function page({ searchParams,params }: paramsProps) {
         <Separator />
 
         <SharedTable
-          searchKey={"parents"}
+          searchKey={"drivers"}
           pageNo={page}
           columns={columns}
           totalitems={totalUsers}
