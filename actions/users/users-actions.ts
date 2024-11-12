@@ -41,7 +41,7 @@ export const fetchUsers = async ({
   }
 };
 
-export const AddUser = async (formData: FormData,role:"parents" | "drivers" | "schools" |"security"): Promise<any> => {
+export const AddUser = async (formData: FormData,role:"parents" | "drivers" | "schools" |"security"|"admins"): Promise<any> => {
     const lang = cookies().get("Language")?.value;
     try {
       const accessToken = cookies().get("access_token")?.value;
@@ -62,7 +62,7 @@ export const AddUser = async (formData: FormData,role:"parents" | "drivers" | "s
   };
   
 
-export const UpdateUser = async (formData: FormData,role:"parents" | "drivers" | "schools" |"security",id?:string): Promise<any> => {
+export const UpdateUser = async (formData: FormData,role:"parents" | "drivers" | "schools" |"security"|"admins",id?:string): Promise<any> => {
     const lang = cookies().get("Language")?.value;
     try {
       const accessToken = cookies().get("access_token")?.value;

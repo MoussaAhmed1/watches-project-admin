@@ -40,7 +40,7 @@ export default function LoginForm({ lang }: { lang: Language }) {
 
     return (
         <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center dark:bg-gray-900">
-            <div className="m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1 dark:bg-gray-900">
+            <div className="m-0  bg-white shadow sm:rounded-lg flex justify-center flex-1 dark:bg-gray-900">
                 <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12 mt-[20vh]">
                     <div>
                         <Image alt={"logo"} width={250} height={150} src={logo}

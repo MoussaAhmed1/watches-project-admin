@@ -448,6 +448,9 @@
       "viewSecurity": "عرض مسئول الامن",
       "viewParent": "عرض الوالد",
       "viewDriver": "عرض السائق",
+      "addAdmins": " اضافة مدير",
+      "viewAdmins": "  عرض مدير" ,
+      "editAdmins": "تعديل مدير",
       "viewSchool": "عرض المدرسة"
     },
     "requestDetails": {
