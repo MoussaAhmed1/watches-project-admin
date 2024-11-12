@@ -2,13 +2,9 @@
 import { Button } from "@/components/ui/button";
 import { IUser } from "@/types/users";
 import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { removeUser } from "@/actions/users/users-actions";
 import { useTranslations } from "next-intl";
-import UserFormAction from "@/components/forms/users-forms/editUser";
-import { AlertModal } from "@/components/modal/alert-modal";
-import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
 import Cookie from 'js-cookie';
 import {
   DropdownMenu,
@@ -20,39 +16,18 @@ import {
 import Approve from "@/components/shared/table/Approve";
 interface CellActionProps {
   data: IUser;
-  toBeVerified?: boolean;
 }
-
-export const CellAction: React.FC<CellActionProps> = ({ data, toBeVerified = false }) => {
+function getSecondSegmentAfterDashboard(url:string) {
+  const regex = /\/dashboard\/[^/?]+\/([^/?]+)/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
+}
+export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const router = useRouter();
   const currentLang = Cookie.get("Language") ?? "en";
-
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-  const { toast } = useToast();
    const t = useTranslations("tableActions");
-  const {role} = useParams();
-  const onConfirm = async () => {
-    const res = await removeUser({id:data.id,revalidateData:`/dashboard/${role}`});
-    if (res?.error) {
-      toast({
-        variant: "destructive",
-        title:  t("deleteFailed"),
-        description: res?.error,
-      });
-    }
-    else {
-      toast({
-        variant: "default",
-        title: t("deletedSuccessfully"),
-      });
-      router.refresh();
-    }
-
-    setLoading(false);
-    setOpen(false);
-
-  };
+   const path = usePathname();
+  const role = getSecondSegmentAfterDashboard(path);
   return (
     <>
     <DropdownMenu modal={false} dir={currentLang === "ar" ? "rtl" : "ltr"}>
