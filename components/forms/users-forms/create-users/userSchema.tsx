@@ -26,7 +26,7 @@ const UserSchema = z.object({
       message: 'String must be a valid image URL (jpeg, png, gif)',
     })
   ]),
-  role: z.enum(["PARENT", "DRIVER", "SCHOOL", "SECURITY"]),
+  role: z.enum(["PARENT", "DRIVER", "SCHOOL", "SECURITY","ADMIN"]),
   school_id: z.string().optional(),
   email: z.string().email({ message: "Invalid email address" }),
   password: z.string()

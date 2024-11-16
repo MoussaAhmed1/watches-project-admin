@@ -471,6 +471,9 @@
       "viewSecurity": "View Security",
       "viewParent": "View Parent",
       "viewDriver": "View Driver",
+      "addAdmins": "Add Admins",
+      "viewAdmins": "View Admins", 
+      "editAdmins": "Edit Admins",
       "viewSchool": "View School"
     },
     "requestDetails": {

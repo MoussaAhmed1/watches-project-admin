@@ -34,7 +34,7 @@ interface UserFormProps {
   id?: string;
   schools?: IUser[];
   readOnly?: boolean;
-  _role?: "parents" | "drivers" | "schools" | "security";
+  _role?: "parents" | "drivers" | "schools" | "security"| "admins";
   closeDailog?: () => void
 }
 
@@ -68,7 +68,7 @@ export const UserForm: React.FC<UserFormProps> = ({
       else if (_role === "schools") {
         return t("addSchool");
       }
-      return t("addParent");
+      return t("addAdmins");
     },
     [_role, t],
   )
@@ -87,7 +87,7 @@ export const UserForm: React.FC<UserFormProps> = ({
         else if (_role === "schools") {
           return t("viewSchool");
         }
-        return t("viewParent");
+        return t("viewAdmins");
       }
 
       if (_role === "security") {
@@ -102,7 +102,7 @@ export const UserForm: React.FC<UserFormProps> = ({
       else if (_role === "schools") {
         return t("editSchool");
       }
-      return t("editParent");
+      return t("editAdmins");
     },
     [_role, readOnly, t],
   )
@@ -199,7 +199,7 @@ export const UserForm: React.FC<UserFormProps> = ({
         <Heading title={title} />
       </div>
 
-      <Card className="p-10 mx-0 border-0" style={{ boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >
+      <Card className="p-10 mx-0 border-1" style={{ boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}

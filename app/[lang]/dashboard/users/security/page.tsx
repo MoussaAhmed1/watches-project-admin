@@ -11,27 +11,15 @@ import { cn } from "@/lib/utils";
 import {  IUser, Role } from "@/types/users";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
-
-
 type paramsProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
-  params:{ role: "parents" | "drivers" | "schools" |"security"| "admins",lang:"ar"|"en"}
+  params:{ lang:"ar"|"en"}
 };
 
-const roles = ["parents", "drivers", "schools", "security", "admins"];
-export function generateStaticParams() {
- 
-  return roles.map((role) => ({
-    role,
-  }))
-}
+
 export default async function page({ searchParams,params }: paramsProps) {
-  if(!roles.includes(params?.role)){
-    notFound()
-  } 
   const page = Number(searchParams.page) || 1;
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
@@ -39,14 +27,14 @@ export default async function page({ searchParams,params }: paramsProps) {
   const res = await fetchUsers({
     page,
     limit,
-    role: Role[params.role],
+    role: Role["security"],
     filters: search,
   });
   const totalUsers = res?.data?.meta?.total || 0; //1000
   const pageCount = Math.ceil(totalUsers / limit);
   const users: IUser[] = res?.data?.data || [];
   const {navigation,shared} = await getDictionary(params?.lang)
-  const breadcrumbItems = [{ title: navigation[params.role], link: `/dashboard/${params.role}` }];
+  const breadcrumbItems = [{ title: navigation["security"], link: `/dashboard/users/security` }];
   return (
     <>
       <div className="flex-1 space-y-4  p-4 md:p-8 pt-6 ">
@@ -54,10 +42,10 @@ export default async function page({ searchParams,params }: paramsProps) {
 
         <div className="flex items-start justify-between">
           <Heading
-            title={`${navigation[params.role]} (${totalUsers})`}
+            title={`${navigation["security"]} (${totalUsers})`}
           />
           <Link
-            href={`/${params?.lang}/dashboard/${params.role}/create-user`}
+            href={`/${params?.lang}/dashboard/users/security/create-user`}
             className={cn(buttonVariants({ variant: "default" }))}
           >
             <Plus className="ltr:mx-1 rtl:ml-2 h-4 w-4" />{shared.add_new}
@@ -66,7 +54,7 @@ export default async function page({ searchParams,params }: paramsProps) {
         <Separator />
 
         <SharedTable
-          searchKey={params.role}
+          searchKey={"security"}
           pageNo={page}
           columns={columns}
           totalitems={totalUsers}
