@@ -8,6 +8,7 @@ import ProfileImg from "@/components/shared/imagesRender/profileImg";
 import userAvatar from "../../../../../public/assets/user-avatar.png";
 import { formatCreatedAtDateAsDateTime, getCustomNameKeyLang, shortenText } from "@/utils/helperFunctions";
 import { getDictionary } from "@/app/[lang]/messages";
+import RequestDetails from "@/components/details/no-items/requests-history";
 
 export const metadata: Metadata = {
   title: "Requests Details | Dacatra Dashboard",
@@ -35,7 +36,7 @@ const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) =
             description={`${formatCreatedAtDateAsDateTime(request.created_at)} - ${request?.status}`}
           />
         </div>
-        <div className="mx-auto w-full mt-2 bg-background">
+        {/* <div className="mx-auto w-full mt-2 bg-background">
           <div className="w-full mx-auto p-4 ">
             <div className="bg-background shadow-md rounded-lg overflow-hidden border min-h-[77dvh] border-gray-400">
 
@@ -199,7 +200,8 @@ const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) =
               :"-"}
             </div>
           </div>
-        </div>
+        </div> */}
+        <RequestDetails/>
       </div>
     </>
   );

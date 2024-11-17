@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { IUser } from "@/types/users";
 import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { removeUser } from "@/actions/users/users-actions";
 import { useTranslations } from "next-intl";
 import Cookie from 'js-cookie';
