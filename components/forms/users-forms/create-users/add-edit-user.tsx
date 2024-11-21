@@ -11,7 +11,7 @@ import {
 import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Select as ShadcnSelect, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select as ShadcnSelect, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup } from "@/components/ui/select";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -24,7 +24,7 @@ import { toFormData } from "axios";
 import AvatarPreview from "@/components/shared/AvatarPreview";
 import { AddUser, UpdateUser } from "@/actions/users/users-actions";
 import { useTranslations } from "next-intl";
-import { IUser, Role } from "@/types/users";
+import { ICity, IUser, Role } from "@/types/users";
 import { shortenText } from "@/utils/helperFunctions";
 import Link from "next/link";
 export type UserFormValues = z.infer<typeof UserSchema>;
@@ -33,8 +33,9 @@ interface UserFormProps {
   initialData?: IUser;
   id?: string;
   schools?: IUser[];
+  cities?: ICity[];
   readOnly?: boolean;
-  _role?: "parents" | "drivers" | "schools" | "security"| "admins";
+  _role?: "parents" | "drivers" | "schools" | "security" | "admins";
   closeDailog?: () => void
 }
 
@@ -42,6 +43,7 @@ export const UserForm: React.FC<UserFormProps> = ({
   initialData,
   id,
   schools,
+  cities,
   _role = "parents",
   readOnly = false,
   closeDailog
@@ -175,11 +177,11 @@ export const UserForm: React.FC<UserFormProps> = ({
       toast({
         variant: "default",
         title: initialData ? tShared("updatedSuccessfully") : tShared("addedSuccessfully"),
-        description: initialData ? t(`profileUpdatedSuccessfully`): t(`profileAddedSuccessfully`),  
+        description: initialData ? t(`profileUpdatedSuccessfully`) : t(`profileAddedSuccessfully`),
       });
       //TODO: redirect to dashboard
       if (!initialData) {
-        router.push(`/dashboard/${_role}`);
+        router.push(`/dashboard/users/${_role}`);
       }
       else {
         if (closeDailog) {
@@ -231,33 +233,61 @@ export const UserForm: React.FC<UserFormProps> = ({
                   </FormItem>
                 )}
               />
-              {/* Gender */}
-              <FormField name="gender" control={control} render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("gender")}</FormLabel>
-                  <FormControl>
-                    {readOnly ? (
-                      <p>{field.value === "male" ? t("male") : t("female")}</p>
-                    ) : (
-                      <ShadcnSelect
-                        {...field}
-                        onValueChange={field.onChange}
-                        dir={currentLang === "ar" ? "rtl" : "ltr"}
-                        disabled={readOnly}  // Disable select if readonly
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder={t("selectGender")} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="male">{t("male")}</SelectItem>
-                          <SelectItem value="female">{t("female")}</SelectItem>
-                        </SelectContent>
-                      </ShadcnSelect>
-                    )}
-                  </FormControl>
-                  {errors.gender && <FormMessage>{errors.gender.message}</FormMessage>}
-                </FormItem>
-              )} />
+
+              {/* Gender - city_id */} 
+              {!(_role === "schools") ?
+                <FormField name="gender" control={control} render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("gender")}</FormLabel>
+                    <FormControl>
+                      {readOnly ? (
+                        <p>{field.value === "male" ? t("male") : t("female")}</p>
+                      ) : (
+                        <ShadcnSelect
+                          {...field}
+                          onValueChange={field.onChange}
+                          dir={currentLang === "ar" ? "rtl" : "ltr"}
+                          disabled={readOnly}  // Disable select if readonly
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder={t("selectGender")} />
+                          </SelectTrigger>
+                          <SelectContent className="max-h-[200px]">
+                            <SelectItem value="male">{t("male")}</SelectItem>
+                            <SelectItem value="female">{t("female")}</SelectItem>
+                          </SelectContent>
+                        </ShadcnSelect>
+                      )}
+                    </FormControl>
+                    {errors.gender && <FormMessage>{errors.gender.message}</FormMessage>}
+                  </FormItem>
+                )} />
+                :
+                < FormField name="city_id" control={control} render={({ field }) => (
+                  <FormItem >
+                    <FormLabel>{t("city")} <span className="text-red-800">*</span></FormLabel>
+                    <FormControl >
+                      {readOnly ? (
+                        <p>{cities?.filter((city) => city?.id === field.value)[0]?.name}</p>
+                      ) : (
+
+                        <ShadcnSelect required {...field} onValueChange={field.onChange} dir={currentLang === "ar" ? "rtl" : "ltr"}>
+                          <SelectTrigger>
+                            <SelectValue placeholder={t("selectCity")} />
+                          </SelectTrigger>
+                          <SelectContent className="max-h-[200px]">
+                          <SelectGroup>
+                            {cities?.map((city) => (
+                              <SelectItem value={city?.id} key={city?.id}>{city?.name}</SelectItem>
+                            ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </ShadcnSelect>
+                      )}
+                    </FormControl>
+                  </FormItem>
+                )} />
+              }
 
               <FormField
                 control={form.control}
@@ -325,7 +355,7 @@ export const UserForm: React.FC<UserFormProps> = ({
                           <SelectTrigger>
                             <SelectValue placeholder={t("selectSchool")} />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent className="max-h-[200px]">
                             {schools?.map((school) => (
                               <SelectItem value={school?.school?.id || ""} key={school?.id}>{school?.name}</SelectItem>
                             ))}

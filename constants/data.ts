@@ -39,11 +39,6 @@ export const navItems: NavItem[] = [
         label: "parents",
       },
       {
-        title: "Drivers",
-        href: "/dashboard/users/drivers",
-        label: "drivers",
-      },
-      {
         title: "Schools",
         href: "/dashboard/users/schools",
         label: "schools",
@@ -94,11 +89,6 @@ export const navItems: NavItem[] = [
         title: "About Us",
         href: "/dashboard/settings/about-us",
         label:"about_us"
-      },
-      {
-        title: "Contact us",
-        href: "/dashboard/settings/contact-us",
-        label:"contact_us"
       },
       {
         title: "FAQ",

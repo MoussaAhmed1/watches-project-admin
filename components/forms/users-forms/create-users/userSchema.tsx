@@ -3,8 +3,9 @@ import * as z from "zod";
 
 const UserSchema = z.object({
   name : z.string().min(1, "Full name is required"),
-  gender: z.enum(["male", "female"]),
+  gender: z.enum(["male", "female"]).optional(),
   phone: validationRules.phone,
+  city_id: z.string().optional(),
   avatarFile: z.union([
     z.any().refine((file): file is File => file instanceof File, {
       message: 'File must be uploaded',

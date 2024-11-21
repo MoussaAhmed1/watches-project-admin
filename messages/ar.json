@@ -441,6 +441,8 @@
       "logout": "تسجيل خروج",
       "school": "المدرسة",
       "selectSchool": "حدد المدرسة",
+      "city": "المدينة",
+      "selectCity": "حدد المدينة",
       "editSecurity": "تعديل مسئول الامن",
       "editParent": "تعديل الوالد",
       "editDriver": "تعديل السائق",

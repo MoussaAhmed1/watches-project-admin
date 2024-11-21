@@ -13,14 +13,14 @@ export default async function Page({ params, searchParams }: {
   //-------------------------------
   const { navigation, shared } = await getDictionary(params?.lang)
   const breadcrumbItems = [
-    { title: navigation["drivers"], link: `dashboard/${"drivers"}` },
-    { title: shared.create, link: `dashboard/create-user/${"drivers"}` },
+    { title: navigation["admins"], link: `dashboard/users/${"admins"}` },
+    { title: shared.create, link: `dashboard/create-user/${"admins"}` },
   ];
 
   return (
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems} />
-      <UserForm _role={"drivers"} />
+      <UserForm _role={"admins"} />
     </div>
   );
 }
