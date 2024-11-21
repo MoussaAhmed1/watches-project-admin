@@ -102,3 +102,9 @@ enum Kinship {
 }
 
 export default Kinship;
+
+export interface ICity {
+  id: string
+  name: string
+  code: string
+}

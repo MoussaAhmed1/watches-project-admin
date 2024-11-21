@@ -13,7 +13,7 @@ export default async function Page({ params, searchParams }: {
   //-------------------------------
   const { navigation, shared } = await getDictionary(params?.lang)
   const breadcrumbItems = [
-    { title: navigation["parents"], link: `dashboard/${"parents"}` },
+    { title: navigation["parents"], link: `dashboard/users/${"parents"}` },
     { title: shared.create, link: `dashboard/create-user/${"parents"}` },
   ];
 

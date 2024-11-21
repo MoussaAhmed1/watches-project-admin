@@ -208,7 +208,7 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
                         <SelectValue placeholder="Select a role" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent className="max-h-[200px]">
                       {/* <SelectItem value={Role.SUPERADMIN}>Superadmin</SelectItem> */}
                       {/* <SelectItem value={Role.ADMIN}>Admin</SelectItem> */}
                       <SelectItem value={Role.parents}>{t("parents")}</SelectItem>
