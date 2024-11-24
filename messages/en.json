@@ -111,6 +111,8 @@
     "id": "ID",
     "connectedUser": "Connected User",
     "code": "Code",
+    "familyMembersCount": "Family Members",
+    "watchUsersCount": "Watch Users",
     "student": "Student",
     "school": "School"
   },
@@ -484,11 +486,13 @@
     "code": "Request Code",
     "createdAt": "Created At",
     "school": "School",
+    "schoolName": "School Name",
     "updatedAt": "Updated At",
     "parentDetails": "Parent Details",
     "userDetails": "User Details",
     "watchUserDetails": "Watch User Details",
-    "driverDetails": "Driver Details"
+    "driverDetails": "Sub-User Details",
+    "joiningDate": "Joining date"
   },
   "request": {
     "status": {

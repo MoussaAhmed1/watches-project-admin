@@ -18,7 +18,6 @@
     "terms_and_conditions": "الشروط والأحكام",
     "data_management": "إدارة البيانات",
     "privacyPolicy": "سياسة الخصوصية"
-
   },
   "toast": {},
   "shared": {
@@ -118,6 +117,8 @@
     "connectedUser": "المستخدم المتصل",
     "code": "الكود",
     "student": "الطالب",
+    "familyMembersCount": "عدد المستخدمين الفرعين",
+    "watchUsersCount": "عدد الطلاب المراقبون",
     "school": "المدرسة"
   },
   "pages": {
@@ -348,10 +349,8 @@
       "socialLinkUpdated": "تم تحديث الرابط الاجتماعي.",
       "socialLinkCreated": "تم إنشاء الرابط الاجتماعي.",
       "editUser": "تعديل المستخدم",
-       "viewUser": "عرض المستخدم",
-       "privacyPolicy": "سياسة الخصوصية"
-
-
+      "viewUser": "عرض المستخدم",
+      "privacyPolicy": "سياسة الخصوصية"
     },
     "users": {
       "Admins": "المديرون",
@@ -451,21 +450,23 @@
       "viewParent": "عرض الوالد",
       "viewDriver": "عرض السائق",
       "addAdmins": " اضافة مدير",
-      "viewAdmins": "  عرض مدير" ,
+      "viewAdmins": "  عرض مدير",
       "editAdmins": "تعديل مدير",
       "viewSchool": "عرض المدرسة"
     },
     "requestDetails": {
       "title": "تفاصيل الطلب ",
       "status": "الحالة",
-      "code": "رمز الطلب",
+      "code": "كود الطلب",
       "school": "المدرسة",
+      "schoolName": "اسم المدرسة",
       "createdAt": "تاريخ الإنشاء",
       "updatedAt": "تاريخ التحديث",
       "parentDetails": "تفاصيل الولي",
       "userDetails": "تفاصيل المستخدم",
-      "watchUserDetails": "تفاصيل مراقب الطلب",
-      "driverDetails": "تفاصيل  السائق"
+      "watchUserDetails": "تفاصيل الطالب",
+      "driverDetails": "تفاصيل  المستخدم الفرعي ",
+      "joiningDate": "تاريخ الانضمام"
     },
     "request": {
       "status": {
@@ -473,7 +474,6 @@
         "PENDING": "قيد الانتظار"
       }
     }
-
   },
   "auth": {
     "signin": "Anmeldung",

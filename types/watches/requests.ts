@@ -23,34 +23,64 @@ export interface HistoryOfRequests {
     watch_user_id: string
     status: string
     code: number
+    number: string
     user: User
     watch_user: WatchUser
     is_parent: boolean
-    driver: Driver
+    drivers: Driver[]
     parent: Parent
-  }
-
-  export interface Driver {
-    id: string
-    name: string
-    phone: string
-    gender: string
-    email: string
-    avatar: string
-    created_at: string
-    school: any
   }
   
   export interface User {
     id: string
     name: string
     phone: string
-    gender: string
+    gender: any
     email: string
     avatar: string
     created_at: string
     school: any
   }
+  
+  export interface WatchUser {
+    id: string
+    name: string
+    phone: string
+    gender: string
+    avatar: string
+    created_at: string
+    school: School
+  }
+  
+  export interface School {
+    id: string
+    name: string
+    avatar: string
+    city_code: string
+  }
+  
+  export interface Driver {
+    id: string
+    name: string
+    phone: string
+    gender: string
+    email: string
+    avatar?: string
+    created_at: string
+    school: any
+  }
+  
+  export interface Parent {
+    id: string
+    name: string
+    phone: string
+    gender: any
+    email: string
+    avatar: string
+    created_at: string
+    school: any
+  }
+    
   
   export interface WatchUser {
     email: string
@@ -68,13 +98,5 @@ export interface HistoryOfRequests {
     avatar: string
   }
   
-  export interface Parent {
-    phone: string
-    id: string
-    name: string
-    email: string
-    avatar: any
-    created_at: string
-    school: any
-  }
+
   
