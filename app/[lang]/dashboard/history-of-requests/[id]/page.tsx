@@ -63,7 +63,7 @@ const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) =
                 icon: <BadgeCheck className="details_icon" />,
                 type: "text",
               },
-            ]} title={pages.users.details} />
+            ]} title={pages.requestDetails.title} />
             <RequestDetails data={[
               {
                 key: pages.users.name,
