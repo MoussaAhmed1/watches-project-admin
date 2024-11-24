@@ -16,6 +16,7 @@ export interface ILogedUser {
 }
 
 export interface IUser {
+  city_id: any;
   id: string;
   name: string;
   email: string;
