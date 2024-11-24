@@ -1,12 +1,11 @@
 import { Metadata } from "next";
 import BreadCrumb from "@/components/breadcrumb";
-import { BadgeCheck, Clock2, Image as ImageIcon, Building, Phone, Pill, User, Mail } from "lucide-react";
+import {  Image as ImageIcon, Phone, User, Mail, Clock2, BadgeCheck, Hash, Building } from "lucide-react";
 import { Heading } from "@/components/ui/heading";
 import { ISingleRequest } from "@/types/watches/requests";
 import { fetchSingleRequest } from "@/actions/requests/requests-history-actions";
-import ProfileImg from "@/components/shared/imagesRender/profileImg";
 import userAvatar from "../../../../../public/assets/user-avatar.png";
-import { formatCreatedAtDateAsDateTime, getCustomNameKeyLang, shortenText } from "@/utils/helperFunctions";
+import { formatCreatedAtDateAsDateTime} from "@/utils/helperFunctions";
 import { getDictionary } from "@/app/[lang]/messages";
 import RequestDetails from "@/components/details/no-items/requests-history";
 
@@ -36,172 +35,140 @@ const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) =
             description={`${formatCreatedAtDateAsDateTime(request.created_at)} - ${request?.status}`}
           />
         </div>
-        {/* <div className="mx-auto w-full mt-2 bg-background">
-          <div className="w-full mx-auto p-4 ">
-            <div className="bg-background shadow-md rounded-lg overflow-hidden border min-h-[77dvh] border-gray-400">
+        <div className="p-4">
+          <div className="grid grid-cols-1 gap-9 sm:grid-cols-2">
+            <RequestDetails data={
+              [
+              {
+                key: pages.requestDetails.code,
+                value: request?.code as unknown as string,
+                icon: <Hash className="details_icon" />,
+                type: "text",
+              },
+              {
+                key: pages.requestDetails.createdAt,
+                value: formatCreatedAtDateAsDateTime(request?.created_at),
+                icon: <Clock2 className="details_icon" />,
+                type: "text",
+              },
+              {
+                key: pages.requestDetails.updatedAt,
+                value: formatCreatedAtDateAsDateTime(request?.updated_at),
+                icon: <Clock2 className="details_icon" />,
+                type: "text",
+              },
+              {
+                key: pages.requestDetails.status,
+                value: request?.status,
+                icon: <BadgeCheck className="details_icon" />,
+                type: "text",
+              },
+            ]} title={pages.users.details} />
+            <RequestDetails data={[
+              {
+                key: pages.users.name,
+                value: request?.user?.name,
+                icon: <User className="details_icon" />,
+                type: "text",
+              },
+              {
+                key: pages.users.avatar,
+                value: (request?.user?.avatar || userAvatar),
+                icon: <ImageIcon className="details_icon" />,
+                type: "img",
+              },
+              {
+                key: pages.users.phone,
+                value: request?.user?.phone,
+                icon: <Phone className="details_icon" />,
+                type: "text",
+                dir:"ltr",
+              },
+              {
+                key: pages.users.email,
+                value: request?.user?.email,
+                icon: <Mail className="details_icon" />,
+                type: "text",
+                dir:"ltr",
+              },
 
-              <div className="p-4 border-t border-gray-200">
-                <h2 className="text-xl font-bold mb-2">{pages.users.details}</h2>
-                <div className="flex mt-3">
-                  <Clock2 className="details_icon" />
-                  <p className="mr-1">{pages.requestDetails.createdAt}:</p>
-                  <p>{formatCreatedAtDateAsDateTime(request?.created_at)} </p>
-                </div>
+            ]} title={pages.requestDetails.userDetails} />
+            <RequestDetails data={[
+              {
+                key: pages.users.name,
+                value: request?.watch_user?.name,
+                icon: <User className="details_icon" />,
+                type: "text",
+              },
+              {
+                key: pages.users.avatar,
+                value: (request?.watch_user?.avatar || userAvatar),
+                icon: <ImageIcon className="details_icon" />,
+                type: "img",
+              },
+              {
+                key: pages.users.phone,
+                value: request?.watch_user?.phone,
+                icon: <Phone className="details_icon" />,
+                type: "text",
+                dir:"ltr",
+              },
+              {
+                key: pages.requestDetails.school,
+                value: request?.watch_user?.school.avatar,
+                icon: <ImageIcon className="details_icon" />,
+                type: "img",
+              },
+              {
+                key: pages.requestDetails.schoolName,
+                value: request?.watch_user?.school.name,
+                icon: <Building className="details_icon" />,
+                type: "text",
+              },
+            ]} title={pages.requestDetails.watchUserDetails} />
+            {
+              request?.drivers &&
+              request?.drivers?.map((driver, index) => (
+                <RequestDetails key={driver?.id} data={[
+                  {
+                    key: pages.users.name,
+                    value: driver?.name,
+                    icon: <User className="details_icon" />,
+                    type: "text",
+                  },
+                  {
+                    key: pages.users.avatar,
+                    value: (driver?.avatar || userAvatar),
+                    icon: <ImageIcon className="details_icon" />,
+                    type: "img",
+                  },
+                  {
+                    key: pages.users.phone,
+                    value: driver?.phone,
+                    icon: <Phone className="details_icon" />,
+                    type: "text",
+                    dir:"ltr",
+                  },
+                  {
+                    key: pages.users.email,
+                    value: driver?.email,
+                    icon: <Mail className="details_icon" />,
+                    type: "text",
+                    dir:"ltr",
+                  },
+                  {
+                    key: pages.requestDetails.joiningDate,
+                    value: formatCreatedAtDateAsDateTime(driver?.created_at),
+                    icon: <Clock2 className="details_icon" />,
+                    type: "text",
+                    dir:"ltr",
+                  },
 
-                <div className="flex mt-3">
-                  <BadgeCheck className="details_icon" />
-                  <p className="mr-1">{pages.requestDetails.status}:</p>
-                  <p>{request.status} </p>
-                </div>
-
-                <div className="flex mt-3">
-                  <Clock2 className="details_icon" />
-                  <p className="mr-1">{pages.requestDetails.updatedAt}:</p>
-                  <p>{formatCreatedAtDateAsDateTime(request?.updated_at)} </p>
-                </div>
-              </div>
-
-              <div className="p-4 border-t border-gray-200">
-
-
-                <h2 className="text-xl font-bold">{pages.requestDetails.userDetails}{" "}{request?.is_parent ? `(${getCustomNameKeyLang("Parent", "والد")})` : `(${getCustomNameKeyLang("Driver", "سائق")})`}</h2>
-                <div className="flex mt-3">
-                  <User className="details_icon" />
-                  <p className="mr-1">{pages.users.name}:</p>
-                  <p>{request?.user?.name} </p>
-                </div>
-                <div className="flex mt-3 items-center">
-                  <ImageIcon className="details_icon" />
-                  <p className="mr-1">{pages.users.avatar}:</p>
-                  <ProfileImg
-                    src={request?.user?.avatar || userAvatar}
-                    alt={request?.user?.avatar}
-                    className="w-[50px] h-[50px]"
-                  />
-                </div>
-                <div className="flex mt-3">
-                  <Phone className="details_icon" />
-                  <p className="mr-1">{pages.users.phone}:</p>
-                  <p>{request?.user?.phone} </p>
-                </div>
-                <div className="flex mt-3">
-                  <Mail className="details_icon" />
-                  <p className="mr-1">{pages.users.email}:</p>
-                  <p>{request?.user?.email} </p>
-                </div>
-
-
-              </div>
-
-              <div className="p-4 border-t border-gray-200">
-                <h2 className="text-xl font-bold">{pages.requestDetails.watchUserDetails}</h2>
-                <div className="flex mt-3">
-                  <User className="details_icon" />
-                  <p className="mr-1">{pages.users.name}:</p>
-                  <p>{request?.watch_user?.name} </p>
-                </div>
-                <div className="flex mt-3 items-center">
-                  <ImageIcon className="details_icon" />
-                  <p className="mr-1">{pages.users.avatar}:</p>
-                  <ProfileImg
-                    src={request?.watch_user?.avatar || userAvatar}
-                    alt={request?.watch_user?.avatar}
-                    className="w-[50px] h-[50px]"
-                  />
-                </div>
-
-                <div className="flex mt-3">
-                  <Phone className="details_icon" />
-                  <p className="mr-1">{pages.users.phone}:</p>
-                  <p>{request?.watch_user?.phone} </p>
-                </div>
-
-                <div className="flex mt-3 items-center">
-                  <Building className="details_icon" />
-                  <p className="mr-1">{pages.requestDetails.school}:</p>
-                  <p>{request?.watch_user?.school.name} </p>
-                </div>
-
-                <div className="flex mt-3 items-center">
-                  <ImageIcon className="details_icon" />
-                  <p className="mr-1">{pages.requestDetails.school}:</p>
-                  <ProfileImg
-                    src={request?.watch_user?.school.avatar || userAvatar}
-                    alt={request?.watch_user?.school.avatar}
-                    className="w-[50px] h-[50px]"
-                  />
-
-                </div>
-
-
-              </div>
-
-              {!(request?.is_parent) ?
-                <div className="p-4 border-t border-gray-200">
-                  <h2 className="text-xl font-bold">{pages.requestDetails.parentDetails}</h2>
-                  <div className="flex mt-3">
-                    <User className="details_icon" />
-                    <p className="mr-1">{pages.users.name}:</p>
-                    <p>{request?.parent?.name} </p>
-                  </div>
-                  <div className="flex mt-3 items-center">
-                    <ImageIcon className="details_icon" />
-                    <p className="mr-1">{pages.users.avatar}:</p>
-                    <ProfileImg
-                      src={request?.parent?.avatar || userAvatar}
-                      alt={request?.parent?.avatar}
-                      className="w-[50px] h-[50px]"
-                    />
-                  </div>
-                  <div className="flex mt-3">
-                    <Phone className="details_icon" />
-                    <p className="mr-1">{pages.users.phone}:</p>
-                    <p>{request?.parent?.phone} </p>
-                  </div>
-
-                  <div className="flex mt-3">
-                    <Mail className="details_icon" />
-                    <p className="mr-1">{pages.users.email}:</p>
-                    <p>{request?.parent?.email} </p>
-                  </div>
-
-                </div>
-                :
-                request?.driver? 
-                <div className="p-4 border-t border-gray-200">
-                  <h2 className="text-xl font-bold">{pages.requestDetails.driverDetails}</h2>
-                  <div className="flex mt-3">
-                    <User className="details_icon" />
-                    <p className="mr-1">{pages.users.name}:</p>
-                    <p>{request?.driver?.name} </p>
-                  </div>
-                  <div className="flex mt-3 items-center">
-                    <ImageIcon className="details_icon" />
-                    <p className="mr-1">{pages.users.avatar}:</p>
-                    <ProfileImg
-                      src={request?.driver?.avatar || userAvatar}
-                      alt={request?.driver?.avatar}
-                      className="w-[50px] h-[50px]"
-                    />
-                  </div>
-                  <div className="flex mt-3">
-                    <Phone className="details_icon" />
-                    <p className="mr-1">{pages.users.phone}:</p>
-                    <p>{request?.driver?.phone} </p>
-                  </div>
-
-                  <div className="flex mt-3">
-                    <Mail className="details_icon" />
-                    <p className="mr-1">{pages.users.email}:</p>
-                    <p>{request?.driver?.email} </p>
-                  </div>
-
-                </div>
-              :"-"}
-            </div>
+                ]} title={pages.requestDetails.driverDetails + " " + (index+1)} />
+              ))
+            }
           </div>
-        </div> */}
-        <RequestDetails/>
+        </div>
       </div>
     </>
   );

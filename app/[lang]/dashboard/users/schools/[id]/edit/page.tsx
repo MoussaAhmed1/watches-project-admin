@@ -1,4 +1,4 @@
-import { fetchSingleUser } from "@/actions/users/users-actions";
+import { fetchCities, fetchSingleUser } from "@/actions/users/users-actions";
 import { getDictionary } from "@/app/[lang]/messages";
 import BreadCrumb from "@/components/breadcrumb";
 import { UserForm } from "@/components/forms/users-forms/create-users/add-edit-user";
@@ -14,6 +14,8 @@ export default async function SettingsProfilePage({ params, searchParams }: {
   //----------------------------------------------------------------
   const res_user = await fetchSingleUser(params.id);
   const user: IUser = res_user?.data?.data;
+ const cities = await fetchCities();
+
   //-------------------------------------------------------------
   const { navigation, shared } = await getDictionary(params?.lang)
   const breadcrumbItems = [
@@ -26,8 +28,9 @@ export default async function SettingsProfilePage({ params, searchParams }: {
       <BreadCrumb items={breadcrumbItems} />
       <UserForm _role={"schools"} initialData={{
           ...user,
+          city_id: user?.city_id,
           avatarFile: user?.avatar
-        } as any} id={params.id}  />
+        } as any} id={params.id} cities={cities} />
     </div>
   );
 }
