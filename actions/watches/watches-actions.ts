@@ -40,9 +40,7 @@ export const fetchWatches = async ({
   }
 };
 
-export const AddWatch = async (
-  data: AddEditWatchBody,
-): Promise<any> => {
+export const AddWatch = async (data: AddEditWatchBody): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
 
@@ -61,16 +59,13 @@ export const AddWatch = async (
     };
   }
 };
-
-export const UpdateWatch = async (
-  data: AddEditWatchBody,id:string|undefined
-): Promise<any> => {
+export const EditWatch = async (data: AddEditWatchBody): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
 
   try {
-    await axiosInstance.put(
-      `${""}/${id}`,
+    await axiosInstance.post(
+      endpoints.watches.edit + "/" + data.id + "/" + data.IMEI,
       data,
       {
         headers: {
@@ -80,7 +75,7 @@ export const UpdateWatch = async (
       },
     );
 
-    revalidateTag("/pharmacy-categories");
+    revalidateTag("/watches");
   } catch (error) {
     return {
       error: getErrorMessage(error),
@@ -88,28 +83,22 @@ export const UpdateWatch = async (
   }
 };
 
-export const removeUser = async ({id,revalidateData}:{id:string,revalidateData?:string}): Promise<any> => {
-    const lang = cookies().get("Language")?.value;
-    try {
-      const accessToken = cookies().get("access_token")?.value;
-      await axiosInstance.delete(endpoints.admins.register, {
-        params: {
-          id
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Accept-Language": lang,
-          "Content-Type": "multipart/form-data",
-        },
-      });
-  
-      revalidatePath("/dashboard/admins");
-      if (revalidateData) {
-        revalidatePath(revalidateData);
-      }
-    } catch (error) {
-      return {
-        error: getErrorMessage(error),
-      };
-    }
-  };
+export const deleteWatch = async (id: string): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+
+  try {
+    await axiosInstance.delete(endpoints.watches.delete + "/" + id, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+
+    revalidateTag("/watches");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};

@@ -5,9 +5,9 @@ import { Heading } from "@/components/ui/heading";
 import { ISingleRequest } from "@/types/watches/requests";
 import { fetchSingleRequest } from "@/actions/requests/requests-history-actions";
 import userAvatar from "../../../../../public/assets/user-avatar.png";
-import { formatCreatedAtDateAsDateTime} from "@/utils/helperFunctions";
+import { convertUtcToLocal} from "@/utils/helperFunctions";
 import { getDictionary } from "@/app/[lang]/messages";
-import RequestDetails from "@/components/details/no-items/requests-history";
+import RequestDetails from "@/components/details/requests-history";
 
 export const metadata: Metadata = {
   title: "Requests Details | Dacatra Dashboard",
@@ -21,7 +21,7 @@ const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) =
   const breadcrumbItems = [
     { title: navigation.historyOfRequests, link: "/dashboard/history-of-requests" },
     {
-      title: `${request?.code}`,
+      title: `${request?.number}`,
       link: `/dashboard/history-of-requests/${request?.id}`,
     },
   ];
@@ -32,30 +32,33 @@ const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) =
         <div className="flex items-baseline justify-between mx-5">
           <Heading
             title={pages.requestDetails.title}
-            description={`${formatCreatedAtDateAsDateTime(request.created_at)} - ${request?.status}`}
+            description={`${convertUtcToLocal(request?.updated_at)} - ${request?.status}`}
           />
         </div>
         <div className="p-4">
-          <div className="grid grid-cols-1 gap-9 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-9 sm:grid-cols-2 auto-rows-fr">
             <RequestDetails data={
               [
               {
                 key: pages.requestDetails.code,
-                value: request?.code as unknown as string,
+                value: request?.number as unknown as string,
                 icon: <Hash className="details_icon" />,
                 type: "text",
               },
               {
                 key: pages.requestDetails.createdAt,
-                value: formatCreatedAtDateAsDateTime(request?.created_at),
+                value: convertUtcToLocal(request?.created_at),
                 icon: <Clock2 className="details_icon" />,
                 type: "text",
+                dir:"ltr",
               },
               {
                 key: pages.requestDetails.updatedAt,
-                value: formatCreatedAtDateAsDateTime(request?.updated_at),
+                value: convertUtcToLocal(request?.updated_at),
                 icon: <Clock2 className="details_icon" />,
                 type: "text",
+                dir:"ltr",
+
               },
               {
                 key: pages.requestDetails.status,
@@ -158,7 +161,7 @@ const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) =
                   },
                   {
                     key: pages.requestDetails.joiningDate,
-                    value: formatCreatedAtDateAsDateTime(driver?.created_at),
+                    value: convertUtcToLocal(driver?.created_at),
                     icon: <Clock2 className="details_icon" />,
                     type: "text",
                     dir:"ltr",

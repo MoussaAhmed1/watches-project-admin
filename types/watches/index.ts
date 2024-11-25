@@ -8,6 +8,7 @@ export interface IWatch {
   
   export interface AddEditWatchBody {
     IMEI: string;
+    id?: string;
   }
   
   export interface WatchUser {

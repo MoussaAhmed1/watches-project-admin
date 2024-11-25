@@ -1,19 +1,14 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { IWatch } from "@/types/watches";
-import { Edit, MoreHorizontal, Trash, Eye } from "lucide-react";
-import { useRouter } from "next/navigation";
-import Cookie from 'js-cookie';
-import { removeUser } from "@/actions/users/users-actions";
+import {  Trash } from "lucide-react";
 import { useTranslations } from "next-intl";
-import Approve from "@/components/shared/table/Approve";
+import { AlertModal } from "@/components/modal/alert-modal";
+
+import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
+import { deleteWatch } from "@/actions/watches/watches-actions";
+import WatchForm from "@/components/forms/watches-forms/watchesForm";
 
 interface CellActionProps {
   data: IWatch;
@@ -21,75 +16,52 @@ interface CellActionProps {
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data, toBeVerified = false }) => {
-  const router = useRouter();
-  const currentLang = Cookie.get("Language") ?? "en";
- const t = useTranslations("tableActions");
+  const t = useTranslations("tableActions");
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const { toast } = useToast();
+  const onConfirm = async () => {
+    const res = await deleteWatch(data.id);
+    if (res?.error) {
+      toast({
+        variant: "destructive",
+        title: t("deleteFailed"),
+        description: res?.error,
+      });
+    }
+    else {
+      toast({
+        variant: "default",
+        title: t("deletedSuccessfully"),
+      });
+    }
+
+    setLoading(false);
+    setOpen(false);
+
+  };
   return (
-    <>
-      <DropdownMenu modal={false} dir={currentLang === "ar" ? "rtl" : "ltr"}>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="h-8 w-8 p-0">
-            <span className="sr-only">{t("open_menu")}</span>
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
-          <DropdownMenuItem
-            onClick={() => router.push(`/${currentLang}/dashboard/doctors/${data.id}`)}
-          >
-            <Eye className="mx-1 h-4 w-4"/> {t("view")}
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => router.push(`/${currentLang}/dashboard/doctors/${data?.id}/${data?.id}/edit`)}
-          >
-             <Edit className="mx-1 h-4 w-4" /> {t("update")}
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </>
+    <div className="flex flex-end grow" key={data.id}>
+      <AlertModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onConfirm={onConfirm}
+        loading={loading}
+      />
+      <div className="flex-end grow flex gap-1 justify-center items-center ">
+        <Button
+          disabled={loading}
+          type="button"
+          variant="destructive"
+          size="icon"
+          onClick={() => setOpen(true)}
+        >
+          <Trash className="h-4 w-4" />
+        </Button>
+        <WatchForm watch={data} id={data.id} />
+      </div>
+    </div>
   );
 };
 
-export const VerificationRequestsCellAction: React.FC<CellActionProps> = ({ data }) => {
-  const router = useRouter();
-  const currentLang = Cookie.get("Language") ?? "en";
- const t = useTranslations("tableActions");
-  return (
-    <>
-      <DropdownMenu modal={false} dir={currentLang === "ar" ? "rtl" : "ltr"}>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="h-8 w-8 p-0">
-            <span className="sr-only">{t("open_menu")}</span>
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
-          <DropdownMenuItem
-            onClick={() => router.push(`/${currentLang}/dashboard/doctors/${data.id}`)}
-          >
-            <Eye className="mx-1 h-4 w-4"/> {t("view")}
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => router.push(`/${currentLang}/dashboard/doctors/${data.id}`)}
-          >
-            <Eye className="mx-1 h-4 w-4"/> {t("view")}
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => router.push(`/${currentLang}/dashboard/doctors/${data?.id}/${data?.id}/edit`)}
-          >
-             <Edit className="mx-1 h-4 w-4" /> {t("update")}
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-          <Approve successMessage="User Deleted Successfully" title="Delete User"  method={removeUser} revalidateData="/dashboard/doctors" id={data?.id} >
-              <div className="flex">
-                <Trash className="mx-1 h-4 w-4" /> {t("delete")}
-              </div>
-            </Approve>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </>
-  );
-};
+

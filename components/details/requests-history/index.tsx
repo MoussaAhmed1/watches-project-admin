@@ -1,14 +1,13 @@
 "use client";
 
 import ProfileImg from "@/components/shared/imagesRender/profileImg";
-import Image, { StaticImageData } from "next/image";
+import  { StaticImageData } from "next/image";
 import { ReactElement } from "react";
 
 const DetailsCard = ({ title, data }: { title: string, data: { key: string, value: string|StaticImageData, icon: ReactElement, type?: "text" | "img",dir?:"ltr" | "rtl" }[] }) => {
   return (
     <div className="card flex flex-col gap-9">
-      {/* <!-- Input Fields --> */}
-      <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-gray-700 dark:bg-gray-800">
+      <div className="h-full rounded-sm border border-stroke bg-white shadow-default dark:border-gray-700 dark:bg-[#181D26]">
         <div className="border-b border-stroke px-6.5 py-4 dark:border-gray-700">
           <h3 className="font-medium text-black dark:text-white">
             {title}
