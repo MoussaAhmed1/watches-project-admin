@@ -64,41 +64,41 @@ const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) =
             <RequestDetails data={[
               {
                 key: pages.users.name,
-                value: watch?.watch_user.parent?.name,
+                value: watch?.watch_user?.parent?.name,
                 icon: <User className="details_icon" />,
                 type: "text",
               },
               {
                 key: pages.users.avatar,
-                value: (watch?.watch_user.parent?.avatar || userAvatar),
+                value: (watch?.watch_user?.parent?.avatar || userAvatar),
                 icon: <ImageIcon className="details_icon" />,
                 type: "img",
               },
               {
                 key: pages.users.phone,
-                value: watch?.watch_user.parent?.phone,
+                value: watch?.watch_user?.parent?.phone,
                 icon: <Phone className="details_icon" />,
                 type: "text",
                 dir:"ltr",
               },
               {
                 key: pages.users.email,
-                value: watch?.watch_user.parent?.email,
+                value: watch?.watch_user?.parent?.email,
                 icon: <Mail className="details_icon" />,
                 type: "text",
                 dir:"ltr",
               },
               {
                 key: pages.requestDetails.joiningDate,
-                value: convertUtcToLocal(watch?.watch_user.parent?.created_at),
+                value: convertUtcToLocal(watch?.watch_user?.parent?.created_at),
                 icon: <Clock2 className="details_icon" />,
                 type: "text",
                 dir:"ltr",
               },
             ]} title={pages.requestDetails.parentDetails} />
             {
-              watch?.watch_user.drivers &&
-              watch?.watch_user.drivers?.map((driver, index) => (
+              watch?.watch_user?.drivers &&
+              watch?.watch_user?.drivers?.map((driver, index) => (
                 <RequestDetails key={driver?.id} data={[
                   {
                     key: pages.users.name,

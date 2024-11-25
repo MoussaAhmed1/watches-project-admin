@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { IWatch } from "@/types/watches";
-import {  Trash } from "lucide-react";
+import { Eye, Trash } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { AlertModal } from "@/components/modal/alert-modal";
 
@@ -9,6 +9,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
 import { deleteWatch } from "@/actions/watches/watches-actions";
 import WatchForm from "@/components/forms/watches-forms/watchesForm";
+import { useRouter } from "next/navigation";
 
 interface CellActionProps {
   data: IWatch;
@@ -17,6 +18,7 @@ interface CellActionProps {
 
 export const CellAction: React.FC<CellActionProps> = ({ data, toBeVerified = false }) => {
   const t = useTranslations("tableActions");
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
@@ -48,7 +50,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data, toBeVerified = fal
         onConfirm={onConfirm}
         loading={loading}
       />
-      <div className="flex-end grow flex gap-1 justify-center items-center ">
+      <div className="flex-end grow flex gap-1 justify-start items-center ">
         <Button
           disabled={loading}
           type="button"
@@ -59,6 +61,14 @@ export const CellAction: React.FC<CellActionProps> = ({ data, toBeVerified = fal
           <Trash className="h-4 w-4" />
         </Button>
         <WatchForm watch={data} id={data.id} />
+        {!!(data?.watch_user) && <Button
+          variant={"outline"}
+          className="sm:mt-0 p-3 rounded-lg"
+          onClick={() => router.push(`/dashboard/watches/${data.id}`)}
+        >
+          <Eye className="h-4 w-4 text-gray-600" />
+
+        </Button>}
       </div>
     </div>
   );
