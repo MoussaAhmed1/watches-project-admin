@@ -495,6 +495,20 @@
     "driverDetails": "Sub-User Details",
     "joiningDate": "Joining date"
   },
+    "WatchDetails": {
+    "title": "Watch Details",
+    "status": "Status",
+    "IMEI": "Watch Number",
+    "createdAt": "Created At",
+    "school": "School",
+    "schoolName": "School Name",
+    "updatedAt": "Updated At",
+    "parentDetails": "Parent Details",
+    "userDetails": "User Details",
+    "watchUserDetails": "Watch User Details",
+    "driverDetails": "Sub-User Details",
+    "joiningDate": "Joining date"
+  },
   "request": {
     "status": {
       "COMPLETED": "Completed",

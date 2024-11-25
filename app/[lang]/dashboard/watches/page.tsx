@@ -5,13 +5,9 @@ import BreadCrumb from "@/components/breadcrumb";
 import WatchForm from "@/components/forms/watches-forms/watchesForm";
 import { SharedTable } from "@/components/shared/table/Shared-table";
 import { columns } from "@/components/tables/watches/columns";
-import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
 import {  IWatch } from "@/types/watches";
-import { Plus } from "lucide-react";
-import Link from "next/link";
 
 
 type paramsProps = {
@@ -35,7 +31,7 @@ export default async function page({ searchParams,params }: paramsProps) {
   const totalWatches = res?.data?.meta?.total || 0; //1000
   const pageCount = Math.ceil(totalWatches / limit);
   const watches: IWatch[] = res?.data?.data || [];
-  const {navigation,shared} = await getDictionary(params?.lang)
+  const {navigation} = await getDictionary(params?.lang)
   const breadcrumbItems = [{ title: navigation.watches, link: `/dashboard/watches` }];
   return (
     <>
