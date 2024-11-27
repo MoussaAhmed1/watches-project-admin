@@ -12,6 +12,8 @@ import { ITEMS_PER_PAGE } from "../Global-variables";
 
 export const fetchRequests = async ({
   page = 1,
+  status,
+  filters,
   limit = ITEMS_PER_PAGE,
 
 }: Params): Promise<any> => {
@@ -22,13 +24,14 @@ export const fetchRequests = async ({
       params: {
         page,
         limit,
+        filters:filters?[`user.name=${filters},status=${status}`,`user.phone=${filters},status=${status}`,`user.email=${filters},status=${status}`,`number=${filters},status=${status}`]:`status=${status}`,
         sortBy: "created_at=desc",
       },
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Accept-Language": lang,
       },
-    });
+    },);
     return res;
   } catch (error: any) {
     return {

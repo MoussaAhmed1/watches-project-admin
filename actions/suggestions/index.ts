@@ -3,7 +3,7 @@
 /* eslint-disable consistent-return */
 import { cookies } from "next/headers";
 
-import axiosInstance, { endpoints, Params } from "@/utils/axios-client";
+import axiosInstance, { endpoints, getErrorMessage, Params } from "@/utils/axios-client";
 import { ITEMS_PER_PAGE } from "../Global-variables";
 
 export const fetchSuggestions = async ({
@@ -20,6 +20,7 @@ export const fetchSuggestions = async ({
         limit,
         filters: [
           `user.phone=${filters}`,
+          `email=${filters}`,
           `user.name=${filters}`,
         ],
       },
@@ -30,8 +31,9 @@ export const fetchSuggestions = async ({
     });
     return res;
   } catch (error: any) {
-    console.log(error);
-    throw new Error(error);
+    return {
+      error: getErrorMessage(error),
+    };
   }
 };
 

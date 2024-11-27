@@ -58,8 +58,15 @@ export const navItems: NavItem[] = [
     subItems: false,
   },
   {
+    title: "pendingRequests",
+    href: "/dashboard/history-of-requests/pending-requests",
+    icon: "trello",
+    label: "pendingRequests",
+    subItems: false,
+  },
+  {
     title: "historyOfRequests",
-    href: "/dashboard/history-of-requests",
+    href: "/dashboard/history-of-requests/compeleted-requests",
     icon: "trello",
     label: "historyOfRequests",
     subItems: false,

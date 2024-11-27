@@ -26,8 +26,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { AddEditWatchBody,  IWatch } from "@/types/watches";
-import { AddWatch,  UpdateWatch } from "@/actions/watches/watches-actions";
+import { AddEditWatchBody, IWatch } from "@/types/watches";
+import { AddWatch, EditWatch } from "@/actions/watches/watches-actions";
 import { useTranslations } from "next-intl";
 interface IProps {
   watch?: IWatch;
@@ -48,7 +48,6 @@ export default function WatchForm({ watch, id }: IProps) {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const closeRef = useRef<HTMLButtonElement | null>(null);
-  // const [categoryIdError, setWatchIdError] = useState("");
   const defaultValues = watch
     ? {
       IMEI: watch?.IMEI || "",
@@ -61,6 +60,9 @@ export default function WatchForm({ watch, id }: IProps) {
   });
 
 
+  const {
+    reset
+  } = form;
 
 
   const onSubmit = async (data: AddEditWatchBody) => {
@@ -68,7 +70,7 @@ export default function WatchForm({ watch, id }: IProps) {
     // alert(JSON.stringify(data)); //testing
     let res;
     if (watch) {
-      res = await UpdateWatch({ ...data }, id);
+      res = await EditWatch({ ...data, id });
     } else {
 
       res = await AddWatch(data);
@@ -91,9 +93,6 @@ export default function WatchForm({ watch, id }: IProps) {
     reset();
     closeRef?.current?.click();
   };
-  const {
-    reset
-  } = form;
 
   return (
     <Dialog>
@@ -145,7 +144,7 @@ export default function WatchForm({ watch, id }: IProps) {
               </div>
               <DialogClose asChild >
                 <Button type="button" variant="secondary" ref={closeRef}>
-                {t("close")}
+                  {t("close")}
                 </Button>
               </DialogClose>
             </DialogFooter>

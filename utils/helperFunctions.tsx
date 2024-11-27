@@ -77,6 +77,10 @@ export function formatCreatedAtDateAsDateTime(created_at: string): string {
  return parseToLocal(created_at,true)
 }
 
+export function convertUtcToLocal(utcTime:string) {
+  return moment.utc(utcTime).local().format("YYYY-MM-DD  hh:mm A");
+}
+
 export function getCustomNameKeyLang(enKey:string|undefined,arKey:string|undefined){
   const lang = Cookie.get("Language") ?? "en"  
   return lang === 'en' ? enKey : arKey;

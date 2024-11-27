@@ -23,11 +23,6 @@ export default async function page({ params }: { params: { lang: "ar"|"en" } }) 
       link: `/${params?.lang}/dashboard/users/parents`
     },
     {
-      title: navigation.drivers,
-      total: statistics_res?.doctors_count||0,
-      link: `/${params?.lang}/dashboard/users/drivers`
-    },
-    {
       title: navigation.schools,
       total: statistics_res?.nurses_count||0,
       link: `/${params?.lang}/dashboard/users/schools`

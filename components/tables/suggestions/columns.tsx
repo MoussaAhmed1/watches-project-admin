@@ -5,7 +5,7 @@ import { SuggestionsComplaints } from "@/types/suggestions/suggestions-complaint
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { CellAction } from "./cell-action";
-import { formatCreatedAtDateAsDateTime } from "@/utils/helperFunctions";
+import { convertUtcToLocal } from "@/utils/helperFunctions";
 
 const columns: ColumnDef<SuggestionsComplaints>[] = [
   {
@@ -52,8 +52,8 @@ const columns: ColumnDef<SuggestionsComplaints>[] = [
     accessorKey: "createdAt",
     header: "createdAt",
     cell: ({ row }) => <div className="flex items-center gap-3">
-      <p>
-        {formatCreatedAtDateAsDateTime(row?.original?.created_at)}
+      <p className="rtl:text-right text-left" dir="ltr">
+        {convertUtcToLocal(row?.original?.created_at)}
       </p>
     </div>
   },

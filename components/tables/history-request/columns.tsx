@@ -5,7 +5,7 @@ import { CellAction } from "./cell-action";
 import { HistoryOfRequests } from "@/types/watches/requests";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
-import { formatCreatedAtDateAsDateTime, getCustomNameKeyLang } from "@/utils/helperFunctions";
+import { convertUtcToLocal, getCustomNameKeyLang } from "@/utils/helperFunctions";
 
 export const columns: ColumnDef<HistoryOfRequests>[] = [
   {
@@ -76,8 +76,8 @@ export const columns: ColumnDef<HistoryOfRequests>[] = [
     accessorKey: "createdAt",
     header: "createdAt",
     cell: ({ row }) => <div className="flex items-center gap-3">
-      <p>
-        {formatCreatedAtDateAsDateTime(row?.original?.created_at)}
+      <p className="rtl:text-right text-left" dir="ltr">
+        {convertUtcToLocal(row?.original?.created_at)}
       </p>
     </div>
   },

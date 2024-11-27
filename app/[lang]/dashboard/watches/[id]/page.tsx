@@ -1,28 +1,27 @@
 import { Metadata } from "next";
 import BreadCrumb from "@/components/breadcrumb";
-import {  Image as ImageIcon, Phone, User, Mail, Clock2, BadgeCheck, Hash, Building } from "lucide-react";
+import {  Image as ImageIcon, Phone, User, Mail, Clock2, Building } from "lucide-react";
 import { Heading } from "@/components/ui/heading";
-import { ISingleRequest } from "@/types/watches/requests";
-import { fetchSingleRequest } from "@/actions/requests/requests-history-actions";
 import userAvatar from "../../../../../public/assets/user-avatar.png";
 import { convertUtcToLocal} from "@/utils/helperFunctions";
 import { getDictionary } from "@/app/[lang]/messages";
 import RequestDetails from "@/components/details/requests-history";
+import { IWatch } from "@/types/watches";
+import { fetchSingleWatche } from "@/actions/watches/watches-actions";
 
 export const metadata: Metadata = {
-  title: "Requests Details | Dacatra Dashboard",
+  title: "Watch Details",
 };
 
 const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) => {
-  const res = await fetchSingleRequest(params.id);
-  const request: ISingleRequest = res?.data?.data;
+  const res = await fetchSingleWatche(params.id);
+  const watch: IWatch = res?.data?.data;
   const { pages, navigation } = await getDictionary(params?.lang)
-
   const breadcrumbItems = [
-    { title: navigation.historyOfRequests, link: "/dashboard/history-of-requests" },
+    { title: navigation.watches, link: "/dashboard/watches" },
     {
-      title: `${request?.number}`,
-      link: `/dashboard/history-of-requests/${request?.id}`,
+      title: `${watch?.IMEI}`,
+      link: `/dashboard/watches/${watch?.IMEI}`,
     },
   ];
   return (
@@ -31,107 +30,75 @@ const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) =
         <BreadCrumb items={breadcrumbItems} customStyle="mx-5" />
         <div className="flex items-baseline justify-between mx-5">
           <Heading
-            title={pages.requestDetails.title}
-            description={`${convertUtcToLocal(request?.updated_at)} - ${request?.status}`}
+            title={pages.WatchDetails.title}
           />
         </div>
         <div className="p-4">
           <div className="grid grid-cols-1 gap-9 sm:grid-cols-2 auto-rows-fr">
-            <RequestDetails data={
-              [
-              {
-                key: pages.requestDetails.code,
-                value: request?.number as unknown as string,
-                icon: <Hash className="details_icon" />,
-                type: "text",
-              },
-              {
-                key: pages.requestDetails.createdAt,
-                value: convertUtcToLocal(request?.created_at),
-                icon: <Clock2 className="details_icon" />,
-                type: "text",
-                dir:"ltr",
-              },
-              {
-                key: pages.requestDetails.updatedAt,
-                value: convertUtcToLocal(request?.updated_at),
-                icon: <Clock2 className="details_icon" />,
-                type: "text",
-                dir:"ltr",
-
-              },
-              {
-                key: pages.requestDetails.status,
-                value: request?.status,
-                icon: <BadgeCheck className="details_icon" />,
-                type: "text",
-              },
-            ]} title={pages.requestDetails.title} />
             <RequestDetails data={[
               {
                 key: pages.users.name,
-                value: request?.user?.name,
+                value: watch?.watch_user?.name,
                 icon: <User className="details_icon" />,
                 type: "text",
               },
               {
                 key: pages.users.avatar,
-                value: (request?.user?.avatar || userAvatar),
+                value: (watch?.watch_user?.avatar || userAvatar),
+                icon: <ImageIcon className="details_icon" />,
+                type: "img",
+              },
+              {
+                key: pages.requestDetails.school,
+                value: watch?.watch_user?.school.avatar,
+                icon: <ImageIcon className="details_icon" />,
+                type: "img",
+              },
+              {
+                key: pages.requestDetails.schoolName,
+                value: watch?.watch_user?.school.name,
+                icon: <Building className="details_icon" />,
+                type: "text",
+              },
+            ]} title={pages.requestDetails.watchUserDetails} />
+            <RequestDetails data={[
+              {
+                key: pages.users.name,
+                value: watch?.watch_user?.parent?.name,
+                icon: <User className="details_icon" />,
+                type: "text",
+              },
+              {
+                key: pages.users.avatar,
+                value: (watch?.watch_user?.parent?.avatar || userAvatar),
                 icon: <ImageIcon className="details_icon" />,
                 type: "img",
               },
               {
                 key: pages.users.phone,
-                value: request?.user?.phone,
+                value: watch?.watch_user?.parent?.phone,
                 icon: <Phone className="details_icon" />,
                 type: "text",
                 dir:"ltr",
               },
               {
                 key: pages.users.email,
-                value: request?.user?.email,
+                value: watch?.watch_user?.parent?.email,
                 icon: <Mail className="details_icon" />,
                 type: "text",
                 dir:"ltr",
               },
-
-            ]} title={pages.requestDetails.userDetails} />
-            <RequestDetails data={[
               {
-                key: pages.users.name,
-                value: request?.watch_user?.name,
-                icon: <User className="details_icon" />,
-                type: "text",
-              },
-              {
-                key: pages.users.avatar,
-                value: (request?.watch_user?.avatar || userAvatar),
-                icon: <ImageIcon className="details_icon" />,
-                type: "img",
-              },
-              {
-                key: pages.users.phone,
-                value: request?.watch_user?.phone,
-                icon: <Phone className="details_icon" />,
+                key: pages.requestDetails.joiningDate,
+                value: convertUtcToLocal(watch?.watch_user?.parent?.created_at),
+                icon: <Clock2 className="details_icon" />,
                 type: "text",
                 dir:"ltr",
               },
-              {
-                key: pages.requestDetails.school,
-                value: request?.watch_user?.school.avatar,
-                icon: <ImageIcon className="details_icon" />,
-                type: "img",
-              },
-              {
-                key: pages.requestDetails.schoolName,
-                value: request?.watch_user?.school.name,
-                icon: <Building className="details_icon" />,
-                type: "text",
-              },
-            ]} title={pages.requestDetails.watchUserDetails} />
+            ]} title={pages.requestDetails.parentDetails} />
             {
-              request?.drivers &&
-              request?.drivers?.map((driver, index) => (
+              watch?.watch_user?.drivers &&
+              watch?.watch_user?.drivers?.map((driver, index) => (
                 <RequestDetails key={driver?.id} data={[
                   {
                     key: pages.users.name,
