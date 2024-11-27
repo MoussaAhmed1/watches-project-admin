@@ -33,6 +33,7 @@ export interface School {
   id: string;
   name: string;
   avatar: string;
+  city_code: string;
 }
 
 export interface AccountProfile {

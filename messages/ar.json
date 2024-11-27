@@ -117,6 +117,7 @@
     "id": " الرقم التعريفي",
     "connectedUser": "المستخدم المتصل",
     "code": "الكود",
+    "cityCode": "كود المدينة",
     "student": "الطالب",
     "familyMembersCount": "عدد المستخدمين الفرعين",
     "watchUsersCount": "عدد الطلاب المراقبون",

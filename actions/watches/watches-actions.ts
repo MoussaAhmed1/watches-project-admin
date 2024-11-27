@@ -25,7 +25,7 @@ export const fetchWatches = async ({
       params: {
         page,
         limit,
-        filters,
+        filters: filters ? [`IMEI=${filters}`,`watch_user.name=${filters}`] : null,
         // sortBy: "created_at=desc",
       },
       headers: {

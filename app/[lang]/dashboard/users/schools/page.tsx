@@ -3,7 +3,7 @@ import { fetchUsers } from "@/actions/users/users-actions";
 import { getDictionary } from "@/app/[lang]/messages";
 import BreadCrumb from "@/components/breadcrumb";
 import { SharedTable } from "@/components/shared/table/Shared-table";
-import { columns } from "@/components/tables/users-tables/parents/columns";
+import { SchoolColumns } from "@/components/tables/users-tables/parents/columns";
 import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
@@ -56,7 +56,7 @@ export default async function page({ searchParams,params }: paramsProps) {
         <SharedTable
           searchKey={"schools"}
           pageNo={page}
-          columns={columns}
+          columns={SchoolColumns}
           totalitems={totalUsers}
           data={users as unknown as IUser[]}
           pageCount={pageCount}

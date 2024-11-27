@@ -141,6 +141,9 @@ export const UserForm: React.FC<UserFormProps> = ({
 
   useEffect(() => {
     form.setValue("role", Role[_role]);
+    if(_role === "schools"){
+      form.setValue("gender", "female");
+    }
   }, [_role, form]);
 
 
@@ -193,7 +196,7 @@ export const UserForm: React.FC<UserFormProps> = ({
     setLoading(false);
   };
   // show error messages
-  // console.log(form.formState.errors);
+  console.log(form.formState.errors);
 
   return (
     <>

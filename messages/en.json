@@ -112,6 +112,7 @@
     "id": "ID",
     "connectedUser": "Connected User",
     "code": "Code",
+    "cityCode": "City Code",
     "familyMembersCount": "Family Members",
     "watchUsersCount": "Watch Users",
     "student": "Student",

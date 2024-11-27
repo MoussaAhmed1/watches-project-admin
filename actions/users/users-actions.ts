@@ -25,7 +25,7 @@ export const fetchUsers = async ({
       params: {
         page,
         limit,
-        filters:`roles=${role}`,
+        filters:filters?[`name=${filters},roles=${role}`,`phone=${filters},roles=${role}`,`email=${filters},roles=${role}`]:`roles=${role}`,
         sortBy: "created_at=desc",
       },
       headers: {

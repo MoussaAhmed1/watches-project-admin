@@ -2,8 +2,9 @@ import { ITEMS_PER_PAGE } from "@/actions/Global-variables";
 import { fetchRequests } from "@/actions/requests/requests-history-actions";
 import { getDictionary } from "@/app/[lang]/messages";
 import BreadCrumb from "@/components/breadcrumb";
-import RequestsList from "@/components/details/request-card/requests-list";
+import CompletedRequestsList from "@/components/details/request-card/compeleted-request-list";
 import Pagination from "@/components/shared/table/Pagination";
+import SearchInput from "@/components/shared/table/SearchInput";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { HistoryOfRequests } from "@/types/watches/requests";
@@ -35,23 +36,22 @@ export default async function page({ searchParams, params }: paramsProps) {
   const { navigation } = await getDictionary(params?.lang)
   const breadcrumbItems = [{ title: navigation.pendingRequests, link: `/dashboard/history-of-requests` }];
   return (
-    <>
-      <div className="flex-1 space-y-4  p-4 md:p-8 pt-6 ">
-        <BreadCrumb items={breadcrumbItems} />
+    <div className="flex-1 space-y-4  p-4 md:p-8 pt-6 ">
+      <BreadCrumb items={breadcrumbItems} />
 
-        <div className="flex items-start justify-between">
-          <Heading
-            title={`${navigation.pendingRequests} (${totalRequests})`}
-          />
-        </div>
-        <Separator />
-        <RequestsList requests={requests} />
-        <Pagination
-          pageNo={page}
-          pageCount={pageCount}
-          totalitems={totalRequests}
+      <div className="flex items-start justify-between">
+        <Heading
+          title={`${navigation.pendingRequests} (${totalRequests})`}
         />
       </div>
-    </>
+      <Separator />
+      <SearchInput searchKey={"search"} />
+      <CompletedRequestsList requests={requests} />
+      <Pagination
+        pageNo={page}
+        pageCount={pageCount}
+        totalitems={totalRequests}
+      />
+    </div>
   );
 }
