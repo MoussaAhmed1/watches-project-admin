@@ -31,7 +31,7 @@ function CustomTimePicker({ val, setval, _disabled = false }: IProps) {
             <TimePicker
                 onChange={(e) => handleChange(e as string)}
                 value={value ? parseValue(value) : null}
-                className="w-[200px] p-2 border border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 disabled:bg-slate-600"
+                className="w-[200px] p-2 border border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-slate-600"
                 clearIcon={null} // Optionally remove the clear icon
                 disabled={_disabled}
 
