@@ -57,13 +57,13 @@ export function DashboardNav({ _items, setOpen }: DashboardNavProps) {
               >
                 <span
                   className={cn(
-                    "hover:text-green-700 hover:no-underline text-start items-center flex w-full h-12 px-1 mt-2  ",
+                    "hover:text-blue-700 hover:no-underline text-start items-center flex w-full h-12 px-1 mt-2  ",
                     path === link.href || (path?.includes(link.href) && link.href !== "/dashboard")
-                      ? "items-center w-full h-12 px-1 mt-2 bg-green-100 rounded text-green-700"
-                      : "rounded hover:bg-green-50"
+                      ? "items-center w-full h-12 px-1 mt-2 bg-blue-300 rounded text-blue-700"
+                      : "rounded hover:bg-blue-200"
                   )}
                 // style={{
-                //   color:path === `/${currentLang}${link.href}` ?"green":"unset",
+                //   color:path === `/${currentLang}${link.href}` ?"blue":"unset",
                 //   backgroundColor:path === `/${currentLang}${link.href}` ?"#DBEAFE":"unset",
                 // }}
                 >
@@ -91,7 +91,7 @@ export function DashboardNav({ _items, setOpen }: DashboardNavProps) {
                 <AccordionTrigger>
                   <div
                     className={cn(
-                      "hover:text-green-700 gap-1 no-underline text-start w-full flex items-center "
+                      "hover:text-blue-700 gap-1 no-underline text-start w-full flex items-center "
                     )}
                   >
                     <Icon className="w-5 h-5 " />
@@ -114,8 +114,8 @@ export function DashboardNav({ _items, setOpen }: DashboardNavProps) {
                         className={cn(
                           " flex gap-1 items-center",
                           isActive
-                            ? "flex items-center w-full h-12 px-3 mt-2 bg-green-100 rounded text-green-700"
-                            : "flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-green-50 text-gray-600 dark:text-gray-400"
+                            ? "flex items-center w-full h-12 px-3 mt-2 bg-blue-300 rounded text-blue-700"
+                            : "flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-blue-300 text-gray-600 dark:text-blue-400"
                         )}
                       >
                         <Icon className="w-5 h-5 text-xs" />

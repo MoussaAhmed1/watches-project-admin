@@ -42,7 +42,7 @@ export function GoogleMap({
         >
           {position ? (
             <AdvancedMarker position={position}>
-              <Pin /* background={"gray"} borderColor={"green"} glyphColor={"purple"} */ />
+              <Pin /* background={"gray"} borderColor={"blue"} glyphColor={"purple"} */ />
             </AdvancedMarker>
           ) : null}
         </Map>

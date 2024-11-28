@@ -256,7 +256,7 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
                       // multiValue: (styles:any) => {
                       //   return {
                       //     ...styles,
-                      //     backgroundColor: "green",
+                      //     backgroundColor: "blue",
                       //   };
                       // },
                       multiValueLabel: (styles: any) => ({
@@ -267,7 +267,7 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
                       option: (styles: any) => {
                         return {
                           ...styles,
-                          // backgroundColor:"green",
+                          // backgroundColor:"blue",
                           color: "black"
                         }
                       }
@@ -277,7 +277,7 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
                   //   borderRadius: 0,
                   //   colors: {
                   //     ...theme.colors,
-                  //     primary25: 'green',
+                  //     primary25: 'blue',
                   //     primary: 'gray',
                   //     neutral0: 'gray',
                   //   },
