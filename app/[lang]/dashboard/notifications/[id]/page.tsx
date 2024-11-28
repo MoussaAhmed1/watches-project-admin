@@ -39,13 +39,16 @@ const page = async ({ params }: {
       return "admins"
     }
     else if(notification?.role === Role.drivers ){
-      return "drivers"
+      return null
     }
     else if(notification?.role === Role.schools ){
       return "schools"
     }
     else if(notification?.role === Role.security ){
       return "security"
+    }
+    else{
+      return null
     }
   }
   const renderRoleAstext = ()=>{
@@ -133,7 +136,7 @@ const page = async ({ params }: {
                             src={user?.avatar?? userAvatar}
                             alt={user?.name}
                           />
-                       { notification?.role ?  <Link href={`/dashboard/users/${renderRole()}/${user?.id}`}> <h2 className="text-sm font-bold">{user?.name}</h2></Link> :<h2 className="text-sm font-bold">{user?.name}</h2>}
+                       { notification?.role && renderRole() ?  <Link href={`/dashboard/users/${renderRole()}/${user?.id}`} > <h2 className="text-sm font-bold">{user?.name}</h2></Link> :<h2 className="text-sm font-bold">{user?.name}</h2>}
                       </Card>
                     ))}
                   </div>
