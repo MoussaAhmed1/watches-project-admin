@@ -112,9 +112,9 @@ const page = async ({ params }: {
                   <CheckCircle style={{ marginRight: '0.5rem',marginLeft:"0.5rem" }} />
                   {pages.notification.isRead}: {notification?.is_read ? pages.notification.yes : pages.notification.no}
                 </li>
-                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }} className="rtl:text-right text-left" dir="ltr">
+                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}  >
                   <Info style={{ marginRight: '0.5rem',marginLeft:"0.5rem" }} />
-                  {pages.notification.createdAt}: {convertUtcToLocal(notification?.created_at)}
+                {pages.notification.createdAt}: <span className="rtl:text-right text-left" dir="ltr"> {convertUtcToLocal(notification?.created_at)}</span> 
                 </li>
               </ul>
             </CardDescription>
