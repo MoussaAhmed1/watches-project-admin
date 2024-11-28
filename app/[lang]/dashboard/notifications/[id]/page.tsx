@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import BreadCrumb from "@/components/breadcrumb";
 import { Heading } from "@/components/ui/heading";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalendarClock, CheckCircle, FileText, Info, Users2 } from 'lucide-react';
+import { CalendarClock, CheckCircle, Info, Users2 } from 'lucide-react';
 import { convertUtcToLocal } from "@/utils/helperFunctions";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import ProfileImg from "@/components/shared/imagesRender/profileImg";
@@ -11,6 +11,7 @@ import { Role } from "@/types/users";
 import { getDictionary } from "@/app/[lang]/messages";
 import { fetchSingleNotification } from "@/actions/notifications";
 import { SingleNotification } from "@/types/notifications";
+import userAvatar from "../../../../../public/assets/user-avatar.png";
 
 
 export const metadata: Metadata = {
@@ -129,10 +130,10 @@ const page = async ({ params }: {
                       <Card key={user?.id} style={{ display:"flex",minWidth: '200px', maxWidth: "240px",minHeight:70, flexWrap: "wrap", alignItems: "center",justifyContent:"start",gap:3,padding:6 }}>
                           <ProfileImg
                             className="w-[40px] h-[40px]"
-                            src={user?.avatar}
+                            src={user?.avatar?? userAvatar}
                             alt={user?.name}
                           />
-                       { notification?.role ?  <Link href={`/dashboard/users/${renderRole()}/${user?.id}`}> <h2 className="text-sm font-bold">{user.name}</h2></Link> :<h2 className="text-sm font-bold">{user.name}</h2>}
+                       { notification?.role ?  <Link href={`/dashboard/users/${renderRole()}/${user?.id}`}> <h2 className="text-sm font-bold">{user?.name}</h2></Link> :<h2 className="text-sm font-bold">{user?.name}</h2>}
                       </Card>
                     ))}
                   </div>
