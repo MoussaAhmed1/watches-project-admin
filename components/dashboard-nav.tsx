@@ -59,8 +59,8 @@ export function DashboardNav({ _items, setOpen }: DashboardNavProps) {
                   className={cn(
                     "hover:text-blue-700 hover:no-underline text-start items-center flex w-full h-12 px-1 mt-2  ",
                     path === link.href || (path?.includes(link.href) && link.href !== "/dashboard")
-                      ? "items-center w-full h-12 px-1 mt-2 bg-blue-100 rounded text-blue-700"
-                      : "rounded hover:bg-blue-50"
+                      ? "items-center w-full h-12 px-1 mt-2 bg-blue-300 rounded text-blue-700"
+                      : "rounded hover:bg-blue-200"
                   )}
                 // style={{
                 //   color:path === `/${currentLang}${link.href}` ?"blue":"unset",
@@ -114,8 +114,8 @@ export function DashboardNav({ _items, setOpen }: DashboardNavProps) {
                         className={cn(
                           " flex gap-1 items-center",
                           isActive
-                            ? "flex items-center w-full h-12 px-3 mt-2 bg-blue-100 rounded text-blue-700"
-                            : "flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-blue-50 text-gray-600 dark:text-gray-400"
+                            ? "flex items-center w-full h-12 px-3 mt-2 bg-blue-300 rounded text-blue-700"
+                            : "flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-blue-300 text-gray-600 dark:text-blue-400"
                         )}
                       >
                         <Icon className="w-5 h-5 text-xs" />
