@@ -90,6 +90,7 @@ export const endpoints = {
     delete:"/watch/delete-IMEI",
     history_request:"/watch/get-admin-requests",
     get_single:"/watch/get-users-requests",
+    ImportFile:"/watch/import/IMEI",
   },
   admins: {
     fetch: "user",

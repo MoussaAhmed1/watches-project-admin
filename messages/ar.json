@@ -39,6 +39,9 @@
 
     "saveChanges": "حفظ التغييرات",
     "updateFailed": "فشل التحديث",
+    "uploadFailed": "فشل التحميل",
+    "uploadedSuccessfully": "تم التحميل بنجاح",
+    "import": "رفع ملف",
     "addFailed": "فشل الإضافة",
     "updatedSuccessfully": "تم التحديث بنجاح",
     "addedSuccessfully": "تمت الإضافة بنجاح",

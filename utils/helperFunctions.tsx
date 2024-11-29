@@ -78,7 +78,7 @@ export function formatCreatedAtDateAsDateTime(created_at: string): string {
 }
 
 export function convertUtcToLocal(utcTime:string) {
-  return moment.utc(utcTime).local().format("YYYY-MM-DD  hh:mm A");
+  return moment.utc(utcTime).local().format("YYYY-MM-DD , hh:mm A");
 }
 
 export function getCustomNameKeyLang(enKey:string|undefined,arKey:string|undefined){

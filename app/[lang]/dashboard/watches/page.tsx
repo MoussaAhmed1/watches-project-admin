@@ -7,22 +7,23 @@ import { SharedTable } from "@/components/shared/table/Shared-table";
 import { columns } from "@/components/tables/watches/columns";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import {  IWatch } from "@/types/watches";
+import ImportExelBtn from "@/components/watches/import-exel";
+import { IWatch } from "@/types/watches";
 
 
 type paramsProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
-  params:{ lang:"ar"|"en"}
+  params: { lang: "ar" | "en" }
 };
 
 
-export default async function page({ searchParams,params }: paramsProps) {
+export default async function page({ searchParams, params }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const limit = Number(searchParams.limit) || ITEMS_PER_PAGE;
   const search =
-  typeof searchParams?.search === "string" ? searchParams?.search : "";
+    typeof searchParams?.search === "string" ? searchParams?.search : "";
   const res = await fetchWatches({
     page,
     limit,
@@ -31,7 +32,7 @@ export default async function page({ searchParams,params }: paramsProps) {
   const totalWatches = res?.data?.meta?.total || 0; //1000
   const pageCount = Math.ceil(totalWatches / limit);
   const watches: IWatch[] = res?.data?.data || [];
-  const {navigation} = await getDictionary(params?.lang)
+  const { navigation } = await getDictionary(params?.lang)
   const breadcrumbItems = [{ title: navigation.watches, link: `/dashboard/watches` }];
   return (
     <>
@@ -42,7 +43,10 @@ export default async function page({ searchParams,params }: paramsProps) {
           <Heading
             title={`${navigation.watches} (${totalWatches})`}
           />
-          <WatchForm/>
+          <div className="flex gap-2 flex-xs-col flex-md-row">
+            <ImportExelBtn />
+            <WatchForm />
+          </div>
         </div>
         <Separator />
 

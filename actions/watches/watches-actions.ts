@@ -125,3 +125,24 @@ export const deleteWatch = async (id: string): Promise<any> => {
     };
   }
 };
+
+export const onImportFile = async ({ file }: { file: FormData }): Promise<any> => {
+  const lang = cookies().get('Language')?.value;
+  const accessToken = cookies().get('access_token')?.value;
+  try {
+  const res =  await axiosInstance.post(endpoints.watches.ImportFile, file, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Accept': '*/*',
+        'Authorization': `Bearer ${accessToken}`,
+        'Accept-Language': lang,
+      },
+    });
+    revalidateTag('/dashboard/watches');
+  } catch (error) {
+    console.log(error);
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
