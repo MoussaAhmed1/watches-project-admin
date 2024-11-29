@@ -2,7 +2,7 @@ import Providers from "@/components/layout/providers";
 import { Toaster } from "@/components/ui/toaster";
 import "@uploadthing/react/styles.css";
 import type { Metadata } from "next";
-import { Roboto, Cairo } from "next/font/google";
+import { Roboto, Tajawal } from "next/font/google";
 import "./globals.css";
 import { getServerSession } from "next-auth";
 import { NextIntlClientProvider } from "next-intl";
@@ -11,8 +11,8 @@ import { notFound } from "next/navigation";
 import { authOptions } from "../api/auth/_options";
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
-const inter = Roboto({ subsets: ["latin"], weight: ["100","400","500", "700"] });
-const noto = Cairo({ subsets: ["arabic"] });
+const EnglishFont = Roboto({ subsets: ["latin"], weight: ["100","400","500", "700"] });
+const arbicFont = Tajawal({ subsets: ["arabic"], weight: ["300" , "400" , "500" , "700" , "900" , "200" , "800"] });
 
 export const metadata: Metadata = {
   title: "TimeToGo Dashboard",
@@ -40,7 +40,7 @@ export default async function RootLayout({
   return (
     <html lang={params.lang} suppressHydrationWarning dir={params.lang === "ar" ? "rtl" : "ltr"}>
       <body  dir={params.lang === "ar" ? "rtl" : "ltr"}
-          className={params.lang === "ar" ? noto.className : inter.className}>
+          className={params.lang === "ar" ? arbicFont.className : EnglishFont.className}>
         <Providers session={session}>
           <Toaster />
           <NextIntlClientProvider locale={params.lang} messages={messages}>
