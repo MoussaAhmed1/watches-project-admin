@@ -40,6 +40,7 @@
     "saveChanges": "حفظ التغييرات",
     "updateFailed": "فشل التحديث",
     "uploadFailed": "فشل التحميل",
+    "alreadyExist": "موجود بالفعل",
     "uploadedSuccessfully": "تم التحميل بنجاح",
     "import": "رفع ملف",
     "addFailed": "فشل الإضافة",

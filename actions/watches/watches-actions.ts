@@ -139,6 +139,11 @@ export const onImportFile = async ({ file }: { file: FormData }): Promise<any> =
       },
     });
     revalidateTag('/dashboard/watches');
+    if(res.data.data.length<1){
+      return {
+        message:"alreadyExist"
+      }
+    }
   } catch (error) {
     console.log(error);
     return {

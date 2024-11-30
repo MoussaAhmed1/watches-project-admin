@@ -42,6 +42,8 @@
     "updatedSuccessfully": "Updated successfully",
     "addedSuccessfully": "Added successfully",
     "uploadFailed": "Upload failed",
+    "alreadyExist": "Already Exist Records",
+
     "uploadedSuccessfully": "Uploaded successfully",
     "import": "Import",
     "category": "Category",

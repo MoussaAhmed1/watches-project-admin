@@ -31,6 +31,12 @@ function ImportExelBtn({ }: IProps) {
                         description: res?.error,
                     });
                 }
+                if (res?.message==="alreadyExist") {
+                    toast({
+                        variant: "default",
+                        title: tShared("alreadyExist"),
+                    });
+                }
                 else {
                     toast({
                         variant: "default",
