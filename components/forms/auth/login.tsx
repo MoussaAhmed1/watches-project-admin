@@ -41,13 +41,13 @@ export default function LoginForm({ lang }: { lang: Language }) {
     return (
         <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center dark:bg-gray-900">
             <div className="m-0  bg-white shadow sm:rounded-lg flex justify-center flex-1 dark:bg-gray-900">
-                <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12 mt-[20vh]">
+                <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12 mt-[10vh]">
                     <div>
                         <Image alt={"logo"} width={250} height={150} src={logo}
                             className="mx-auto" />
                     </div>
-                    <div className="mt-4 flex flex-col items-center ">
-                        <div className="w-full flex-1 mt-8">
+                    <div className="mt-0 flex flex-col items-center ">
+                        <div className="w-full flex-1 mt-0">
                             <form onSubmit={handleSubmit} className="mx-auto max-w-xs">
                                 <input
                                     className="w-full px-4 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
@@ -58,7 +58,7 @@ export default function LoginForm({ lang }: { lang: Language }) {
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                                 <button
-                                    className="mt-5 tracking-wide font-semibold bg-[#24A189] text-gray-100 w-full py-4 rounded-lg hover:bg-[#2ebc94] transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                                    className="mt-5 tracking-wide font-semibold bg-[#027BA7] text-gray-100 w-full py-4 rounded-lg hover:bg-[#027BA7] transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                                     <svg className="w-6 h-6 -ml-2" fill="none" stroke="currentColor" strokeWidth="2"
                                         stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
