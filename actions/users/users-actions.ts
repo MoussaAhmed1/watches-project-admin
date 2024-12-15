@@ -20,7 +20,6 @@ export const fetchUsers = async ({
 }: Params): Promise<any> => {
   const lang = cookies().get("Language")?.value;
   const accessToken = cookies().get("access_token")?.value;
-  console.log(encodeURIComponent(filters??""));
   try {
     const res = await axiosInstance.get(endpoints.users.fetch, {
       params: {
