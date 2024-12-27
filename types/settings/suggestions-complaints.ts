@@ -13,3 +13,10 @@ export interface User {
   avatar: string
   name: string
 }
+
+export interface Reply {
+  message_header: string
+  message_body: string
+  send_to: string
+  type: string[]
+}

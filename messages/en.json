@@ -144,6 +144,10 @@
       "requestCanceledSuccessfully": "Request Canceled Successfully"
     },
     "notification": {
+      "title": "Title",
+      "email": "Email",
+      "replyMessages": "Reply Messages",
+      "Supervisor": "Supervisor",
       "notifications": "Notifications",
       "notificationDetails": "Notification Details",
       "sendNewNotification": "Send New Notification",

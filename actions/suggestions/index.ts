@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 
 import axiosInstance, { endpoints, getErrorMessage, Params } from "@/utils/axios-client";
 import { ITEMS_PER_PAGE } from "../Global-variables";
+import { Reply } from "@/types/settings/suggestions-complaints";
 
 export const fetchSuggestions = async ({
   page = 1,
@@ -53,5 +54,22 @@ export const fetchSingleSuggestion = async (id: string): Promise<any> => {
     return res;
   } catch (error: any) {
     throw new Error(error);
+  }
+};
+
+export const ReplyOnSuggestion = async (data:Reply): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+  try {
+    await axiosInstance.post(`${endpoints.suggestions.reply}`,data, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+  } catch (error: any) {
+    return {
+      error: getErrorMessage(error),
+    };
   }
 };

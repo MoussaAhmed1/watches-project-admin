@@ -99,6 +99,7 @@ export const endpoints = {
   },
   suggestions: {
     fetch: "/suggestions-complaints",
+    reply: "/send-messages",
   },
   addetionalInfo: {
     specializations: "/additional-info/specializations",

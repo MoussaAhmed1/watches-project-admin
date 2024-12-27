@@ -5,7 +5,7 @@ import { SuggestionsComplaints } from "@/types/suggestions/suggestions-complaint
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { CellAction } from "./cell-action";
-import { convertUtcToLocal } from "@/utils/helperFunctions";
+import { convertUtcToLocal, shortenText } from "@/utils/helperFunctions";
 
 const columns: ColumnDef<SuggestionsComplaints>[] = [
   {
@@ -17,7 +17,7 @@ const columns: ColumnDef<SuggestionsComplaints>[] = [
     accessorKey: "description",
     header: "description",
     cell: ({ row }) => (
-      <div className="stars flex">{row?.original?.description}</div>
+      <div className="stars flex">{shortenText(row?.original?.description,80)}</div>
     ),
   },
   {

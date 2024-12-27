@@ -230,6 +230,9 @@
       "viewSchool": "عرض المدرسة"
     },
     "notification": {
+      "title": "العنوان",
+      "replyMessages": "رد الرسائل",
+      "email": "البريد الإلكتروني",
       "notifications": "الاشعارات",
       "notificationDetails": "تفاصيل الاشعار",
       "sendNewNotification": "إرسال إشعار جديد",
@@ -250,7 +253,7 @@
       "somethingWentWrong": "عذرًا! حدث خطأ ما.",
       "notificationCreated": "تم إنشاء الإشعار",
       "messageSent": "تم إرسال الرسالة بنجاح",
-      "description": "الوصف",
+      "description": "المحتوي",
       "arabicTitle": "العنوان بالعربية",
       "englishTitle": "العنوان بالإنجليزية",
       "arabicText": "النص بالعربية",

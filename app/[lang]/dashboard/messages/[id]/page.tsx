@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { getDictionary } from "@/app/[lang]/messages";
 import { SuggestionsComplaints } from "@/types/settings/suggestions-complaints";
 import { fetchSingleSuggestion } from "@/actions/suggestions";
+import ReplyForm from "@/components/forms/messages/ReplyForm";
 export const metadata: Metadata = {
   title: "Message Deatails",
   description:
@@ -27,7 +28,6 @@ const page = async ({ params }: {
   const res = await fetchSingleSuggestion(params?.id);
   const msg: SuggestionsComplaints = res?.data?.data;
   //fetch Message Addtional Info
-
   return (
     <>
       <div className="mx-auto w-full mt-8 bg-background">
@@ -37,12 +37,14 @@ const page = async ({ params }: {
             title={pages.messages.messageDetails}
             description={msg?.title}
           />
+          <ReplyForm email={msg?.email}>
           <Button
             variant={"default"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
             <Reply className="mx-1 h-4 w-4" /> {pages.messages.reply}
           </Button>
+          </ReplyForm>
           </div>
         <div className="flex flex-col lg:flex-row gap-1 lg:items-center lg:justify-between justify-start items-start">
       </div>
