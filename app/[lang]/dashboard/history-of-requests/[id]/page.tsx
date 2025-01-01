@@ -5,6 +5,7 @@ import { Heading } from "@/components/ui/heading";
 import { ISingleRequest } from "@/types/watches/requests";
 import { fetchSingleRequest } from "@/actions/requests/requests-history-actions";
 import userAvatar from "../../../../../public/assets/user-avatar.png";
+import schoolAvatar from "../../../../../public/assets/school.webp";
 import { convertUtcToLocal} from "@/utils/helperFunctions";
 import { getDictionary } from "@/app/[lang]/messages";
 import RequestDetails from "@/components/details/requests-history";
@@ -115,16 +116,16 @@ const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) =
                 icon: <Phone className="details_icon" />,
                 type: "text",
                 dir:"ltr",
-              },
+              },             
               {
                 key: pages.requestDetails.school,
-                value: request?.watch_user?.school.avatar,
+                value: request?.watch_user?.school?.avatar || schoolAvatar,
                 icon: <ImageIcon className="details_icon" />,
                 type: "img",
               },
               {
                 key: pages.requestDetails.schoolName,
-                value: request?.watch_user?.school.name,
+                value: request?.watch_user?.school?.name,
                 icon: <Building className="details_icon" />,
                 type: "text",
               },
