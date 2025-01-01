@@ -3,6 +3,8 @@ const withNextIntl = require('next-intl/plugin')();
 
 
 const nextConfig = withNextIntl({
+  basePath: '/admin',
+  assetPrefix: '/admin/_next',
   env: {
     NEXT_PUBLIC_HOST_API: process.env.NEXT_PUBLIC_HOST_API,
   },
