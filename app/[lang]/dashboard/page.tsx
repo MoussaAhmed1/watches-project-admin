@@ -13,23 +13,24 @@ import { Statictic } from "@/types/statictic";
 import Link from "next/link";
 import { getDictionary } from "../messages";
 export default async function page({ params }: { params: { lang: "ar"|"en" } }) {
-  const res = await fetchStatictics({ lang: params?.lang });
-  const statistics_res: Statictic = res?.data?.data;
+  // const res = await fetchStatictics({ lang: params?.lang });
+  // const statistics_res: Statictic = res?.data?.data;
+  const statistics_res: Statictic = {} as Statictic;
   const {navigation} = await getDictionary(params?.lang)
   const statistics = [
     {
       title: navigation.parents,
-      total: statistics_res?.clients_count||0,
+      total: statistics_res?.clients_count||"-",
       link: `/${params?.lang}/dashboard/users/parents`
     },
     {
       title: navigation.schools,
-      total: statistics_res?.nurses_count||0,
+      total: statistics_res?.nurses_count||"-",
       link: `/${params?.lang}/dashboard/users/schools`
     },
     {
       title: navigation.security,
-      total: statistics_res?.pharmacy_count||0,
+      total: statistics_res?.pharmacy_count||"-",
       link: `/${params?.lang}/dashboard/users/security`
     },
   ]
