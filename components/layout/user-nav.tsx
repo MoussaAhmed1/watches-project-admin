@@ -50,7 +50,11 @@ export function UserNav({lang}:{lang:Language}) {
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => signOut()}>
+          <DropdownMenuItem onClick={() => {
+            		signOut({ redirect: false }).then(() => {
+                  push("/");
+                });
+            }}>
             {t("logout")}
           </DropdownMenuItem>
         </DropdownMenuContent>
