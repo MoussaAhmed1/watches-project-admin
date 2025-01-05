@@ -9,7 +9,7 @@ import { CustomMiddleware } from "./chain";
 import { cookies } from "next/headers";
 
 function getLocale(request: NextRequest): string | undefined {
-  const lang = cookies().get("Language")?.value;
+  const lang = cookies().get("Language")?.value|| cookies().get("lang")?.value||"ar";
   if (lang) {
     return lang;
   }
