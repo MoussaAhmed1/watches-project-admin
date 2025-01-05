@@ -59,7 +59,21 @@
 
     "addedSuccess": "تمت الإضافة بنجاح!",
     "actionFailed": "فشل الإجراء",
-    "actionSuccess": "تم الإجراء بنجاح"
+    "actionSuccess": "تم الإجراء بنجاح",
+    "noRequests": "لا يوجد طلبات",
+    "resetPasswordInstruction": "يرجى إدخال عنوان البريد الإلكتروني المرتبط بحسابك وسنرسل لك مفتاحًا سريًا لإعادة تعيين كلمة المرور.",
+    "returnToSignIn": "العودة لتسجيل الدخول",
+    "ResetsuccessMsg": "تم تحديث كلمة المرور بنجاح",
+    "resetPassword": "تغير كلمة السر",
+    "UpdatePassword": "تعديل كلمة المرور",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "Enteryouremail": "ادخل بريدك الالكتروني",
+    "successMsg": "تحقق من صندوق الوارد لديك ، واتبع التعليمات، وتحقق أيضًا من مجلد البريد العشوائي/غير الهام إذا لم تجده.",
+    "somthingwentwrong": "هناك خطأ ما",
+    "submit": "ارسال",
+    "Forgotpassword ?": "نسيت كلمة المرور ؟",
+    "email": "البريد الاليكتروني" 
   },
   "tableActions": {
     "view": "عرض",

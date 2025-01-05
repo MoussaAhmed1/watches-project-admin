@@ -46,16 +46,20 @@
 
     "uploadedSuccessfully": "Uploaded successfully",
     "import": "Import",
-    "category": "Category",
-    "all": "All",
-    "specialization": "Specialization",
-    "actionFailed": "Action failed",
-    "actionUpdated": "Action updated",
-    "updateSuccess": "Update success!",
-
-    "addedSuccess": "Added success!",
-    "actionSuccess": "Action succeeded",
-    "editClientPackage": "Edit Client Package"
+    "noRequests": "No Requests",
+    "resetPassword": "Reset password",
+    "Enteryouremail": "Enter your email",
+    "successMsg": "Check your inbox for a password reset email from NADNEE follow the instructions, and also check your spam/junk folder if not found.",
+    "submit": "Send",
+    "ResetsuccessMsg": "Password updated successfully, please login with your new password.",
+    "resetPasswordInstruction": "Please enter the email address associated with your account and we will email you a secret key to reset your password.",
+    "returnToSignIn": "Return to sign in",
+    "Forgotpassword ?": "Forgot Password",
+    "somthingwentwrong": "Uh oh! Something went wrong.",
+    "email": "Email",
+    "UpdatePassword": "Update Password",
+    "password": "Password",
+    "confirmPassword": "Confirm Password"
   },
   "tableActions": {
     "view": "View",
