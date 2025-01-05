@@ -1,8 +1,8 @@
-import { fetchSingleUser } from "@/actions/users/users-actions";
+import { fetchCities, fetchSingleUser } from "@/actions/users/users-actions";
 import { getDictionary } from "@/app/[lang]/messages";
 import BreadCrumb from "@/components/breadcrumb";
 import { UserForm } from "@/components/forms/users-forms/create-users/add-edit-user";
-import { IUser } from "@/types/users";
+import { ICity, IUser } from "@/types/users";
 
   
 
@@ -14,6 +14,7 @@ export default async function SettingsProfilePage({ params, searchParams }: {
 
   const res_user = await fetchSingleUser(params.id);
   const user: IUser = res_user?.data?.data;
+   const cities = await fetchCities();
   //-------------------------------------------------------------
 
   const { navigation, shared } = await getDictionary(params?.lang)
@@ -28,7 +29,7 @@ export default async function SettingsProfilePage({ params, searchParams }: {
       <UserForm _role={"schools"} initialData={{
           ...user,
           avatarFile: user?.avatar
-        } as any} id={params.id} readOnly={true}  />
+        } as any} id={params.id} readOnly={true} cityName={cities?.find((city:ICity) => city?.id == user?.school?.city_id)?.name}  />
     </div>
   );
 }

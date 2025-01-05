@@ -32,6 +32,7 @@ export type UserFormValues = z.infer<typeof UserSchema>;
 interface UserFormProps {
   initialData?: IUser;
   id?: string;
+  cityName?: string;
   schools?: IUser[];
   cities?: ICity[];
   readOnly?: boolean;
@@ -43,6 +44,7 @@ export const UserForm: React.FC<UserFormProps> = ({
   initialData,
   id,
   schools,
+  cityName,
   cities,
   _role = "parents",
   readOnly = false,
@@ -55,7 +57,6 @@ export const UserForm: React.FC<UserFormProps> = ({
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-
   const getTitle = useCallback(
     () => {
       if (_role === "security") {
@@ -130,6 +131,7 @@ export const UserForm: React.FC<UserFormProps> = ({
     resolver: zodResolver(UserSchema),
     defaultValues: initialData ? {
       avatarFile: initialData?.avatar,
+      city_id: initialData?.city_id,
       email: initialData?.email,
       name: initialData?.name,
       phone: initialData?.phone,
@@ -143,6 +145,7 @@ export const UserForm: React.FC<UserFormProps> = ({
     form.setValue("role", Role[_role]);
     if(_role === "schools"){
       form.setValue("gender", "female");
+      form.setValue("city_id", initialData?.city_id);
     }
   }, [_role, form]);
 
@@ -271,7 +274,7 @@ export const UserForm: React.FC<UserFormProps> = ({
                     <FormLabel>{t("city")} <span className="text-red-800">*</span></FormLabel>
                     <FormControl >
                       {readOnly ? (
-                        <p>{cities?.filter((city) => city?.id === field.value)[0]?.name}</p>
+                        <p>{cityName as string}</p>
                       ) : (
 
                         <ShadcnSelect required {...field} onValueChange={field.onChange} dir={currentLang === "ar" ? "rtl" : "ltr"}>
