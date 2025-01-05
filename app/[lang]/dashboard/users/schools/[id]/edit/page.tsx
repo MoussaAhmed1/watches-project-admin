@@ -15,7 +15,8 @@ export default async function SettingsProfilePage({ params, searchParams }: {
   const res_user = await fetchSingleUser(params.id);
   const user: IUser = res_user?.data?.data;
  const cities = await fetchCities();
-
+  console.log(res_user?.data?.data);
+  console.log(cities);
   //-------------------------------------------------------------
   const { navigation, shared } = await getDictionary(params?.lang)
   const breadcrumbItems = [
@@ -28,7 +29,7 @@ export default async function SettingsProfilePage({ params, searchParams }: {
       <BreadCrumb items={breadcrumbItems} />
       <UserForm _role={"schools"} initialData={{
           ...user,
-          city_id: user?.city_id,
+          city_id: user?.school?.city_id,
           avatarFile: user?.avatar
         } as any} id={params.id} cities={cities} />
     </div>

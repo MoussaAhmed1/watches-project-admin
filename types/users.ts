@@ -34,6 +34,7 @@ export interface School {
   name: string;
   avatar: string;
   city_code: string;
+  city_id: string;
 }
 
 export interface AccountProfile {
