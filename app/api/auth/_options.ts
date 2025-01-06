@@ -32,9 +32,13 @@ export const authOptions = {
             }),
             headers: { "Content-Type": "application/json" },
           });
-          const user:ILogedUser = await res.json();
-          if (res.ok) {
+          const user:any = await res.json();
+          if(user?.data?.role as any !== "ADMIN"){
+            return null;
+          }
+          else if (res.ok) {
             return user;
+          
           } else {
             return null;
           }
