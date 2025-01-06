@@ -116,16 +116,6 @@ export default function PasswordReset({ params }: {
             <Button className="w-full hover:bg-blue-900" type="submit" disabled={isLoading}>
               {isLoading ? "Updating..." : tShared("UpdatePassword")}
             </Button>
-
-            {/* Links */}
-            <div className="text-center space-y-4 pt-2">
-            <Link
-                className="text-sm text-muted-foreground hover:text-primary"
-                href={"/"}
-              >
-                {tShared("returnToSignIn")}
-              </Link>
-            </div>
           </form>
         </CardContent>
       </Card>
