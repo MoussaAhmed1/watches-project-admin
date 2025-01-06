@@ -64,7 +64,8 @@ export const authOptions = {
         token.birth_date = user.data?.birth_date;
         token.id = user.data?.id;
         token.accessToken = user.data?.access_token;
-
+        const lang = cookies().get("Language")?.value || cookies().get("lang")?.value||"ar";
+        cookies().set("Language", lang , {path: "/"});
         cookies().set("access_token", user.data?.access_token, {
           path: "/",
           httpOnly: true,
