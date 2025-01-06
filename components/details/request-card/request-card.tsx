@@ -38,7 +38,7 @@ function RequestCard({ request }: IProps) {
                             <Hash className="h-4 w-4" />
                             <span className="mr-2 hidden md:block ">{request?.number}</span>
                             <Building className="h-4 w-4" />
-                            <span className="mr-2 hidden md:block ">{`${request?.watch_user?.school?.name}(${request?.watch_user?.school?.city_code})`}</span>
+                            <span className="mr-2 hidden md:block ">{`${request?.watch_user?.school?.name}`}</span>
                             <CalendarIcon className="mx-2 h-4 w-4 mr-1" />
                            <span>{convertUtcToLocal(request?.updated_at)}</span>
                         </div>
