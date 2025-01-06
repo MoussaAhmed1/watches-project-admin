@@ -52,7 +52,6 @@ export default function PasswordReset({ params }: {
         variant: "default",
         title: tShared("ResetsuccessMsg"),
       });
-      router.push("/");
     } catch (error: any) {
       console.log(error);
       toast({
