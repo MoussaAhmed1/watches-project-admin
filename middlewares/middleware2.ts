@@ -10,9 +10,8 @@ import { cookies } from "next/headers";
 
 function getLocale(request: NextRequest): string | undefined {
   const lang = cookies().get("Language")?.value|| cookies().get("lang")?.value||"ar";
-  if (lang) {
-    return lang;
-  }
+  return lang;
+
   const negotiatorHeaders: Record<string, string> = {};
   request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
 
