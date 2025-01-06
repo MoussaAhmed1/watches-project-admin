@@ -49,7 +49,7 @@ function RequestCard({ request }: IProps) {
                         <Button
                             variant={"ghost"}
                             className="sm:mt-0 p-3 rounded-lg"
-                            onClick={() => router.push(`/dashboard/${request?.status === "COMPLETED" ? "history-of-requests" : "pending-requests"}/${request.id}`)}
+                            onClick={() => router.push(`/dashboard/history-of-requests/${request.id}`)}
                         >
                             <Eye className="mx-1 h-5 w-5 text-gray-600" />
 

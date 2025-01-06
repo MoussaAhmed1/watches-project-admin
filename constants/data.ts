@@ -12,11 +12,25 @@ export type User = {
 
 
 export const navItems: NavItem[] = [
+  // {
+  //   title: "Home",
+  //   href: "/dashboard",
+  //   icon: "home",
+  //   label: "home",
+  //   subItems: false,
+  // },
   {
-    title: "Home",
-    href: "/dashboard",
-    icon: "home",
-    label: "home",
+    title: "pendingRequests",
+    href: "/dashboard/history-of-requests/pending-requests",
+    icon: "trello",
+    label: "pendingRequests",
+    subItems: false,
+  },
+  {
+    title: "historyOfRequests",
+    href: "/dashboard/history-of-requests/compeleted-requests",
+    icon: "trello",
+    label: "historyOfRequests",
     subItems: false,
   },
   {
@@ -55,20 +69,6 @@ export const navItems: NavItem[] = [
     href: "/dashboard/watches",
     icon: "watches",
     label: "watches",
-    subItems: false,
-  },
-  {
-    title: "pendingRequests",
-    href: "/dashboard/history-of-requests/pending-requests",
-    icon: "trello",
-    label: "pendingRequests",
-    subItems: false,
-  },
-  {
-    title: "historyOfRequests",
-    href: "/dashboard/history-of-requests/compeleted-requests",
-    icon: "trello",
-    label: "historyOfRequests",
     subItems: false,
   },
   {
