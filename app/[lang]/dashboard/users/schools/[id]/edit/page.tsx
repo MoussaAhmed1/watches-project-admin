@@ -15,7 +15,6 @@ export default async function SettingsProfilePage({ params, searchParams }: {
   const res_user = await fetchSingleUser(params.id);
   const user: IUser = res_user?.data?.data;
  const cities = await fetchCities();
-  console.log("city",user?.school?.city_id);
   //-------------------------------------------------------------
   const { navigation, shared } = await getDictionary(params?.lang)
   const breadcrumbItems = [
