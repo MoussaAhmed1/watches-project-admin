@@ -85,7 +85,10 @@ const validationRules = {
     ),
   ]),
   //phone 
-  phone:z.string().regex(/^\+\d{12}$/, "Phone number must be exactly 13 characters, starting with a plus sign followed by 12 digits"),
+  phone:z.string().min(1, "Phone number is required")
+  .refine((value) => /^\+?[1-9]\d{1,14}$/.test(value), {
+    message: "Invalid phone number",
+  }),
   //lat and long
   latLng: z
     .number({
