@@ -2,7 +2,6 @@
 import React from "react";
 import "react-phone-input-2/lib/style.css";
 import PhoneInput from "react-phone-input-2";
-
 interface PhoneInputProps {
   value: string;
   onChange: (value: string) => void;
@@ -16,6 +15,8 @@ const CustomPhoneInput: React.FC<PhoneInputProps> = ({ value, onChange, error })
         country={"sa"} // Default country
         value={value}
         onChange={onChange}
+         inputClass="dark:bg-gray-800 text-gray-800 border-gray-700"
+         dropdownClass="dark:bg-gray-800 dark:text-gray-800"
         inputProps={{
           required: true,
         }}
@@ -30,10 +31,11 @@ const CustomPhoneInput: React.FC<PhoneInputProps> = ({ value, onChange, error })
         dropdownStyle={{
             direction: "ltr",
             borderRadius: "6px",
+            color: "#666",
         }}
         containerStyle={{
             direction: "ltr",
-          width: "100%",
+            width: "100%",
         }}
       />
       {error && <p className="text-red-600 mt-1 text-sm">{error}</p>}

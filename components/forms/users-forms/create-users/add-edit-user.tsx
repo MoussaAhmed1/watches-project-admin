@@ -331,7 +331,11 @@ export const UserForm: React.FC<UserFormProps> = ({
                   render={({ field }) => (
                     <CustomPhoneInput
                       value={field.value}
-                      onChange={(value) => field.onChange(value)}
+                      onChange={(value) =>{ 
+                        if (!value.startsWith("+")) {
+                          value = `+${value}`;
+                        }
+                        field.onChange(value)}}
                       error={errors.phone?.message}
                     />
                   )}

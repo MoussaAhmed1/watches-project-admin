@@ -9,8 +9,8 @@ const UserSchema = z.object({
   avatarFile: z.union([
     zfd
     .file()
-    .refine((file) => file.size < 15000000, {
-      message: "File can't be bigger than 15MB.",
+    .refine((file) => file.size < 10000000, {
+      message: "File can't be bigger than 10MB.",
     })
     .refine(
       (file) => ["image/jpeg", "image/png", "image/jpg", "image", 'image/svg+xml',].includes(file.type),

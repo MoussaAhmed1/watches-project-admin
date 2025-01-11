@@ -161,3 +161,16 @@
 .group .ml-20{
   margin-left:10px !important
 }
+
+
+.dark .react-tel-input .form-control, 
+.dark .flag-dropdown {
+  background: #020817 !important;
+  color: #fff;
+}
+
+.dark .react-tel-input .form-control:hover, 
+.dark .flag-dropdown:hover {
+  background: #020817 !important;
+  color: #fff;
+}
