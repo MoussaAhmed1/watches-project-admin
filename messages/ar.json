@@ -18,7 +18,15 @@
     "faq": "الأسئلة الشائعة",
     "terms_and_conditions": "الشروط والأحكام",
     "data_management": "إدارة البيانات",
-    "privacyPolicy": "سياسة الخصوصية"
+    "privacyPolicy": "سياسة الخصوصية",
+    "cities": "المدن"
+  },
+  "cities":{
+    "name_en": "الاسم بالإنجليزية",
+    "name_ar": "الاسم بالعربية",
+    "createCity": "اضافة مدينة",
+    "order_by": "الترتيب",
+    "cities": "المدن"
   },
   "toast": {},
   "shared": {
@@ -97,6 +105,10 @@
     "view": "عرض",
     "page": "صفحة",
     "of": "من",
+    "name_en": "الاسم بالإنجليزية",
+    "name_ar": "الاسم بالعربية",
+    "createCity": "اضافة مدينة",
+    "order_by": "الترتيب",
     "rowsPerPage": "الصفوف لكل صفحة",
     "noResults": "لا توجد نتائج",
     "specialization": "التخصص",
@@ -175,6 +187,8 @@
       "requestProblem": "كانت هناك مشكلة في طلبك.",
       "faqs": "الأسئلة الشائعة",
       "addFAQ": "إضافة سؤال متكرر",
+      "addCity": "إضافة مدينة",
+      "editCity": "تعديل المدينة",
       "editFAQ": "تعديل سؤال متكرر",
       "faqSuccessfullyUpdated": "تم تحديث السؤال المتكرر بنجاح.",
       "faqSuccessfullyAdded": "تم إضافة السؤال المتكرر بنجاح.",
@@ -182,7 +196,11 @@
       "faqName": "اسم السؤال المتكرر",
       "nameInArabic": "الاسم بالعربية",
       "faqNameArabic": "اسم السؤال المتكرر",
-
+      "name_en": "الاسم بالإنجليزية",
+      "name_ar": "الاسم بالعربية",
+      "order_by": "الترتيب",
+      "code": "الكود",
+      
       "termsAndConditions": "الشروط والأحكام",
       "termsAndConditionsDescription": "اقرأ الشروط والأحكام لفهم التزامنا تجاهك.",
       "termsAndConditionsUpdated": "تم تحديث الشروط والأحكام",

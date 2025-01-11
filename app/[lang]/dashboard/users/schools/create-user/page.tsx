@@ -10,7 +10,8 @@ export default async function Page({ params }: {
     [key: string]: string | string[] | undefined;
   };
 }) {
- const cities = await fetchCities();
+ const cities_res = await fetchCities({page:1, limit:1000});
+ const cities = cities_res?.data;
   //-------------------------------
   const { navigation, shared } = await getDictionary(params?.lang)
   const breadcrumbItems = [

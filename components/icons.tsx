@@ -53,6 +53,9 @@ import {
   Shield,
   Watch,
   Trello,
+  Building,
+  MapPinOffIcon,
+  MapPin,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -109,6 +112,7 @@ export const Icons = {
   messages: Mail,
   arrowUp: ChevronUp,
  watches: Watch,
+ city: MapPin,
  trello: Trello
 ,
   gitHub: ({ ...props }: LucideProps) => (

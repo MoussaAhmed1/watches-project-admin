@@ -97,12 +97,8 @@ export default function FAQForm({ faq, id }: IProps) {
     }
 
     setLoading(false);
-    reset();
     closeRef?.current?.click();
   };
-  const {
-    reset
-  } = form;
 
   return (
     <Dialog>

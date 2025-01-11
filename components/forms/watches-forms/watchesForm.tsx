@@ -60,9 +60,6 @@ export default function WatchForm({ watch, id }: IProps) {
   });
 
 
-  const {
-    reset
-  } = form;
 
 
   const onSubmit = async (data: AddEditWatchBody) => {
@@ -90,7 +87,6 @@ export default function WatchForm({ watch, id }: IProps) {
     }
 
     setLoading(false);
-    reset();
     closeRef?.current?.click();
   };
 

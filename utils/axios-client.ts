@@ -106,6 +106,12 @@ export const endpoints = {
     profile: "/additional-info/profile",
     statictics: "/additional-info/statictics",
   },
+  Cities: {
+    fetch: "/auth/cities",
+    create: "/auth/create/city",
+    edit: "/auth/edit/city",
+    delete: "/auth/delete/city",
+  },
   notification: {
     send: "/notification/send-to-all",
     fetch: "/notification",

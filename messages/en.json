@@ -16,9 +16,17 @@
     "contact_us": "Contact us",
     "about_us": "About Us",
     "faq": "FAQ",
+    "cities": "Cities",
     "terms_and_conditions": "Terms and Conditions",
     "privacyPolicy": "Privacy Policy"
-
+    
+  },
+  "cities":{
+    "cities": "Cities",
+    "name_en": "English Name",
+    "name_ar": "Arabic Name",
+    "createCity": "Add City",
+    "order_by": "Order"
   },
   "toast": {},
   "shared": {
@@ -92,6 +100,10 @@
     "openTime": "Open Time",
     "closeTime": "Close Time",
     "ownerName": "Owner Name",
+    "name_en": "English Name",
+    "name_ar": "Arabic Name",
+    "createCity": "Add City",
+    "order_by": "Order",
     "banar": "Banner",
     "startDate": "Start Date",
     "endDate": "End Date",
@@ -217,7 +229,12 @@
       "aboutUsUpdateFailed": "About Us update failed",
       "save": "Save",
       "requestProblem": "There was a problem with your request.",
-
+      "editCity": "Edit City",
+      "addCity": "Add City",
+      "name_en": "English Name",
+      "name_ar": "Arabic Name",
+      "order_by": "Order",
+      "code": "Code",
       "faqs": "FAQs",
       "addFAQ": "Add FAQ",
       "editFAQ": "Edit FAQ",

@@ -40,6 +40,7 @@ export const navItems: NavItem[] = [
     label: "admins",
     subItems: false,
   },
+
   {
     title: "Users",
     icon: "patients",
@@ -69,6 +70,13 @@ export const navItems: NavItem[] = [
     href: "/dashboard/watches",
     icon: "watches",
     label: "watches",
+    subItems: false,
+  },
+  {
+    title: "City",
+    href: "/dashboard/cities",
+    icon: "city",
+    label: "cities",
     subItems: false,
   },
   {
