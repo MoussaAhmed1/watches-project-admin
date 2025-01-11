@@ -10,7 +10,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Select as ShadcnSelect, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select as ShadcnSelect,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
@@ -27,6 +33,7 @@ import { useTranslations } from "next-intl";
 import { toFormData } from "axios";
 import { ILogedUser } from "@/types/users";
 import { UpdateAdminProfile } from "@/actions/users/users-actions";
+import CustomPhoneInput from "../../phone-input";
 
 export type UserFormValues = z.infer<typeof ProfileSchema>;
 
@@ -37,21 +44,20 @@ interface UserFormProps {
   isAllowToModifyPermissions?: boolean;
 }
 
-
-export const UserProfileForm: React.FC<UserFormProps> = ({
-  initialData,
-}) => {
+export const UserProfileForm: React.FC<UserFormProps> = ({ initialData }) => {
   // const { toast } = useToast();
   const t = useTranslations("pages.users");
-  const tShared = useTranslations('shared');
+  const tShared = useTranslations("shared");
   const router = useRouter();
-  const {toast} = useToast();
+  const { toast } = useToast();
   const pathname = usePathname();
   const [currentLang] = useState(pathname?.includes("/ar") ? "ar" : "en");
   const [loading, setLoading] = useState(false);
   const action = initialData ? tShared("saveChanges") : tShared("create");
   const { update, data: session } = useSession();
-  const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(undefined);
+  const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(
+    undefined,
+  );
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
@@ -64,21 +70,23 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
     gender: initialData?.gender,
     phone: initialData?.phone,
     email: initialData?.email,
-    name: initialData?.name
+    name: initialData?.name,
   };
 
   const form = useForm<UserFormValues>({
     resolver: zodResolver(ProfileSchema),
-    defaultValues
+    defaultValues,
   });
-  const { control, formState: { errors } } = form;
+  const {
+    control,
+    formState: { errors },
+  } = form;
 
   useEffect(() => {
-    if (typeof initialData?.avatarFile === 'string') {
-      setSelectedAvatar(initialData?.avatarFile)
+    if (typeof initialData?.avatarFile === "string") {
+      setSelectedAvatar(initialData?.avatarFile);
     }
-  }, [initialData])
-
+  }, [initialData]);
 
   const onSubmit = async (data: UserFormValues) => {
     // alert(JSON.stringify(data)); //testing
@@ -94,18 +102,19 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
     // else {
     //   toFormData( data , formData);
     // }
-    toFormData( data , formData);
-    //phone changed 
+    toFormData(data, formData);
+    //phone changed
     const hasPhoneChanged = data.phone !== initialData?.phone;
     const hasMailChanged = data.email !== initialData?.email;
     if (!hasPhoneChanged) {
-      formData.delete('phone');
+      formData.delete("phone");
     }
     if (!hasMailChanged) {
-      formData.delete('email');
+      formData.delete("email");
     }
 
-    const newUser: { error: string } & ILogedUser = await UpdateAdminProfile(formData);
+    const newUser: { error: string } & ILogedUser =
+      await UpdateAdminProfile(formData);
 
     if (newUser?.error) {
       toast({
@@ -113,36 +122,44 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
         title: initialData ? tShared("updateFailed") : tShared("addFailed"),
         description: newUser?.error,
       });
-    }
-    else {
+    } else {
       toast({
         variant: "default",
-        title: initialData ? tShared("updatedSuccessfully") : tShared("addedSuccessfully"),
-        description: initialData ?  t(`profileUpdatedSuccessfully`) : t(`profileAddedSuccessfully`) ,
+        title: initialData
+          ? tShared("updatedSuccessfully")
+          : tShared("addedSuccessfully"),
+        description: initialData
+          ? t(`profileUpdatedSuccessfully`)
+          : t(`profileAddedSuccessfully`),
       });
       console.log(newUser);
-        await update({
-          ...session,
-          user: {
-            ...newUser,
-            name: newUser?.name,
-            image: newUser?.avatar,
-            avatar: newUser?.avatar,
-            phone: newUser?.phone,
-            email: newUser?.email,
-            birth_date: newUser?.birth_date
-          }
-        })
-        reloadSession();
-        router.refresh();
+      await update({
+        ...session,
+        user: {
+          ...newUser,
+          name: newUser?.name,
+          image: newUser?.avatar,
+          avatar: newUser?.avatar,
+          phone: newUser?.phone,
+          email: newUser?.email,
+          birth_date: newUser?.birth_date,
+        },
+      });
+      reloadSession();
+      router.refresh();
     }
     setLoading(false);
   };
 
-
   return (
     <>
-      <Card className="p-10 mx-0 border-0 min-h-[63dvh]" style={{ boxShadow: "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px" }} >
+      <Card
+        className="p-10 mx-0 border-0 min-h-[63dvh]"
+        style={{
+          boxShadow:
+            "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px",
+        }}
+      >
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -150,26 +167,28 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
           >
             <AvatarPreview selectedAvatar={selectedAvatar} />
             <div className="md:grid md:grid-cols-2 gap-8">
-            <FormField
+              <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("fullName")} <span className="text-red-800">*</span></FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={loading}
-                          placeholder={t("fullName")}
-                          {...field}
-                        />
-                      </FormControl>
+                    <FormLabel>
+                      {t("fullName")} <span className="text-red-800">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        placeholder={t("fullName")}
+                        {...field}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <div className="flex w-full justify-end flex-col items-start gap-1">
                 <label htmlFor="date" className="font-medium text-sm">
-                {t("birthDate")} <span className="text-red-800">*</span>
+                  {t("birthDate")} <span className="text-red-800">*</span>
                 </label>
                 <div className="flex-col w-full">
                   <InputDate
@@ -188,37 +207,51 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                 </div>
               </div>
               {/* Gender */}
-              <FormField name="gender" control={control} render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("gender")} <span className="text-red-800">*</span></FormLabel>
-                  <FormControl>
-                    <ShadcnSelect {...field} onValueChange={field.onChange} dir={currentLang === "ar" ? "rtl" : "ltr"}>
-                      <SelectTrigger>
-                        <SelectValue placeholder={t("selectGender")} />
-                      </SelectTrigger>
-                      <SelectContent className="max-h-[200px]">
-                        <SelectItem value="male">{t("male")}</SelectItem>
-                        <SelectItem value="female">{t("female")}</SelectItem>
-                      </SelectContent>
-                    </ShadcnSelect>
-                  </FormControl>
-                  {errors.gender && <FormMessage>{errors.gender.message}</FormMessage>}
-                </FormItem>
-              )} />
-
               <FormField
-                control={form.control}
-                name="phone"
+                name="gender"
+                control={control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("phone")} <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>
+                      {t("gender")} <span className="text-red-800">*</span>
+                    </FormLabel>
                     <FormControl>
-                      <Input dir="ltr" type="text" disabled={loading} {...field} />
+                      <ShadcnSelect
+                        {...field}
+                        onValueChange={field.onChange}
+                        dir={currentLang === "ar" ? "rtl" : "ltr"}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder={t("selectGender")} />
+                        </SelectTrigger>
+                        <SelectContent className="max-h-[200px]">
+                          <SelectItem value="male">{t("male")}</SelectItem>
+                          <SelectItem value="female">{t("female")}</SelectItem>
+                        </SelectContent>
+                      </ShadcnSelect>
                     </FormControl>
-                    <FormMessage />
+                    {errors.gender && (
+                      <FormMessage>{errors.gender.message}</FormMessage>
+                    )}
                   </FormItem>
                 )}
               />
+
+              <div>
+                <label className="block mb-2 font-medium">{t("phone")}</label>
+
+                <Controller
+                  name="phone"
+                  control={control}
+                  render={({ field }) => (
+                    <CustomPhoneInput
+                      value={field.value}
+                      onChange={(value) => field.onChange(value)}
+                      error={errors.phone?.message}
+                    />
+                  )}
+                />
+              </div>
               {/* Avatar */}
               <FormItem
                 style={{
@@ -236,14 +269,20 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                         accept="image/*"
                         multiple={false}
                         onChange={(e) => {
-                          field.onChange(e.target.files ? e.target.files[0] : null);
+                          field.onChange(
+                            e.target.files ? e.target.files[0] : null,
+                          );
                           handleAvatarChange(e);
                         }}
                       />
                     )}
                   />
                 </div>
-                {errors?.avatarFile?.message && <FormMessage style={{ marginLeft: "5px" }}>{errors?.avatarFile?.message as any}</FormMessage>}
+                {errors?.avatarFile?.message && (
+                  <FormMessage style={{ marginLeft: "5px" }}>
+                    {errors?.avatarFile?.message as any}
+                  </FormMessage>
+                )}
               </FormItem>
 
               <FormField
@@ -251,18 +290,20 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("email")} <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>
+                      {t("email")} <span className="text-red-800">*</span>
+                    </FormLabel>
                     <FormControl>
-                        <FormControl>
-                          <Input
-                            disabled={loading}
-                            placeholder={t("email")}
-                            {...field}
-                            type="email"
-                            required={!initialData}
-                            autoComplete="new-password"
-                          />
-                        </FormControl>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder={t("email")}
+                          {...field}
+                          type="email"
+                          required={!initialData}
+                          autoComplete="new-password"
+                        />
+                      </FormControl>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -274,7 +315,9 @@ export const UserProfileForm: React.FC<UserFormProps> = ({
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("password")} <span className="text-red-800">*</span></FormLabel>
+                    <FormLabel>
+                      {t("password")} <span className="text-red-800">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         disabled={loading}
