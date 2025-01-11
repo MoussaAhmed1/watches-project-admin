@@ -73,13 +73,6 @@ export const navItems: NavItem[] = [
     subItems: false,
   },
   {
-    title: "City",
-    href: "/dashboard/cities",
-    icon: "city",
-    label: "cities",
-    subItems: false,
-  },
-  {
     title: "Notifications",
     href: "/dashboard/notifications",
     icon: "notification",
@@ -91,6 +84,13 @@ export const navItems: NavItem[] = [
     href: "/dashboard/messages",
     icon: "messages",
     label: "messages",
+    subItems: false,
+  },
+  {
+    title: "City",
+    href: "/dashboard/cities",
+    icon: "city",
+    label: "cities",
     subItems: false,
   },
   {
