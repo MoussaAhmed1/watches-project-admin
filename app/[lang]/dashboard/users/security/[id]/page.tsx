@@ -1,4 +1,4 @@
-import { fetchSingleUser } from "@/actions/users/users-actions";
+import { fetchSingleUser, fetchUsers } from "@/actions/users/users-actions";
 import { getDictionary } from "@/app/[lang]/messages";
 import BreadCrumb from "@/components/breadcrumb";
 import { UserForm } from "@/components/forms/users-forms/create-users/add-edit-user";
@@ -21,14 +21,19 @@ export default async function SettingsProfilePage({ params, searchParams }: {
     { title: navigation.security, link: `dashboard/users/security` },
     { title: shared.details, link: `dashboard/users/security/${params.id}` },
   ];
-
+ const res = await fetchUsers({
+    page: 1,
+    limit: 100,
+    role: "SCHOOL",
+  });
+  const schools: IUser[] = res?.data?.data || []
   return (
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems} />
       <UserForm _role={"security"} initialData={{
           ...user,
           avatarFile: user?.avatar
-        } as any} id={params.id} readOnly={true}  />
+        } as any} id={params.id} readOnly={true} schools={schools}  />
     </div>
   );
 }
