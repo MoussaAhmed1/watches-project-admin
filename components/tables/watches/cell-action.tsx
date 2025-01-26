@@ -1,13 +1,13 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { IWatch } from "@/types/watches";
-import { Eye, Trash } from "lucide-react";
+import { Eye, Link2Off, Trash } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { AlertModal } from "@/components/modal/alert-modal";
 
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
-import { deleteWatch } from "@/actions/watches/watches-actions";
+import { deleteWatch, unlinkWatch } from "@/actions/watches/watches-actions";
 import WatchForm from "@/components/forms/watches-forms/watchesForm";
 import { useRouter } from "next/navigation";
 
@@ -21,6 +21,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data, toBeVerified = fal
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openUnlink, setOpenUnlink] = useState(false);
   const { toast } = useToast();
   const onConfirm = async () => {
     const res = await deleteWatch(data.id);
@@ -42,6 +43,26 @@ export const CellAction: React.FC<CellActionProps> = ({ data, toBeVerified = fal
     setOpen(false);
 
   };
+  const onConfirmUnlink = async () => {
+    const res = await unlinkWatch(data.watch_user?.id );
+    if (res?.error) {
+      toast({
+        variant: "destructive",
+        title: t("unlinkFailed"),
+        description: res?.error,
+      });
+    }
+    else {
+      toast({
+        variant: "default",
+        title: t("unlinkedSuccessfully"),
+      });
+    }
+
+    setLoading(false);
+    setOpenUnlink(false);
+
+  };
   return (
     <div className="flex flex-end grow" key={data.id}>
       <AlertModal
@@ -49,6 +70,15 @@ export const CellAction: React.FC<CellActionProps> = ({ data, toBeVerified = fal
         onClose={() => setOpen(false)}
         onConfirm={onConfirm}
         loading={loading}
+      />
+      {/*unlink*/}
+      <AlertModal
+        isOpen={openUnlink}
+        onClose={() => setOpenUnlink(false)}
+        onConfirm={onConfirmUnlink}
+        loading={loading}
+        title={t("unlinkWatch")}
+        message={t("confirmUnlinkWatch")}
       />
       <div className="flex-end grow flex gap-1 justify-start items-center ">
         <Button
@@ -61,14 +91,27 @@ export const CellAction: React.FC<CellActionProps> = ({ data, toBeVerified = fal
           <Trash className="h-4 w-4" />
         </Button>
         <WatchForm watch={data} id={data.id} />
-        {!!(data?.watch_user) && <Button
+        {!!(data?.watch_user) && (
+          <>
+        <Button
+          disabled={loading}
+          type="button"
+          variant="outline"
+          size="icon"
+          onClick={() => setOpenUnlink(true)}
+        >
+          <Link2Off  className="h-4 w-4" />
+        </Button>
+          <Button
           variant={"outline"}
           className="sm:mt-0 p-3 rounded-lg"
           onClick={() => router.push(`/dashboard/watches/${data.id}`)}
         >
           <Eye className="h-4 w-4 text-gray-600" />
 
-        </Button>}
+        </Button>
+          </>
+      )}
       </div>
     </div>
   );

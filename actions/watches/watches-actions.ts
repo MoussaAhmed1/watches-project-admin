@@ -125,6 +125,25 @@ export const deleteWatch = async (id: string): Promise<any> => {
     };
   }
 };
+export const unlinkWatch = async (id: string): Promise<any> => {
+  const lang = cookies().get("Language")?.value;
+  const accessToken = cookies().get("access_token")?.value;
+
+  try {
+    await axiosInstance.delete(endpoints.watches.unlink + "/" + id, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": lang,
+      },
+    });
+
+    revalidateTag("/watches");
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
 
 export const onImportFile = async ({ file }: { file: FormData }): Promise<any> => {
   const lang = cookies().get('Language')?.value;

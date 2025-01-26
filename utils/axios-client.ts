@@ -88,6 +88,7 @@ export const endpoints = {
     create:"/watch/insert",
     edit:"/watch/edit",
     delete:"/watch/delete-IMEI",
+    unlink:"/watch/delete-watch-user",
     history_request:"/watch/get-admin-requests",
     get_single:"/watch/get-users-requests",
     ImportFile:"/watch/import/IMEI",

@@ -9,6 +9,7 @@ interface AlertModalProps {
   onClose: () => void;
   onConfirm: () => void;
   loading: boolean;
+  title?:string;
   message?:string;
   defualt?:boolean;
 }
@@ -18,6 +19,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   onClose,
   onConfirm,
   loading,
+  title,
   message,
   defualt=false
 }) => {
@@ -33,8 +35,8 @@ export const AlertModal: React.FC<AlertModalProps> = ({
 
   return (
     <Modal
-      title={t("are_you_sure")}
-      description={t("action_cannot_be_undone")}
+      title={title || t("are_you_sure")}
+      description={message || t("action_cannot_be_undone")}
       isOpen={isOpen}
       onClose={onClose}
     >

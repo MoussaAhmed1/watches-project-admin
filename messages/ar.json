@@ -98,7 +98,12 @@
     "delete": "حذف",
     "approve": "قبول",
     "deleteFailed": "فشل الحذف",
-    "deletedSuccessfully": "تم الحذف بنجاح"
+    "deletedSuccessfully": "تم الحذف بنجاح",
+    "unlinkFailed": "فشل في إلغاء الارتباط",
+    "unlinkedSuccessfully": "تم إلغاء الارتباط بنجاح",
+    "unlinkWatch": "إلغاء ارتباط الساعة",
+    "confirmUnlinkWatch": "هل أنت متأكد أنك تريد إلغاء ارتباط هذه الساعة؟"
+
   },
   "tableColumns": {
     "name": "الاسم",

@@ -20,13 +20,12 @@
     "terms_and_conditions": "Terms and Conditions",
     "privacyPolicy": "Privacy Policy",
     "academic_stage": "Educational Stages",
-  "Kindergarten": "Kindergarten",
-  "Primary": "Primary",
-  "Intermediate": "Intermediate",
-  "Secondary": "Secondary"
-    
+    "Kindergarten": "Kindergarten",
+    "Primary": "Primary",
+    "Intermediate": "Intermediate",
+    "Secondary": "Secondary"
   },
-  "cities":{
+  "cities": {
     "cities": "Cities",
     "name_en": "English Name",
     "name_ar": "Arabic Name",
@@ -84,7 +83,11 @@
     "delete": "Delete",
     "approve": "Approve",
     "deleteFailed": "Delete failed",
-    "deletedSuccessfully": "Deleted successfully"
+    "deletedSuccessfully": "Deleted successfully",
+    "unlinkFailed": "Unlink Failed",
+    "unlinkedSuccessfully": "Unlinked Successfully",
+    "unlinkWatch": "Unlink Watch",
+    "confirmUnlinkWatch": "Are you sure you want to unlink this watch?"
   },
   "tableColumns": {
     "name": "Name",
@@ -144,7 +147,6 @@
     "student": "Student",
     "school": "School",
     "academic_stage": "Academic Stage"
-
   },
   "pages": {
     "home": {
@@ -327,7 +329,7 @@
       "privacyPolicyUpdated": "Privacy policy updated",
       "privacyPolicySuccessfullyUpdated": "Privacy policy have been successfully updated.",
       "privacyPolicyUpdateFailed": "Privacy policy update failed",
-      
+
       "faqs": "FAQs",
       "addFAQ": "Add FAQ",
       "editFAQ": "Edit FAQ",
@@ -386,7 +388,6 @@
       "editUser": "Edit User",
       "viewUser": "View User",
       "privacyPolicy": "Privacy Policy"
-
     },
     "users": {
       "Admins": "Admins",
@@ -515,7 +516,7 @@
       "viewParent": "View Parent",
       "viewDriver": "View Driver",
       "addAdmins": "Add Admins",
-      "viewAdmins": "View Admins", 
+      "viewAdmins": "View Admins",
       "editAdmins": "Edit Admins",
       "viewSchool": "View School",
       "academicStage": "Academic Stage",
@@ -526,39 +527,39 @@
       "Secondary": "Secondary"
     },
     "requestDetails": {
-    "title": "Request Details",
-    "status": "Status",
-    "code": "Request Number",
-    "createdAt": "Created At",
-    "school": "School",
-    "schoolName": "School Name",
-    "updatedAt": "Updated At",
-    "parentDetails": "Parent Details",
-    "userDetails": "User Details",
-    "watchUserDetails": "Watch User Details",
-    "driverDetails": "Sub-User Details",
-    "joiningDate": "Joining date"
-  },
+      "title": "Request Details",
+      "status": "Status",
+      "code": "Request Number",
+      "createdAt": "Created At",
+      "school": "School",
+      "schoolName": "School Name",
+      "updatedAt": "Updated At",
+      "parentDetails": "Parent Details",
+      "userDetails": "User Details",
+      "watchUserDetails": "Watch User Details",
+      "driverDetails": "Sub-User Details",
+      "joiningDate": "Joining date"
+    },
     "WatchDetails": {
-    "title": "Watch Details",
-    "status": "Status",
-    "IMEI": "Watch Number",
-    "createdAt": "Created At",
-    "school": "School",
-    "schoolName": "School Name",
-    "updatedAt": "Updated At",
-    "parentDetails": "Parent Details",
-    "userDetails": "User Details",
-    "watchUserDetails": "Watch User Details",
-    "driverDetails": "Sub-User Details",
-    "joiningDate": "Joining date"
-  },
-  "request": {
-    "status": {
-      "COMPLETED": "Completed",
-      "PENDING": "Pending"
+      "title": "Watch Details",
+      "status": "Status",
+      "IMEI": "Watch Number",
+      "createdAt": "Created At",
+      "school": "School",
+      "schoolName": "School Name",
+      "updatedAt": "Updated At",
+      "parentDetails": "Parent Details",
+      "userDetails": "User Details",
+      "watchUserDetails": "Watch User Details",
+      "driverDetails": "Sub-User Details",
+      "joiningDate": "Joining date"
+    },
+    "request": {
+      "status": {
+        "COMPLETED": "Completed",
+        "PENDING": "Pending"
+      }
     }
-  }
   },
   "auth": {
     "signin": "Sign In",
