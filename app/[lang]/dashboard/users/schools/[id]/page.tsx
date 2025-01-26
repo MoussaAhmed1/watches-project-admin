@@ -29,7 +29,8 @@ export default async function SettingsProfilePage({ params, searchParams }: {
       <BreadCrumb items={breadcrumbItems} />
       <UserForm _role={"schools"} initialData={{
           ...user,
-          avatarFile: user?.avatar
+          avatarFile: user?.avatar,
+          academic_stage:user?.school?.academic_stage,
         } as any} id={params.id} readOnly={true} cityName={cities?.find((city:ICity) => city?.id == user?.school?.city_id)?.name}  />
     </div>
   );

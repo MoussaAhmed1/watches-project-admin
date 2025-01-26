@@ -18,7 +18,12 @@
     "faq": "FAQ",
     "cities": "Cities",
     "terms_and_conditions": "Terms and Conditions",
-    "privacyPolicy": "Privacy Policy"
+    "privacyPolicy": "Privacy Policy",
+    "academic_stage": "Educational Stages",
+  "Kindergarten": "Kindergarten",
+  "Primary": "Primary",
+  "Intermediate": "Intermediate",
+  "Secondary": "Secondary"
     
   },
   "cities":{
@@ -137,7 +142,9 @@
     "familyMembersCount": "Family Members",
     "watchUsersCount": "Watch Users",
     "student": "Student",
-    "school": "School"
+    "school": "School",
+    "academic_stage": "Academic Stage"
+
   },
   "pages": {
     "home": {
@@ -510,7 +517,13 @@
       "addAdmins": "Add Admins",
       "viewAdmins": "View Admins", 
       "editAdmins": "Edit Admins",
-      "viewSchool": "View School"
+      "viewSchool": "View School",
+      "academicStage": "Academic Stage",
+      "selectAcademicStage": "Select Academic Stage",
+      "Kindergarten": "Kindergarten",
+      "Primary": "Primary",
+      "Intermediate": "Intermediate",
+      "Secondary": "Secondary"
     },
     "requestDetails": {
     "title": "Request Details",

@@ -27,6 +27,7 @@ export interface IUser {
   familyMembersCount: number;
   watchUsersCount: number;
   school?: School;
+  academic_stage?: "Kindergarten" | "Primary" | "Intermediate" | "Secondary" | undefined;
 }
 
 export interface School {
@@ -35,6 +36,7 @@ export interface School {
   avatar: string;
   city_code: string;
   city_id: string;
+  academic_stage: "Kindergarten" | "Primary" | "Intermediate" | "Secondary" ;
 }
 
 export interface AccountProfile {

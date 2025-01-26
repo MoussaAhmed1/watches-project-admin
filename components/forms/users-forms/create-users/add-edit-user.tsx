@@ -132,6 +132,7 @@ export const UserForm: React.FC<UserFormProps> = ({
           name: initialData?.name,
           phone: initialData?.phone,
           gender: initialData?.gender as "male" | "female",
+          academic_stage: initialData?.school?.academic_stage,
           school_id: initialData?.school?.id,
         }
       : undefined,
@@ -147,6 +148,10 @@ export const UserForm: React.FC<UserFormProps> = ({
       form.setValue("gender", "female");
       form.setValue("city_id", initialData?.city_id);
     }
+    if(_role === "schools" && initialData){
+      form.setValue("academic_stage",initialData?.school?.academic_stage);
+    }
+      form.setValue
   }, [_role, form]);
 
   const onSubmit = async (data: UserFormValues) => {
@@ -247,6 +252,46 @@ export const UserForm: React.FC<UserFormProps> = ({
                 )}
               />
 
+              {/* academic_stage */}
+              {(_role === "schools") && (readOnly||!initialData)  && (
+                <FormField
+                  name="academic_stage"
+                  control={control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        {t("academicStage")} <span className="text-red-800">*</span>
+                      </FormLabel>
+                      <FormControl>
+                      {readOnly ? (
+                          <p>
+                            {t(field.value as string)}
+                          </p>
+                        ) : (
+                        <ShadcnSelect
+                          required
+                          {...field}
+                          onValueChange={field.onChange}
+                          dir={currentLang === "ar" ? "rtl" : "ltr"}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder={t("selectAcademicStage")} />
+                          </SelectTrigger>
+                          <SelectContent className="max-h-[200px]">
+                            <SelectGroup>
+                              <SelectItem value="Kindergarten">{t('Kindergarten')}</SelectItem>
+                              <SelectItem value="Primary">{t('Primary')}</SelectItem>
+                              <SelectItem value="Intermediate">{t('Intermediate')}</SelectItem>
+                              <SelectItem value="Secondary">{t('Secondary')}</SelectItem>
+    
+                            </SelectGroup>
+                          </SelectContent>
+                        </ShadcnSelect>)}
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              )}
               {/* Gender - city_id */}
               {!(_role === "schools") ? (
                 <FormField
@@ -380,9 +425,8 @@ export const UserForm: React.FC<UserFormProps> = ({
                     className="rtl:text-right text-left overflow-hidden"
                   >
                     <Link href={initialData?.avatar ?? ""} target="_blank">
-                      {shortenText(
-                        initialData?.avatar?.split("/avatars/")[1],
-                        30,
+                      {(
+                        initialData?.avatar?.split("/avatars/")[1] ?? "-"
                       )}
                     </Link>
                   </p>
@@ -394,10 +438,9 @@ export const UserForm: React.FC<UserFormProps> = ({
                   </FormMessage>
                 )}
               </FormItem>
-            </div>
-
+           
             {_role === "security" && (
-              <div className="md:grid md:grid-cols-1 gap-8">
+              <>
                 {/* School */}
                 <FormField
                   name="school_id"
@@ -442,9 +485,9 @@ export const UserForm: React.FC<UserFormProps> = ({
                     </FormItem>
                   )}
                 />
-              </div>
+              </>
             )}
-            <div className="md:grid md:grid-cols-2 gap-8">
+           
               <FormField
                 control={form.control}
                 name="email"
@@ -475,32 +518,34 @@ export const UserForm: React.FC<UserFormProps> = ({
                     <FormMessage />
                   </FormItem>
                 )}
-              />
-
-              {!readOnly && (
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        {t("password")} <span className="text-red-800">*</span>
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={loading}
-                          placeholder={t("password")}
-                          type="password"
-                          {...field}
-                          autoComplete="new-password"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
                 />
-              )}
+                
+                              {!readOnly && (
+                                <FormField
+                                  control={form.control}
+                                  name="password"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>
+                                        {t("password")} <span className="text-red-800">*</span>
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Input
+                                          disabled={loading}
+                                          placeholder={t("password")}
+                                          type="password"
+                                          {...field}
+                                          autoComplete="new-password"
+                                        />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              )}
+                            
             </div>
+
             {!readOnly && (
               <Button disabled={loading} className="ml-auto" type="submit">
                 {action}

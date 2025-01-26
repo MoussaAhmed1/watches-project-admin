@@ -31,6 +31,7 @@ const UserSchema = z.object({
     })
   ]).optional(),
   role: z.enum(["PARENT", "DRIVER", "SCHOOL", "SECURITY","ADMIN"]),
+  academic_stage: z.enum(["Kindergarten", "Primary", "Intermediate", "Secondary"]).optional(),
   school_id: z.string().optional(),
   email: z.string().email({ message: "Invalid email address" }),
   password: z.string()

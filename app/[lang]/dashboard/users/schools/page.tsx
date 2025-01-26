@@ -32,8 +32,14 @@ export default async function page({ searchParams,params }: paramsProps) {
   });
   const totalUsers = res?.data?.meta?.total || 0; //1000
   const pageCount = Math.ceil(totalUsers / limit);
-  const users: IUser[] = res?.data?.data || [];
-  const {navigation,shared} = await getDictionary(params?.lang)
+  let users: IUser[] = res?.data?.data || [];
+  const {navigation,shared} = await getDictionary(params?.lang);
+  users = users.map((user) => {
+    if(user?.school){
+    return {...user,school:{...user?.school,academic_stage:navigation[user?.school?.academic_stage as keyof typeof navigation]}} as IUser
+    }
+    else return user
+  });
   const breadcrumbItems = [{ title: navigation["schools"], link: `/dashboard/users/schools` }];
   return (
     <>

@@ -19,7 +19,12 @@
     "terms_and_conditions": "الشروط والأحكام",
     "data_management": "إدارة البيانات",
     "privacyPolicy": "سياسة الخصوصية",
-    "cities": "المدن"
+    "cities": "المدن",
+    "academic_stage": "مراحل الدراسة",
+  "Kindergarten": "رياض الأطفال",
+  "Primary": "الابتدائية",
+  "Intermediate": "المتوسطة",
+  "Secondary": "الثانوية"
   },
   "cities":{
     "name_en": "الاسم بالإنجليزية",
@@ -151,7 +156,9 @@
     "student": "الطالب",
     "familyMembersCount": "عدد المستخدمين الفرعين",
     "watchUsersCount": "عدد الطلاب المراقبون",
-    "school": "المدرسة"
+    "school": "المدرسة",
+    "academic_stage": "المرحلة الدراسية"
+
   },
   "pages": {
     "home": {
@@ -493,7 +500,13 @@
       "addAdmins": " اضافة مدير",
       "viewAdmins": "  عرض مدير",
       "editAdmins": "تعديل مدير",
-      "viewSchool": "عرض المدرسة"
+      "viewSchool": "عرض المدرسة",
+      "academicStage": "المرحلة الدراسية",
+      "selectAcademicStage": "اختر المرحلة الدراسية",
+      "Kindergarten": "رياض الأطفال",
+      "Primary": "الابتدائية",
+      "Intermediate": "المتوسطة",
+      "Secondary": "الثانوية"
     },
     "requestDetails": {
       "title": "تفاصيل الطلب ",

@@ -59,6 +59,7 @@ export const SchoolColumns: ColumnDef<IUser>[] = [
     </div>),
     enableHiding: false,
   },
+
   {
     accessorKey: "cityCode",
     header: "cityCode",
@@ -75,6 +76,11 @@ export const SchoolColumns: ColumnDef<IUser>[] = [
   {
     accessorKey: "email",
     header: "email",
+  },
+  {
+    accessorKey: "academic_stage",
+    header: "academic_stage",
+    cell: ({ row }) => <p className="rtl:text-right text-left" dir="ltr">{row?.original?.school?.academic_stage}</p>,
   },
   {
     id: "actions",
