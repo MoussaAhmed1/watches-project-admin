@@ -4,7 +4,9 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import logo from "../../../public/assets/logo/logo-login.png";
-import loginImage from "../../../public/assets/login-image.jpg";
+import blackWatch from "../../../public/assets/blackWatch.png";
+import pinkWatch from "../../../public/assets/pinkWatch.png";
+import schoolpattern from "../../../public/assets/schoolpattern.png";
 import Image from "next/image";
 import { ModeToggle } from "@/components/ui/theme-toggler";
 import { Language } from "@/utils/changeLanguageHandler";
@@ -44,9 +46,9 @@ export default function LoginForm({ lang }: { lang: Language }) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center dark:bg-gray-900 overflow-hidden">
       <div className="m-0  bg-white shadow sm:rounded-lg flex justify-center flex-1 dark:bg-gray-900">
-        <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12 mt-[10vh]">
+        <div className="lg:w-1/2  p-6 sm:p-12 mt-[10vh]">
           <div>
             <Image
               alt={"logo"}
@@ -118,24 +120,52 @@ export default function LoginForm({ lang }: { lang: Language }) {
             </div>
           </div>
         </div>
-        <div className="flex-1 bg-indigo-100 text-center hidden lg:flex">
+        <div className="flex-1 text-center hidden lg:flex">
           <div className="h-full w-full bg-cover bg-center relative z-3">
-            <div className="absolute inset-0 bg-white dark:bg-gray-900 opacity-20 z-2"></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-black via-transparent to-transparent opacity-30"></div>
+            {/* <div className="absolute inset-0 bg-white dark:bg-gray-900 opacity-20 z-2"></div> */}
+            {/* <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-black via-transparent to-transparent opacity-30"></div> */}
             <div
-              className="h-full w-full bg-cover bg-center "
+              className="h-full w-full bg-cover bg-center relative z-1"
               style={{
-                backgroundImage: `url(${loginImage.src})`,
+                backgroundColor: `#027BA7`,
                 height: "100%",
+                flex: 1,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+
               }}
             >
-              <div className="absolute rtl:left-5  ltr:right-5 top-2 z-3">
+              <div className="w-full h-full  dark:bg-gray-900 opacity-40 absolute z-2 top-0 dark:opacity-20 " style={{
+                backgroundImage: `url(${schoolpattern.src})`,
+                backgroundSize: `cover`,
+                }}>
+
+              </div>
+              <div className="absolute rtl:left-5  ltr:right-5 top-2 z-100">
                 <div className="flex items-center gap-2 z-5">
                   {/*Lang toggle */}
                   <LocaleSwitcher lang={lang} variant={"default"} />
                   {/* <ThemeToggle /> */}
                   <ModeToggle variant="default" />
                 </div>
+              </div>
+              <div className="w-[500px] h-[500px] bg-[#b9bec2] dark:bg-gray-900 z-15  relative" style={{borderRadius: `50%`}}>
+                <div className="w-[520px] h-[520px] border-2 border-white dark:border-[#b9bec2] absolute z-25" style={{borderRadius: `50%`}}> </div>
+              <Image
+                alt={"login"}
+                src={lang === "ar" ? pinkWatch : blackWatch}
+                className="object-cover opacity-100 absolute z-22 "
+                width={150}
+                height={150}
+              />
+                <Image
+                  alt={"login"}
+                  src={lang === "ar" ?  blackWatch : pinkWatch}
+                  className="object-cover opacity-100 absolute z-2"
+                  width={500}
+                  height={500}
+                />
               </div>
             </div>
           </div>
