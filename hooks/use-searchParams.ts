@@ -45,7 +45,6 @@ function useCostomSearchParams(props?: IProps) {
 
   const addParam = useCallback(
     (paramName: string,val:string) => {
-      console.log(paramName, val)
       router.replace(`${pathname}?${createQueryString(paramName, val)}`);
     },
     [createQueryString, pathname, router],

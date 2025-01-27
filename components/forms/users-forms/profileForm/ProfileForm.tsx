@@ -132,7 +132,6 @@ export const UserProfileForm: React.FC<UserFormProps> = ({ initialData }) => {
           ? t(`profileUpdatedSuccessfully`)
           : t(`profileAddedSuccessfully`),
       });
-      console.log(newUser);
       await update({
         ...session,
         user: {

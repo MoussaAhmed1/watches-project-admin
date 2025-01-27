@@ -68,7 +68,7 @@ export function DashboardNav({ _items, setOpen }: DashboardNavProps) {
                 // }}
                 >
                   <Icon className="mx-2 h-4 w-4" />
-                  <span className="text-nowrap flex-grow text-xs font-semibold">{t(link.label)}</span>
+                  <span className="text-nowrap flex-grow text-sm font-semibold">{t(link.label)}</span>
                 </span>
               </Link>
             )
@@ -86,7 +86,7 @@ export function DashboardNav({ _items, setOpen }: DashboardNavProps) {
             >
               <AccordionItem
                 value={link.label ?? ""}
-                className="group text-xs font-semibold no-underline text-start w-full pe-2 border-b-0"
+                className="group text-sm font-semibold no-underline text-start w-full pe-2 border-b-0"
               >
                 <AccordionTrigger>
                   <div
@@ -95,7 +95,7 @@ export function DashboardNav({ _items, setOpen }: DashboardNavProps) {
                     )}
                   >
                     <Icon className="w-5 h-5 " />
-                    <span className=" text-xs font-semibold no-underline ">
+                    <span className=" text-sm font-semibold no-underline ">
                       {t(link.label)}
                     </span>
                   </div>
@@ -118,8 +118,8 @@ export function DashboardNav({ _items, setOpen }: DashboardNavProps) {
                             : "flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-blue-200 text-gray-600 dark:text-blue-400"
                         )}
                       >
-                        <Icon className="w-5 h-5 text-xs" />
-                        <span className="ms-1 text-xs font-semibold">
+                        <Icon className="w-5 h-5 text-sm" />
+                        <span className="ms-1 text-sm font-semibold">
                           {t(child.label)}
                         </span>
                       </Link>

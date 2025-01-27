@@ -511,7 +511,9 @@
       "Kindergarten": "رياض الأطفال",
       "Primary": "الابتدائية",
       "Intermediate": "المتوسطة",
-      "Secondary": "الثانوية"
+      "Secondary": "الثانوية",
+      "grade": "المرحلة الدراسية"
+
     },
     "requestDetails": {
       "title": "تفاصيل الطلب ",

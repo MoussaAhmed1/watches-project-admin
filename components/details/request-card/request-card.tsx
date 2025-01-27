@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { HistoryOfRequests } from "@/types/watches/requests";
 import { convertUtcToLocal } from "@/utils/helperFunctions";
 import { AvatarImage } from "@radix-ui/react-avatar";
-import { Building, CheckCheck, Eye, Hash} from "lucide-react";
+import { Building, CheckCheck, Eye, GraduationCap, Hash} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import Cookie from 'js-cookie';
@@ -40,7 +40,9 @@ function RequestCard({ request }: IProps) {
                             <Building className="h-4 w-4" />
                             <span className="mr-2 hidden md:block ">{`${request?.watch_user?.school?.name}`}</span>
                             <CalendarIcon className="mx-2 h-4 w-4 mr-1" />
-                           <span>{convertUtcToLocal(request?.updated_at)}</span>
+                            <GraduationCap  className="mx-2 h-4 w-4 mr-1" />
+                           <span>{request?.grade?.name}</span>
+                            <span>{convertUtcToLocal(request?.updated_at)}</span>
                         </div>
                     </div>
                 </div>

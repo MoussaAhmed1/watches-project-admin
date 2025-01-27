@@ -13,6 +13,7 @@ export interface HistoryOfRequests {
   is_parent: boolean;
   driver: any;
   parent: Parent;
+  grade: { id: string, name: string }
 }
 
 export interface ISingleRequest {
@@ -30,6 +31,7 @@ export interface ISingleRequest {
   is_parent: boolean;
   drivers: Driver[];
   parent: Parent;
+  grade: { id: string, name: string }
 }
 
 export interface User {

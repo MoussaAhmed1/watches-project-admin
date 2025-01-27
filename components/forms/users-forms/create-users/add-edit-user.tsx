@@ -203,7 +203,7 @@ export const UserForm: React.FC<UserFormProps> = ({
     setLoading(false);
   };
   // show error messages
-  console.log(form.formState.errors);
+  // console.log(form.formState.errors);
 
   return (
     <>

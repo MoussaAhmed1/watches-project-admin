@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import BreadCrumb from "@/components/breadcrumb";
-import {  Image as ImageIcon, Phone, User, Mail, Clock2, BadgeCheck, Hash, Building } from "lucide-react";
+import {  Image as ImageIcon, Phone, User, Mail, Clock2, BadgeCheck, Hash, Building, GraduationCap } from "lucide-react";
 import { Heading } from "@/components/ui/heading";
 import { ISingleRequest } from "@/types/watches/requests";
 import { fetchSingleRequest } from "@/actions/requests/requests-history-actions";
@@ -129,6 +129,12 @@ const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) =
                 icon: <Building className="details_icon" />,
                 type: "text",
               },
+              {
+                key: pages.users.grade,
+                value: (request?.grade?.name),
+                icon: <GraduationCap  className="details_icon" />,
+                type: "text",
+              },
             ]} title={pages.requestDetails.watchUserDetails} />
             {
               request?.drivers &&
@@ -167,6 +173,7 @@ const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) =
                     type: "text",
                     dir:"ltr",
                   },
+
 
                 ]} title={pages.requestDetails.driverDetails + " " + (index+1)} />
               ))

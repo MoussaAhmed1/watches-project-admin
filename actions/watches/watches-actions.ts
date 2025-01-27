@@ -164,7 +164,6 @@ export const onImportFile = async ({ file }: { file: FormData }): Promise<any> =
       }
     }
   } catch (error) {
-    console.log(error);
     return {
       error: getErrorMessage(error),
     };

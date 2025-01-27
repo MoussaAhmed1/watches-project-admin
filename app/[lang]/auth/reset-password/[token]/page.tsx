@@ -53,7 +53,6 @@ export default function PasswordReset({ params }: {
         title: tShared("ResetsuccessMsg"),
       });
     } catch (error: any) {
-      console.log(error);
       toast({
         variant: "destructive",
         title: tShared("somthingwentwrong"),

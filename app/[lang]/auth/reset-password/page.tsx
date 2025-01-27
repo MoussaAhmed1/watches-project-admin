@@ -28,7 +28,6 @@ export default function PasswordResetForm() {
                   title: tShared("successMsg"),
                 });
             } catch (error:any) {
-              console.log(error);
               toast({
                 variant: "destructive",
                 title: tShared("somthingwentwrong"),
