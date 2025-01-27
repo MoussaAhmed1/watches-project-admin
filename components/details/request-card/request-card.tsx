@@ -40,9 +40,9 @@ function RequestCard({ request }: IProps) {
                             <Building className="h-4 w-4" />
                             <span className="mr-2 hidden md:block ">{`${request?.watch_user?.school?.name}`}</span>
                             <CalendarIcon className="mx-2 h-4 w-4 mr-1" />
+                            <span>{convertUtcToLocal(request?.updated_at)}</span>
                             <GraduationCap  className="mx-2 h-4 w-4 mr-1" />
                            <span>{request?.grade?.name}</span>
-                            <span>{convertUtcToLocal(request?.updated_at)}</span>
                         </div>
                     </div>
                 </div>
