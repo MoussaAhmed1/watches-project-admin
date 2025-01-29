@@ -513,7 +513,7 @@
       "Intermediate": "المتوسطة",
       "Secondary": "الثانوية",
       "grade": "المرحلة الدراسية"
-
+      
     },
     "requestDetails": {
       "title": "تفاصيل الطلب ",
@@ -527,7 +527,8 @@
       "userDetails": "تفاصيل المستخدم",
       "watchUserDetails": "تفاصيل الطالب",
       "driverDetails": "تفاصيل  المستخدم الفرعي ",
-      "joiningDate": "تاريخ الانضمام"
+      "joiningDate": "تاريخ الانضمام",
+      "grade": "المرحلة الدراسية"
     },
     "WatchDetails": {
       "title": "تفاصيل الساعة ",

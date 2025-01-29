@@ -27,4 +27,11 @@ export interface WatchUser {
   parent: Parent;
   school: School;
   drivers: Driver[];
+  grade: {
+    id: string,
+    name_ar: string,
+    name_en: string,
+    order_by: number,
+    academic_stage: string
+  }
 }

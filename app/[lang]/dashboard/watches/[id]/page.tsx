@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import BreadCrumb from "@/components/breadcrumb";
-import {  Image as ImageIcon, Phone, User, Mail, Clock2, Building } from "lucide-react";
+import {  Image as ImageIcon, Phone, User, Mail, Clock2, Building, GraduationCap } from "lucide-react";
 import { Heading } from "@/components/ui/heading";
 import userAvatar from "../../../../../public/assets/user-avatar.png";
 import schoolAvatar from "../../../../../public/assets/school.webp";
@@ -59,6 +59,12 @@ const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) =
                 key: pages.requestDetails.schoolName,
                 value: watch?.watch_user?.school.name,
                 icon: <Building className="details_icon" />,
+                type: "text",
+              },
+              {
+                key: pages.requestDetails.grade,
+                value:params?.lang=="ar" ? watch?.watch_user?.grade.name_ar : watch?.watch_user?.grade.name_en,
+                icon: <GraduationCap className="details_icon" />,
                 type: "text",
               },
             ]} title={pages.requestDetails.watchUserDetails} />

@@ -539,7 +539,8 @@
       "userDetails": "User Details",
       "watchUserDetails": "Watch User Details",
       "driverDetails": "Sub-User Details",
-      "joiningDate": "Joining date"
+      "joiningDate": "Joining date",
+      "grade": "Grade"
     },
     "WatchDetails": {
       "title": "Watch Details",
