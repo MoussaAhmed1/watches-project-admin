@@ -56,7 +56,6 @@ export const fetchSingleWatche = async (id: string): Promise<any> => {
     );
     return res;
   } catch (error: any) {
-    redirect("/404");
     return {
       error: getErrorMessage(error),
     };
