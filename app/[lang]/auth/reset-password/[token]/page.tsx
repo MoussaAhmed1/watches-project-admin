@@ -14,11 +14,8 @@ import { Key, Eye, EyeOff } from "lucide-react";
 import { redirect, useRouter } from "next/navigation";
 import Link from "next/link";
 const schema = z.object({
-  password: z.string()
-    .min(8, "Password too weak. It must contain at least one uppercase letter, one lowercase letter, one number, and one special character, and be at least 8 characters long.")
-    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, "Password too weak. It must contain at least one uppercase letter, one lowercase letter, one number, and one special character, and be at least 8 characters long."),
-  confirmPassword: z.string()
-    .min(8, "Confirm Password too weak. It must contain at least one uppercase letter, one lowercase letter, one number, and one special character, and be at least 8 characters long.")
+  password: z.string().min(6, { message: "Password must be at least 6 characters long" }),
+  confirmPassword: z.string().min(6, { message: "Confirm password must be at least 6 characters long" })
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],

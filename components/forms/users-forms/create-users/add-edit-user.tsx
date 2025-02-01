@@ -293,7 +293,7 @@ export const UserForm: React.FC<UserFormProps> = ({
                 />
               )}
               {/* Gender - city_id */}
-              {!(_role === "schools") ? (
+              {/* {!(_role === "schools") ? (
                 <FormField
                   name="gender"
                   control={control}
@@ -367,7 +367,7 @@ export const UserForm: React.FC<UserFormProps> = ({
                     </FormItem>
                   )}
                 />
-              )}
+              )} */}
               <div>
                 <label className="block mb-2 font-medium">{t("phone")}</label>
                 {!readOnly ? ( <Controller
