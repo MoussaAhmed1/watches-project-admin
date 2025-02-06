@@ -56,6 +56,7 @@ import {
   Building,
   MapPinOffIcon,
   MapPin,
+  School,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -113,7 +114,8 @@ export const Icons = {
   arrowUp: ChevronUp,
  watches: Watch,
  city: MapPin,
- trello: Trello
+ trello: Trello,
+ school: School
 ,
   gitHub: ({ ...props }: LucideProps) => (
     <svg

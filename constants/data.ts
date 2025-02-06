@@ -12,25 +12,11 @@ export type User = {
 
 
 export const navItems: NavItem[] = [
-  // {
-  //   title: "Home",
-  //   href: "/dashboard",
-  //   icon: "home",
-  //   label: "home",
-  //   subItems: false,
-  // },
   {
-    title: "pendingRequests",
-    href: "/dashboard/history-of-requests/pending-requests",
-    icon: "trello",
-    label: "pendingRequests",
-    subItems: false,
-  },
-  {
-    title: "historyOfRequests",
-    href: "/dashboard/history-of-requests/compeleted-requests",
-    icon: "trello",
-    label: "historyOfRequests",
+    title: "Watches",
+    href: "/dashboard/watches",
+    icon: "watches",
+    label: "watches",
     subItems: false,
   },
   {
@@ -40,36 +26,11 @@ export const navItems: NavItem[] = [
     label: "admins",
     subItems: false,
   },
-
   {
-    title: "Users",
-    icon: "patients",
-    label: "users",
-    subItems: true,
-
-    children: [
-      {
-        title: "Parents",
-        href: "/dashboard/users/parents",
-        label: "parents",
-      },
-      {
-        title: "Schools",
-        href: "/dashboard/users/schools",
-        label: "schools",
-      },
-      {
-        title: "Security",
-        href: "/dashboard/users/security",
-        label: "security",
-      },
-    ],
-  },
-  {
-    title: "Watches",
-    href: "/dashboard/watches",
-    icon: "watches",
-    label: "watches",
+    title: "Schools",
+    href: "/dashboard/users/schools",
+    label: "schools",
+    icon: "school",
     subItems: false,
   },
   {
