@@ -27,13 +27,14 @@ export default function Header({ lang }: { lang: Language }) {
               alt="Logo"
               priority
               style={{ padding: 0, margin: "0 -5px", }}
+              className="hidden sm:block"
             />
 
         </div>
 
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 xs:gap-1">
           {/*Lang toggle */}
           <UserNav lang={lang} />
           <LocaleSwitcher lang={lang} />
