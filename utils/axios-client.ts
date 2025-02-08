@@ -79,6 +79,7 @@ export const endpoints = {
     fetch: "/user",
     delete: "/user/delete",
     register:"/auth/register",
+    register_school:"/auth/register-school",
     update:"/user/update-profile",
     cities:"/auth/cities",
   },

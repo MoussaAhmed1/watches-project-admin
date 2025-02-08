@@ -44,7 +44,7 @@ interface UserFormProps {
   schools?: IUser[];
   cities?: ICity[];
   readOnly?: boolean;
-  _role?: "parents" | "drivers" | "schools" | "security" | "admins";
+  _role?: "parents" | "drivers" | "schools" | "security" | "admins"| "school_admin";
   closeDailog?: () => void;
 }
 
@@ -75,6 +75,9 @@ export const UserForm: React.FC<UserFormProps> = ({
     } else if (_role === "schools") {
       return t("addSchool");
     }
+     else if (_role === "school_admin") {
+      return t("addSchoolAdmin");
+    }
     return t("addAdmins");
   }, [_role, t]);
   const getTitleEdit = useCallback(() => {
@@ -88,6 +91,9 @@ export const UserForm: React.FC<UserFormProps> = ({
       } else if (_role === "schools") {
         return t("viewSchool");
       }
+       else if (_role === "school_admin") {
+        return t("viewSchoolAdmin");
+      }
       return t("viewAdmins");
     }
 
@@ -99,6 +105,8 @@ export const UserForm: React.FC<UserFormProps> = ({
       return t("editDriver");
     } else if (_role === "schools") {
       return t("editSchool");
+    } else if (_role === "school_admin") {
+      return t("editSchoolAdmin");
     }
     return t("editAdmins");
   }, [_role, readOnly, t]);
@@ -126,12 +134,11 @@ export const UserForm: React.FC<UserFormProps> = ({
     resolver: zodResolver(UserSchema),
     defaultValues: initialData
       ? {
-          avatarFile: initialData?.avatar,
+          avatarFile: initialData?.avatar||undefined,
           city_id: initialData?.city_id,
           email: initialData?.email,
           name: initialData?.name,
           phone: initialData?.phone,
-          gender: initialData?.gender as "male" | "female",
           academic_stage: initialData?.school?.academic_stage,
           school_id: initialData?.school?.id,
         }
@@ -145,7 +152,6 @@ export const UserForm: React.FC<UserFormProps> = ({
   useEffect(() => {
     form.setValue("role", Role[_role]);
     if (_role === "schools") {
-      form.setValue("gender", "female");
       form.setValue("city_id", initialData?.city_id);
     }
     if(_role === "schools" && initialData){
@@ -162,8 +168,12 @@ export const UserForm: React.FC<UserFormProps> = ({
       Object.entries(data).forEach(([key, value]: any) => {
         if (initialData[key as keyof IUser] !== value) {
           formData.append(key, value);
+          // console.log(key, value);
         }
       });
+      if(!data.avatarFile){
+        formData.delete("avatarFile");
+      }
     } else {
       toFormData(data, formData);
     }
@@ -192,7 +202,8 @@ export const UserForm: React.FC<UserFormProps> = ({
       });
       //TODO: redirect to dashboard
       if (!initialData) {
-        router.push(`/dashboard/users/${_role}`);
+        const role = _role === "school_admin" ? "school-complexes" : _role;
+        router.push(`/dashboard/users/${role}`);
       } else {
         if (closeDailog) {
           closeDailog();
@@ -224,7 +235,7 @@ export const UserForm: React.FC<UserFormProps> = ({
             className="space-y-8 w-full"
           >
             <AvatarPreview selectedAvatar={selectedAvatar} />
-            <div className="md:grid md:grid-cols-2 gap-8">
+            <div className="md:grid md:grid-cols-2 gap-10">
               <FormField
                 control={form.control}
                 name="name"
@@ -292,45 +303,8 @@ export const UserForm: React.FC<UserFormProps> = ({
                   )}
                 />
               )}
-              {/* Gender - city_id */}
-              {!(_role === "schools") ? (
-                <FormField
-                  name="gender"
-                  control={control}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("gender")}</FormLabel>
-                      <FormControl>
-                        {readOnly ? (
-                          <p>
-                            {field.value === "male" ? t("male") : t("female")}
-                          </p>
-                        ) :  (
-                          <ShadcnSelect
-                            {...field}
-                            onValueChange={field.onChange}
-                            dir={currentLang === "ar" ? "rtl" : "ltr"}
-                            disabled={readOnly} // Disable select if readonly
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder={t("selectGender")} />
-                            </SelectTrigger>
-                            <SelectContent className="max-h-[200px]">
-                              <SelectItem value="male">{t("male")}</SelectItem>
-                              <SelectItem value="female">
-                                {t("female")}
-                              </SelectItem>
-                            </SelectContent>
-                          </ShadcnSelect>
-                        )}
-                      </FormControl>
-                      {errors.gender && (
-                        <FormMessage>{errors.gender.message}</FormMessage>
-                      )}
-                    </FormItem>
-                  )}
-                />
-              ) : (readOnly||!initialData) && (
+              {/*  city_id */}
+              { (readOnly||!initialData) && (
                 <FormField
                   name="city_id"
                   control={control}
@@ -369,7 +343,7 @@ export const UserForm: React.FC<UserFormProps> = ({
                 />
               )}
               <div>
-                <label className="block mb-2 font-medium">{t("phone")}</label>
+                <label className="block mb-2 font-medium">{t("phone")}<span className="text-red-800">*</span></label>
                 {!readOnly ? ( <Controller
                   name="phone"
                   control={control}

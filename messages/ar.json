@@ -24,7 +24,8 @@
   "Kindergarten": "رياض الأطفال",
   "Primary": "الابتدائية",
   "Intermediate": "المتوسطة",
-  "Secondary": "الثانوية"
+  "Secondary": "الثانوية",
+  "schoolComplexes": "المجمعات المدرسية"
   },
   "cities":{
     "name_en": "الاسم بالإنجليزية",
@@ -436,6 +437,7 @@
       "addParent": " اضافة ولي امر",
       "addDriver": "اضافة سائق",
       "addSchool": "اضافة مدرسة",
+      "addSchoolAdmin": "اضافة مجمع مدارس",
       "notes": "ملاحظات",
       "familyMembers": "أفراد العائلة",
       "kinship": "صلة القرابة",
@@ -499,6 +501,7 @@
       "editParent": "تعديل الوالد",
       "editDriver": "تعديل السائق",
       "editSchool": "تعديل المدرسة",
+      "editSchoolAdmin": "تعديل مجمع مدارس",
       "viewSecurity": "عرض مشرف",
       "viewParent": "عرض الوالد",
       "viewDriver": "عرض السائق",
@@ -506,6 +509,7 @@
       "viewAdmins": "  عرض مدير",
       "editAdmins": "تعديل مدير",
       "viewSchool": "عرض المدرسة",
+      "viewSchoolAdmin": "عرض مجمع المدارس",
       "academicStage": "المرحلة الدراسية",
       "selectAcademicStage": "اختر المرحلة الدراسية",
       "Kindergarten": "رياض الأطفال",

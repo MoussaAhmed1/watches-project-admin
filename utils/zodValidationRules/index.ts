@@ -77,7 +77,7 @@ const validationRules = {
     })
   ]).optional(),
   //phone 
-  phone:z.string().min(1, "Phone number is required")
+  phone:z.string().min(5, "Phone number is required")
   .refine((value) => /^\+?[1-9]\d{1,14}$/.test(value), {
     message: "Invalid phone number",
   }),

@@ -27,6 +27,13 @@ export const navItems: NavItem[] = [
     subItems: false,
   },
   {
+    title: "Complexes",
+    href: "/dashboard/users/school-complexes",
+    label: "schoolComplexes",
+    icon: "schoolComplexes",
+    subItems: false,
+  },
+  {
     title: "Schools",
     href: "/dashboard/users/schools",
     label: "schools",

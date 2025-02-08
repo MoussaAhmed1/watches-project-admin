@@ -41,11 +41,12 @@ export const fetchUsers = async ({
   }
 };
 
-export const AddUser = async (formData: FormData,role:"parents" | "drivers" | "schools" |"security"|"admins"): Promise<any> => {
+export const AddUser = async (formData: FormData,role:"parents" | "drivers" | "schools" |"security"|"admins"|"school_admin"): Promise<any> => {
     const lang = cookies().get("Language")?.value;
+    const endpoint= role === "school_admin" ? endpoints.users.register_school : endpoints.users.register;
     try {
       const accessToken = cookies().get("access_token")?.value;
-      await axiosInstance.post(endpoints.users.register, formData, {
+      await axiosInstance.post(endpoint, formData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Accept-Language": lang,
@@ -62,7 +63,7 @@ export const AddUser = async (formData: FormData,role:"parents" | "drivers" | "s
   };
   
 
-export const UpdateUser = async (formData: FormData,role:"parents" | "drivers" | "schools" |"security"|"admins",id?:string): Promise<any> => {
+export const UpdateUser = async (formData: FormData,role:"parents" | "drivers" | "schools" |"security"|"admins"|'school_admin',id?:string): Promise<any> => {
     const lang = cookies().get("Language")?.value;
     try {
       const accessToken = cookies().get("access_token")?.value;
