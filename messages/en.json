@@ -24,6 +24,7 @@
     "Primary": "Primary",
     "Intermediate": "Intermediate",
     "Secondary": "Secondary",
+    "city": "City",
     "schoolComplexes": "School Complexes"
   },
   "cities": {

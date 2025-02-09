@@ -158,6 +158,14 @@ export const SchoolAdminsColumns: ColumnDef<IUser>[] = [
     <p className="rtl:text-right text-left" dir="ltr">-</p>
   },
   {
+    accessorKey: "city",
+    header: "city",
+    cell: ({ row }) => row?.original?.city?.name ?
+    <p>{row?.original?.city?.name}</p>
+:
+    <p>-</p>
+  },
+  {
     accessorKey: "email",
     header: "email",
   },
