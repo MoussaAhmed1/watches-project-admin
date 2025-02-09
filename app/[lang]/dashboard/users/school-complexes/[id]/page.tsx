@@ -30,7 +30,7 @@ export default async function SettingsProfilePage({ params, searchParams }: {
           ...user,
           avatarFile: user?.avatar,
           academic_stage:user?.school?.academic_stage,
-        } as any} id={params.id} readOnly={true} cityName={cities?.find((city:ICity) => city?.id == user?.school?.city_id)?.name}  />
+        } as any} id={params.id} readOnly={true} cityName={user?.city?.name}  />
     </div>
   );
 }

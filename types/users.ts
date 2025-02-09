@@ -27,6 +27,7 @@ export interface IUser {
   familyMembersCount: number;
   watchUsersCount: number;
   school?: School;
+  city?: ICity;
   academic_stage?: "Kindergarten" | "Primary" | "Intermediate" | "Secondary" | undefined;
 }
 
