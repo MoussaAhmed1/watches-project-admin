@@ -315,8 +315,9 @@
       "orderNumber": "رقم الطلب",
       "admins": "المديرون",
       "parents": "اولياء الامور",
-      "drivers": "السائقين",
+      "drivers": "المستخدمين الفرعيين",
       "schools": "المدارس",
+      "schoolAdmin": "الادارة العليا للمدارس",
       "security": "المشرفين"
     },
     "messages": {

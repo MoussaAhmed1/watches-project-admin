@@ -215,6 +215,7 @@ export const NotificationForm: React.FC<NotificationFormProps> = ({
                       <SelectItem value={Role.drivers}>{t("drivers")}</SelectItem>
                       <SelectItem value={Role.schools}>{t("schools")}</SelectItem>
                       <SelectItem value={Role.security}>{t("security")}</SelectItem>
+                      <SelectItem value={Role.school_admin}>{t("schoolAdmin")}</SelectItem>
                     </SelectContent>
                   </ShadcnSelect>
                   <FormMessage />

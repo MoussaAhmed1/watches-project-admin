@@ -210,8 +210,9 @@
       "expirationDays": "Expiration Days",
       "orderNumber": "Order Number",
       "parents": "Parents",
-      "drivers": "Drivers",
+      "drivers": "Sup-users",
       "schools": "Schools",
+      "schoolAdmin": "School Admin",
       "security": "Supervisors"
     },
     "messages": {
