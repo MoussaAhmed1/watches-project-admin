@@ -6,9 +6,9 @@ import userAvatar from "../../../../../public/assets/user-avatar.png";
 import schoolAvatar from "../../../../../public/assets/school.webp";
 import { convertUtcToLocal} from "@/utils/helperFunctions";
 import { getDictionary } from "@/app/[lang]/messages";
-import RequestDetails from "@/components/details/requests-history";
 import { IWatch } from "@/types/watches";
 import { fetchSingleWatche } from "@/actions/watches/watches-actions";
+import DetailsCard from "@/components/details/no-items/requests-history";
 
 export const metadata: Metadata = {
   title: "Watch Details",
@@ -36,7 +36,7 @@ const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) =
         </div>
         <div className="p-4">
           <div className="grid grid-cols-1 gap-9 sm:grid-cols-2 auto-rows-fr">
-            <RequestDetails data={[
+            <DetailsCard data={[
               {
                 key: pages.users.name,
                 value: watch?.watch_user?.name,
@@ -68,7 +68,7 @@ const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) =
                 type: "text",
               },
             ]} title={pages.requestDetails.watchUserDetails} />
-            <RequestDetails data={[
+            <DetailsCard data={[
               {
                 key: pages.users.name,
                 value: watch?.watch_user?.parent?.name,
@@ -106,7 +106,7 @@ const page = async ({ params }: { params: { id: string, lang: "ar" | "en" } }) =
             {
               watch?.watch_user?.drivers &&
               watch?.watch_user?.drivers?.map((driver, index) => (
-                <RequestDetails key={driver?.id} data={[
+                <DetailsCard key={driver?.id} data={[
                   {
                     key: pages.users.name,
                     value: driver?.name,
