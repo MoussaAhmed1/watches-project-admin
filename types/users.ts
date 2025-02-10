@@ -75,7 +75,7 @@ export enum Role {
   "schools" = "SCHOOL",
   "security" = "SECURITY",
   "admins" = "ADMIN",
-  "school_admin" = "SCHOOL_ADMIN",
+  "school_admin" = "SUPERVISOR",
 }
 
 export interface FamilyMember {
