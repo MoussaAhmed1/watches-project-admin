@@ -22,8 +22,6 @@ export default async function SettingsProfilePage({ params, searchParams }: {
     { title: navigation.schoolComplexes, link: `dashboard/users/school-complexes` },
     { title: shared.edit, link: `dashboard/edit/school-complexes/${params.id}` },
   ];
-  console.log("user", user);
-
   return (
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems} />
