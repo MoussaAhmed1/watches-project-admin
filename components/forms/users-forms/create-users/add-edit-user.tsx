@@ -304,7 +304,7 @@ export const UserForm: React.FC<UserFormProps> = ({
                 />
               )}
               {/*  city_id */}
-              { (readOnly||!initialData) && (
+              { (readOnly||!initialData && _role !== "admins") && (
                 <FormField
                   name="city_id"
                   control={control}
